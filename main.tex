@@ -1,0 +1,72 @@
+% ---- ETD Document Class and Useful Packages ---- %
+\documentclass{ucetd}
+\input{package}
+\usepackage{subfigure,epsfig,amsfonts}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\input{macros}
+\def \mytitle {SAMC: Semantic-Aware Model Checking for Fast Discovery of Deep Bugs in Cloud Systems}
+%\usepackage[bookmarks=false]{hyperref}
+
+%% Use these commands to set biographic information for the title page:
+%\title{SAMC: Semantic-Aware Model Checking for Fast Discovery of Deep Bugs in Cloud Systems}
+\title{\mytitle}
+\author{Tanakorn Leesatapornwongsa}
+\department{Computer Science}
+\division{Physical Sciences}
+\degree{Master's}
+\date{2014}
+
+%% Use these commands to set a dedication and epigraph text
+%\dedication{Dedication Text}
+%\epigraph{Epigraph Text}
+
+
+\begin{document}
+%% Basic setup commands
+% If you don't want a title page comment out the next line and uncomment the line after it:
+\maketitle
+%\omittitle
+
+% These lines can be commented out to disable the copyright/dedication/epigraph pages
+\makecopyright
+%\makededication
+%\makeepigraph
+
+
+%% Make the various tables of contents
+\tableofcontents
+\listoffigures
+\listoftables
+
+\acknowledgments
+\input{ack}
+
+\abstract
+\input{abstract}
+
+\mainmatter
+\input{main-intro}
+\input{main-mot}
+\input{main-sam}
+\input{main-imp}
+\input{main-eval}
+\input{discuss}
+\input{related}
+\input{con-future}
+%\input{conclude}
+%\input{future}
+
+% Format a LaTeX bibliography
+\makebibliography
+
+% Figures and tables, if you decide to leave them to the end
+%\input{figure}
+%\input{table}
+
+\end{document}
+
+

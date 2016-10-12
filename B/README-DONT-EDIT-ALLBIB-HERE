@@ -1,0 +1,18 @@
+
+exit
+
+
+Do NOT edit all.bib !!!!!!
+
+
+If you want to add new bib entries please add it in the
+local.bib file inside the vX directory.
+For example: v0/local-socc.bib
+
+
+If you need to add a new conference fields,
+please go ahead and modify confs.bib
+
+
+
+

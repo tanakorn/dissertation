@@ -1,0 +1,83 @@
+
+\begin{table}[t]
+\begin{center}
+
+{\small
+
+\begin{tabular}{ll}
+\begin{tabular}{cc|cc}
+ & & \multicolumn{2}{c}{{\bf Execution Reduction Ratio in}} \\
+{\bf C} & {\bf R} & {\bf ZLE} & {\bf ZAB} \\
+\hline
+%  0  &  0  &    19  &   750 \\
+  1  &  1  &    37  &    93 \\
+  2  &  2  &    63  &    107 \\
+  3  &  3  &    103  &   166 \\
+\end{tabular} &
+
+%\vfifteen
+
+\begin{tabular}{cc|ccccc}
+ & & \multicolumn{5}{c}{{\bf \newtext{Execution Reduction Ratio in ZLE with}}} \\
+{\bf C} & {\bf R} & {\bf All} & {\bf LMI} & {\bf CMI} & {\bf CRS} & {\bf RSS} \\
+\hline
+%  0  &  0  &    19  &   750 \\
+  1  &  1  &    37  &   18  &   5  &   4  &   3  \\
+  2  &  2  &    63  &   35  &   6  &   5  &   5  \\
+  3  &  3  &    103 &   37  &   9  &   9  &   14  \\
+\end{tabular} \\
+ & \\
+\multicolumn{1}{c}{(a)} & \multicolumn{1}{c}{(b)}
+\end{tabular}
+
+}
+\end{center}
+\vminten
+\mycaption[SAMC Reduction Ratio]{tab-reduce}{SAMC Reduction Ratio}{
+The table (a) shows the execution reduction ratio of SAMC
+over black-box DPOR (bDP) in checking ZLE and ZAB
+under different crash/reboot budgets.
+``C'' and ``R'' are the number of crashes and reboots.
+The table (b) shows the execution reduction ratio in ZLE
+with individiual policies over black-box DPOR (bDP).
+}
+%\vminten
+\end{table}
+
+
+
+
+\if 0
+method:
+The way we compare the state space reduction is to run
+DPOR, but on the side we keep track all other information, and if we find
+the reorderings should be independent or symmetrical in SAMC, but bbDPOR
+still does it, then we consider that as 1 saving.  Based on the total
+number of savings, we compute the reduction ratio.
+\fi
+
+
+
+\if 0 
+
+
+Just fill in the numbers here, and report me on skype everytime
+you update every entry below.  Just copy paste the new updated entry.
+On Skype.
+
+SR: state reduction of SAMC / DPOR.
+
+    C  R   SR
+LE  0  0   19
+LE  1  1   53 (3000) 64 (7000) 65 (6900)
+LE  2  2   41 (3000) 57 (7000) 57 (7000)
+LE  3  3   28 (3000) 35 (7000) 35 (7000)
+
+ZAB  0  0   750 (1500ex) 
+ZAB  1  1   35 (2000ex) 36 (1900)
+ZAB  2  2   44 (2000ex) 44 (2000)
+ZAB  3  3   142 (2000ex) 142 (2000)
+
+\fi
+
+

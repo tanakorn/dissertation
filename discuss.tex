@@ -1,0 +1,99 @@
+
+
+
+
+\chapter{Discussion}
+\label{discuss}
+
+
+% summary
+\section{Overview}
+In this section, we discuss SAMC's simplicity, generality and soundness.
+We would like to emphasize that the main goal of this thesis is to show the
+power of SAMC in finding deep bugs both quickly and systematically, and
+thus we intentionally leave some subtasks (\eg, automated extraction,
+soundness proofs) for future work.
+
+
+% ---------------------------------
+\section{Simplicity}
+
+\newtext{In previous sections, we mentioned that policies can be written
+  in few lines of code.  Besides LOC, simplicity can be measured by
+  how much time  is required to understand a protocol
+  implementation, extract the patterns and write the policies.  This time
+  metric is unfortunately hard to quantify.  In our experience, the bulk of
+  our time was spent in developing \sampro\ from scratch and
+  integrating policies to dmck mechanisms (\sec\ref{mot-bgterms}).
+  However, the process of understanding protocols and crafting policies
+  requires a small effort (\eg, few days per protocol to the point where we
+  feel the policies are robust).  We believe that the actual developers
+  will be able to perform this process much faster than we did as they
+  already have deeper understandings of their code.  }
+
+
+% ---------------------------------
+\section{Generality}
+\label{sam-general}
+
+Our policies contain patterns that are common in distributed systems.  One
+natural question to ask is: how much semantic knowledge should we expose to
+dmck?  The ideal case is to expose as much information as possible as long
+as it is sound.  Since proving soundness and extracting patterns
+automatically are our future work, in this thesis we only propose exposing
+high-level processing semantics.  With advanced program analysis tools that
+can analyze deep program logic, we believe more semantic knowledge can be
+exposed to dmck in a sound manner.
+%
+\newtext{For example, LMI can be extended to include commutative
+modifications.  This is possible if the program analysis can 
+verify that the individual modification does not lead to other
+state changes. }
+%
+This will perhaps be the point where symbolic execution and
+dmck blend in the future (\sec\ref{sec-related}).
+
+
+\newtext{
+Nevertheless, we find that high-level semantics are powerful enough.
+Beyond the three cloud systems we target in this thesis, 
+we have been integrating SAMC to MaceMC~\cite{Killian+07-LifeDeathMaceMC}.
+\macemc\ already employs random exploration policies to
+model check Mace-based distributed systems such as Mace-based Chord and
+Pastry.  
+To integrate SAMC, we first must re-implement DPOR in MaceMC (existing
+DPOR implementation in MaceMC is proprietary~\cite{Guo+11-Demeter}).
+Then, we have written 18 lines of LMI protocol-specific rules for Chord
+and attain two orders of magnitude of reduction in execution.
+This shows the generality of SAMC to many distributed
+systems.
+}
+
+
+
+% ---------------------------------
+\section{Soundness}
+\label{sam-sound}
+
+
+
+\newtext{ 
+%
+SAMC policies only skip re-orderings and crash/reboot events that are
+redundant by definition, however currently our version of SAMC is not
+sound; the unsound phase is the manual extraction process.  For example, if
+the tester writes a wrong predicate definition (\eg, \pd) that is
+inconsistent with what the target system defines, then soundness (and
+correctness) is broken.  Advanced program analysis tools can be developed
+to automate and verify this extraction process and make SAMC sound.
+Currently, the fact that protocol-specific rules tend to be short might
+also help in reducing human errors.  Our prototype, \sampro, is no
+different than other testing/verification tools; full correctness requires
+that such tools to be free of bugs and complete in checking all specifications,
+which can be hard to achieve.  Nevertheless, we want to bring up again the
+discussion in Section~\ref{mot-summ} that dmck's scalability and ability to
+find deep bugs in complex distributed systems are sometimes more important
+than soundness.  We leave soundness proofs for future work, but we view
+this as a small limitation, mainly because we have successfully shown the
+power of SAMC.  }
+

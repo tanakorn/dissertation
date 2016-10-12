@@ -1,0 +1,39 @@
+
+
+
+\section{\sampro}
+\label{imp-pro}
+
+\sampro\ is written in \numLinesSamPro\ lines of code in Java, which
+includes all the components mentioned in Section~\ref{mot-bgterms} and
+Figure~\ref{fig-dmck}.  The detailed anatomy of dmck has been
+thoroughly explained in literature~\cite{Guerraoui+11-McNoNetwork,
+  Guo+11-Demeter, Killian+07-LifeDeathMaceMC, Simsa+10-Dbug,
+  Yang+09-Modist}, and therefore for brevity, we will not discuss many
+engineering details.  We will focus on SAMC-related parts.
+
+% access source code
+We design \sampro\ to be highly portable; we do not modify the target code
+base significantly as we leverage a mature interposition technology,
+AspectJ, for interposing network messages and timeouts.
+% local state
+Our interposition layer also sends local state information to the
+\sampro\ server.
+% crashes and reboots
+\sampro\ is also equipped with crash and reboot scripts specific to the
+target systems.  The tester can specify a budget of the maximum number of
+crashes and reboots to inject per execution.
+% summ
+\sampro\ employs basic reduction mechanisms and advanced reduction policies
+as described before.
+% checks
+We deploy safety checks at the server (\eg, no two leaders).  If a
+check is violated, the trace that led to the bug is reported and 
+can be deterministically replayed in \sampro.
+% other supports
+Overall, we have built all the necessary features to show the case of
+SAMC.  Other features such as intra-node thread
+interleavings~\cite{Guo+11-Demeter}, scale-out
+parallelism~\cite{Simsa+12-ScalablePOR}, and virtual clock for network
+delay~\cite{Yang+09-Modist} can be integrated to \sampro\ as well.
+

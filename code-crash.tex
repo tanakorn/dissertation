@@ -1,0 +1,38 @@
+
+
+\begin{figure}[t]
+
+{\small
+\begin{alltt}
+broadcast() { sendMsgToAll(role, leaderId); }
+quorumOkay() { return (follower > nodes / 2); }
+
+// pr1
+if (role == L && C.role == F && quorumOkay())
+  follower--;
+
+// pr2
+if (role == L && C.role == F && !quorumOkay())
+  follower = 0;
+  role = S;
+  broadcast();
+
+// pr3
+if (role == F && C.role == L) 
+  leaderId = myId;
+  broadcast();
+\end{alltt}
+}
+%\vminten 
+\mycaption[Crash Recovery in Leader Election]{code-crash}{Crash Recovery in Leader Election}{
+  The figure shows a simplified example of crash recovery in a leader
+  election protocol.  The code runs in every node.  \ts{C} implies the
+  crashing node; each node typically has a view of the states of its
+  peers.  Three predicate-recovery pairs are shown (\prone, \prtwo,
+  and \prtri).  In the first, if quorum still exists, the leader
+  simply decrements the follower count.  In the second, if quorum
+  breaks, the leader falls back to searching mode (\ts{S}).  In the
+  third, if the leader crashes, the node (as a follower) votes for
+  itself and broadcasts the vote to elect a new leader. }
+%\vmin
+\end{figure}

@@ -1,0 +1,68 @@
+
+\section{DMCK Framework and Terms}
+\label{mot-bgterms}
+
+
+
+
+As mentioned before, we define {\em dmck} as  software model checker
+that checks distributed systems directly at the implementation level.
+Figure~\ref{fig-dmck} illustrates a dmck integration to a target
+distributed system, a simple representation of existing dmck
+frameworks~\cite{Guo+11-Demeter, Killian+07-LifeDeathMaceMC,
+  Simsa+10-Dbug, Yang+09-Modist}.  The dmck inserts an interposition
+layer in each node of the target system with the purpose of
+controlling all important events (\eg, network messages, timeouts) and
+preventing the target system to process the events until the dmck
+enables them.  A main dmck mechanism is the permutation of events; the
+goal is to push the target system into all possible ordering scenarios.
+For example, the dmck can enforce \ts{abcd} ordering in one execution,
+\ts{bcad} in another, and so on.
+
+
+
+% List all the terms
+We now provide an overview of basic dmck terms we use in this thesis
+and Figure~\ref{fig-dmck}.
+%
+Each node of the target system has a {\em local state} (\ls),
+containing many variables.  An {\em abstract local state} (\als) is a
+subset of the local state; dmck decides which \als\ is important to
+check.
+%
+The collection of all (and abstract) local states is the {\em global
+  state} (\gs) and the {\em abstract global state} (\ags)
+respectively.  
+%
+The {\em network state} describes all the {\em outstanding messages}
+currently intercepted by dmck (\eg, \ts{abd}).
+%
+To model check a specific protocol, dmck starts a {\em workload
+  driver} (which restarts the whole system, runs specific workloads,
+\etc).  Then, dmck generates many (typically hundreds/thousands)
+executions; an {\em execution} (or a {\em path}) is a specific
+ordering of events that dmck enables (\eg, \ts{abcd}, \ts{dbca}) from
+an initial state to a termination point.
+%
+A {\em sub-path} is a subset of a path/execution.
+%
+An {\em event} is an action by the target system that is intercepted
+by dmck (\eg, a network message) or an action that dmck can inject
+(\eg, a crash/reboot).
+%
+Dmck enables one event at a time (\eg, \ts{enable(c)}).
+%
+To permute events, dmck runs {\em exploration methods} such as
+brute-force (\eg, depth first search) or random.  
+%
+%
+As events are permuted, the target system enters hard-to-reach
+states.  Dmck continuously runs state {\em checks} (\eg, safety 
+checks) to verify the system's correctness.
+%
+To reduce the state-space explosion problem, dmck can employ {\em
+  reduction policies} (\eg, DPOR or symmetry).  A policy is {\em
+  systematic} if it does not use randomness or bug-specific knowledge.
+%
+In this work, we focus on advancing systematic reduction policies.
+

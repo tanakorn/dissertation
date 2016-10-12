@@ -1,0 +1,52 @@
+\contentsline {chapter}{List of Figures}{v}
+\contentsline {chapter}{List of Tables}{vi}
+\contentsline {chapter}{Acknowledgments}{vii}
+\contentsline {chapter}{Abstract}{viii}
+\contentsline {chapter}{\numberline {1}Introduction}{1}
+\contentsline {chapter}{\numberline {2}Background}{5}
+\contentsline {section}{\numberline {2.1}Overview}{5}
+\contentsline {section}{\numberline {2.2}DMCK Framework and Terms}{5}
+\contentsline {section}{\numberline {2.3}State-of-the-Art DMCKs}{6}
+\contentsline {section}{\numberline {2.4}Deep Bugs}{8}
+\contentsline {section}{\numberline {2.5}Does State of the-Art Help?}{9}
+\contentsline {chapter}{\numberline {3}Semantic-Aware Model Checking}{11}
+\contentsline {section}{\numberline {3.1}Overview}{11}
+\contentsline {section}{\numberline {3.2}An Example}{11}
+\contentsline {section}{\numberline {3.3}Architecture}{12}
+\contentsline {section}{\numberline {3.4}Semantic-Aware Reduction Policies}{13}
+\contentsline {subsection}{\numberline {3.4.1}Local-Message Independence (LMI)}{13}
+\contentsline {subsection}{\numberline {3.4.2}Crash-Message Independence (CMI)}{15}
+\contentsline {subsection}{\numberline {3.4.3}Crash Recovery Symmetry (CRS)}{17}
+\contentsline {subsection}{\numberline {3.4.4}Reboot Synchronization Symmetry (RSS)}{19}
+\contentsline {section}{\numberline {3.5}Pattern Extraction}{20}
+\contentsline {section}{\numberline {3.6}Summary}{21}
+\contentsline {chapter}{\numberline {4}Implementation and Integration}{22}
+\contentsline {section}{\numberline {4.1}Overview}{22}
+\contentsline {section}{\numberline {4.2}\textsc {SamPro}}{22}
+\contentsline {section}{\numberline {4.3}Integration to Target Systems}{23}
+\contentsline {section}{\numberline {4.4}Summary}{23}
+\contentsline {chapter}{\numberline {5}Evaluation}{25}
+\contentsline {section}{\numberline {5.1}Overview}{25}
+\contentsline {section}{\numberline {5.2}Speed in Finding Old Bugs}{25}
+\contentsline {section}{\numberline {5.3}Ability of Finding New Bugs}{28}
+\contentsline {section}{\numberline {5.4}Reduction Ratio}{29}
+\contentsline {section}{\numberline {5.5}Summary}{31}
+\contentsline {chapter}{\numberline {6}Discussion}{32}
+\contentsline {section}{\numberline {6.1}Overview}{32}
+\contentsline {section}{\numberline {6.2}Simplicity}{32}
+\contentsline {section}{\numberline {6.3}Generality}{32}
+\contentsline {section}{\numberline {6.4}Soundness}{33}
+\contentsline {chapter}{\numberline {7}Related Work}{34}
+\contentsline {section}{\numberline {7.1}Existing Model Checkings}{34}
+\contentsline {section}{\numberline {7.2}Formal Model Checking Techniques}{34}
+\contentsline {section}{\numberline {7.3}Symbolic Execution}{34}
+\contentsline {section}{\numberline {7.4}Fault Injector}{35}
+\contentsline {section}{\numberline {7.5}Concurrency Bugs}{35}
+\contentsline {section}{\numberline {7.6}Geographically Distributed Systems}{35}
+\contentsline {chapter}{\numberline {8}Conclusion and Future Work}{36}
+\contentsline {section}{\numberline {8.1}Conclusion}{36}
+\contentsline {section}{\numberline {8.2}Future Work}{36}
+\contentsline {subsection}{\numberline {8.2.1}Broad SAMC}{37}
+\contentsline {subsection}{\numberline {8.2.2}Auto SAMC}{38}
+\contentsline {subsection}{\numberline {8.2.3}LocDist SAMC}{38}
+\contentsline {chapter}{References}{40}

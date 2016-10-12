@@ -1,0 +1,307 @@
+
+% ---------------------------------------------
+% name abbrvs .. 
+% ---------------------------------------------
+\newcommand{\infokernel}{\mbox{infokernel}}
+\newcommand{\unix}{{\sc Unix}}
+\newcommand{\dare}{DARE}
+\def \samc {\textsc{SamC}}
+\def \sampro {\textsc{SamPro}}
+\def \samzoo {\textsc{SamZoo}}
+\def \sammr {\textsc{SamMr}}
+\def \sammace {\textsc{SamMace}}
+\def \samcass {\textsc{SamCass}}
+\def \sameiger {\textsc{SamEiger}}
+\def \modist {\textsc{Modist}}
+\def \macemc {\textsc{MaceMC}}
+\def \setsudo {\textsc{Setsudo}}
+\def \prefail {\textsc{PreFail}}
+
+\def \fate {\textsc{Fate}}
+\def \late {\textsc{Late}}
+\def \lights {\textsc{LigHTS}}
+
+\newcommand{\ts}[1]{{\tt{\small#1}}}
+
+
+\def \uuu {\textbf{\textcolor{Maroon}{\textbf{$\uparrow$}}}}
+\def \uu {\textbf{\textcolor{Maroon}{\textbf{$\Uparrow$}}}}
+% \def \nu {\textbf{\textcolor{Maroon}{\textbf{$\nearrow$}}}} % submission only
+
+\newcommand{\num}[1]{\textcolor{red}{\textbf{#1}}}
+\def \numOldDeepBugs {12} 
+\def \numZkDeepBugs {7}   
+\def \numMrDeepBugs {3}
+\def \numCsDeepBugs {2}
+\def \numZkNewBugs {1}
+\def \numMrNewBugs {1}
+\def \numNewBugs {2}
+\def \numVersions {10}
+\def \numLinesSamPro {10,886}
+\def \numProtocols {7}
+\def \numLinesRule {35}  
+\def \numMaxBugSpeedUp {271x}  
+\def \numAvgBugSpeedUp {33x}    
+\def \numAvgExecTime {40}
+
+\def \numMinRedRatio {37x}  
+\def \numMaxRedRatio {166x}  
+\def \numRedRatioExecs {3000}
+
+%\newcommand{\mrb}[1]{\jira{MAPREDUCE}{MR}{#1}}
+%\newcommand{\zkb}[1]{\jira{ZOOKEEPER}{ZK}{#1}}
+%\newcommand{\zk}[1]{\jira{ZOOKEEPER}{ZooKeeper}{#1}}
+%\newcommand{\mr}[1]{\jira{MAPREDUCE}{MapReduce}{#1}}
+%\newcommand{\cs}[1]{\jira{CASSANDRA}{Cassandra}{#1}}
+
+\newcommand{\mrb}[1]{MR-#1}
+\newcommand{\zkb}[1]{ZK-#1}
+\newcommand{\zk}[1]{ZooKeeper-#1}
+\newcommand{\mr}[1]{MapReduce-#1}
+\newcommand{\cs}[1]{Cassandra-#1}
+
+%\newcommand{\jira}[3]{\href{http://issues.apache.org/jira/browse/#1-#3}{#2-#3}}
+
+
+\def \ll {\ts{L}}
+\def \ff {\ts{F}}
+\def \pri {\ts{pr}$_{i}$}
+\def \prone {\ts{pr}$_{1}$}
+\def \prtwo {\ts{pr}$_{2}$}
+\def \prtri {\ts{pr}$_{3}$}
+
+\def \ls {\ts{ls}}
+\def \als {\ts{als}}
+\def \rals {\ts{rals}}
+\def \ralsi {\ts{rals}$_{i}$}
+\def \ralsone {\ts{rals}$_{1}$}
+\def \ralstwo {\ts{rals}$_{2}$}
+\def \ralstri {\ts{rals}$_{3}$}
+\def \rags {\ts{rags}}
+
+
+\def \gs {\ts{gs}}
+\def \ags {\ts{ags}}
+\def \nn {\ts{N}}
+\def \none {\ts{N1}}
+\def \ntwo {\ts{N2}}
+\def \ntri {\ts{N3}}
+\def \nfour {\ts{N4}}
+\def \mone {\ts{m}$_{1}$}
+\def \mn {\ts{m}$_{n}$}
+\def \mm {\ts{m}}
+\def \fone {\ts{F1}}
+\def \ftwo {\ts{F2}}
+\def \ftri {\ts{F3}}
+\def \ma {\ts{a}}
+\def \mb {\ts{b}}
+\def \mc {\ts{c}}
+\def \md {\ts{d}}
+\def \mx {\ts{m1}}
+\def \my {\ts{m2}}
+\def \xx {\ts{X}}
+\def \pg {\ts{pg}}
+\def \pl {\ts{pl}}
+\def \pp {\ts{p}}
+\def \pd {\ts{pd}}
+\def \pi {\ts{pi}}
+\def \pm {\ts{pm}}
+\def \pc {\ts{pc}}
+
+% ---------------------------------------------
+% spaces
+% ---------------------------------------------
+\newcommand{\vtwenty}{\vspace{20pt}}
+\newcommand{\vfifteen}{\vspace{15pt}}
+\newcommand{\vten}{\vspace{10pt}}
+\newcommand{\vfive}{\vspace{5pt}}
+\newcommand{\vthree}{\vspace{3pt}}
+
+\newcommand{\vmintwo}{\vspace{-2pt}}
+\newcommand{\vminthree}{\vspace{-3pt}}
+\newcommand{\vminfive}{\vspace{-5pt}}
+\newcommand{\vminten}{\vspace{-10pt}}
+\newcommand{\vminfifteen}{\vspace{-15pt}}
+\newcommand{\vmintwenty}{\vspace{-20pt}}
+
+% ---------------------------------------------
+% overloaded commands
+% ---------------------------------------------
+\newcommand{\ub}[1]{\underline{{\bf #1}}}
+\newcommand{\bquote}{\vspace{-0.25cm} \begin{quote}}
+\newcommand{\equote}{\end{quote}\vspace{-0.2cm} }
+\def \sec {\S}
+\def \yes {$\surd$}
+
+\def \nospace {
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}
+
+
+\newcommand{\supsection}[1]{\noindent{\Large{\bf #1}}\vten}
+
+\newenvironment{enumerate2}{
+  \begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{
+  \end{enumerate}
+}
+
+\newenvironment{itemize2}{
+  \begin{itemize}
+ \renewcommand{\labelitemi}{-}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{
+  \end{itemize}
+}
+
+% \renewcommand\thesection{\Alph{section}}
+
+
+
+% ---------------------------------------------
+% note
+% ---------------------------------------------
+\newcommand{\hsg}[1]{\textcolor{red}{{\small {\bf (HSG: #1)}}}}
+\newcommand{\tl}[1]{\textcolor{red}{{\small {\bf (TL: #1)}}}}
+\newcommand{\pj}[1]{\textcolor{red}{{\small {\bf (PJ: #1)}}}}
+\newcommand{\thanh}[1]{\textcolor{red}{{\small {\bf (THANH: #1)}}}}
+\newcommand{\todo}[1]{\textcolor{red}{{\small {\bf (TODO: #1)}}}}
+%\newcommand{\newtext}[1]{\textcolor{blue}{#1}}
+\newcommand{\newtext}[1]{#1}
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+\newcommand{\rbt}[1]{\textcolor{red}{\textbf{#1}}}
+\newcommand{\notes}[1]{\textcolor{darkgray}{
+{\footnotesize {\em (Notes: #1)}}}}
+
+
+
+
+
+
+% ---------------------------------------------
+% bullets
+% ---------------------------------------------
+\def \vvvnb {\vfifteen \noindent $\bullet$~}
+\def \vvnb {\vten \noindent $\bullet$~}
+\def \vnb {\vfive \noindent $\bullet$~}
+
+\def \tb {\vspace{8pt}\nb}
+
+\def \vvn {\vten \noindent}
+\def \vn {\vfive \noindent}
+\def \nb {\noindent $\bullet$~}
+\def \ni {\noindent}
+
+
+
+% ---------------------------------------------
+% counters, steps, hypothesis, tasks
+% ---------------------------------------------
+\newcommand{\hypo}[1]{
+\begin{quote}
+\stepcounter{HYPO}{\bf Hypothesis \arabic{HYPO}:} 
+{\em #1}
+\end{quote}
+}
+
+\newcommand{\taskformat}[2]{#1\textsc{#2}}
+
+\newcommand{\task}[3]{
+\begin{quote}
+\phantomsection
+\hypertarget{task#1#2}{}
+{\bf Task \taskformat{#1}{#2}:} 
+{\em #3}
+\end{quote}
+}
+
+\newcommand{\tasklink}[2]{\hyperlink{task#1#2}{\taskformat{#1}{#2}}}
+
+\newcounter{HYPO}
+\newcounter{TASK}
+
+\newcommand{\rs}{{ResearchStaff$_1$}}
+\newcommand{\raOne}{{\bf RA$_1$}}
+\newcommand{\raTwo}{{\bf RA$_2$}}
+\newcommand{\ndv}{{\bf NDV}}
+\newcommand{\ug}{{\bf Undergrad$_1$}}
+
+
+% ---------------------------------------------
+% extra sections, pages
+% ---------------------------------------------
+
+\newcommand{\sssubsection}[1]{\vten\textbf{\large{\textsc{#1}}}}
+
+
+\newcommand{\emptypage}{
+\newpage
+\thispagestyle{empty}
+(empty page)
+}
+
+
+% ---------------------------------------------
+% figs
+% ---------------------------------------------
+\newcommand{\myrotate}[1]{\begin{rotate}{90} {\bf #1} \end{rotate}}
+
+\newcommand{\mycaption}[4][]{%
+\ifthenelse{\equal{#1}{}}{
+\begin{spacing}{0.95}
+\caption{
+\label{#2}
+{\bf #3. } 
+{\em #4}
+}
+\end{spacing}
+}{
+\begin{spacing}{0.95}
+\caption[#1]{
+\label{#2}
+{\bf #3. } 
+{\em #4}
+}
+\end{spacing}%
+}}
+
+
+% ---------------------------------------------
+% general
+% ---------------------------------------------
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\etal}{\textit{et al.}}
+\newcommand{\etc}{etc.}
+
+
+\newcommand{\symstar}{$^{*}$}
+\newcommand{\symtwostars}{$^{**}$}
+\newcommand{\symthreestars}{$^{***}$}
+\newcommand{\symdag}{$^{\dag}$}
+\newcommand{\symddag}{$^{\ddag}$}
+
+
+% ---------------------------------------------
+% counters (\xxx\ cannot appear under figure caption)
+% ---------------------------------------------
+%\newcommand{\xxx}{{\bf XXX}} % --- no counter 
+\newcounter{Xcounter}
+\newcommand{\xxxreset}{\setcounter{Xcounter}{1}}
+\newcommand{\xxx}{\textcolor{red}{\textbf{XXX$_{\arabic{Xcounter}}$}\stepcounter{Xcounter}}}
+
+% settings
+%\relscale{0.97}
+%\setlength\parindent{0pt}
+%\setlength\parskip{3pt}
+
+
+
+

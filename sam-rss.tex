@@ -1,0 +1,30 @@
+
+
+
+
+\subsection{Reboot Synchronization Symmetry (RSS)}
+\label{sam-rss}
+
+
+Reboots are also essential to exercise (\sec\ref{mot-deep}), but if not
+done carefully, will introduce more scalability problems.  Reboot reduction
+policy is needed to help dmck inject reboots ``smartly''.  The intuition
+behind reboot synchronization symmetry (RSS) is similar to that of CRS.
+When a node reboots, it typically {\em synchronizes} itself with the peers.
+However, a reboot will not lead to a new scenario if the current state of
+the system is similar to the state when the node crashed.  To implement
+RSS, we extract reboot-synchronization predicates and the corresponding
+actions.  Since the overall approach is similar to CRS, we omit further
+details.
+
+
+In our experience RSS is extremely powerful.  For example, it allows
+us to find deep bugs involving multiple reboots in the ZooKeeper
+atomic broadcast (ZAB) protocol.  RSS works efficiently here because
+reboots in ZAB are only interesting if the live nodes have seen new
+commits (\ie, the dead node falls behind).  In contrast, a black-box
+dmck without RSS initiates reboots even when the live nodes are in
+similar states as in before the crash, prolonging the discovery of
+deep bugs.
+
+

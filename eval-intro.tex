@@ -1,0 +1,38 @@
+
+\chapter{Evaluation}
+\label{sec-eval}
+
+
+\section{Overview}
+We now evaluate SAMC by presenting experimental results that answer the
+following questions: 
+\begin{enumerate}
+\item How fast is SAMC in finding deep bugs compared to other state-of-the-art techniques?  
+\item Can SAMC find new deep bugs?  
+\item How much reduction ratio does SAMC provide?
+\end{enumerate}
+
+\if 0
+(1) How fast is SAMC in finding deep bugs compared to
+other state-of-the-art techniques?  (2) Can SAMC find new deep bugs?  (3)
+How much reduction ratio does SAMC provide?
+\fi
+
+To answer the first question, we show SAMC's effectiveness in finding old
+bugs.  For this, we have integrated \sampro\ to old versions of our target
+systems that carry deep bugs: ZooKeeper v3.1.0, v3.3.2, v3.4.3, and v3.4.5,
+Hadoop v2.0.3 and v2.2.0, and Cassandra v1.0.1 and v1.0.6.  To answer the
+second question, we have integrated \sampro\ to two recent stable versions:
+ZooKeeper v3.4.6 (released March 2014) and Hadoop v2.4.0 (released April
+2014).  In total, we have integrated \sampro\ to \numVersions\ versions,
+showing the high portability of our prototype.  Overall, our extensive
+evaluation exercised more than 100,000 executions and used approximately 48
+full machine days.
+
+
+
+
+\if 0
+\hsg{mention code coverage, and path coverage are hard
+to quantify in Java code, or less priority}.
+\fi

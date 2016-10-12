@@ -1,0 +1,80 @@
+
+
+\def \fth {\uuu 5000}
+
+
+
+\begin{table*}[t]
+\begin{center}
+{\small
+%---------------------------------
+\begin{tabular}{l|l|ccc|rrrr|rrr} 
+
+ {} & {} &
+ {} & {} & {} &
+\multicolumn{4}{c|}{{\bf \#Executions }} &
+\multicolumn{3}{c}{{\bf Speed-up of SAMC vs. }} \\
+
+
+{\bf Issue\#}  &  {\bf Protocol} & 
+{\bf E} & {\bf C} & {\bf R} &
+\bf{bDP} & \bf{RND} & \bf{rDP} & \bf{SAMC} &
+\bf{bDP} & \bf{RND} & \bf{rDP} \\
+
+\hline
+\zk{335}   &   ZAB  & 120 & 3 & 3  &  \fth &  1057 &  \fth &   117 &  \uu 43 &      9 & \uu 43 \\
+\zk{790}   &   ZLE  &  21 & 1 & 1  &    14 &   225 &    82 &     7 &       2 &     32 &     12 \\
+\zk{975}   &   ZLE  &  21 & 1 & 1  &   967 &    71 &   163 &    53 &      18 &      1 &      3 \\
+\zk{1075}  &   ZLE  &  25 & 3 & 2  &  1081 &    86 &   250 &    16 &      68 &      5 &     16 \\
+\zk{1419}  &   ZLE  &  25 & 3 & 2  &   924 &  2514 &   987 &   100 &       9 &     25 &     10 \\
+\zk{1492}  &   ZLE  &  31 & 1 & 0  &  \fth &  \fth &  \fth &   576 &   \uu 9 &  \uu 9 &  \uu 9 \\
+\zk{1653}  &   ZAB  &  60 & 1 & 1  &   945 &  3756 &  3462 &    11 &     86  &    341 &    315 \\
+\hline
+\mr{4748}  &    SE  &  25 & 1 & 0  &    22 &     6 &     6 &     4 &       6 &      2 &      2 \\
+\mr{5489}  &    CM  &  20 & 2 & 1  &  \fth &  \fth &  \fth &    53 &  \uu 94 & \uu 94 & \uu 94 \\
+\mr{5505}  &    CM  &  40 & 1 & 1  &  1212 &  \fth &  1210 &    40 &      30 & \uu125 &     30 \\
+\hline
+\cs{3395}  & RW+HH  &  25 & 1 & 1  &  2552 &   191 &   550 &   104 &      25 &      2 &      5 \\
+\cs{3626}  &    GS  &  15 & 2 & 1  &  \fth &  \fth &  \fth &    96 &  \uu 52 & \uu 52 & \uu 52 \\
+\end{tabular}
+}
+%\vminten
+%---------------------------------
+\end{center}
+\mycaption[SAMC Speed in Finding Old Bugs]{tab-oldbugs}{SAMC Speed in Finding Old Bugs}{
+%
+The first column shows old bug numbers in ZooKeeper, Hadoop, and
+Cassandra that we reproduced.  The bug numbers are clickable (contain
+hyperlinks).  The protocol column lists where the deep bugs were
+found; full protocol names are in \sec\ref{imp-targets}.  ``E'', ``C''
+and ``R'' represent the number of events, crashes, and reboots
+necessary to hit the bug.  The numbers in the middle four columns
+represent the number of executions to hit the bug across different
+policies.  ``bDP'', ``RND'', and ``rDP'' stand for black-box DPOR (in
+\modist), random, and random + black-box DPOR respectively.  The SAMC
+column represents our reduction policies and rules.  The last three
+columns represent the speed-ups of SAMC over the other three
+techniques.  
+We stop at 5000 executions (around 2 days) if the bug
+cannot be found; potentially many more executions are required to hit
+the bug (labeled with ``\uuu'').  
+Thus, speed-up numbers marked with
+``\uu'' are potentially much higher.  
+In the experiments above, the bugs are reproduced using 3-4
+nodes.  We also have run DFS but do not show the result because in
+most cases DFS cannot hit the bugs.  For model checking the SE protocol, ``1C''
+means one straggler; we emulate a node slowdown as a failure event by
+modifying the progress report of the ``slow'' node.  SE involves 20+
+events but most of them are synchronized stages and cannot be
+re-ordered, which explains why the SE bug can be found quickly with
+all policies.
+%
+}
+
+%\vminfive
+
+\end{table*}
+
+\if 0
+\zk{1653}  &    --  & --- & 1 & 1  &    -- &    -- &    -- &    -- &     --- & --- & --- \\
+\fi

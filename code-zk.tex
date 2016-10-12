@@ -1,0 +1,48 @@
+
+
+\newcommand{\qbeg}{
+\begin{quote}
+%\begin{spacing}{0.9}
+%\vminthree
+}
+\newcommand{\qend}{
+%\vminten
+%\end{spacing}
+\end{quote}
+}
+
+
+
+
+\newcommand{\fev}[1]{\textcolor{Maroon}{\textit{#1}}}
+\newcommand{\ev}[1]{\textcolor{gray}{\textbf{#1}}}
+
+
+%\def \cbrk {\\}
+\def \cbrk {}
+
+
+\qbeg
+{\small
+{\bf ZooKeeper Bug \#335:}
+\ev{(1)} Nodes A, B, C start with latest txid \#10 and elect
+B as leader,
+\ev{(2)} \fev{B crashes},
+\ev{(3)} Leader election re-run; C becomes leader,
+\ev{(4)} Client writes data; A and C commit new txid-value pair \{\#11:X\},
+\ev{(5)} \fev{A crashes before} committing tx \#11,
+\ev{(6)} C loses quorum,
+\ev{(7)} \fev{C crashes},
+\ev{(8)} \fev{A reboots} and \fev{B reboots},
+\ev{(9)} A becomes leader,
+\ev{(10)} Client updates data; A and B commit a new txid-value 
+pair \{\#11:Y\},
+\ev{(11)} \fev{C reboots after} A's new tx commit,
+\ev{(12)} C synchronizes with A; C notifies A of \{\#11:X\},
+\ev{(13)} A replies to C the ``diff'' starting 
+with tx 12 (excluding tx \{\#11:Y\}!),
+\ev{(14)} Violation: permanent data inconsistency as A and B
+have \{\#11:Y\} and  C has \{\#11:X\}.
+}
+\qend
+

@@ -1,0 +1,106 @@
+
+\chapter{Related Work}
+\label{sec-related}
+
+
+\if 0
+We now briefly discuss more related work on dmck and other approaches
+to systems verification and testing.
+\fi
+
+\section{Existing Model Checkings}
+% multiple failures
+The threat of multiple failures to systems reliability already existed
+since the P2P era; P2P systems are susceptible to ``churn'', the
+continuous process of node joining and departing~\cite{Rhea+04-Churn}.
+Many dmcks such as \macemc~\cite{Killian+07-LifeDeathMaceMC} and
+CrystalBall~\cite{Yabandeh+09-CrystalBall} evaluate their approaches
+on P2P systems.  Interestingly, we find that they mainly re-order join
+messages.  To our understanding, based on their publications, they did
+not inject and control node departures.  CrystalBall authors mentioned
+about running churns, but only as part of their workloads, not as
+events that the dmck can re-order.  This illustrates the non-triviality of
+incorporating failures in dmck.
+
+\section{Formal Model Checking Techniques}
+% formal mc techniques .... 
+Formal model checking foundations such as partial order
+reduction~\cite{Flanagan+05-Dpor, Godefroid+96-Dpor},
+symmetry~\cite{Clarke+98-SymReduct, Prasad+00-SymBasedMc}, and
+abstraction~\cite{Clarke+94-McAbstract}, were established more than a
+decade ago.  Here, classical model checkers require system models and
+mainly focus on state-space reduction.  Implementation-level model
+checkers on the other hand are expected to find real bugs in addition to
+being efficient.
+
+\section{Symbolic Execution}
+% symbolic execution ...
+Symbolic execution is another powerful formal method to verify
+systems correctness.  Symbolic execution also faces an explosion
+problem, specifically the path explosion problem.  A huge body of work
+has successfully addressed the problem and made symbolic execution
+scale to large (non-distributed) software
+systems~\cite{Bucur+11-ParallelSymEx, Cadar+08-KLEE, Chipounov+11-S2e,
+  Cui+13-RuleDirectedSymExec, Zamfir+10-Synthesis}.  Symbolic
+execution and model checking can formally be combined into a more
+powerful method~\cite{Burch+92-SymbolicMC}, however this concept has
+not permeated the world of distributed systems; it is challenging to
+track symbolic values across distributed nodes.
+
+
+\section{Fault Injector}
+% fault injector
+Reliability bugs are often caused by incorrect handling of
+failures~\cite{Gunawi+11-FateDestini, Gunawi+08-EIO}.  Fault-injection
+testing however is challenging due to the large number of possible
+failures to inject.  This challenge led to the development of
+efficient fault-injection testing frameworks.  For example,
+AFEX~\cite{Banabic+12-Blackbox} and
+LFI~\cite{Marinescu+10-ExtensibleLFI} automatically prioritize
+``high-impact targets'' (\eg, unchecked system calls).  These novel
+frameworks target non-distributed systems and thus the techniques are
+different than ours.
+
+
+% distributed systems
+Similarly, recent work highlights the importance of testing faults in
+cloud systems (\eg, \fate~\cite{Gunawi+11-FateDestini},
+\setsudo~\cite{Joshi+13-SetsudoTesting},
+\prefail~\cite{Joshi+11-PreFail}, and OpenStack
+fault-injector~\cite{Ju+13-FaultResOpenStack}).  As mentioned before
+(\sec\ref{mot-state}), these frameworks are not a dmck; they cannot
+re-order concurrent messages and failures and therefore cannot catch
+distributed concurrency bugs systematically.
+
+
+
+\section{Concurrency Bugs}
+% local concurrency: Jula+08-DeadlockImmunity, Zhang+13-ConAir,
+% Erickson+10-DataRaceKernel
+The deep bugs we presented can be considered as concurrency bugs (in
+distributed nature).  For non-distributed systems, there has been an
+abundance of innovations in detecting, avoiding, and recovering from
+concurrency bugs~\cite{Jin+12-CFix,
+  Kasikci+13-CrowdRaceMob, 
+  Lu+08-ConcurrencyBugStudy, 
+  Veeraraghavan+11-ComplementarySchedules}.
+They mainly target threads.  For dmck, we believe more advancements
+are needed to unearth distributed concurrency bugs that still linger
+in cloud systems.
+
+\section{Geographically Distributed Systems}
+% geo
+\newtext{ Finally, the journey in increasing cloud dependability 
+  is ongoing;  cloud systems face other issues such as bad error handling
+  code~\cite{Yuan+14-Simplex}, performance failures~\cite{Do+13-Limplock},
+  corruptions~\cite{Do+13-HARDFS}, and many others.  }
+%
+Exacerbating the
+  problem, cloud systems are becoming larger and geographically
+  distributed~\cite{Lloyd+11-Cops, Terry+13-PileusConsistencySLA,
+    Zhang+13-TransactionChains}.  We believe cloud systems will observe
+  more failures and message re-orderings, and therefore our work and future
+  dmck advancements with the inclusion of failures will play an important
+  role in increasing the reliability of future cloud systems.
+
+

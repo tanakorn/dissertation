@@ -1,0 +1,56 @@
+
+
+\section{Deep Bugs}
+\label{mot-deep}
+
+
+\if 0
+\tl{response to reviewer E, regarding fix time for each bug, and
+encounter dep bugs that developers don't think are worth fixing.
+    COMMENT: We can show the time since an issue was reported until it was
+    closed, but we do not think that it tells us important information.
+    Longer fix time does not mean it is harder to fix, it might mean
+    developers asked for more information (e.g. Log files) and reporters
+    need some time to gather that or wait until bugs happen again.  For the
+    bugs that developers do not think they are worth to fix, yes we have
+    seen some. The example of these bugs could be the wrong state of
+    systems that eventually be detected and fixed by some error handle
+    code. This kind of bugs makes a few nodes down for few minutes (before
+    alive again) that developers think it is not that bad.}
+\fi
+
+
+% 94
+% 54 total
+
+% bug study
+To understand the unique reliability challenges faced by cloud
+systems, we performed a study of reliability bugs of three popular
+cloud systems: ZooKeeper~\cite{Hunt+10-ZooKeeperPaper}, Hadoop
+MapReduce~\cite{Kumar+13-Yarn}, and
+Cassandra~\cite{Lakshman+09-Cassandra}.  We scanned through thousands
+of issues from their bug repositories.  We then tagged complex
+reliability bugs that can only be caught by a dmck (\ie, bugs that can
+occur only on specific orderings of events).  We found 94
+dmck-catchable bugs.\footnote[1]{Since this is a manual effort, we
+  might miss some bugs.  We also do not report ``simple'' bugs (\eg,
+  error-code handling) that can be caught by unit tests.}  Our major
+finding is that 50\% of them are deep bugs (require complex
+re-ordering of not only messages but also crashes and reboots).
+
+
+
+% results, and observations
+Figure~\ref{fig-deepbugs} lists the deep bugs found from our bug
+study.  Many of them were induced by multiple crashes and reboots.
+Worse, to reproduce the bugs, crash and reboot events must happen in a
+specific order within a long sequence of events (\eg, the example bug
+in \sec\ref{sec-intro}).  Deep bugs lead to harmful consequences (\eg,
+failed jobs, node unavailability, data loss, inconsistency,
+corruption), but they are hard to find.  We observe that since there
+is no dmck that helps in this regard, deep bugs are typically found in
+deployment (via logs) or manually, then they get fixed in few
+weeks, but afterwards as code changes continuously, new deep bugs
+tend to surface again.
+% , as confirmed by cloud developers~\cite{ClouderaPC}.
+

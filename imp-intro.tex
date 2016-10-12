@@ -1,0 +1,18 @@
+
+
+\chapter{Implementation and Integration}
+\label{sec-impl}
+
+\section{Overview}
+In this chapter, we first describe our SAMC prototype, \sampro, which we
+built from scratch because existing dmcks are either
+proprietary~\cite{Yang+09-Modist} or only work on restricted high-level
+languages (\eg, Mace~\cite{Killian+07-LifeDeathMaceMC}).  We will then describe
+\sampro\ integration to three widely popular cloud systems,
+ZooKeeper~\cite{Hunt+10-ZooKeeperPaper}, Hadoop/Yarn~\cite{Kumar+13-Yarn},
+and Cassandra~\cite{Lakshman+09-Cassandra}.  Prior to \sampro, there was no
+available dmck for these systems; they are still tested via unit tests, and
+the test code size is bigger than the main code, but the tests are far from
+reaching deep bugs.
+
+

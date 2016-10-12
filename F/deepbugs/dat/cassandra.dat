@@ -1,0 +1,16 @@
+"Bug Id" "Short Id" "#Crash" "#Reboot"
+cassandra-515 515 1 1
+cassandra-1221 1221 1 1
+cassandra-1432 1432 1 1
+cassandra-1730 1730 1 1
+cassandra-1992 1992 1 1
+cassandra-2115 2115 1 1
+cassandra-2514 2514 3 0
+cassandra-3273 3273 2 0
+cassandra-3466 3466 2 1
+cassandra-3626 3626 2 0
+cassandra-3876 3876 1 0
+cassandra-5179 5179 1 1
+cassandra-6156 6156 1 1
+cassandra-6364 6364 2 0
+cassandra-6503 6503 1 1
