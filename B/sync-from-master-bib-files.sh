@@ -15,7 +15,7 @@ if [ $# == 0 ]; then
 fi
 
 
-srcdir=/Users/haryadi/local/1/DIR-PUBLICATIONS/Bibliographies
+srcdir=$DIRPAPERS/bibs
 
 cp -v $srcdir/*.bib .
 

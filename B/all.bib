@@ -1,5 +1,7 @@
 
-
+% ========================================================
+% Please see the README first 
+% ========================================================
 
 @Misc{EmptyBib,
   author = {Empty First and Empty Second},
@@ -11,11 +13,17 @@
 %                     T E M P L A T E 
 % ========================================================
 
+@InProceedings{xx,
+  author = {xx},
+  title = "{xx}",
+  crossref = {xx},
+}
 
 @InProceedings{xx,
   author = {xx},
   title = "{xx}",
   crossref = {xx},
+  howpublished = {extra KEYWORD1, KEYWORD2},
 }
 
 @Misc{YYY+09-YYY,
@@ -46,17 +54,819 @@
 }
 
 
-
-
 % ========================================================
 %                 B E G I N    H E R E
 % abc
 % ========================================================
 
+@Misc{PersonalCommunicationPC,
+  title = "{START SEEING PERSONAL.BIB (AT THE VERY END), SOME PCS HAVE BEEN MOVED THERE}",
+  year =         {2013},
+}
 
-@InProceedings{Yuan+14-Simplex, 
+
+
+@Article{Patterson+12-BenchmarkShape,
+       author = {David Patterson},
+        title = "{Technical Perspective: For Better or Worse, Benchmarks Shape a Field}",
+      journal = {Communications of the ACM},
+         year = {2012},
+        month = {July},
+       volume = {55},
+       number = {7},
+}
+
+
+@Misc{OpenSSD,
+  title = "{The OpenSSD Project}",
+  howpublished = "\url{http://www.openssd-project.org/wiki/The_OpenSSD_Project}",
+}
+
+
+
+@InProceedings{Xia+07-RobuSTore,
+       author = {Huaxia Xia and Andrew A. Chien},
+        title = "{RobuSTore: Robust Performance for Distributed Storage Systems}",
+     crossref = {SC07},
+}
+
+
+@Misc{GoogleOutageFor5Minutes,
+title = "{5-minute outage costs Google \$545,000 in revenue}",
+howpublished = "\url{http://venturebeat.com}",
+}
+
+
+
+
+@InProceedings{Lee+09-PcmAlternative,
+       author = {Benjamin C. Lee and Engin Ipek and Onur Mutlu and Doug Burger},
+        title = "{Architecting phase change memory as a scalable dram alternative}",
+     crossref = {ISCA09},
+}
+
+
+
+@InProceedings{Narayanan+12-Wsp,
+       author = {Dushyanth Narayanan and Orion Hodson},
+        title = "{Whole-system Persistence with Non-volatile Memories}",
+     crossref = {ASPLOS12},
+}
+
+
+@InProceedings{Volos+11-Mnemosyne,
+       author = {Haris Volos and Andres Jaan Tack and Michael Swift},
+        title = "{Mnemosyne: Lightweight Persistent Memory}",
+     crossref = {ASPLOS11},
+}
+
+
+
+
+@InProceedings{Seshadri+14-Willow,
+       author = {Sudharsan Seshadri and Mark Gahagan and Sundaram Bhaskaran and Trevor Bunker and Arup De and Yanqin Jin and Yang Liu and Steven Swanson},
+        title = "{Willow: A User-Programmable SSD}",
+     crossref = {OSDI14},
+}
+
+
+
+@InProceedings{Heiser+13-RapiLog,
+       author = {Gernot Heiser and Etienne Le Sueur and Adrian Danis and Aleksander Budzynowski and Tudor-Ioan Salomie and Gustavo Alonso},
+        title = "{RapiLog: Reducing System Complexity Through Verification}",
+     crossref = {EUROSYS13},
+}
+
+@InProceedings{Wachs+07-Argon,
+       author = {Matthew Wachs and Michael Abd-El-Malek and Eno Thereska and Gregory R. Ganger},
+        title = "{Argon: Performance Insulation for Shared Storage Servers}",
+     crossref = {FAST07},
+}
+
+@InProceedings{Wang+14-Baa,
+       author = {Hui Wang and Peter Varman},
+        title = "{Balancing Fairness and Efficiency in Tiered Storage Systems with Bottleneck-Aware Allocation}",
+     crossref = {FAST14},
+}
+
+@InProceedings{Franciosi+11-QosExt3,
+       author = {Felipe Franciosi and William J. Knottenbelt},
+        title = "{Data allocation strategies for the management of Quality of Service in Virtualised Storage Systems}",
+     crossref = {MSST11},
+}
+
+@InProceedings{Luo+12-HStorageDB,
+       author = {Tian Luo and Rubao Lee and Michael Mesnier and Feng Chen and Xiaodong Zhang},
+        title = "{hStorage-DB: Heterogeneity-aware Data Management to Exploit the Full Capability of Hybrid Storage Systems}",
+     crossref = {VLDB12},
+}
+
+@InProceedings{Sehgal+12-HyS,
+       author = {Priya Sehgal and Kaladhar Voruganti and Rajesh Sundaram},
+        title = "{SLO-aware hybrid store}",
+     crossref = {MSST12},
+}
+
+@InProceedings{Uttamchandani+04-Polus,
+       author = {Sandeep Uttamchandani and Kaladhar Voruganti Center and Sudarshan Srinivasan and John Palmer and David Pease},
+        title = "{Polus: Growing Storage QoS Management Beyond a '4-Year Old Kid'}",
+     crossref = {FAST04},
+}
+
+@InProceedings{Meng+14-VCacheShare,
+       author = {Fei Meng and Li Zhou and Xiaosong Ma and Sandeep Uttamchandani and Deng Liu},
+        title = "{vCacheShare: Automated Server Flash Cache Space Management in a Virtualization Environment}",
+     crossref = {ATC14},
+}
+
+@InProceedings{Delimitrou+13-Paragon,
+       author = {Christina Delimitrou and Christos Kozyrakis},
+        title = "{Paragon: QoS-Aware Scheduling for Heterogeneous Datacenters}",
+     crossref = {ASPLOS13},
+}
+
+@InProceedings{Leverich+14-SubMsQos,
+       author = {Jacob Leverich and Christos Kozyrakis and Jacob Leverich},
+        title = "{Reconciling High Server Utilization and Sub-millisecond Quality-of-Service}",
+     crossref = {EUROSYS14},
+}
+
+@InProceedings{Delimitrou+13-Arq,
+       author = {Christina Delimitrou and Nick Bambos and Christos Kozyrakis},
+        title = "{QoS-Aware Admission Control in Heterogeneous Datacenters}",
+     crossref = {ICAC13},
+}
+
+@InProceedings{Zhang+13-Cpi2,
+       author = {Xiao Zhang and Eric Tune and Robert Hagmann and Rohit Jnagal and vrigo Gokhale and John Wilkes},
+        title = "{CPI2: CPU performance isolation for shared compute clusters}",
+     crossref = {EUROSYS13},
+}
+
+@InProceedings{Hoffmann+14-Pcp,
+       author = {Henry Hoffmann and Martina Maggio},
+        title = "{PCP: A Generalized Approach to Optimizing Performance Under Power Constraints through Resource Management}",
+     crossref = {ICAC14},
+}
+
+@InProceedings{Petrucci+12-Ilp,
+       author = {V. Petrucci and O. Loques and D. Mosse and R. Melhem and N.A. Gazala and S. Gobriel},
+        title = "{Thread Assignment Optimization with Real-Time Performance and Memory Bandwidth Guarantees for Energy-Efficient Heterogeneous Multi-core Systems}",
+     crossref = {RTAS12},
+}
+
+@InProceedings{Hoffmann+13-Ptrade,
+       author = {Henry Hoffmann and Martina Maggio and Marco D. Santambrogio and Alberto Leva and Anant Agarwal},
+        title = "{A generalized software framework for accurate and efficient management of performance goals}",
+     crossref = {EMSOFT13},
+}
+
+@InProceedings{Dullorr+14-Pmfs,
+       author = {Subramanya R. Dulloor and Sanjay K. Kumar and Anil Keshavamurthy and Philip Lantz and Dheeraj Subbareddy and Rajesh Sankaran and Jeff Jackson},
+        title = "{System Software for Persistent Memory}",
+     crossref = {EUROSYS14},
+}
+
+@InProceedings{Zhu+14-PriorityMeister,
+       author = {Timothy Zhu and Alexey Tumanov and Michael A. Kozuch and Mor Harchol-Balter and Gregory R. Ganger},
+        title = "{PriorityMeister: Tail Latency QoS for Shared Networked Storage}",
+     crossref = {SOCC14},
+}
+
+@InProceedings{VanDeBogart+09-AppDirectPrefetch,
+       author = {Steve VanDeBogart and Christopher Frost and Eddie Kohler and UCLA},
+        title = "{Reducing Seek Overhead with Application-Directed Prefetching}",
+     crossref = {ATC09},
+}
+
+@InProceedings{Gulati+12-Srp,
+       author = {Ajay Gulati and Ganesha Shanmuganathan and VMware Inc. and Xuechen Zhang and Peter Varman},
+        title = "{Demand Based Hierarchical QoS Using Storage Resource Pools}",
+     crossref = {ATC12},
+}
+
+@InProceedings{Billaud+13-HClock,
+       author = {Jean-Pascal Billaud and Ajay Gulati},
+        title = "{hClock: Hierarchical QoS for Packet Scheduling in a Hypervisor}",
+     crossref = {EUROSYS13},
+}
+
+@InProceedings{Eugenio+12-Htbs,
+       author = {Pedro Eugenio Rocha and Luis C. E. Bona},
+        title = "{A QoS aware non-work-conserving disk scheduler}",
+     crossref = {MSST12},
+}
+
+@InProceedings{Ghodsi+11-Drf,
+       author = {Ali Ghodsi and Matei Zaharia and Benjamin Hindman and Andy Konwinski and Scott Shenker and Ion Stoica},
+        title = "{Dominant Resource Fairness: Fair Allocation of Multiple Resource Types}",
+     crossref = {NSDI11},
+}
+
+@InProceedings{Nathuji+10-Qclouds,
+       author = {Ripal Nathuji and Aman Kansal and Alireza Ghaffarkhah},
+        title = "{Q-clouds: managing performance interference effects for QoS-aware clouds}",
+     crossref = {EUROSYS10},
+}
+
+@InProceedings{Yang+13-BubbleFlux,
+       author = {Hailong Yang and Alex D. Breslow and Jason Mars and Lingjia Tang},
+        title = "{Bubble-flux: precise online QoS management for increased utilization in warehouse scale computers}",
+     crossref = {ISCA13},
+}
+
+@InProceedings{Zhang+11-YouChooseRSS,
+       author = {Xuechen Zhang and Yuehai Xu and Song Jiang},
+        title = "{YouChoose: A performance interface enabling convenient and efficient QoS support for consolidated storage systems}",
+     crossref = {MSST11},
+}
+
+
+@InProceedings{Gulati+07-PClock,
+       author = {Ajay Gulati and Arif Merchant and Peter J. Varman},
+        title = "{pClock: An Arrival Curve Based Approach For QoS Guarantees In Shared Storage Systems}",
+     crossref = {SIGMETRICS07},
+}
+
+@InProceedings{Xu+11-StreamScheduling,
+       author = {Yuehai Xu and Song Jiang},
+        title = "{A Scheduling Framework That Makes Any Disk Schedulers Non-Work-Conserving Solely Based on Request Characteristics}",
+     crossref = {FAST11},
+}
+
+
+
+@InProceedings{Merchant+11-Maestro,
+       author = {Arif Merchant and Mustafa Uysal and Pradeep Padala and Xiaoyun Zhu and Sharad Singhal and Kang Shin},
+        title = "{Maestro: Quality-of-Service in Large Disk Arrays}",
+     crossref = {ICAC11},
+}
+
+@InProceedings{Lumb+03-Facade,
+       author = {Christopher R. Lumb and Arif Merchant and Guillermo A. Alvarez},
+        title = "{Facade: Virtual Storage Devices with Performance Guarantees}",
+     crossref = {FAST03},
+}
+
+@InProceedings{Jin+04-Sfqd,
+       author = {Wei Jin and Jeffrey S. Chase and Jasleen Kaur},
+        title = "{Interposed Proportional Sharing for a Storage Service Utility}",
+     crossref = {SIGMETRICS04},
+}
+
+@InProceedings{Wu+06-Aqua,
+       author = {Joel C. Wu and Scott A. Brandt},
+        title = "{The Design and Implementation of AQuA: An Adaptive Quality of Service Aware Object-Based Storage Device}",
+     crossref = {MSST06},
+}
+
+@InProceedings{Filieri+14-SelfAdapt,
+       author = {Antonio Filieri and Henry Hoffmann and Martina Maggio},
+        title = "{Automated design of self-adaptive software with control-theoretical formal guarantees}",
+     crossref = {ICSE14},
+}
+
+@InProceedings{Mok+02-RtVirtResource,
+       author = {Aloysius K. Mok and Alex Xiang Feng},
+        title = "{Real-time virtual resource: A timely abstraction for embedded systems}",
+     crossref = {EMSOFT02},
+}
+
+@InProceedings{Lumb+00-FreeblockScheduling,
+       author = {Christopher R. Lumb and Jiri Schindler and Gregory R. Ganger and David Nagle and Erik Riedel},
+        title = "{Towards Higher Disk Head Utilization: Extracting Free Bandwidth from Busy Disk Drives}",
+     crossref = {OSDI00},
+}
+
+@InProceedings{Riska+07-EvaluateBlockOptimization,
+       author = {Alma Riska and James Larkby-Lahet and Erik Riedel},
+        title = "{Evaluating Block-level Optimization Through the IO Path}",
+     crossref = {ATC07},
+}
+
+@InProceedings{Batsakis+08-AwolAdaptiveWriteOpt,
+       author = {Alexandros Batsakis and Randal Burns and Arkady Kanevsky and James Lentini and Thomas Talpey},
+        title = "{AWOL: An Adaptive Write Optimizations Layer}",
+     crossref = {FAST08},
+}
+
+@InProceedings{Seo+09-Hpmr,
+       author = {Sangwon Seo and Ingook Jang and Kyungchang Woo and Inkyo Kim and Jin-Soo Kim and Seungryoul Maeng},
+        title = "{HPMR: Prefetching and Pre-shuffling in Shared MapReduce Computation Environment}",
+     crossref = {CLUSTER09},
+}
+
+@InProceedings{Dong+10-PrefetchHadoop,
+       author = {Bo Dong and Xiao Zhong and Qinghua Zheng and Lirong Jian and Jian Liu and Jie Qiu and Ying Li},
+        title = "{Correlation Based File Prefetching Approach for Hadoop}",
+     crossref = {CLOUDCOM10},
+}
+
+@InProceedings{Li+08-TapTablePrefetching,
+       author = {Mingju Li and Elizabeth Varki and Swapnil Bhatia and Arif Merchant},
+        title = "{TaP: Table-based Prefetching for Storage Caches}",
+     crossref = {FAST08},
+}
+
+@InProceedings{Kroeger+01-PredictPrefetch,
+       author = {Tom M. Kroeger and Darrell D. E. Long},
+        title = "{Design and Implementation of a Predictive File Prefetching Algorithm}",
+     crossref = {ATC01},
+}
+
+@InProceedings{Ding+07-DiskSeen,
+       author = {Xiaoning Ding and Song Jiang and Feng Chen and Kei Davis and Xiaodong Zhang},
+        title = "{DiskSeen: Exploiting Disk Layout and Access History to Enhance I/O Prefetch}",
+     crossref = {ATC07},
+}
+
+@InProceedings{Soundararajan+08-QuickMinePrefetching,
+       author = {Gokul Soundararajan and Madalin Mihailescu and Cristiana Amza},
+        title = "{Context-Aware Prefetching at the Storage Server }",
+     crossref = {ATC08},
+}
+
+@InProceedings{Lei+97-AnalyticPrefetch,
+       author = {Hui Lei and Dan Duchamp },
+        title = "{An Analytical Approach to File Prefetching}",
+     crossref = {ATC97},
+}
+
+@InProceedings{Shriver+99-WhyPrefetchWork,
+       author = {Elizabeth A. M. Shriver and Christopher Small and Keith A. Smith},
+        title = "{Why does file system prefetching work}",
+     crossref = {ATC99},
+}
+
+@InProceedings{Zhang+09-ScmPrefetch,
+       author = {Zhe Zhang and Amit Kulkarni and Xiaosong Ma and Yuanyuan Zhou},
+        title = "{Memory resource allocation for file system prefetching: from a supply chain management perspective}",
+     crossref = {EUROSYS09},
+}
+
+@InProceedings{Li+05-PrefetchDataBig,
+       author = {Chuanpeng Li and Kai Shen },
+        title = "{Managing Prefetch Memory for Data-Intensive Online Servers}",
+     crossref = {FAST05},
+}
+
+@InProceedings{Gill+07-Amp,
+       author = {Binny S. Gill and Luis Angel D. Bathen},
+        title = "{AMP: Adaptive Multi-stream Prefetching in a Shared Cache}",
+     crossref = {FAST07},
+}
+
+@InProceedings{Hugo+95-InformedPrefetch,
+       author = {R. Hugo Patterson and Garth A. Gibson and Eka Ginting and Daniel Stodolsky and Jim Zelenka},
+        title = "{Informed Prefetching and Caching}",
+     crossref = {SOSP95},
+}
+
+@InProceedings{Rosenblum+91-LFS,
+       author = {Mendel Rosenblum and John K. Ousterhout},
+        title = "{The Design and Implementation of a Log-Structured File System}",
+     crossref = {SOSP91},
+}
+
+@InProceedings{Seltzer+00-Versus,
+       author = {Margo I. Seltzer and Gregory R. Ganger and M. Kirk McKusick and Keith A. Smith and Craig A. N. Soules and Christopher A. Stein},
+        title = "{Journaling versus Soft Updates: Asynchronous Meta-data Protection in File Systems}",
+     crossref = {ATC00},
+}
+
+@InProceedings{Prabhakaran+05-Sba,
+       author = {Vijayan Prabhakaran and Andrea C. Arpaci-Dusseau and Remzi H. Arpaci-Dusseau},
+        title = "{Analysis and Evolution of Journaling File Systems}",
+     crossref = {ATC05},
+}
+
+@InProceedings{Hatzieleftheriou+11-Okeanos,
+       author = {Andromachi Hatzieleftheriou and Stergios V. Anastasiadis},
+        title = "{Okeanos: Wasteless Journaling for Fast and Reliable Multistream Storage}",
+     crossref = {ATC11},
+}
+
+@InProceedings{Prabhakaran+05-Sfa,
+       author = {Vijayan Prabhakaran and Andrea C. Arpaci-Dusseau and Remzi H. Arpaci-Dusseau},
+        title = "{Model-Based Failure Analysis of Journaling File Systems}",
+     crossref = {DSN05},
+}
+
+@InProceedings{Zhang+03-YFS,
+       author = {Zhihui Zhang and Kanad Ghose},
+        title = "{yFS: A Journaling File System Design for Handling Large Data Sets with Reduced Seeking}",
+     crossref = {FAST03},
+}
+
+@InProceedings{Denehy+05-Resync,
+       author = {Timothy E. Denehy and Andrea C. Arpaci-Dusseau and Remzi H. Arpaci-Dusseau},
+        title = "{Journal-guided Resynchronization for Software RAID}",
+     crossref = {FAST05},
+}
+
+@InProceedings{Lee+13-UnionCacheJournalNVM,
+       author = {Eunji Lee and Hyokyung Bahn and Sam H. Noh},
+        title = "{Unioning of the Buffer Cache and Journaling Layers with Non-volatile Memory}",
+     crossref = {FAST13},
+}
+
+@InProceedings{Shen+14-JournalFree,
+       author = {Kai Shen and Stan Park and Meng Zhu},
+        title = "{Journaling of Journal Is (Almost) Free}",
+     crossref = {FAST14},
+}
+
+@InProceedings{Kim+14-JournalAnomaly,
+       author = {Wook-Hee Kim and Beomseok Nam and Dongil Park and Youjip Won},
+        title = "{Resolving Journaling of Journal Anomaly in Android I/O: Multi-Version B-tree with Lazy Split}",
+     crossref = {FAST14},
+}
+
+@InProceedings{Lee+12-ShortcutJFS,
+       author = {Eunji Lee and Seunghoon Yoo and Jee-Eun Jang and Hyokyung Bahn},
+        title = "{Shortcut-JFS: A write efficient journaling file system for phase change memory}",
+     crossref = {MSST12},
+}
+
+@InProceedings{Qiu+13-Nvmfs,
+       author = {Sheng Qiu and A. L. Narasimha Reddy},
+        title = "{NVMFS: A hybrid file system for improving random write in nand-flash SSD}",
+     crossref = {MSST13},
+}
+
+@InProceedings{Gal+05-TxFlashControllers,
+       author = {Eran Gal and Sivan Toledo},
+        title = "{A Transactional Flash File System for Microcontrollers}",
+     crossref = {ATC05},
+}
+
+@InProceedings{Josephson+10-DfsVirtualFlash,
+       author = {William K. Josephson and Lars A. Bongo and David Flynn and Fusion-io and Kai Li},
+        title = "{DFS: A File System for Virtualized Flash Storage}",
+     crossref = {FAST10},
+}
+
+@InProceedings{Lu+13-ReduceWriteAmp,
+       author = {Youyou Lu and Jiwu Shu and Weimin Zheng},
+        title = "{Extending the Lifetime of Flash-based Storage through Reducing Write Amplification from File Systems}",
+     crossref = {FAST13},
+}
+
+@InProceedings{Lu+14-ReconFS,
+       author = {Youyou Lu and Jiwu Shu and Wei Wang},
+        title = "{ReconFS: A Reconstructable File System on Flash Storage}",
+     crossref = {FAST14},
+}
+
+@InProceedings{Patil+11-Gigaplus,
+       author = {Swapnil Patil and Garth Gibson},
+        title = "{Scale and Concurrency of GIGA+: File System Directories with Millions of Files}",
+     crossref = {FAST11},
+}
+
+
+
+@InProceedings{Zhang+13-WarmCacheBonfire,
+       author = {Yiying Zhang and Gokul Soundararajan and Mark W. Storer and Lakshmi N. Bairavasundaram and Sethuraman Subbiah and Andrea C. Arpaci-Dusseau and Remzi H. Arpaci-Dusseau},
+        title = "{Warming Up Storage-Level Caches with Bonﬁre}",
+     crossref = {FAST13},
+}
+
+@InProceedings{Saxena+12-Flashtier,
+       author = {Mohit Saxena and Michael M. Swift and Yiying Zhang},
+        title = "{FlashTier: a lightweight, consistent and durable storage cache}",
+     crossref = {EUROSYS12},
+}
+
+@InProceedings{Koller+13-WriteHostFlash,
+       author = {Ricardo Koller and Leonardo Marmol and Raju Rangaswami and Swaminathan Sundararaman and Nisha Talagala and Ming Zhao},
+        title = "{Write Policies for Host-side Flash Caches}",
+     crossref = {FAST13},
+}
+
+@InProceedings{Byan+12-MercuryFlashCache,
+       author = {Steve Byan and James Lentini and Anshul Madan and Luis Pabon and Michael Condict and Jeff Kimmel and Steve Kleiman and Christopher Small and Mark Storer},
+        title = "{Mercury: Host-side Flash Caching for the Data Center}",
+     crossref = {MSST12},
+}
+
+
+
+
+@InProceedings{Wilkes+01-Rome,
+       author = {John Wilkes},
+        title = "{Traveling to Rome: QoS specifications for automated storage system management}",
+     crossref = {IWQOS01},
+}
+
+@InProceedings{Aghayev+15-Skylight,
+       author = {Abutalib Aghayev and Peter Desnoyers},
+        title = "{Skylight-—A Window on Shingled Disk Operation}",
+     crossref = {FAST15},
+}
+
+@InProceedings{Corbett+04-Rdp,
+       author = {Peter Corbett and Bob English and Atul Goel and Tomislav Grcanac and Steven Kleiman and James Leong and Sunitha Sankar},
+        title = "{Row-Diagonal Parity for Double Disk Failure Correction}",
+     crossref = {FAST04},
+}
+
+@InProceedings{Plank+09-EvalEcLib,
+       author = {James S. Plank and Jianqiang Luo and Catherine D. Schuman and Lihao Xu and Zooko Wilcox-O'Hearn},
+        title = "{A Performance Evaluation and Examination of Open-Source Erasure Coding Libraries for Storage}",
+     crossref = {FAST09},
+}
+
+@InProceedings{Ouyang+14-Sdf,
+       author = {Jian Ouyang and Shiding Lin and Song Jiang and Zhenyu Hou and Yong Wang and Yuanzheng Wang},
+        title = "{SDF: Software-Defined Flash for Web-Scale Internet Storage System}",
+     crossref = {ASPLOS14},
+}
+
+@InProceedings{Akel+11-OnyxPCM,
+       author = {Ameen Akel and Adrian M. Caulfield and Todor I. Mollov and Rajesh K. Gupta and Steven Swanson},
+        title = "{Onyx: A Protoype Phase Change Memory Storage Array}",
+     crossref = {HOTSTORAGE11},
+}
+
+@InProceedings{Cassuto+13-Memristor,
+       author = {Yuval Cassuto and Shahar Kvatinsky and Eitan Yaakobi},
+        title = "{Sneak-Path Constraints in Memristor Crossbar Arrays}",
+     crossref = {NVMW13},
+}
+
+@InProceedings{Caulfield+13-QuickSAN,
+       author = {Adrian M. Caulfield and Steven Swanson},
+        title = "{QuickSAN: a storage area network for fast, distributed, solid state disks}",
+     crossref = {ISCA13},
+}
+
+@InProceedings{Mishra+15-Leo,
+       author = {Nikita Mishra and Huazhe Zhang and John D. Lafferty and Henry Hoffmann},
+        title = "{A Statistical Approach for Minimizing Energy Under Performance Constraints}",
+     crossref = {ASPLOS15},
+}
+
+
+@InProceedings{Yadwadkar+14-Wrangler,
+       author = {Neeraja J. Yadwadkar and Ganesh Ananthanarayanan and Randy Katz},
+        title = "{Wrangler: Predictable and Faster Jobs using Fewer Resources}",
+     crossref = {SOCC14},
+}
+
+@InProceedings{Jellinek+14-CloudBilling,
+       author = {Robert Jellinek and Yan Zhai and Thomas Ristenpart and Michael Swift},
+        title = "{A Day Late and a Dollar Short: The Case for Research on Cloud Billing Systems}",
+     crossref = {HOTCLOUD14},
+}
+
+@InProceedings{Shetty+13-Vttrees,
+       author = {Pradeep Shetty and Richard Spillane and Ravikant Malpani and Binesh Andrews and Justin Seyster and Erez Zadok},
+        title = "{Building Workload-Independent Storage with VT-Trees}",
+     crossref = {FAST13},
+}
+
+@InProceedings{Peter+14-Arrakis,
+       author = {Simon Peter and Jialin Li and Irene Zhang and Dan R. K. Ports and Doug Woos and Arvind Krishnamurthy and Thomas Anderson and Timothy Roscoe},
+        title = "{Arrakis: The Operating System is the Control Plane}",
+     crossref = {OSDI14},
+}
+
+
+@Article{Torralba+08-TinyImages,
+       author = {Antonio Torralba and Rob Fergus and William T. Freeman},
+        title = "{80 million tiny images: a large dataset for non-parametric object and scene recognition}",
+      journal = "IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)",
+         year = "2008",
+        month = nov,
+       volume = "30",
+       number = "11",
+        pages = "1958 - 1970"
+}
+
+@Article{Wu+06-InitRecovFlash,
+  title  = "{The Design of efficient initialization and crash recovery for log-based file systems over flash memory}",
+  author = {Chin-Hsien Wu and Tei-Wei Kuo and Li-Pin Chang},
+ journal = "ACM Transactions on Storage (TOS)",
+   month = nov,
+    year = "2006",
+  volume = "2",
+  number = "4",
+  pages  = "449-467"
+}
+
+
+@Article{Josephson+10-DfsVirtFlash,
+  title  = "{DFS: A file system for virtualized flash storage}",
+  author = {William K. Josephson and Lars Ailo Bongo and Kai Li and David Flynn},
+ journal = "ACM Transactions on Storage (TOS)",
+   month = sep,
+    year = "2010",
+  volume = "6",
+  number = "3",
+}
+
+
+@Article{Choi+09-Jftl,
+  title  = "{JFTL: A flash translation layer based on a journal remapping for flash memory.}",
+  author = {Hyun-Jin Choi and Seung-Ho Lim and Kyu Ho Park},
+ journal = "ACM Transactions on Storage (TOS)",
+   month = jan,
+    year = "2009",
+  volume = "4",
+  number = "4",
+}
+
+@Article{Jiang+13-PrefetchLayout,
+  title  = "{A Prefetching Scheme Exploiting both Data Layout and Access History on Disk}",
+  author = {Song Jiang and Xiaoning Ding and Yuehai Xu and Kei Davis},
+ journal = "ACM Transactions on Storage (TOS)",
+   month = aug,
+    year = "2013",
+  volume = "9",
+  number = "10",
+}
+
+@Article{Kang+12-DataAbsLayer,
+  title  = "{Quality-aware data abstraction layer for collaborative 2-tier sensor network applications}",
+  author = {Woochul Kang and Sang H. Son and John A. Stankovic},
+ journal = "Real-Time Systems",
+   pages = "463-498",
+   month = jul,
+    year = "2012",
+  volume = "48",
+  number = "4",
+}
+
+@Article{Zhang+06-Avatar,
+  title  = "{Storage performance virtualization via throughput and latency control}",
+  author = {Jianyong Zhang and Anand Sivasubramaniam and Qian Wang and Alma Riska and Erik Riedel},
+ journal = "ACM Transactions on Storage (TOS)",
+   pages = "283-308",
+   month = aug,
+    year = "2006",
+  volume = "2",
+  number = "3",
+}
+
+@Article{Karlsson+05-Triage,
+  title  = "{Triage: Performance Differentiation for Storage Systems Using Adaptive Control}",
+  author = {Magnus Karlsson and Christos Karamanolis and Xiaoyun Zhu},
+ journal = "ACM Transactions on Storage (TOS)",
+   pages = "457-480",
+   month = nov,
+    year = "2005",
+  volume = "1",
+  number = "4",
+}
+
+
+
+
+
+
+
+
+@InProceedings{Fan+13-Memc3,
+       author = {Bin Fan and David G. Andersen and Michael Kaminsky},
+        title = "{MemC3: Compact and Concurrent MemCache with Dumber Caching and Smarter Hashing}",
+     crossref = {NSDI13},
+}
+
+
+@InProceedings{Wang+08-Gadara,
+       author = {Yin Wang and Terence Kelly and Manjunath Kudlur and Stephane Lafortune and Scott Mahlke},
+        title = "{Gadara: Dynamic Deadlock Avoidance for Multithreaded Programs}",
+     crossref = {OSDI08},
+}
+
+
+
+@InProceedings{Thereska+13-IOFlow, 
+    author = {Eno Thereska and Hitesh Ballani and Greg O'Shea and Thomas Karagiannis and Antony Rowstron and Tom Talpey and Richard Black and Timothy Zhu},
+    title = "{IOFlow: A Software-Defined Storage Architecture}",
+    crossref = {SOSP13}, 
+}
+
+
+@InProceedings{Gulati+10-MClock, 
+       author = {Ajay Gulati and Arif Merchant and Peter J. Varman},
+        title = "{mClock: Handling Throughput Variability for Hypervisor IO Scheduling}",
+     crossref = {OSDI10}, 
+}
+
+
+@InProceedings{Herodotou+11-Noone,
+       author = {Herodotos Herodotou and Fei Dong and Shivnath Babu},
+        title = "{No One Size Fits All: Automatic Cluster Sizing for Data-intensive Analytics}",
+     crossref = {SOCC11},
+}
+
+@InProceedings{Fryer+12-Recon,
+author =        "Daniel Fryer and Kuei Sun and Rahat Mahmood and TingHao Cheng and Shaun Benjamin and Ashvin Goel and Angela Demke Brown",
+title = "Recon: Verifying File System Consistency at Runtime",
+crossref = {FAST12},
+}
+
+
+@InProceedings{Wang+08-HangAnalysis,
+       author = {Xi Wang and Zhenyu Guo and Xuezheng Liu and Zhilei Xu and Haoxiang Lin and Xiaoge Wang and Zheng Zhang},
+       author = {Ariel Rabkin and Randy Katz},
+        title = "{Precomputing Possible Configuration Error Diagnoses}",
+     crossref = {ASE11},
+}
+
+
+@InProceedings{Rabkin+11-ConfigErrorDiagnose,
+       author = {Ariel Rabkin and Randy Katz},
+        title = "{Precomputing Possible Configuration Error Diagnoses}",
+     crossref = {ASE11},
+}
+
+
+@InProceedings{Rumble+14-LSFMem,
+       author = {Stephen M. Rumble and Ankita Kejriwal and John Ousterhout},
+        title = "{Log-structured Memory for DRAM-based Storage}",
+     crossref = {FAST14},
+}
+
+
+@InProceedings{Abouzeid+09-Hadoopdb, 
+       author = {Azza Abouzeid and Kamil Bajda-Pawlikowski and Daniel Abadi and Avi Silberschatz and Alexander Rasin},
+        title = "{HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads}",
+     crossref = {VLDB09}, 
+}
+
+@InProceedings{Chang+14-Hawq, 
+       author = {Lei Chang and Zhanwei Wang and Tao Ma and Lirong Jian and Lili Ma and Alon Goldshuv and Luke Lonergan and Jeffrey Cohen and Caleb Welton and Gavin Sherry and Milind Bhandarkar},
+        title = "{HAWQ: A Massively Parallel Processing SQL Engine in Hadoop}",
+     crossref = {SIGMOD14}, 
+}
+
+@InProceedings{Kornacker+15-Impala, 
+       author = {Marcel Kornacker and Alexander Behm and Victor Bittorf and Taras Bobrovytsky and Casey Ching and Alan Choi and Justin Erickson and Martin Grund and Daniel Hecht and Matthew Jacobs and Ishaan Joshi and Lenni Kuff and Dileep Kumar and Alex Leblang and Nong Li and Ippokratis Pandis and Henry Robinson and David Rorke and Silvius Rus and John Russell and Dimitris Tsirogiannis and Skye Wanderman-Milne and Michael Yoder},
+        title = "{Impala: a modern, open-source sql engine for hadoop}",
+     crossref = {CIDR15}, 
+}
+
+@InProceedings{Melnik+10-DremelInteractive, 
+       author = {Sergey Melnik and Andrey Gubarev and Jing Jing Long and Geoffrey Romer and Shiva Shivakumar and Matt Tolton and Theo Vassilakis },
+        title = "{Dremel: Interactive Analysis of Web-Scale Datasets}",
+     crossref = {VLDB10}, 
+}
+
+@InProceedings{DeWitt+13-Polybase, 
+       author = {David J. DeWitt and Alan Halverson and Rimma Nehme and Srinath Shankar and Josep Aguilar-Saborit and Artin Avanes and Miro Flasza and Jim Gramling},
+        title = "{Split query processing in Polybase}",
+     crossref = {SIGMOD13}, 
+}
+
+@InProceedings{Su+12-Oraclehadoop, 
+       author = {Xueyuan Su and Garret Swart},
+        title = "{Oracle In-Database Hadoop: When MapReduce Meets RDBMS}",
+     crossref = {SIGMOD12}, 
+}
+
+@InProceedings{Özcan+11-Db2hadoop, 
+       author = {Fatma Özcan and David Hoa and Kevin S. Beyer and Andrey Balmin and Chuan Jie Liu and Yu Li},
+        title = "{Emerging trends in the enterprise data analytics: connecting Hadoop and DB2 warehouse}",
+     crossref = {SIGMOD11}, 
+}
+
+@InProceedings{Gankidi+14-Splitindex, 
+       author = {Vinitha Gankidi and Nikhil Teletia and Jignesh Patel and Alan Halverson and David J. DeWitt},
+        title = "{Indexing HDFS Data in PDW: Splitting the data from the index}",
+     crossref = {VLDB14}, 
+}
+
+@InProceedings{Eltabakh+13-E3, 
+       author = {Mohamed Y. Eltabakh and Fatma Özcan and Yannis Sismanis and Peter J. Haas and Hamid Pirahesh and Jan Vondrak},
+        title = "{Eagle-eyed elephant: split-oriented indexing in Hadoop}",
+     crossref = {EDBT13}, 
+}
+
+@InProceedings{Dittrich+10-Hadoop++, 
+       author = {Jens Dittrich and Jorge Quiane and Alekh Jindal and Yagiz Kargin and Vinay Setty and Jörg Schad},
+        title = "{p++: Making a Yellow Elephant Run Like a Cheetah (Without It Even Noticing)}",
+     crossref = {VLDB10}, 
+}
+
+@InProceedings{Dittrich+12-Hail, 
+       author = {Jens Dittrich and Jorge-Arnulfo Quiané-Ruiz and Stefan Richter and Stefan Schuh and Alekh Jindal and Jörg Schad},
+        title = "{Only Aggressive Elephants are Fast Elephants}",
+     crossref = {VLDB12}, 
+}
+
+
+@InProceedings{Li+14-Reprolite,
+       author = {Kaituo Li and Pallavi Joshi and Aarti Gupta },
+        title = "{ReproLite : A Lightweight Tool to Quickly Reproduce Hard System Bug}",
+     crossref = {SOCC14},
+}
+
+@InProceedings{Yuan+14-SimpleTesting, 
        author = {Ding Yuan and Yu Luo and Xin Zhuang and Guilherme Renna Rodrigues and Xu Zhao and Yongle Zhang and Pranay U. Jain and Michael Stumm},
-        title = "{Simple Testing Can Prevent Most Critical Failures: An Analysis of Production Failures in Distributed Data-intensive Systems}",
+        title = "{Simple Testing Can Prevent Most Critical Failures: An Analysis of Production Failures in Distributed Data-Intensive Systems}",
      crossref = {OSDI14}, 
 }
 
@@ -264,7 +1074,7 @@
 
 @InProceedings{Flanagan+05-Dpor, 
        author = {Cormac Flanagan and Patrice Godefroid},
-        title = "{Dynamic partial-order reduction for model checking software}",
+        title = "{Dynamic Partial-Order Reduction for Model Checking Software}",
      crossref = {POPL05}, 
 }
 
@@ -379,7 +1189,7 @@
 
 
 @InProceedings{Hunt+13-DDOS, 
-       author = {Nicholas Hunt and Tom Bergan and Luis Ceze and Steven Gribble},
+       author = {Nicholas Hunt and Tom Bergan and Luis Ceze and Steven D. Gribble},
         title = "{DDOS: Taming Nondeterminism in Distributed Systems}",
      crossref = {ASPLOS13}, 
 }
@@ -429,10 +1239,11 @@
 
 
 
-@InProceedings{Terry+13-PileusConsistencySLA, 
+@InProceedings{Terry+13-Pileus,
        author = {Douglas B. Terry and Vijayan Prabhakaran and Ramakrishna Kotla and Mahesh Balakrishnan and Marcos K. Aguilera and Hussam Abu-Libdeh},
         title = "{Consistency-Based Service Level Agreements for Cloud Storage}",
      crossref = {SOSP13}, 
+  howpublished = {Pileus},
 }
 
 @InProceedings{Kraska+13-MDCC, 
@@ -523,7 +1334,7 @@
 @Misc{CRA-W-Sponsors,
   author = {CRA-W},
   title = "{The Computer Research Association's Committee on the Status of Women in Computing Research (CRA-W): Getting More Involved with CRA-W}",
-  howpublished = "\url{http://http://cra-w.org/about-cra-w/sponsors}", 
+  howpublished = "\url{http://cra-w.org/about-cra-w/sponsors}", 
 }
 
 
@@ -577,12 +1388,6 @@
   year = {2012}, 
 }
 
-@Misc{Linthicum13-CostOutages, 
-  title = "{Calculating the true cost of cloud outages}",
-  author = {David Linthicum},
-  howpublished = "\url{http://www.infoworld.com}", 
-  year = {2013}, 
-}
 
 @InProceedings{Laadan+11-RacePro,
        author = {Oren Laadan and Nicolas Viennot and Chia-che Tsai and Chris Blinn and Junfeng Yang and Jason Nieh},
@@ -1026,14 +1831,18 @@ howpublished = "\url{http://techblog.netflix.com}",
 
 
 
-@Article{DeanBarroso13-TailAtScale, 
-       author = {Jeffrey Dean and Luiz Andre Barroso},
-        title = "{Tail at Scale}",
+@Article{Dean+13-TailAtScale, 
+       author = {Jeffrey Dean and Luiz André Barroso},
+        title = "{The Tail at Scale}",
       journal = cacm,
         year = 2013,
+	 volume = {56},
+    number = {2},
+    month = {February},
+
 }
 
-@InProceedings{Ananthanarayanan+13-DollyClones,
+@InProceedings{Ananthanarayanan+13-Dolly,
        author = {Ganesh Ananthanarayanan and Ali Ghodsi and Scott Shenker and Ion Stoica},
         title = "{Effective Straggler Mitigation: Attack of the Clones}",
      crossref = {NSDI13}, 
@@ -1151,10 +1960,10 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 }
 
 @InProceedings{Liu+11-ModelCODES,
-	author = {Ning Liu and Christopher Carothers and Jason Cope and Philip Carns and Robert B. Ross and Adam Crume and Carlos Maltzahn},
-	title = "{Modeling a Leadership-scale Storage System}",
-	booktitle = "Proceedings of the 9th International Conference on Parallel Processing and Applied Mathematics 2011 (PPAM)",
-	year = "2011",
+  author = {Ning Liu and Christopher Carothers and Jason Cope and Philip Carns and Robert B. Ross and Adam Crume and Carlos Maltzahn},
+  title = "{Modeling a Leadership-scale Storage System}",
+  booktitle = "Proceedings of the 9th International Conference on Parallel Processing and Applied Mathematics 2011 (PPAM)",
+  year = "2011",
 }
 
 @InProceedings{Mubarak+12-Dragonfly,
@@ -1228,7 +2037,7 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 }
 
 
-@InProceedings{Boyd-Wickizer+10-LinuxScalability, 
+@InProceedings{Boyd-Wickizer+10-MosBench, 
        author = {Silas Boyd-Wickizer and Austin T. Clements and Yandong Mao and Aleksey Pesterev and M. Frans Kaashoek and Robert Morris and Nickolai Zeldovich},
         title = "{An Analysis of Linux Scalability to Many Cores}",
      crossref = {OSDI10}, 
@@ -1305,14 +2114,14 @@ note="\url{http://tinyurl.com/9wmq4cz}",
   year = {2011}, 
 }
 
-@InProceedings{Zaharia+10-DelayScheduling, 
+@InProceedings{Zaharia+10-DelaySched, 
        author = {Matei Zaharia and Dhruba Borthakur and Joydeep Sen Sarma and Khaled Elmeleegy and Scott Shenker and Ion Stoica},
         title = "{Delay scheduling: a simple technique for achieving locality and fairness in cluster scheduling}",
      crossref = {EUROSYS10}, 
 }
 
 
-@InProceedings{Ananthanarayanan+10-MantriOutlier, 
+@InProceedings{Ananthanarayanan+10-Mantri, 
        author = {Ganesh Ananthanarayanan and Srikanth Kandula and Albert Greenberg and Ion Stoica and Yi Lu and Bikas Saha and Edward Harris},
         title = "{Reining in the Outliers in Map-Reduce Clusters using Mantri}",
      crossref = {OSDI10}, 
@@ -1329,7 +2138,7 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 
 
 @InProceedings{Baumann+09-Barrelfish, 
-       author = {Andrew Baumann and Paul Barham and Pierre-Evariste Dagand and Tim Harris and Rebecca Isaacs and Simon Peter and Timothy Roscoe and Adrian Schupback and Akhilesh Singhania},
+       author = {Andrew Baumann and Paul Barham and Pierre-Evariste Dagand and Tim Harris and Rebecca Isaacs and Simon Peter and Timothy Roscoe and Adrian Schupbach and Akhilesh Singhania},
         title = "{The Multikernel: A New OS Architecture for Scalable Multicore Systems}",
      crossref = {SOSP09}, 
 }
@@ -1359,6 +2168,31 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 @Misc{FateGithub,
   howpublished= "\url{https://github.com/pallavij/PCheck}",
 }
+
+@Misc{FdWeb,
+  howpublished= "\url{http://ucare.cs.uchicago.edu/projects/fateDestiniPrefail}",
+}
+
+
+@Misc{CBSWeb,
+  howpublished = "\url{http://ucare.cs.uchicago.edu/projects/cbs/}",
+}
+
+@Misc{SAMCWeb,
+  howpublished = "\url{http://ucare.cs.uchicago.edu/projects/samc/}",
+}
+
+@Misc{UCAREWeb,
+  howpublished = "\url{http://ucare.cs.uchicago.edu}",
+}
+
+
+
+@Misc{PreFailWeb,
+  howpublished= "\url{http://ucare.cs.uchicago.edu/projects/fateDestiniPrefail}",
+}
+
+
 
 
 @Misc{USENIXCFDR,
@@ -1660,13 +2494,13 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 }
 
 @InProceedings{Jiang+05-Dulo, 
-       author = {Song Jiang and Los Alamos National Laboratory and Xiaoning Ding and Feng Chen and Enhua Tan and Xiaodong Zhang and Ohio State University},
+       author = {Song Jiang and Xiaoning Ding and Feng Chen and Enhua Tan and Xiaodong Zhang},
         title = "{DULO: An Effective Buffer Cache Management Scheme to Exploit Both Temporal and Spatial Localities}",
      crossref = {FAST05}, 
 }
 
 @InProceedings{Bhadkamkar+09-BORG, 
-       author = {Medha Bhadkamkar and Jorge Guerra and Luis Useche and Sam Burnett and Jason Liptak and Syracuse University and Raju Rangaswami and Vagelis Hristidis},
+       author = {Medha Bhadkamkar and Jorge Guerra and Luis Useche and Sam Burnett and Jason Liptak and Raju Rangaswami and Vagelis Hristidis},
         title = "{BORG: Block-reORGanization for Self-optimizing Storage Systems}",
      crossref = {FAST09}, 
 }
@@ -1678,12 +2512,12 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 }
 
 @InProceedings{Shamma+11-Capo, 
-       author = {Mohammad Shamma and Dutch T. Meyer and Jake Wires and Maria Ivanova and Norman C. Hutchinson and Andrew Warfield and University of British Columbia},
+       author = {Mohammad Shamma and Dutch T. Meyer and Jake Wires and Maria Ivanova and Norman C. Hutchinson and Andrew Warfield},
         title = "{Capo: Recapitulating Storage for Virtual Desktops}",
      crossref = {FAST11}, 
 }
 
-@InProceedings{Schindler+11-Proximalio, 
+@InProceedings{Schindler+11-ProximalIO, 
        author = {Jiri Schindler and Sandip Shete and Keith A. Smith.},
         title = "{Improving Throughput for Small Disk Requests with Proximal I/O}",
      crossref = {FAST11}, 
@@ -1771,7 +2605,7 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 }
 
 @InProceedings{Ananthanarayanan+12-Pacman, 
-       author = {Ganesh Ananthanarayanan and Ali Ghodsi and Andrew Wang and Dhruba Borthakur and Facebook and Srikanth Kandula and Scott Shenker and Ion Stoica},
+       author = {Ganesh Ananthanarayanan and Ali Ghodsi and Andrew Wang and Dhruba Borthakur and Srikanth Kandula and Scott Shenker and Ion Stoica},
         title = "{PACMan: Coordinated Memory Caching for Parallel Jobs}",
      crossref = {NSDI12}, 
 }
@@ -1919,7 +2753,7 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 }
 
 @InProceedings{Calder+11-Azure, 
-       author = {B. Calder and J. Wang and A. Ogus and N. Nilakantan and A. Skjolsvold and S. McKelvie and Y. Xu and S. Srivastav and J. Wu and H. Simitci and J. Haridas and C. Uddaraju and H. Khatri and A. Edwards and V. Bedekar and S. Mainali and R. Abbasi and A. Agarwal and M. Fahim ul Haq and M. Ikram ul Haq and D. Bhardwaj and S. Dayanand and A. Adusumilli and M. McNett and S. Sankaran and K. Manivannan and L. Rigas},
+        author = {Brad Calder and Ju Wang and Aaron Ogus and Niranjan Nilakantan and Arild Skjolsvold and Sam McKelvie and Yikang Xu and Shashwat Srivastav and Jiesheng Wu and Huseyin Simitci and Jaidev Haridas and Chakravarthy Uddaraju and Hemal Khatri and Andrew Edwards and Vaman Bedekar and Shane Mainali and Rafay Abbas and Arpit Agarwal and Mian Fahim ul Haq and Muhammad Ikram ul Haq and Deepali Bhardwaj and Sowmya Dayanand and Anitha Adusumilli and Marvin McNett and Sriram Sankaran and Kavitha Manivannan and Leonidas Rigas},
         title = "{Windows Azure Storage: A Highly Available Cloud Storage Service with Strong Consistency}",
      crossref = {SOSP11}, 
 }
@@ -1931,7 +2765,7 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 }
 
 @InProceedings{Glendenning+11-Scatter, 
-       author = {L. Glendenning and I. Beschastnikh and A. Krishnamurthy and T. Anderson},
+	author = {Lisa Glendenning and Ivan Beschastnikh and Arvind Krishnamurthy and Thomas Anderson},
         title = "{Scalable Consistency in Scatter}",
      crossref = {SOSP11}, 
 }
@@ -2119,7 +2953,7 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 @Misc{Harris10-BadVibrations,
   author = {Robin Harris},
   title = "{Bad, bad, bad vibrations}",
-  howpublished = "\url{http://www.zdnet.com}",
+  howpublished = "\url{http://www.zdnet.com/article/bad-bad-bad-vibrations/}",
  year = {2010},
 }
 
@@ -2127,9 +2961,11 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 @Misc{Feldman10-KillingVibration,
   author = {Michael Feldman},
   title = "{Startup Takes Aim at Performance-Killing Vibration in Datacenter}",
-  howpublished = "\url{http://www.hpcwire.com}",
+  howpublished = "\url{http://www.hpcwire.com/}{{\tt 2010/01/19/startup \_takes\_aim\_at\_performance-killing \_vibration\_in\_datacenter/}}",
   year = {2010},
 }
+
+%http://www.hpcwire.com/2010/01/19/startup_takes_aim_at_performance-killing_vibration_in_datacenter/
 
 
 
@@ -2142,9 +2978,10 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 @Misc{AnandTech11-6SeriesBug,
   author = {Anand Lal Shimpi},
   title = "{Intel Discovers Bug in 6-Series Chipset: Our Analysis}",
-  howpublished = "\url{http://www.anandtech.com}",
+  howpublished = "\url{http://www.anandtech.com/}{{\tt show/4142/intel-discovers-bug-in-6series -chipset-begins-recall}}",
   year = {2011},
 }
+#http://goo.gl/IAFzf2
 
 
 @Misc{SMARTWiki,
@@ -2154,7 +2991,7 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 
 
 
-@InProceedings{Grupp+09-CharacterizeFlash,
+@InProceedings{Grupp+09-FlashAnomalies,
   author = {Laura M. Grupp and Adrian M. Caulfield and Joel Coburn and Steven Swanson and Eitan Yaakobi and Paul H. Siegel and Jack K. Wolf},
   title = "{Characterizing flash memory: anomalies, observations, and applications}",
   crossref = "MICRO09",
@@ -2198,14 +3035,15 @@ note="\url{http://tinyurl.com/9wmq4cz}",
 
 
 
-@Misc{VMware-HighDiskLatency,
+@Misc{VMware11-HighDiskLatency,
   title = "{High Disk Latency}",
-  howpublished = "\url{http://communities.vmware.com}",
+  howpublished = "\url{http://communities.vmware.com/message/1800544}",
   year = {2011},
 }
 
 
-%  howpublished = "\url{http://communities.vmware.com/message/1800544}",
+
+%  howpublished = "\url{http://communities.vmware.com}",
 
 
 @Misc{Microsoft-ChecksumErrors,
@@ -2686,8 +3524,8 @@ hierarchies in chip multiprocessors}",
 
 
 @InProceedings{Reynolds+06-Pip, 
-    author = {Patrick Reynolds and Janet L. Wiener and Jeffrey C. Mogul and Mehul A. Shah and Charles Killian and Amin Vahdat},
-     title = "{Pip: Detecting the unexpected in distributed systems}",
+    author = {Patrick Reynolds and Charles Killian and Janet L. Wiener and Jeffrey C. Mogul and Mehul A. Shah and Amin Vahdat},
+     title = "{Pip: Detecting the Unexpected in Distributed Systems}",
   crossref = {NSDI06}, 
 }
 
@@ -2742,7 +3580,7 @@ hierarchies in chip multiprocessors}",
 
 
 @InProceedings{Cooper+10-YCSB, 
-    author = {Brian Cooper and Adam Silberstein and Erwin Tam and Raghu Ramakrishnan and Russell Sears},
+    author = {Brian F. Cooper and Adam Silberstein and Erwin Tam and Raghu Ramakrishnan and Russell Sears},
      title = "{Benchmarking Cloud Serving Systems with YCSB}",
   crossref = {SOCC10}, 
 }
@@ -2805,13 +3643,13 @@ howpublished = "\url{http://research.yahoo.com/node/1884}",
 }
 
 @Misc{BloomLang,
-title = "{Bloom Prog. Lang.}",
-howpublished = "\url{http://www.bloom-lang.net}",
+  title = "{Bloom Prog. Lang.}",
+  howpublished = "\url{http://www.bloom-lang.net/}",
 }
 
 @Misc{AmazonEC2Web,
-title = "{Amazon EC2}",
-howpublished = "\url{http://aws.amazon.com/ec2}",
+  title = "{Amazon EC2}",
+  howpublished = "\url{http://aws.amazon.com/ec2}",
 }
 
 @Misc{AmazonAWSWeb,
@@ -2833,8 +3671,8 @@ howpublished = "\url{http://www.eucalyptus.com}",
 }
 
 @Misc{HBaseWeb,
-title = "{Apache HBase Project}",
-howpublished = "\url{http://hadoop.apache.org/hbase}",
+title = "{Apache HBase}",
+howpublished = "\url{http://hbase.apache.org}",
 }
 
 @Misc{HDFSRAIDWeb,
@@ -2843,21 +3681,24 @@ howpublished = "\url{http://wiki.apache.org/hadoop/HDFS-RAID}",
 }
 
 @Misc{HadoopWeb,
-title = "{Apache Hadoop Project}",
+title = "{Apache Hadoop}",
 howpublished = "\url{http://hadoop.apache.org}",
 }
 
 @Misc{ZooKeeperWeb,
-title = "{Apache ZooKeeper Project}",
+title = "{Apache ZooKeeper}",
 howpublished = "\url{http://zookeeper.apache.org}",
 }
 
 @Misc{CassandraWeb,
-title = "{Apache Cassandra Project}",
+title = "{Apache Cassandra}",
 howpublished = "\url{http://cassandra.apache.org}",
 }
 
-
+@Misc{FlumeWeb,
+title = "{Apache Flume}",
+howpublished = "\url{http://flume.apache.org/}",
+}
 
 @InCollection{Avizienis95-Nversion,
         title = "{The Methodology of N-Version Programming}",
@@ -2878,7 +3719,7 @@ howpublished = "\url{http://cassandra.apache.org}",
 
 @InProceedings{Yabandeh+09-CrystalBall,
   author = {Maysam Yabandeh and Nikola Knezevic and Dejan Kostic and Viktor Kuncak},
-  title = "{CrystalBall: Predicting and Preventing Inconsistencies in Deployed. Distributed Systems}",
+  title = "{CrystalBall: Predicting and Preventing Inconsistencies in Deployed Distributed Systems}",
   crossref = "NSDI09",
 }
 
@@ -2949,8 +3790,8 @@ howpublished = "\url{www.stanford.edu/~ouster/CS349W/index.html}",
 
 
 @InProceedings{DeCandia+07-Dynamo,
-  title = "{Dynamo: Amazon's Highly Available Key-Value Store}",
-  author = {Giuseppe DeCandia and Deniz Hastorun and Madan Jampani and Gunavardhan Kakulapati and Avinash Lakshman and Alex Pilchin and Swami Sivasubramanian and Peter Vosshall and Werner Vogels},
+  title = "{Dynamo: Amazon's Highly Available Key-value Store}",
+  author = {Giuseppe DeCandia and Deniz Hastorun and Madan Jampani and Gunavardhan Kakulapati and Avinash Lakshman and Alex Pilchin and Swaminathan Sivasubramanian and Peter Vosshall and Werner Vogels},
   crossref = "SOSP07",
 }
 
@@ -2976,7 +3817,7 @@ howpublished = "\url{www.stanford.edu/~ouster/CS349W/index.html}",
 
 
 @InProceedings{Burrows06-Chubby,
- title = "{The Chubby lock service for loosely-coupled distributed systems Export}",
+ title = "{The Chubby lock service for loosely-coupled distributed systems}",
   author = {Mike Burrows},
  crossref = "OSDI06",
 }
@@ -3024,93 +3865,7 @@ howpublished = "\url{www.stanford.edu/~ouster/CS349W/index.html}",
 }
 
 
-@Misc{GibsonCMUPC13,
-  title = "{Personal Communication from Garth Gibson of CMU}",
-  year =         {2013},
-}
 
-
-@Misc{HarmsArgonnePC13,
-  title = "{Personal Communication from Kevin Harms of Argonne National Laboratory}",
-  year =         {2013},
-}
-
-@Misc{KasickCMUPC13,
-  title = "{Personal Communication from Mike Kasick of CMU}",
-  year = {2013},
-}
-
-
-
-@Misc{BaptistCleversafePC13,
-  title = "{Personal Communication from Andrew Baptist of Cleversafe}",
-  year =         {2013},
-}
-
-
-@Misc{JoshiNECPC13,
-  title = "{Personal Communication from Pallavi Joshi of NEC}",
-  year =         {2013},
-}
-
-@Misc{BorthakurFacebookPC11,
-  title = "{Personal Communication from Dhruba Borthakur of Facebook}",
-  year =         {2011},
-}
-
-@Misc{BorthakurFacebookPC,
-  title = "{Personal Communication from Dhruba Borthakur of Facebook}",
-}
-
-@Misc{ClouderaPC,
-  title = "{Personal Communication with Engineers at Cloudera}",
-}
-
-@Misc{ModistPC,
-  title = "{Personal Communication with \textsc{Modist} Authors}",
-}
-
-
-
-@Misc{RobbinsOpscodePC11,
-  title = "{Personal Communication from Jesse Robbins of Opscode, previously
-Availability Program Manager at Amazon}",
-  year =         {2011},
-}
-
-@Misc{RobbinsOpscodePC,
-  title = "{Personal Communication from Jesse Robbins of Opscode (previously
-Availability Program Manager at Amazon)}",
-}
-
-%  title = "{Personal Communication from Jesse Robbins of Opscode}
-
-
-
-
-@Misc{SchindlerNetAppPC12,
-  title = "{Personal Communication from Jiri Schindler of NetApp}",
-  year =         {2012},
-}
-
-
-@Misc{SchindlerNetAppPC,
-  title = "{Personal Communication from Jiri Schindler of NetApp}",
-}
-
-
-
-@Misc{PasupathyNetAppPC,
-  author =       "Shankar Pasupathy",
-  howpublished = "{\em Personal Communication from Shankar Pasupathy of NetApp}",
-  year =         {2009},
-}
-
-@Misc{DeanGooglePC,
-  author =       "Jeff Dean",
-  howpublished = "{\em Personal Communication from Jeff Dean of Google}",
-  year =         {2009},
-}
 
 
 @Misc{Sundaram06-PrivateLives-local,
@@ -3486,7 +4241,7 @@ Availability Program Manager at Amazon)}",
 }
 
 @InProceedings{Killian+07-LifeDeathMaceMC,
-  author = "Charles Killian and James Anderson and Ranjit Jhala and Amin Vahdat",
+  author = "Charles Killian and James W. Anderson and Ranjit Jhala and Amin Vahdat",
   title = "{Life, Death, and the Critical Transition: Finding Liveness Bugs in Systems Code}", 
   howpublished = "{MaceMC}",
   crossref = "NSDI07",
@@ -3518,7 +4273,7 @@ Availability Program Manager at Amazon)}",
  crossref = {OSDI06},
 }
 
-@InProceedings{Zaharia+08-HeterogeneousMR,
+@InProceedings{Zaharia+08-LATE,
     title = "{Improving MapReduce Performance in Heterogeneous Environments}",
    author = {Matei Zaharia and Andy Konwinski and Anthony D. Joseph and Randy Katz and Ion Stoica},
  crossref = {OSDI08},
@@ -4044,7 +4799,7 @@ gging}",
 @InProceedings{Isard+09-Quincy,
     title = "{Quincy: Fair Scheduling for Distributed Computing Clusters}",
    author = {Michael Isard and Vijayan Prabhakaran and Jon Currey and Udi Wieder and Kunal Talwar and Andrew Goldberg},
- crossref = "{SOSP09}",
+ crossref = {SOSP09},
 }
 
 
@@ -4103,7 +4858,7 @@ gging}",
 }
 
 @Article{Loo+09-CACM,
-	author = {Loo, Boon Thau and Condie, Tyson and Garofalakis, Minos and Gay, David E. and Hellerstein, Joseph M. and Maniatis, Petros and Ramakrishnan, Raghu and Roscoe, Timothy and Stoica, Ion},
+  author = {Loo, Boon Thau and Condie, Tyson and Garofalakis, Minos and Gay, David E. and Hellerstein, Joseph M. and Maniatis, Petros and Ramakrishnan, Raghu and Roscoe, Timothy and Stoica, Ion},
  title = "{Declarative networking}",
  journal = {Commun. ACM},
  volume = {52},
@@ -4436,13 +5191,13 @@ gging}",
 }
 
 @Article{Monash09-Greenplum,
-	author = {Curt Monash},
-	title = "{eBay's Two Enormous Data Warehouses}",
-	journal = "DBMS2 (weblog)",
-	year = 2009,
-	month = apr,
-	day = 30,
-	note = "\url{http://www.dbms2.com/2009/04/30/ebays-two-enormous-data-warehouses}"
+  author = {Curt Monash},
+  title = "{eBay's Two Enormous Data Warehouses}",
+  journal = "DBMS2 (weblog)",
+  year = 2009,
+  month = apr,
+  day = 30,
+  note = "\url{http://www.dbms2.com/2009/04/30/ebays-two-enormous-data-warehouses}"
 }
 
 @Article{informixonline,
@@ -4520,8 +5275,8 @@ gging}",
 
 
 @InProceedings{Stoica+01-Chord,
-    author = {Ion Stoica and Robert Morris and David Liben-Nowell and David R. Karger and M. Frans Kaashoek and Frank Dabek and Hari Balakrishnan},
-    title = "{Chord: A Scalable Peer-to-Peer Lookup Protocol for Internet Applications}",
+    author = {Ion Stoica and Robert Morris and David Karger and M. Frans Kaashoek and Hari Balakrishnan},
+    title = "{Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications}",
     crossref = "SIGCOMM01",
 }
 
@@ -4591,10 +5346,10 @@ gging}",
 }
 
 
-@InProceedings{Agarwal+08-SSD,
-  author = {Nitin Agarwal and Vijayan Prabhakaran and Ted Wobber and John D. Davis and Mark Manasse and Rina Panigrahy},
+@InProceedings{Agrawal+08-DesignTradeoffsSSD,
+  author = {Nitin Agrawal and Vijayan Prabhakaran and Ted Wobber and John D. Davis and Mark Manasse and Rina Panigrahy},
   title = "{Design Tradeoffs for SSD Performance}",
-  crossref = "USENIX08",
+  crossref = "ATC08",
 }
 
 @Misc{Vmfs09,
@@ -4661,7 +5416,7 @@ gging}",
 
 @InProceedings{Chang+06-BigTable,
   title = "{Bigtable: A Distributed Storage System for Structured Data}",
-  author = {Fay Chang and Jeffrey Dean and Sanjay Ghemawat and Wilson C. Hsieh and Deborah A. Wallach and Michael Burrows and Tushar Chandra and Andrew Fikes and Robert Gruber}, 
+  author = {Fay Chang and Jeffrey Dean and Sanjay Ghemawat and Wilson C. Hsieh and Deborah A. Wallach and Michael Burrows and Tushar Chandra and Andrew Fikes and Robert E. Gruber}, 
   crossref = "OSDI06",
 }
 
@@ -4686,21 +5441,23 @@ gging}",
   year = "2008",
 }
 
-@Misc{Kennedy09-haystack,
-  author = "Niall Kennedy",
-  title = "facebook's photo storage rewrite",
-  howpublished = "http://www.niallkennedy.com/blog/2009/04/facebook-haystack.html",
-  month = apr,
-  year = 2009,
+@InProceedings{Beaver+10-Haystack,
+       author = {Doug Beaver and Sanjeev Kumar and Harry C. Li and Jason Sobel and Peter Vajgel},
+        title = "{Finding a Needle in Haystack: Facebook’s Photo Storage}",
+     crossref = {OSDI10},
 }
 
-@Misc{Sobel08-Haystack,
-  title = "Needle in a Haystack: Efficient Storage of Billions of Photos",
-  author = "Jason Sobel",
-  howpublished = "http://www.flowgram.com/p/2qi3k8eicrfgkv",
-  month = jun,
-  year = 2008,
+
+
+
+
+
+@InProceedings{Peter+14-Arrakis, 
+       author = {Simon Peter and Jialin Li and Irene Zhang and Dan R. K. Ports and Doug Woos and Arvind Krishnamurthy and Thomas Anderson and Timothy Roscoe},
+        title = "{Arrakis: The Operating System is the Control Plane}",
+     crossref = {OSDI14}, 
 }
+
 
 
 @InProceedings{Zhu+08-DataDomain,
@@ -4709,7 +5466,7 @@ gging}",
   crossref = "FAST08",
 }
 
-@InProceedings{Narayanan+09-SSD,
+@InProceedings{Narayanan+09-MigrateServerSSD,
   title = "{Migrating server storage to SSDs: analysis of tradeoffs}",
   author = "Dushyanth Narayanan and Eno Thereska and Austin Donnelly and Sameh Elnikety and Antony Rowstron",
   crossref = "EUROSYS09"
@@ -4865,18 +5622,18 @@ gging}",
 
 
 @Book{Chambers04-Micromanagement,
-  author = 	 {Harry Chambers},
-  title = 	 "{My Way or the Highway: The Micromanagement Survival Guide}",
-  publisher = 	 {Berrett-Koehler Publishers},
-  year = 	 {2004},
+  author =   {Harry Chambers},
+  title =    "{My Way or the Highway: The Micromanagement Survival Guide}",
+  publisher =    {Berrett-Koehler Publishers},
+  year =   {2004},
 }
 
 
 @Book{White09-HadoopBook,
-  author = 	 {Tom White},
-  title = 	 "{Hadoop The Definitive Guide}",
-  publisher = 	 {O'Reilly},
-  year = 	 {2009},
+  author =   {Tom White},
+  title =    "{Hadoop The Definitive Guide}",
+  publisher =    {O'Reilly},
+  year =   {2009},
 }
 
 @Misc{Marshall08-Fire,
@@ -5339,7 +6096,7 @@ le systems}",
   title  = "{An Organizing Principle for Cerebral Function: The Unit Model and the Distributed Systems}",
   booktitle = "{The Mindful Brain}",
   publisher = {MIT Press},
-  year = 	 {1978},
+  year =   {1978},
 }
 
 @Article{FeldmanBallard82-Connectionists,
@@ -5861,7 +6618,7 @@ le systems}",
 }
 
 @InProceedings{SchroederGibson07-FAST,
-  author = "Bianca Schroeder and Garth Gibson",
+  author = "Bianca Schroeder and Garth A. Gibson",
   title  = "{Disk failures in the real world: What does an MTTF of 1,000,000 hours mean to you?}",
   crossref = "FAST07",
 }
@@ -5891,13 +6648,6 @@ le systems}",
 and Jiri Schindler",
   title = "{An Analysis of Latent Sector Errors in Disk Drives}",
   crossref = {SIGMETRICS07},
-}
-
-@Misc{Wilkes05-PC,
-  title = "{Data loss equals job loss}",
-  author = "John Wilkes",
-  howpublished = "Personal Communication", 
-  year = "2005",
 }
 
 @Misc{Jobs+06-Nobackup,
@@ -6038,13 +6788,6 @@ and Jiri Schindler",
   author = "Aaron Sorkin",
   year   = "1992",
   howpublished = "Colonel Jessep (Jack Nicholson) to Kaffee (Tom Cruise): 'You can't handle the truth'",
-}
-
-@Misc{Tso05-PC,
-  author = "Theodore Ts'o",
-  title = "{'We encounter more write errors when running upon Fibre Channel.'}",
-  howpublished = "Personal Communication",
-  year = "2005",
 }
 
 @InProceedings{Mandelin05-Jungloids,
@@ -6275,10 +7018,10 @@ and Jiri Schindler",
 }
 
 @Book{Giampaolo99-BeFS,
-  author = 	 {Dominic Giampaolo},
-  title = 	 "{Practical File System Design with the Be File System}",
-  publisher = 	 {Morgan Kaufmann},
-  year = 	 {1999},
+  author =   {Dominic Giampaolo},
+  title =    "{Practical File System Design with the Be File System}",
+  publisher =    {Morgan Kaufmann},
+  year =   {1999},
 }
 
 @InProceedings{Gifford+91-SFS,
@@ -6360,29 +7103,6 @@ and Jiri Schindler",
   howpublished = "http://linux-ntfs.sourceforge.net/ntfs",
   month = aug,
   year = 2005,
-}
-
-@Misc{Schindler05-PC,
-  author = "Jiri Schindler",
-  title = "{``We have experienced a severe performance degradation that was identified as a problem with disk firmware. The disk drives had to be reprogrammed to fix the problem''}",
-  howpublished = "Personal Communication from J. Schindler of EMC", 
-  month = jul,
-  year = "2005",
-}
-
-@Misc{Anderson05-PC,
-  author = "Dave Anderson",
-  howpublished = "Personal Communication from Dave Anderson of Seagate",
-  title = "{``Drive manufacturers typically don't talk about disk failures''}",
-  year = "2005",
-}
-
-@Misc{Dykes05-400k-PC,
-  author = "James Dykes",
-  title  = "{``A modern disk has roughly 400,000 lines of code''}",
-  howpublished = "Personal Communication from James Dykes of Seagate",
-  month = aug,
-  year = "2005",
 }
 
 @Misc{Tridgell05-Dbench,
@@ -6779,7 +7499,7 @@ and Jiri Schindler",
 @InProceedings{Hitz+94-WAFL,
   title = "{File System Design for an NFS File Server Appliance}",
   author = "Dave Hitz and James Lau and Michael Malcolm",
-  crossref = "USENIX-WINTER94",
+  crossref = "ATC-WINTER94",
 }
 
 @PhdThesis{Kari97-LatentFaults,
@@ -6869,28 +7589,12 @@ and Jiri Schindler",
   crossref = {ISCA94},
 }
 
-@InProceedings{Corbett+04-RowDiagonal,
-  author = "Peter Corbett and Bob English and Atul Goel and Tomislav Grcanac and Steven Kleiman and James Leong and Sunitha Sankar",
-  title = "{Row-Diagonal Parity for Double Disk Failure Correction}",
-  crossref = {FAST04},
-}
+
 
 @Misc{IBM04-Tank,
   howpublished = "http://www.almaden.ibm.com/StorageSystems/ file\_systems/storage\_tank/index.shtml",
   author = "{IBM}",
   year = 2004,
-}
-
-@Misc{Kleiman04-PC,
-  author = 	 "Steve Kleiman",
-  howpublished = "{\em Personal Communication}",
-  year = 	 {2004},
-}
-
-@Misc{Acharya02-PC,
-  author = 	 "Anurag Acharya",
-  howpublished = "{\em Personal Communication}",
-  year = 	 {2002},
 }
 
 @InProceedings{Ghormley+98-SLIC,
@@ -6936,7 +7640,7 @@ and Jiri Schindler",
 @InProceedings{Cypher93,
    author = "Cypher, R. and Ho, A. and  Konstantinidou, S. and Messina, P.",
    title  =  "{Architectural Requirements of Parallel Scientific
-		  Applications with Explicit Communication}",  
+      Applications with Explicit Communication}",  
    crossref = "ISCA93",
 }
 
@@ -7397,10 +8101,10 @@ and Jiri Schindler",
 }
 
 @InProceedings{Li+04-CMiner,
-  author = 	 {Zhenmin Li and  Zhifeng Chen and Sudarshan M. Srivivasan and Yuanyuan Zhou},
-  title = 	 {C-Miner: Mining Block Correlations in Storage Systems},
-  crossref =	 {FAST04},
-  pages =	 {173--186}
+  author =   {Zhenmin Li and  Zhifeng Chen and Sudarshan M. Srivivasan and Yuanyuan Zhou},
+  title =    {C-Miner: Mining Block Correlations in Storage Systems},
+  crossref =   {FAST04},
+  pages =  {173--186}
 }
 
 @InProceedings{Tweedie98-JournalingExt2,
@@ -7413,11 +8117,11 @@ and Jiri Schindler",
 }
 
 @Misc{Tweedie00-Ext3Talk,
-  author = 	 {Stephen C. Tweedie},
-  title = 	 "{EXT3, Journaling File System}",
-  howpublished = {olstrans.sourceforge.net/ release/OLS2000-ext3/OLS2000-ext3.html},
-  month = 	 {July},
-  year = 	 {2000},
+  author =   {Stephen C. Tweedie},
+  title =    "{EXT3, Journaling File System}",
+  howpublished = "\url{http://olstrans.sourceforge.net/release/OLS2000-ext3/OLS2000-ext3.html}",
+  month =    {July},
+  year =   {2000},
 }
 
 % Transcript of a talk given at the Ottawa Linux Symposium, available from olstrans.sourceforge.net/release/OLS2000-ext3/OLS2000-ext3.html
@@ -7507,25 +8211,25 @@ and Jiri Schindler",
 }
 
 @PhdThesis{Keeton99-Phd,
-  author = 	 {Kimberly Keeton},
-  title = 	 "{Computer Architecture Support for Database Applications}",
-  school = 	 {University of California at Berkeley},
-  year = 	 {1999},
-  month = 	 jul,
+  author =   {Kimberly Keeton},
+  title =    "{Computer Architecture Support for Database Applications}",
+  school =   {University of California at Berkeley},
+  year =   {1999},
+  month =    jul,
 }
 
 @Book{StonebrakerBook-2ndEdition,
-  author = 	 {Michael Stonebraker},
-  title = 	 {Readings in Database Systems},
-  publisher = 	 {Morgan-Kaufmann},
-  year = 	 {1994},
+  author =   {Michael Stonebraker},
+  title =    {Readings in Database Systems},
+  publisher =    {Morgan-Kaufmann},
+  year =   {1994},
 }
 
 @InBook{Slotnick70-LogicPerTrack,
   author =       "D.L. Slotnick", 
   title =        "{Logic Per Track Devices}",
-  publisher = 	 {Academic Press},
-  year = 	 {1970},
+  publisher =    {Academic Press},
+  year =   {1970},
   volume =       "10",
   pages =        "291--296",
 }
@@ -7808,18 +8512,18 @@ crossref = "ISCA98",
 }
 
 @TechReport{Gibson+-NASD-TR,
-  author = 	 "Garth A. Gibson and David F. Nagle and Khalil Amiri
+  author =   "Garth A. Gibson and David F. Nagle and Khalil Amiri
                   and Fay W. Chang and Howard Gobioff and Erik Riedel
                   and David Rochberg and Jim Zelenka",
-  title = 	 "{Filesystems for Network-Attached Secure Disks}",
+  title =    "{Filesystems for Network-Attached Secure Disks}",
   institution =  {Carnegie Mellon University},
-  year = 	 {1997},
-  number = 	 {CMU-CS-97-118},
+  year =   {1997},
+  number =   {CMU-CS-97-118},
 }
 
 @InProceedings{Gibson+97-NASD,
-   author = 	 "Garth A. Gibson and David Rochberg and Jim Zelenka and David F. Nagle and Khalil Amiri and Fay W. Chang and Eugene M. Feinberg and Howard Gobioff and Chen Lee and Berend Ozceri and Erik Riedel",
-   title = 	 "{File server scaling with network-attached secure disks}",
+   author =    "Garth A. Gibson and David Rochberg and Jim Zelenka and David F. Nagle and Khalil Amiri and Fay W. Chang and Eugene M. Feinberg and Howard Gobioff and Chen Lee and Berend Ozceri and Erik Riedel",
+   title =   "{File server scaling with network-attached secure disks}",
    pages     = "272--284", 
    crossref = {SIGMETRICS97},
 }
@@ -8052,8 +8756,8 @@ crossref = "ISCA98",
 }
 
 @InProceedings{Wahbe93-SFI,
-  author = 	 "Robert Wahbe and Steven Lucco and Thomas Anderson and Susan Graham",
-  title = 	 "{Efficient Software-Based Fault Isolation}",
+  author =   "Robert Wahbe and Steven Lucco and Thomas Anderson and Susan Graham",
+  title =    "{Efficient Software-Based Fault Isolation}",
   crossref = {SOSP93},
 }
 
@@ -8077,8 +8781,8 @@ crossref = "ISCA98",
 
 @InProceedings{Young+87-Duality,
   author = "M. Young and A. Tevanian and R. Rashid and 
-   	    D. Golub and J. Eppinger and J. Chew and W. Bolosky 
-	    and D. Black and R. Baron",
+        D. Golub and J. Eppinger and J. Chew and W. Bolosky 
+      and D. Black and R. Baron",
   title= "{The Duality of Memory and Communication in the 
 Implementation of a Multiprocessor Operating System}",
   pages= "63--76",
@@ -8086,8 +8790,8 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{Liedtke93-IPC,
-  author = 	 "Jochen Liedtke",
-  title = 	 "Improving IPC by Kernel Design",
+  author =   "Jochen Liedtke",
+  title =    "Improving IPC by Kernel Design",
   crossref = {SOSP93},
 }
 
@@ -8482,10 +9186,10 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{Condor-Dagman,
-  author = 	 {Condor},
-  title = 	 "{The Condor Directed-Acyclic-Graph Manager (DAGMan)}",
+  author =   {Condor},
+  title =    "{The Condor Directed-Acyclic-Graph Manager (DAGMan)}",
   howpublished = {http://www.cs.wisc.edu/condor/dagman/},
-  year = 	 {2002},
+  year =   {2002},
 }
 
 @Article{Foster97-Globus,
@@ -8619,7 +9323,7 @@ Implementation of a Multiprocessor Operating System}",
 
 @Article{RosenblumOusterhout92-LFS,
   author = "Mendel Rosenblum and John Ousterhout",
-  title	= "{The Design and Implementation of a Log-Structured File System}",
+  title = "{The Design and Implementation of a Log-Structured File System}",
   journal = tocs,
   volume = "10",
   number = "1",
@@ -8805,7 +9509,6 @@ Implementation of a Multiprocessor Operating System}",
 @InProceedings{Patterson+88-RAID,
   author = {David Patterson and Garth Gibson and Randy Katz},
   title = "{A Case for Redundant Arrays of Inexpensive Disks {(RAID)}}",
-  pages = {109--116},
   crossref = {SIGMOD88},
 }
 
@@ -9014,23 +9717,23 @@ Implementation of a Multiprocessor Operating System}",
 
   
 @Article{GibsonVanMater00-NASD,
-  author = 	 {Garth A. Gibson and R. Van Meter},
-  title = 	 "{Network Attached Storage Architecture}",
-  journal = 	 cacm,
-  year = 	 {2000},
-  volume = 	 {43},
-  number = 	 {11},
-  month = 	 {Nov},
+  author =   {Garth A. Gibson and R. Van Meter},
+  title =    "{Network Attached Storage Architecture}",
+  journal =    cacm,
+  year =   {2000},
+  volume =   {43},
+  number =   {11},
+  month =    {Nov},
 }
 
 @InProceedings{Bollacker99-Citeseer,
-  author	= "Kurt Bollacker and Steve Lawrence and C. Lee Giles",
-  title		= "{A System for Automatic Personalized Tracking of Scientific Literature on the Web}",
-  booktitle	= "Digital Libraries 99 - The Fourth ACM Conference on Digital Libraries",
-  publisher	= "ACM Press",
-  address	= "New York",
-  pages		= "105--113",
-  year		= "1999"
+  author  = "Kurt Bollacker and Steve Lawrence and C. Lee Giles",
+  title   = "{A System for Automatic Personalized Tracking of Scientific Literature on the Web}",
+  booktitle = "Digital Libraries 99 - The Fourth ACM Conference on Digital Libraries",
+  publisher = "ACM Press",
+  address = "New York",
+  pages   = "105--113",
+  year    = "1999"
 }
 
 
@@ -9077,15 +9780,9 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{Google03-Appliance,
-  author = 	 "{Google.com}",
+  author =   "{Google.com}",
   howpublished = "{http://www.google.com/appliance/}",
-  year = 	 {2003},
-}
-
-@Misc{Gray02-MetalVsCardboard,
-  author = 	 "Jim Gray",
-  howpublished = "{\em Personal Communication}",
-  year = 	 {2002},
+  year =   {2003},
 }
 
 @InProceedings{Anderson+03-SCSIvATA,
@@ -9107,8 +9804,8 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{Weinberger84-NetFS,
-  author = 	 {P.J. Weinberger},
-  title = 	 "{The Version 8 Network File System}",
+  author =   {P.J. Weinberger},
+  title =    "{The Version 8 Network File System}",
   crossref =     {ATC-SUMMER84},
 }
 
@@ -9119,27 +9816,27 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{Oracle02-HARD,
-  author = 	 "J. Brown and S. Yamaguchi",
+  author =   "J. Brown and S. Yamaguchi",
   title  = "{Oracle's Hardware Assisted Resilient Data (H.A.R.D.)}",
   howpublished = "{\em Oracle Technical Bulletin (Note 158367.1)}",
-  year = 	 {2002},
+  year =   {2002},
 }
 
 @Book{Solomon98-NT,
   title = "{Inside Windows NT}",
   author = "David A. Solomon",
-  publisher = 	 {Microsoft Press},
-  year = 	 {1998},
-  series = 	 {Microsoft Programming Series},
-  edition = 	 {2nd},
-  month = 	 {May},
+  publisher =    {Microsoft Press},
+  year =   {1998},
+  series =   {Microsoft Programming Series},
+  edition =    {2nd},
+  month =    {May},
 }
 
 @TechReport{RuemmlerWilkes91-Shuffle,
-  author = 	 {Chris Ruemmler and John Wilkes},
-  title = 	 "{Disk Shuffling}",
-  number = 	 {HPL-91-156},
-  year = 	 {1991},
+  author =   {Chris Ruemmler and John Wilkes},
+  title =    "{Disk Shuffling}",
+  number =   {HPL-91-156},
+  year =   {1991},
   institution = {Hewlett Packard Laboratories},
 }
 
@@ -9204,14 +9901,14 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Article{Kleinrock95-Nomad,
-  author = 	 {Leonard Kleinrock},
-  title = 	 "{Nomadic Computing -- An Opportunity}",
-  journal = 	 {ACM SIGCOMM Computer Communication Review},
-  pages = 	 {36--40},
-  year = 	 {1995},
-  volume = 	 {25},
-  number = 	 {1},
-  month = 	 {January},
+  author =   {Leonard Kleinrock},
+  title =    "{Nomadic Computing -- An Opportunity}",
+  journal =    {ACM SIGCOMM Computer Communication Review},
+  pages =    {36--40},
+  year =   {1995},
+  volume =   {25},
+  number =   {1},
+  month =    {January},
 }
 
 @InProceedings{Schilit93-X11,
@@ -9277,16 +9974,10 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{EMC02-Symmetrix,
-  author = 	 "{EMC Corporation}",
-  title = 	 "{Symmetrix Enterprise Information Storage Systems}",
+  author =   "{EMC Corporation}",
+  title =    "{Symmetrix Enterprise Information Storage Systems}",
   howpublished = {http://www.emc.com},
-  year = 	 {2002},
-}
-
-@Misc{Gray02-Oracle,
-  author = 	 "Jim Gray",
-  howpublished = "{\em Personal Communication}",
-  year = 	 {2002},
+  year =   {2002},
 }
 
 
@@ -9301,20 +9992,20 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @TechReport{Katcher97-Postmark,
-  author = 	 "Jeffrey Katcher",
-  title = 	 "{PostMark: A New File System Benchmark}",
+  author =   "Jeffrey Katcher",
+  title =    "{PostMark: A New File System Benchmark}",
   institution =  {Network Appliance Inc.},
-  year = 	 {1997},
-  number = 	 {TR-3022},
-  month = 	 oct,
+  year =   {1997},
+  number =   {TR-3022},
+  month =    oct,
 }
 
 @TechReport{Gokhale97-ORB,
-  author = 	 {Aniruddha Gokhale and Douglas C. Schmidt},
-  title = 	 "{Measuring the Performance of the CORBA Internet Inter-ORB Protocol over ATM}",
+  author =   {Aniruddha Gokhale and Douglas C. Schmidt},
+  title =    "{Measuring the Performance of the CORBA Internet Inter-ORB Protocol over ATM}",
   institution =  {Washington University at St. Louis},
-  year = 	 {1997},
-  number = 	 {WUCS-97-09},
+  year =   {1997},
+  number =   {WUCS-97-09},
 }
 
 @InProceedings{O'Malley94:USC,
@@ -9327,19 +10018,19 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Book{Davis95-SoftwareDevelopment,
-  author = 	 {Alan Davis},
-  title = 	 "{201 Principles of Software Development}",
-  publisher = 	 {McGraw-Hill},
-  year = 	 {1995},
+  author =   {Alan Davis},
+  title =    "{201 Principles of Software Development}",
+  publisher =    {McGraw-Hill},
+  year =   {1995},
 }
 
 @InProceedings{Hartman+99-Swarm,
-  author = 	 {John H. Hartman and Ian Murdock and Tammo Spalink},
-  title = 	 "{The Swarm Scalable Storage System}",
-  booktitle = 	 {Proceedings of the 19th IEEE International Conference on Distributed Computing Systems (ICDCS '99)}, 
-  year = 	 {1999},
-  address = 	 {Austin, Texas},
-  month = 	 jun,
+  author =   {John H. Hartman and Ian Murdock and Tammo Spalink},
+  title =    "{The Swarm Scalable Storage System}",
+  booktitle =    {Proceedings of the 19th IEEE International Conference on Distributed Computing Systems (ICDCS '99)}, 
+  year =   {1999},
+  address =    {Austin, Texas},
+  month =    jun,
 }
 
 @InProceedings{Muthitacharoen+01-LBFS,
@@ -9353,19 +10044,19 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Article{Grochowski99-Trends,
-  author = 	 {Edward Grochowski},
-  title = 	 "{Emerging Trends in Data Storage on Magnetic Hard Disk Drives}",
-  journal = 	 {Datatech},
-  year = 	 {1999},
-  month = 	 {September},
+  author =   {Edward Grochowski},
+  title =    "{Emerging Trends in Data Storage on Magnetic Hard Disk Drives}",
+  journal =    {Datatech},
+  year =   {1999},
+  month =    {September},
 }
 
 @Misc{McKusick+86-Fsck,
-  author = 	 {Marshall Kirk McKusick and Willian N. Joy and Samuel J. Leffler and Robert S. Fabry},
-  title = 	 "{Fsck - The UNIX File System Check Program}",
+  author =   {Marshall Kirk McKusick and Willian N. Joy and Samuel J. Leffler and Robert S. Fabry},
+  title =    "{Fsck - The UNIX File System Check Program}",
   howpublished = {Unix System Manager's Manual - 4.3 BSD Virtual VAX-11 Version},
-  month = 	 {April},
-  year = 	 {1986},
+  month =    {April},
+  year =   {1986},
 }
 
 @InProceedings{Riedel+98-ntIO,
@@ -9395,8 +10086,8 @@ Implementation of a Multiprocessor Operating System}",
 }  
 
 @InProceedings{Miller+01-Hermes,
-  title = 	 "{HeRMES: High-Performance, Reliable MRAM-Enabled Storage}",
-  author = 	 {Ethan Miller and Scott Brandt and Darrell Long},
+  title =    "{HeRMES: High-Performance, Reliable MRAM-Enabled Storage}",
+  author =   {Ethan Miller and Scott Brandt and Darrell Long},
   booktitle =    "The Eighth Workshop on Hot Topics in Operating Systems (HotOS VIII)",
   month =        "May",
   year =         "2001",
@@ -9404,8 +10095,8 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{Wang+02-Conquest,
-  title = 	 "{Conquest: Better Performance Through a Disk/Persistent-RAM Hybrid File System}",
-  author = 	 {An-I A. Wang and Peter Reiher and Gerald J. Popek and Geoffrey H. Kuenning},
+  title =    "{Conquest: Better Performance Through a Disk/Persistent-RAM Hybrid File System}",
+  author =   {An-I A. Wang and Peter Reiher and Gerald J. Popek and Geoffrey H. Kuenning},
   crossref = {ATC02},
 }
 
@@ -9428,28 +10119,28 @@ Implementation of a Multiprocessor Operating System}",
 }    
 
 @InProceedings{Lumb+02-Freeblock,
-  author = 	 {Christopher R. Lumb and Jiri Schindler and Gregory R. Ganger},
-  title = 	 "{Freeblock Scheduling Outside of Disk Firmware}",
+  author =   {Christopher R. Lumb and Jiri Schindler and Gregory R. Ganger},
+  title =    "{Freeblock Scheduling Outside of Disk Firmware}",
   crossref =     {FAST02},
   pages =        "10--22",
 }
 
 @TechReport{Ganger01-Blur,
-  author = 	 {Gregory R. Ganger},
-  title = 	 "{Blurring the Line Between Oses and Storage Devices}",
+  author =   {Gregory R. Ganger},
+  title =    "{Blurring the Line Between Oses and Storage Devices}",
   institution =  {Carnegie Mellon University},
-  year = 	 {2001},
-  number = 	 {CMU-CS-01-166},
-  month = 	 {December},
+  year =   {2001},
+  number =   {CMU-CS-01-166},
+  month =    {December},
 }
 
 @TechReport{Chao+92-Mime,
-  author = 	 {Chia Chao and Robert English and David Jacobson and Alexander Stepanov and John Wilkes},
-  title = 	 "{Mime: a high performance parallel storage device with strong recovery guarantees}",
+  author =   {Chia Chao and Robert English and David Jacobson and Alexander Stepanov and John Wilkes},
+  title =    "{Mime: a high performance parallel storage device with strong recovery guarantees}",
   institution =  {HP Laboratories},
-  year = 	 {1992},
-  number = 	 {HPL-CSP-92-9rev1},
-  month = 	 {November},
+  year =   {1992},
+  number =   {HPL-CSP-92-9rev1},
+  month =    {November},
 }
 
 @InProceedings{HartmanOuster93-Zebra,
@@ -9471,14 +10162,14 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{Griffin+02-Emulation,
-  author = 	 {John Linwood Griffin and Jiri Schindler and Steven W. Schlosser and John S. Bucy and Gregory R. Ganger},
-  title = 	 "{Timing-accurate Storage Emulation}",
+  author =   {John Linwood Griffin and Jiri Schindler and Steven W. Schlosser and John S. Bucy and Gregory R. Ganger},
+  title =    "{Timing-accurate Storage Emulation}",
   crossref = {FAST02},
 }
 
 @InProceedings{Schindler+02-Traxtents,
-  author = 	 {Jiri Schindler and  John Linwood Griffin and  Christopher R. Lumb and Gregory R. Ganger},
-  title = 	 "{Track-aligned Extents: Matching Access Patterns to Disk Drive Characteristics}",
+  author =   {Jiri Schindler and  John Linwood Griffin and  Christopher R. Lumb and Gregory R. Ganger},
+  title =    "{Track-aligned Extents: Matching Access Patterns to Disk Drive Characteristics}",
   crossref = {FAST02},
 }
 
@@ -9490,10 +10181,10 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{SnapServer,
-  author = 	 {{Quantum Corporation}},
-  title = 	 {The Snap Server Storage Appliance},
+  author =   {{Quantum Corporation}},
+  title =    {The Snap Server Storage Appliance},
   howpublished = {http://www.snapserver.com/},
-  year = 	 {2002},
+  year =   {2002},
 }
 
 @TechReport{HTTP-Protocol-97,
@@ -9529,12 +10220,12 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{CampbellTan95-uChoices,
-  author = 	 {R. H. Campbell and S. M. Tan},
-  title = 	 "{$\mu$Choices: An Object-Oriented Multimedia Operating System}",
-  booktitle = 	 {In Fifth Workshop on Hot Topics in Operating Systems (HotOS-V)},
-  year = 	 {1995},
-  address = 	 {Orcas Island, WA},
-  month = 	 {May},
+  author =   {R. H. Campbell and S. M. Tan},
+  title =    "{$\mu$Choices: An Object-Oriented Multimedia Operating System}",
+  booktitle =    {In Fifth Workshop on Hot Topics in Operating Systems (HotOS-V)},
+  year =   {1995},
+  address =    {Orcas Island, WA},
+  month =    {May},
 }
 
 @InProceedings{SmallSeltzer96-Compare,
@@ -9581,8 +10272,8 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{Welsh+01-Seda,
-  author = 	 {Matt Welsh and David Culler and Eric Brewer},
-  title = 	 "{SEDA: An Architecture for Well-Conditioned, Scalable Internet Services}",
+  author =   {Matt Welsh and David Culler and Eric Brewer},
+  title =    "{SEDA: An Architecture for Well-Conditioned, Scalable Internet Services}",
   crossref = {SOSP01},
 }
 
@@ -9603,37 +10294,37 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{Patterson02-FastTalk,
-  author = 	 {David A. Patterson},
-  title = 	 "{Availability and Maintainability $>>$ Performance: New Focus for a New Century}",
+  author =   {David A. Patterson},
+  title =    "{Availability and Maintainability $>>$ Performance: New Focus for a New Century}",
   howpublished = {Key Note Lecture at the First USENIX Conference on File and Storage Technologies (FAST '02)}, 
-  month = 	 {January},
-  year = 	 {2002},
+  month =    {January},
+  year =   {2002},
 }
 
 @Misc{Patterson98-SigmodTalk,
-  author = 	 {David A. Patterson},
-  title = 	 "{Hardware Technology Trends and Database Opportunities}",
+  author =   {David A. Patterson},
+  title =    "{Hardware Technology Trends and Database Opportunities}",
   howpublished = {Key Note Lecture at the ACM SIGMOD Conference (SIGMOD '98)}, 
-  month = 	 {June},
-  year = 	 {1998},
+  month =    {June},
+  year =   {1998},
 }
 
 @InProceedings{NetApp01-Lisa,
-  author = 	 {Larry Lancaster and Alan Rowe},
-  title = 	 "{Measuring Real World Data Availability}",
-  booktitle = 	 {Proceedings of the LISA 2001 15th Systems Administration Conference},
-  pages = 	 {93--100},
-  year = 	 {2001},
-  address = 	 {San Diego, California},
-  month = 	 {December},
+  author =   {Larry Lancaster and Alan Rowe},
+  title =    "{Measuring Real World Data Availability}",
+  booktitle =    {Proceedings of the LISA 2001 15th Systems Administration Conference},
+  pages =    {93--100},
+  year =   {2001},
+  address =    {San Diego, California},
+  month =    {December},
 }
 
 @Misc{Sharpe99-Samba,
-  author = 	 {Richard Sharpe},
-  title = 	 "{Just What Is SMB?}",
+  author =   {Richard Sharpe},
+  title =    "{Just What Is SMB?}",
   howpublished = {samba.org/cifs/docs/what-is-smb.html},
-  month = 	 {September},
-  year = 	 {1999},
+  month =    {September},
+  year =   {1999},
 }
 
 @InProceedings{RoselliLorch00-FileStudy,
@@ -9652,14 +10343,14 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{Bray90-Bonnie,
-  author = 	 "Tim Bray",
-  title = 	 "{The Bonnie File System Benchmark}",
+  author =   "Tim Bray",
+  title =    "{The Bonnie File System Benchmark}",
   howpublished = {http://www.textuality.com/bonnie/},
 }
 
 @Misc{Norcutt00-Iozone, 
-  author = 	 "William Norcutt",
-  title = 	 "{The IOzone Filesystem Benchmark}",
+  author =   "William Norcutt",
+  title =    "{The IOzone Filesystem Benchmark}",
   howpublished = {http://www.iozone.org/},
 }
 
@@ -9673,11 +10364,11 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @TechReport{WatsonBenn99-Netapp,
-  author = 		 {Andy Watson and Paul Benn},
-  title = 		 "{Multiprotocol Data Access: NFS, CIFS, and HTTP}",
+  author =     {Andy Watson and Paul Benn},
+  title =      "{Multiprotocol Data Access: NFS, CIFS, and HTTP}",
   institution =  {Network Appliance},
-  year = 		 {1999},
-  number = 	     {TR-3014},
+  year =     {1999},
+  number =       {TR-3014},
 }
 
 @InProceedings{Teigland99-Volume,
@@ -9687,8 +10378,8 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{Lee+99-LRFU,
-  author = 	 {Donghee Lee and Jongmoo Choi and Jun-Hum Kim and Sam H. Noh and Sang Lyul Min and Yookum Cho and Chong Sang Kim},
-  title = 	 "{On The Existence Of A Spectrum Of Policies That Subsumes The Least Recently Used (LRU) And Least Frequently Used (LFU) Policies}",
+  author =   {Donghee Lee and Jongmoo Choi and Jun-Hum Kim and Sam H. Noh and Sang Lyul Min and Yookum Cho and Chong Sang Kim},
+  title =    "{On The Existence Of A Spectrum Of Policies That Subsumes The Least Recently Used (LRU) And Least Frequently Used (LFU) Policies}",
   crossref = {SIGMETRICS99},
 }
 
@@ -9766,13 +10457,6 @@ Implementation of a Multiprocessor Operating System}",
   year = "1998",
 }
 
-@Misc{Seltzer-WhyBSD-00,
-  author       = {Margo I. Seltzer},
-  howpublished = {Personal Communication},
-  month        = nov,
-  year         = "2000", 
-}
-
 @InProceedings{AndersonPatterson-Retro-99,
   author     = "Eric Anderson and Dave Patterson",
   title      = "{A Retrospective on Twelve Years of LISA Proceedings}",
@@ -9789,15 +10473,15 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @PhdThesis{Cranor98-UVM,
-  author = 	 "Charles Cranor",
-  title = 	 "{The Design and Implementation of the UVM Virtual Memory System}",
-  school = 	 {Department of Computer Science, Washington University, St. Louis},
-  year = 	 {1998},
+  author =   "Charles Cranor",
+  title =    "{The Design and Implementation of the UVM Virtual Memory System}",
+  school =   {Department of Computer Science, Washington University, St. Louis},
+  year =   {1998},
 }
 
 @InProceedings{VanMeterGao-SLED-00,
   author =       "Rodney {Van Meter} and Minxi Gao",
-  title = 	 "{Latency Management in Storage Systems}",
+  title =    "{Latency Management in Storage Systems}",
   pages =        "103--117",
   crossref =     {OSDI00},
 }
@@ -9810,13 +10494,13 @@ Implementation of a Multiprocessor Operating System}",
 
 @InProceedings{Wang+-Idisk-99,
   author =       "Randy Wang and Thomas E. Anderson and David A. Patterson",
-  title = 	 "{Virtual Log-Based File Systems for a Programmable Disk}",
+  title =    "{Virtual Log-Based File Systems for a Programmable Disk}",
   crossref =     {OSDI99},
 }
 
 @InProceedings{Yu+-Disk-00,
   author = "X. Yu and  B. Gum and  Y. Chen and  R. Y. Wang and  K. Li and  A. Krishnamurthy and T. E. Anderson",
-  title = 	 "{Trading Capacity for Performance in a Disk Array}",
+  title =    "{Trading Capacity for Performance in a Disk Array}",
   crossref =     {OSDI00},
 }
 
@@ -9864,9 +10548,9 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @InProceedings{GangerPatt-Metadata94,
-  author = 	 "Gregory R. Ganger and Yale N. Patt",
-  title = 	 "{Metadata Update Performance in File Systems}",
-  pages = 	 {49--60},
+  author =   "Gregory R. Ganger and Yale N. Patt",
+  title =    "{Metadata Update Performance in File Systems}",
+  pages =    {49--60},
   crossref =     {OSDI94},
 }
 
@@ -9880,11 +10564,11 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{Roselli+99,
-  author = 	 {Drew Roselli and Jeanna Neefe Matthews and Thomas E. Anderson},
-  title = 	 "{File System Fingerprinting}",
+  author =   {Drew Roselli and Jeanna Neefe Matthews and Thomas E. Anderson},
+  title =    "{File System Fingerprinting}",
   howpublished = {Works-In-Progress at the Third Symposium on Operating Systems Design and Implementation (OSDI '99)},
-  month = 	 {February},
-  year = 	 {1999},
+  month =    {February},
+  year =   {1999},
   place =        "New Orleans, Louisiana",
 }
 
@@ -9905,16 +10589,16 @@ Implementation of a Multiprocessor Operating System}",
 }
 
 @Misc{Satya99,
-  author = 	 {M. Satyanarayanan},
-  title = 	 "{Digest of the Seventh IEEE Workshop on Hot Topics in Operating Systems}", 
+  author =   {M. Satyanarayanan},
+  title =    "{Digest of the Seventh IEEE Workshop on Hot Topics in Operating Systems}", 
   howpublished = {www.cs.rice.edu/Conferences/HotOS/digest/digest-html.html},
-  month = 	 {March},
-  year = 	 {1999},
+  month =    {March},
+  year =   {1999},
 }
 
 @InProceedings{BrownPatterson00,
-  author = 	 {Aaron Brown and  David A. Patterson},
-  title = 	 "{Towards Maintainability, Availability, and Growth Benchmarks: A Case Study of Software RAID Systems}", 
+  author =   {Aaron Brown and  David A. Patterson},
+  title =    "{Towards Maintainability, Availability, and Growth Benchmarks: A Case Study of Software RAID Systems}", 
   crossref = {ATC00},
   pages     = "263--276",
 }
@@ -10270,21 +10954,21 @@ publisher = "AK Peters, Ltd.",
 
 
 @InProceedings{SmithSeltzer97,
-  author = 	 {Keith Smith and Margo I. Seltzer},
-  title = 	 "{File System Aging}",
-  booktitle = 	 {Proceedings of the 1997 Sigmetrics Conference},
-  year = 	 {1997},
-  address = 	 {Seattle, WA},
-  month = 	 {June},
+  author =   {Keith Smith and Margo I. Seltzer},
+  title =    "{File System Aging}",
+  booktitle =    {Proceedings of the 1997 Sigmetrics Conference},
+  year =   {1997},
+  address =    {Seattle, WA},
+  month =    {June},
 }
 
 @InProceedings{SmithSeltzer97-Aging,
-  author = 	 {Keith Smith and Margo I. Seltzer},
-  title = 	 "{File System Aging}",
-  booktitle = 	 {Proceedings of the 1997 Sigmetrics Conference},
-  year = 	 {1997},
-  address = 	 {Seattle, WA},
-  month = 	 {June},
+  author =   {Keith Smith and Margo I. Seltzer},
+  title =    "{File System Aging}",
+  booktitle =    {Proceedings of the 1997 Sigmetrics Conference},
+  year =   {1997},
+  address =    {Seattle, WA},
+  month =    {June},
 }
 
 @InProceedings{SmithSeltzer96-FFSAlloc,
@@ -10321,20 +11005,20 @@ publisher = "AK Peters, Ltd.",
 
 
 @TECHREPORT{Vahdat94,
-	author = "Amin M. Vahdat and Douglas P. Ghormley and Thomas E. Anderson",
-	title  = {{Efficient, Portable, and Robust Extension of Operating System Functionality}},
-	institution = {University of California, Berkeley},
-	year = {1994},
-	NUMBER = {CS-94-842},
+  author = "Amin M. Vahdat and Douglas P. Ghormley and Thomas E. Anderson",
+  title  = {{Efficient, Portable, and Robust Extension of Operating System Functionality}},
+  institution = {University of California, Berkeley},
+  year = {1994},
+  NUMBER = {CS-94-842},
 }
 
 @InProceedings{Kleiman92,
-	author = {Steve Kleiman and Jim Voll and Joe Eykholt and
+  author = {Steve Kleiman and Jim Voll and Joe Eykholt and
                   Anil Shivalingiah and Dock Williams and Mark Smith and
                   Steve Barton and Glenn Skinner},
-	TITLE = {{Symmetric Multiprocessing in Solaris 2.0}},
-	BOOKTITLE = {Proceedings of COMPCON Spring '92},
-	YEAR = {1992},
+  TITLE = {{Symmetric Multiprocessing in Solaris 2.0}},
+  BOOKTITLE = {Proceedings of COMPCON Spring '92},
+  YEAR = {1992},
 }
 
 @InProceedings{Anderson+97,
@@ -10590,3 +11274,182 @@ title = "Live Migration of Virtual Machines",
     year  = 1998,
 }
 
+@InProceedings{Wang+14-Exalt,
+  author = {Yang Wang and Manos Kapritsos and Lara Schmidt and Lorenzo Alvisi and Mike Dahlin},
+  title = "{Exalt: Empowering Researchers to Evaluate Large-Scale Storage Systems}",
+  crossref = {NSDI14},
+}
+
+@InProceedings{Zhou+12-Abhranta, 
+  author = {Bowen Zhou and Milind Kukarni and Saurabh Bagchi},
+  title = "{ABHRANTA: Locating Bugs that Manifest at Large System Scales}",
+  crossref = {HOTDEP12}, 
+}
+
+@InProceedings{Zhou+11-Vrisha, 
+  author = {Bowen Zhou and Milind Kulkarni and Saurabh Bagchi},
+  title = "{Vrisha: Using Scaling Properties of Parallel Programs for Bug Detection and Localization}",
+  crossref = {HPDC11}, 
+}
+
+@InProceedings{Zhou+13-Wukong, 
+  author = {Bowen Zhou and Jonathan Too and Milind Kulkarni and Saurabh Bagchi},
+  title = "{WuKong: Automatically Detecting and Localizing Bugs that Manifest at Large System Scales}",
+  crossref = {HPDC13}, 
+}
+
+@InProceedings{Clements+13-Commuter, 
+  author = {Austin T. Clements and M. Frans Kaashoek and Nickolai Zeldovich and Robert T. Morris and and Eddie Kohler},
+  title = "{The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors}",
+  crossref = {SOSP13}, 
+}
+
+@Misc{FreePastry,
+    howpublished = "\url{http://www.freepastry.org/}",
+}
+
+@Misc{JamesHamilton+14-challengesAtScale,
+    author = {James Hamilton},
+    title = "{Challenges in Designing at Scale: Formal Methods in Building Robust Distributed Systems}",
+    howpublished = "\url{http://perspectives.mvdirona.com/2014/07/03/ChallengesInDesigningAtScaleFormalMethodsInBuildingRobustDistributedSystems.aspx}"
+}
+
+@Article{VintonCerf+14-ResponseProg,
+    author = {Vinton Cerf},
+    title = "{Responsible Programming}",
+    journal = "{cacm}",
+    month = jul,
+    year = {2014},
+    volume = {57},
+    number = {7},
+    pages = {7},
+}
+
+@InProceedings{Bucur+14-ChefSymEx,
+  author = {Stefan Bucur and Johannes Kinder and George Candea},
+  title = "{Prototyping Symbolic Execution Engines for Interpreted Languages}",
+  crossref = {ASPLOS14},
+}
+
+@InProceedings{Arulraj+14-ShortTermMemHW,
+  author = {Joy Arulraj and Guoliang Jin and Shan Lu},
+  title = "{Leveraging the Short-Term Memory of Hardware to Diagnose Production-Run Software Failures}",
+  crossref = {ASPLOS14},
+}
+
+@InProceedings{Soyeon+09-PRES,
+  author = {Soyeon Park and Weiwei Xiong and Zuoning Yin and Rini Kaushik and Kyu H. Lee and Shan Lu and Yuanyuan Zhou},
+  title = "{Do You Have to Reproduce the Bug at the First Replay Attempt? -- PRES: Probabilistic Replay with Execution Sketching on Multiprocessors}",
+  crossref = {SOSP09},
+}
+
+@InProceedings{Desai+13-PLang,
+  author = {Ankush Desai and Vivek Gupta and Ethan Jackson and Shaz Qadeer and Sriram Rajamani and Damien Zufferey},
+  title = "{P: Safe Asynchronous Event-Driven Programming}",
+  crossref = {PLDI13}, 
+}
+
+@InProceedings{Boigelot+96-QDDs,
+  author = {Bernard Boigelot, Patrice Godefroid},
+  title = "{Symbolic Verification of Communication Protocols with Infinite State Spaces using QDDs}",
+  crossref = {CAV96},
+}
+
+@InProceedings{Li+13-ScopeBugStudy,
+  author = {Sihan Li and Hucheng Zhou and Haoxiang Lin and Tian Xiao and Haibo Lin and Wei Lin and Tao Xie},
+  title = "{A Characteristic Study on Failures of Production Distributed Data-Parallel Programs}",
+  crossref = {ICSE13},
+}
+
+@InProceedings{Thakur+09-CCI,
+  author = {Aditya Thakur and Rathijit Sen and Ben Liblit and Shan Lu},
+  title = "{Cooperative Crug Isolation}",
+  crossref = {WODA09},
+}
+
+@InProceedings{Jin+10-CCI,
+  author = {Guoliang Jin and Aditya Thakur and Ben Liblit and Shan Lu},
+  title = "{Instrumentation and Sampling Strategies for Cooperative Concurrency Bug Isolation}",
+  crossref = {OOPSLA10},
+}
+
+@Article{Lu+12-AvioMuviBugDetect,
+           title = "{Detecting Concurrency Bugs from the Perspectives of Synchronization Intentions}",
+          author = "Shan Lu and Soyeon Park and Yuanyuan Zhou",
+         journal = "IEEE Transactions on Parallel and Distributed Systems",
+           pages = "1060--1072",
+           month = "June",
+            year = "2012",
+          volume = "23",
+          number = "6",
+}
+
+@Article{Lu+11-CTriggerAtomVio,
+           title = "{Finding Atomicity-Violation Bugs Through Unserializable Interleaving Testing}",
+          author = "Shan Lu and Soyeon Park and Yuanyuan Zhou",
+         journal = "IEEE Transactions on Software Engineering",
+           pages = "1060--1072",
+           month = "April",
+            year = "2011",
+          volume = "38",
+          number = "4",
+}
+
+@inproceedings{Montesinos09-Capo,
+  author = {Montesinos, Pablo and Hicks, Matthew and King, Samuel T. and Torrellas, Josep},
+  title = {Capo: A Software-hardware Interface for Practical Deterministic Multiprocessor Replay},
+  crossref = {ASPLOS09},
+}
+
+@inproceedings{Jalbert11-RADBench,
+  author = {Jalbert, Nicholas and Pereira, Cristiano and Pokam, Gilles and Sen, Koushik},
+  title = {RADBench: A Concurrency Bug Benchmark Suite},
+  crossref = {HOTPAR11},
+}
+
+@InProceedings{Wilcox+15-Verdi, 
+       author = {James R. Wilcox and Doug Woos and Pavel Panchekha and Zachary Tatlock and Xi Wang and Michael D. Ernst and Tom Anderson},
+        title = "{Verdi: A framework for formally verifying distributed system implementations}",
+     crossref = {PLDI15},
+}
+
+@InProceedings{Alvaro+15-LDFI, 
+       author = {Peter Alvaro and Joshua Rosen and Joseph M. Hellerstein},
+        title = "{Lineage-driven Fault Injection}",
+     crossref = {SIGMOD15},
+}
+
+@InProceedings{Geels+06-Liblog, 
+       author = {Dennis Geels and Gautam Altekar and Scott Shenker and Ion Stoica},
+        title = "{Replay Debugging for Distributed Applications}",
+     crossref = {ATC06}, 
+}
+
+@InProceedings{Geels+07-Friday, 
+       author = {Dennis Geels and Gautam Altekar and Petros Maniatis and Timothy Roscoe and Ion Stoica},
+        title = "{Friday: Global Comprehension for Distributed Replay}",
+     crossref = {NSDI07}, 
+}
+
+@InProceedings{Xiao+14-NonDetMR,
+       author = {Tian Xiao and Jiaxing Zhang and Hucheng Zhou and Zhenyu Guo and Sean McDirmid and Wei Lin and Wenguang Chen and Lidong Zhou},
+        title = "{Nondeterminism in MapReduce Considered Harmful?  An Empirical Study on Non-commutative Aggregators in MapReduce Programs}",
+     crossref = {ICSE14}, 
+}
+
+@InProceedings{Chow+14-MysteryMachine, 
+       author = {Michael Chow and David Meisner and Jason Flinn and Daniel Peek and Thomas F. Wenisch},
+        title = "{The Mystery Machine: End-to-end Performance Analysis of Large-scale Internet Services}",
+     crossref = {OSDI14}, 
+}
+
+@Misc{RiverClusterUChicago,
+  title = "{RIVER: A Research Infrastructure to Explore Volatility, Energy-Efficiency, and Resilience}",
+  howpublished = "\url{http://www.nsf.gov/awardsearch/showAward?AWD_ID=1405959}",
+}
+
+@InProceedings{Hawblitzel+15-IronFleet,
+  author = {Chris Hawblitzel and Jon Howell and Manos Kapritsos and Jacob R. Lorch and Bryan Parno and Michael L. Roberts and Srinath Setty and Brian Zill},
+  title = "{IronFleet: Proving Practical Distributed Systems Correct}",
+  crossref = {SOSP15}, 
+}
