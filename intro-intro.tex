@@ -1,0 +1,51 @@
+% from SAMC
+As more data and computation move from local to cloud settings, cloud-scale
+distributed systems such as scale-out storage systems \cite{Chang+06-BigTable,
+DeCandia+07-Dynamo, Ghemawat+03-GoogleFS, Nightingale+12-FlatFDS}, computing
+frameworks \cite{DeanGhemawat04-MapReduce, Murray+13-NaiadTimelyDataflow},
+synchronization services \cite{Burrows06-Chubby, Hunt+10-ZooKeeperPaper}, and
+cluster management services \cite{Hindman+11-Mesos, Kumar+13-Yarn} have become
+a dominant backbone for many cloud services. Client-side software is getting
+thinner and more heavily relies on the capability, reliability, and
+availability of cloud systems. 
+
+Cloud outage could cause
+
+Unfortunately, such cloud-scale distributed systems remain difficult to get
+right. 
+
+
+Guaranteeing dependability has proven to be challenging in these systems
+\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Yang+09-Modist, Wang+14-Exalt}.
+
+\if 0
+% scale, scale ... 
+Is scale a friend or a foe \cite{Ousterhout+11-ScaleFriendEnemy}?
+On the positive side, scale surpasses the limit of a single machine in
+meeting users' increasing demands of compute and storage, which led to
+many inventions of ``cloud-scale'' distributed systems
+\cite{Chang+06-BigTable, 
+DeanGhemawat04-MapReduce, 
+DeCandia+07-Dynamo,
+Ghemawat+03-GoogleFS, 
+Hindman+11-Mesos,
+Verma+15-Borg}.  The field has witnessed a
+phenomenal deployment scale of such systems;
+Netflix runs tens of 500-node Cassandra clusters \cite{RunningNetflix13},
+Apple deploys a total of 100,000 Cassandra nodes \cite{WikiCassandra}, 
+and Yahoo! recently revealed the use of 40,000 Hadoop servers,
+with a 4500-node cluster as the largest one \cite{LargestHadoop}.
+
+% dark side, foe
+On the negative side, scale creates new development and deployment issues.
+Developers must ensure that their algorithms and protocol designs
+to be scalable.
+However, until real deployment takes place, unexpected bugs 
+in the actual implementations are unforeseen.
+% more and more
+We believe this new era of cloud-scale distributed systems has given birth
+to a new type of bug: {\em scalability bugs}.  They are latent bugs that
+are scale-dependent; they only surface in large-scale deployments, but not 
+in small/medium-scale ones.  Their presence jeopardizes systems
+reliability and availability at scale.
+\fi

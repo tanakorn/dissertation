@@ -1,0 +1,45 @@
+\section{Distributed System Model Checking}
+
+One powerful method for discovering hidden DC bugs is the use of an
+\textit{implementation-level distributed system model checker} (\textbf{dmck}).
+By re-ordering non-deterministic distributed events, a dmck can discover buggy
+interleavings that lead to DC bugs. The last eight years have seen a rise of
+dmcks such as MaceMC \cite{Killian+07-LifeDeathMaceMC} 
+\modist\ \cite{Yang+09-Modist}, or Demeter 
+\cite{Guo+11-Demeter}. One big challenge faced by a dmck is the
+state-space explosion problem (\ie, there are too many distributed events to
+re-order). To address this, existing dmcks adopt a random walk or basic
+reduction techniques such as dynamic partial order reduction (DPOR). Despite
+these early successes, existing approaches cannot unearth many real-world DC
+bugs, so I am advancing the state of the art of dmck to combat DC bugs, which I
+describe below.
+
+\subsection{Semantic-Aware Model Checking}
+
+I started my work by specifically addressing two limitations of existing dmcks.
+First, existing dmcks treat every target system as a complete \textit{black
+box}, and therefore perform unnecessary reorderings of distributed events that
+would lead to the same explored states (\ie, redundant executions). Second,
+they do not incorporate complex multiple fault events (\eg, crashes, reboots)
+into their exploration strategies, as such inclusion would exacerbate the
+state-space explosion problem.
+
+To address these limitations, I built Semantic-Aware Model Checking
+(\textbf{SAMC}) \cite{Leesatapornwongsa+15-SamcIssta,Leesatapornwongsa+14-Samc},
+a novel white-box model checking approach that takes \textit{semantic knowledge}
+of how distributed events (specifically, messages, crashes, and reboots) are
+processed by the target system and incorporates that information in reduction
+policies.  The policies are based on sound reduction techniques such as DPOR and
+symmetry.  The policies tell SAMC not to re-order some pairs of events such as
+message-message pairs or crash-message pairs, yet preserves soundness, because
+those cut out re-orderings are redundant.
+
+I built SAMC from scratch with 10 KLOC and I was able to reproduce 12 old bugs
+in 3 cloud systems involving 30-120 distributed events and multiple crashes and
+reboots. Some of these bugs cannot be unearthed by non-SAMC approaches, even
+after two days. SAMC can find the bugs up to 271x (33x on average) faster
+compared to state-of-the-art techniques. Additionally, I found two new bugs in
+Hadoop MapReduce and ZooKeeper.
+
+
+
