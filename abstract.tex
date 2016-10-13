@@ -1,18 +1,13 @@
-As more data and computation move from local to cloud settings, cloud-scale
-distributed systems such as scale-out storage systems, computing frameworks,
-synchronization services, and cluster management services have become a dominant
-backbone for many cloud services. Users demand for 24/7 dependability of cloud
-services. Cloud services must be accessible anytime and anywhere and not lose or
-corrupt users data (reliability), and scale as user base continues to grow
-(scalability). 
-
-Unfortunately, such cloud-scale distributed systems remain difficult to get
-right. Large-scale distributed systems are getting more complex and new
-intricate bugs continue to create dependability issues that cause major economic
-loss. Guaranteeing dependability has proven to be challenging in these systems.
-In this proposal, We are tackling this challenge by answering a question, ``{\em
-How can we identify dependability bugs in cloud-scale distributed systems, in
-the aspects of reliability and scalability?}''
+Cloud services must be accessible anytime and anywhere and not lose or corrupt
+users data (reliability), and scale as user base continues to grow
+(scalability). Unfortunately, cloud-scale distributed systems behind the
+services remain difficult to get right. Large-scale distributed systems are
+getting more complex and new intricate bugs continue to create dependability
+issues that cause major economic loss. Guaranteeing dependability has proven to
+be challenging in these systems. In this proposal, We are tackling this
+challenge by answering a question, ``{\em How can we unearth dependability bugs
+in cloud-scale distributed systems, in the aspects of reliability and
+scalability?}''
 
 The first part of this proposal focuses on reliability aspect. We find that one
 unsolved reliability problem in cloud systems is distributed concurrency bugs
@@ -33,18 +28,18 @@ semantic-aware model checking (SAMC), a white-box principle that takes simple
 semantic information of the target system and incorporates that knowledge into
 state-space reduction policies. We introduce four novel reduction policies,
 which collectively alleviate redundant re-orderings of messages, crashes, and
-reboots. SAMC can find DC bugs one to two orders of magnitude faster compared
-to state-of-the-art techniques. 
+reboots. SAMC can find DC bugs one to two orders of magnitude faster compared to
+state-of-the-art techniques. 
 
 In the second part, we focus on scalability aspect. Scale surpasses the limit of
 a single machine in meeting users' increasing demands of compute and storage,
 which led to many inventions of cloud-scale distributed systems.  On the
-negative side, scale creates new development and deployment issues. Developers
+negative side, scale creates new development and deployment issues.  Developers
 must ensure that their algorithms and protocol designs to be scal- able.
 However, until real deployment takes place, unexpected bugs in the actual
 implementations are unforeseen. We believe this new era of cloud-scale
-distributed systems has given birth to a new type of bug: scalability bugs. They
-are latent bugs that are scale-dependent; they only surface in large-scale
+distributed systems has given birth to a new type of bug: scalability bugs.
+They are latent bugs that are scale-dependent; they only surface in large-scale
 deployments, but not in small/medium-scale ones. Their presence jeopardizes
 systems reliability and availability at scale.
 
