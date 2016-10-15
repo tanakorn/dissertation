@@ -22,7 +22,7 @@ right.
 Cloud-scale distributed systems are getting more and more complex. New intricate
 bugs continue to create dependability issues that cause major economic loss.
 Guaranteeing dependability has proven to be challenging in these systems
-\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Yang+09-Modist, Wang+14-Exalt}.
+\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Wang+14-Exalt, Yang+09-Modist}.
 
 In this proposal, we are tackling this challenge by answering these 2 questions,
 (1) What bugs that harm the dependability, and (2) how do we test the systems to
@@ -38,18 +38,17 @@ them.
 
 For the second question, we are motivated by the fact that in the past decade,
 systems community has developed many testing techniques
-\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Yang+09-Modist, Wang+14-Exalt} to
+\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Wang+14-Exalt, Yang+09-Modist} to
 find bugs in distributed systems, but these techniques still have limitations.
 For example, \fate\ \cite{Gunawi+11-FateDestini} tests reliability of systems by
 injecting faults, but it does not address concurrency in distributed systems.
 \modist, which is a model checker, addresses concurrency, but it cannot work in
 reasonable time when injecting multiple faults. Or Exalt, which is a framework
-to test scalability, cannot be applied to CPU-intensive systems. We want to
-further the current testing techniques beyond the limitations.
+to test scalability, cannot be applied to CPU-intensive systems. 
 
-%but there still have been many cloud outages reported
-%\cite{Blodget11-BussInAmazonDestroyCustomers, Miller12-DCKAmazonKOs,
-%Google10-AppEnginePostMortemFeb, Google10-DatastoreOutageMay,
-%Gmail09-MoreOnTodayIssue, Skype10-PostMortemOutage,
-%PayPal10-DetailsOnSiteOutage}. Fascinated by these outage reports, we want to
+Thus, in this proposal, we want to further the current testing techniques beyond
+the limitations. It is a fusion of our previous work and our on-going work. It
+includes cloud bug studies \cite{Gunawi+14-Cbs, Leesatapornwongsa+16-TaxDC},
+semantic-aware model checking \cite{Leesatapornwongsa+14-Samc}, and scale check
+methodology.
 
