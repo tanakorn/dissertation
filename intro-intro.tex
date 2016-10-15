@@ -1,51 +1,55 @@
-% from SAMC
 As more data and computation move from local to cloud settings, cloud-scale
 distributed systems such as scale-out storage systems \cite{Chang+06-BigTable,
 DeCandia+07-Dynamo, Ghemawat+03-GoogleFS, Nightingale+12-FlatFDS}, computing
 frameworks \cite{DeanGhemawat04-MapReduce, Murray+13-NaiadTimelyDataflow},
 synchronization services \cite{Burrows06-Chubby, Hunt+10-ZooKeeperPaper}, and
-cluster management services \cite{Hindman+11-Mesos, Kumar+13-Yarn} have become
-a dominant backbone for many cloud services. Client-side software is getting
-thinner and more heavily relies on the capability, reliability, and
-availability of cloud systems. 
+cluster management services \cite{Hindman+11-Mesos, Kumar+13-Yarn} have become a
+dominant backbone for many cloud services. Client-side software is getting
+thinner and more heavily relies on the capability, reliability, and availability
+of cloud systems. Users demand 24/7 dependability of cloud computing systems.
+They must be accessible anytime and anywhere and not lose or corrupt users'
+data, which means they must be reliable. Moreover, while user base continues
+growing, they must be scalable also.
 
-Cloud outage could cause
-
+Unfulfilled dependability is costly. Some researchers estimate that 568 hours of
+downtime at 13 well-known cloud services since 2007 to 2012 had an economic
+impact of more than \$70 million~\cite{Essers12-70Million}. Others predict
+worse: for every hour it is not up and running, a cloud service can take a hit
+between \$1 to 5 million~\cite{Linthicum13-InfoworldCostOutages}.
 Unfortunately, such cloud-scale distributed systems remain difficult to get
 right. 
-
-
+%
+Cloud-scale distributed systems are getting more and more complex. New intricate
+bugs continue to create dependability issues that cause major economic loss.
 Guaranteeing dependability has proven to be challenging in these systems
 \cite{Gunawi+11-FateDestini, Guo+11-Demeter, Yang+09-Modist, Wang+14-Exalt}.
 
-\if 0
-% scale, scale ... 
-Is scale a friend or a foe \cite{Ousterhout+11-ScaleFriendEnemy}?
-On the positive side, scale surpasses the limit of a single machine in
-meeting users' increasing demands of compute and storage, which led to
-many inventions of ``cloud-scale'' distributed systems
-\cite{Chang+06-BigTable, 
-DeanGhemawat04-MapReduce, 
-DeCandia+07-Dynamo,
-Ghemawat+03-GoogleFS, 
-Hindman+11-Mesos,
-Verma+15-Borg}.  The field has witnessed a
-phenomenal deployment scale of such systems;
-Netflix runs tens of 500-node Cassandra clusters \cite{RunningNetflix13},
-Apple deploys a total of 100,000 Cassandra nodes \cite{WikiCassandra}, 
-and Yahoo! recently revealed the use of 40,000 Hadoop servers,
-with a 4500-node cluster as the largest one \cite{LargestHadoop}.
+In this proposal, we are tackling this challenge by answering these 2 questions,
+(1) What bugs that harm the dependability, and (2) how do we test the systems to
+unearth these bugs so developers can fix them? The first question is motivated
+by that we do not have comprehensive knowledge about the bugs in distributed
+systems. There are many bug studies on single-machine softwares
+\cite{Jin+12-PerformanceBugs, Lu+08-ConcurrencyBugStudy, Palix+11-FaultsInLinux,
+Sahoo+10-StudyBugsServerSoftware}, yet there are few formal bug studies on
+distributed-systems softwares; they did not study in a great number and across
+multiple types of systems \cite{Li+13-ScopeBugStudy, Xiao+14-NonDetMR}. We
+believe that we need comprehensive understanding about cloud bugs to combat
+them.
 
-% dark side, foe
-On the negative side, scale creates new development and deployment issues.
-Developers must ensure that their algorithms and protocol designs
-to be scalable.
-However, until real deployment takes place, unexpected bugs 
-in the actual implementations are unforeseen.
-% more and more
-We believe this new era of cloud-scale distributed systems has given birth
-to a new type of bug: {\em scalability bugs}.  They are latent bugs that
-are scale-dependent; they only surface in large-scale deployments, but not 
-in small/medium-scale ones.  Their presence jeopardizes systems
-reliability and availability at scale.
-\fi
+For the second question, we are motivated by the fact that in the past decade,
+systems community has developed many testing techniques
+\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Yang+09-Modist, Wang+14-Exalt} to
+find bugs in distributed systems, but these techniques still have limitations.
+For example, \fate\ \cite{Gunawi+11-FateDestini} tests reliability of systems by
+injecting faults, but it does not address concurrency in distributed systems.
+\modist, which is a model checker, addresses concurrency, but it cannot work in
+reasonable time when injecting multiple faults. Or Exalt, which is a framework
+to test scalability, cannot be applied to CPU-intensive systems. We want to
+further the current testing techniques beyond the limitations.
+
+%but there still have been many cloud outages reported
+%\cite{Blodget11-BussInAmazonDestroyCustomers, Miller12-DCKAmazonKOs,
+%Google10-AppEnginePostMortemFeb, Google10-DatastoreOutageMay,
+%Gmail09-MoreOnTodayIssue, Skype10-PostMortemOutage,
+%PayPal10-DetailsOnSiteOutage}. Fascinated by these outage reports, we want to
+
