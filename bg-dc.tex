@@ -1,0 +1,42 @@
+\section{Reliablity-Related Bugs}
+
+Software systems are getting more complex and new intricate bugs continue to
+appear, causing billions of dollars in economic loss.  One notorious type of
+software bugs is concurrency bugs.  These timing-related bugs manifest
+non-deterministically, and hence are extremely difficult to detect, diagnose,
+and fix.  A huge body of work exists in this space that focuses on ``local''
+concurrency (LC) bugs in single-machine multi-threaded software, caused by
+incorrect interleaving of memory accesses.
+
+Unfortunately, the reliability of datacenter distributed systems is severely
+threatened by non-deterministic concurrency bugs as well, which we refer as
+{\em distributed concurrency (DC) bugs}.  
+%
+DC bugs cannot be directly tackled by LC bug techniques, and they cause fatal
+implications such as operation failures, downtimes, data loss and
+inconsistencies. 
+
+\subsection{Distributed Concurrency (DC) Bugs}
+
+Distributed systems execute many complicated distributed protocols on
+hundreds/thousands of machines with no common clocks. Moreover, cloud systems
+run on large clusters of unreliable commodity machines, an environment that
+produces a growing number and frequency of failures, including ``surprising''
+failures \cite{Birman+09-CloudAgenda, Henry09-AmazonFUD}.  This combination
+makes distributed systems prone to DC bugs caused by non-deterministic timing
+of distributed events such as message arrivals, node crashes, node reboots, and
+timeouts. It is common to see complex failure-induced DC bugs such as the one
+below.
+
+\input{code-zk}
+
+We look at 104 DC bugs from widely-deployed cloud-scale datacenter distributed
+systems including Cassandra, Hadoop MapReduce, HBase, and ZooKeeper.
+Statistically, Figure \ref{bars}a (\BFLT) shows that \pctFaultYes\ of
+DC bugs must have at least one fault.  In more detail, Figure
+\ref{bars}b-d (\BTO, \BCR, \BRB) shows the percentage of issues that
+require timeouts, crashes and reboots respectively, including how many
+instances of such faults must be there; the rest is other faults such
+as disk errors (not shown).
+
+\input{fig-bars}

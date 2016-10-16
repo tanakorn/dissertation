@@ -1,0 +1,49 @@
+
+
+\newcommand{\qbeg}{
+\begin{quote}
+%\begin{spacing}{0.9}
+%\vminthree
+}
+\newcommand{\qend}{
+%\vminten
+%\end{spacing}
+\end{quote}
+}
+
+
+
+
+\newcommand{\fev}[1]{\textcolor{Maroon}{\textit{#1}}}
+\newcommand{\ev}[1]{\textcolor{gray}{\textbf{#1}}}
+
+
+%\def \cbrk {\\}
+\def \cbrk {}
+
+
+\qbeg
+{\bf ZooKeeper Bug \#335:}
+
+\enumerate{
+\item  Nodes A, B, C start with latest txid \#10 and elect
+B as leader,
+\item \fev{B crashes},
+\item Leader election re-run; C becomes leader,
+\item Client writes data; A and C commit new txid-value pair \{\#11:X\},
+\item \fev{A crashes before} committing tx \#11,
+\item C loses quorum,
+\item \fev{C crashes},
+\item \fev{A reboots} and \fev{B reboots},
+\item A becomes leader,
+\item Client updates data; A and B commit a new txid-value 
+pair \{\#11:Y\},
+\item \fev{C reboots after} A's new tx commit,
+\item C synchronizes with A; C notifies A of \{\#11:X\},
+\item A replies to C the ``diff'' starting 
+with tx 12 (excluding tx \{\#11:Y\}!),
+\item Violation: permanent data inconsistency as A and B
+have \{\#11:Y\} and  C has \{\#11:X\}.
+}
+\qend
+

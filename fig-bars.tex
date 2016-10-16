@@ -1,0 +1,50 @@
+\begin{figure}[t]
+
+\centerline{
+\begin{tikzpicture}[font=\sffamily\footnotesize]
+\begin{axis}[
+xbar stacked,
+y=0.8cm,
+%width=5in,
+width=\columnwidth,
+%height=120pt,
+xmin=0,
+xmax=100,
+bar width=12pt,  
+%xmajorgrids=true,
+%ylabel={Categorizations},
+symbolic y coords={RB, CR, TO, FLT},
+ytick=data,
+yticklabels={{(d) RB, (c) CR, (b) TO, (a) FLT}},
+every axis y label/.style={at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel},
+xticklabels={,,},
+axis x line*=none,
+x axis line style={opacity=0},
+axis y line*=right
+]
+\input{data-bars}
+\end{tikzpicture}
+%\includegraphics[width=1.8in]{F/empty.eps}
+}
+\vminten
+\mycaption{bars}{Statistical overview of DC bugs}{}
+% \vten
+
+\end{figure}
+
+
+%
+\if 0
+nodes (TSN), 
+protocols (TSP), 
+background (BR), 
+triggering messages (TSM), 
+local-message race (LM), 
+timeout (TO),
+crashes (CR),
+reboots (RB),
+errorMessage (EM),
+reported (REP),  
+implication (IMP),
+control/data plane (CDP), 
+\fi

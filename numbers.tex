@@ -1,0 +1,274 @@
+
+% pct prefix means percentage
+
+% num prefix means total number
+
+% MANUAL means manual approach to get the number
+
+% AUTO means, we need to run the script in last minute to get
+% the right number
+
+
+
+% ================ BAR CHART LABELS (NOT NUMBERS) ==================
+
+% timing conditions (section 3.1) -- TMC
+\def \BTMC {\textsf{TC}} % a  -- 4 sub-bars as in Table 2
+
+% input preconditions (section 3.2) -- IP
+\def \BFLT  {\textsf{FLT}}  % b 
+\def \BTO   {\textsf{TO}}   % c 
+\def \BCR   {\textsf{CR}}   % d 
+\def \BRB   {\textsf{RB}}   % e 
+\def \BPROT {\textsf{PR}} % f 
+\def \BBFG  {\textsf{B/F}} % g 
+
+% triggering scope (section 3.3) -- TS
+\def \BTSM {\textsf{TS-MSG}} % h 
+\def \BTSN {\textsf{TS-ND}} % i 
+\def \BTSP {\textsf{TS-PR}} % j 
+\def \BTSU {\textsf{TS-UEv}} % k
+
+% error (section 4.1) -- ERR
+\def \BERR  {\textsf{ERR}}  % l -- 7 sub-bars as in Table 3
+\def \BLG   {\textsf{ER-L/G}}  % m -- see protErrLoc vs. protErrGloba below
+\def \BES   {\textsf{ER-E/S}}  % n -- see protErrExp vs. protErrImp below
+
+% failure (section 4.2) -- FAIL
+\def \BFAIL {\textsf{FAIL}} % o
+
+% fix -- FIX
+\def \BFIX  {\textsf{FIX}}  % p -- 3 sub-bars, FixTime, FixHandEasy, FixHandOt
+
+% other stat -- WHR
+\def \BWHR  {\textsf{WHR}}  % q -- 3 sub-bars FIELD, TEST, N/D
+
+\def \B {\textsf{x}}
+
+\def \Bx {\textsf{x}}
+
+
+
+
+% ========================== MANUAL =========================
+
+\def \numTotJiraIss {36,972}  % Hadoop, MapReduce, Yarn, HBase, ZK, Cass
+\def \numDcBugs {104}      % total bugs we study
+\def \numDcCA {19}
+\def \numDcHB {30}
+\def \numDcMR {36}
+\def \numDcZK {19}
+
+\def \numTagsAll {2,083}
+\def \numDescLOC {4,528} % 4-indent space total 
+
+
+\def \pctx {\xxx\%}
+%\def \pctTrigAtom {\xxx\%}
+
+
+
+
+% ===================== FROM AUTO TEX FILE ========================
+% the numbers are from auto-generated tex file from stat.py which we can
+% manually verify 
+
+\def \totProtCA  {10} % number of unique-protocol-names in CA
+\def \totProtHB  {13} % number of unique-protocol-names in HB
+\def \totProtMR  {10} % number of unique-protocol-names in MR
+\def \totProtZK  {6} % number of unique-protocol-names in ZK
+\def \totProtAll {39} % number of unique-protocol-names total
+
+\def \pctFaultYes {63\%}  % fault-* exists
+\def \pctFaultTwo {35\%}  % fault-* >= 2
+\def \pctFaultThree {12\%}  % fault-* >= 3
+
+\def \pctProtMany {80\%}  % sum-prot >= 2
+\def \pctProtTwo {29\%}  % sum-prot == 2
+\def \pctProtThree {24\%}  % sum-prot == 3
+\def \pctProtFour {8\%}  % sum-prot == 4
+
+\def \pctProtBg {81\%} % at least one protocol is background (BG or Mix)
+
+% trigger: total should be (a bit over) 100% (section 3)
+\def \pctTrigOrder  {44\%} % only order
+\def \pctTrigAtom   {20\%} % only atom
+\def \pctTrigFR     {32\%}  % trigFault + trigReboot
+\def \pctTrigMix    {4\%}  % have trigMsg And trigF/R
+
+\def \pctTrigFault  {22\%}
+\def \pctTrigReboot {12\%}
+
+\def \pctTrigMsgOrder {69\%} % trigOrder / (trigOrder + trigAtom)
+\def \pctTrigMsg    {64\%}  % trigOrder + trigAtom
+
+
+
+% ...
+\def \pctTrigScopeUnEvOne  {92\%}  % 
+
+
+% error: total must be 100% (section 4.1)
+\def \pctErrLocMem    {5\%} % 
+\def \pctErrLocSem    {19\%} % 
+\def \pctErrLocHang   {9\%} % 
+\def \pctErrLocSil    {13\%} % 
+\def \pctErrGlobWrong {29\%} % 
+\def \pctErrGlobMiss  {9\%} % 
+\def \pctErrGlobSil   {16\%} % 
+%local explicit errors, should be \pctErrLocMem + \pctErrLocSem
+\def \pctErrLocExp    {23\%} %
+
+% local vs global (derived from above metrics)
+\def \pctErrLoc       {46\%} % Loc*
+\def \pctErrGlob      {54\%} % Glob*
+
+% explict vs implicit (derived from above metrics)
+\def \pctErrExp       {53\%} % LocMem + LocSem + GlobWrong
+\def \pctErrImp       {47\%} % LocHang + LocSil + GlobMiss + GlobSil
+
+
+% failure: total must be 100% (section 4.2)
+\def \pctFailOp    {47\%} % i-opfail
+\def \pctFailNode  {17\%} % i-down
+\def \pctFailData  {28\%} % i-loss + i-corrupt + i-stale
+\def \pctFailPer   {8\%} % i-perf
+
+
+
+
+
+% fix types (total should be 100%)
+\def \pctFixTime     {30\%}  % FixMsgTime* + FixFaultTime*
+\def \pctFixHandEasy {40\%}  % MsgRet + MsgIgn + MsgAcc + FaultCancel
+\def \pctFixHandOth  {30\%}  % 100% - (the two metrics above)
+
+
+
+% other statistics (Section 7)
+\def \stepMin  {4}
+\def \stepTFP  {7}
+\def \stepMed  {9}
+\def \stepAvg  {10}
+\def \stepSFP  {11}
+\def \stepMax  {40}
+
+\def \locMin  {1}
+\def \locTFP  {44}
+\def \locMed  {172}
+\def \locAvg  {1,066}
+\def \locSFP  {776}
+\def \locMax  {28,843}
+
+\def \ttrMin  {0}
+\def \ttrTFP  {4}
+\def \ttrMed  {14}
+\def \ttrAvg  {67}
+\def \ttrSFP  {48}
+\def \ttrMax  {1,121}
+
+\def \commMin  {1}
+\def \commTFP  {12}
+\def \commMed  {18}
+\def \commAvg  {28}
+\def \commSFP  {33}
+\def \commMax  {168}
+
+\def \pctWhrField  {46\%}
+\def \pctWhrTest   {10\%}
+\def \pctWhrNotDef {44\%}
+
+
+
+% ======================== IGNORE FROM NOW ==================
+
+
+
+
+
+
+
+% ======================== DEPRECATED ==================
+
+
+\def \pctPlaneCtl {\xxx\%}
+
+% fix (section 5.1), total is NOT 100%
+\def \pctFixMsgTimeGlob {\xxx\%}  % 
+\def \pctFixMsgTimeLoc  {\xxx\%}  % 
+\def \pctFixMsgHandRet  {\xxx\%}  % 
+\def \pctFixMsgHandIgn  {\xxx\%}  % 
+\def \pctFixMsgHandAcc  {\xxx\%}  % 
+\def \pctFixMsgHandOth  {\xxx\%}  % 
+
+% fix (section 5.2), total is NOT 100%
+\def \pctFixFaultTimeGlob {\xxx\%}  % 
+\def \pctFixFaultTimeLoc  {\xxx\%}  % 
+\def \pctFixFaultHandTO   {\xxx\%}  % 
+\def \pctFixFaultHandMsg  {\xxx\%}  % 
+\def \pctFixFaultHandCS   {\xxx\%}  % 
+\def \pctFixFaultHandOth  {\xxx\%}  % 
+
+
+% ========================== MESSAGE MACROS =========================
+
+
+\newcommand \sub[1] {$_{\text{#1}}$}
+
+\def \lbp {{\em b+}}
+\def \lcp {c+}
+\def \lap {a+}
+
+\def \mm {{\em m}}
+\def \mx {{\em x}}
+\def \my {{\em y}}
+\def \mxy {{\em xy}}
+
+\def \mab {{\em ab}}
+\def \mac {{\em ac}}
+\def \mbc {{\em bc}}
+\def \mcb {{\em cb}}
+\def \mca {{\em ca}}
+\def \mba {{\em ba}}
+\def \mbd {{\em bd}}
+\def \mcd {{\em cd}}
+
+\def \sa {S$_1$}
+\def \sb {S$_2$}
+\def \sc {S$_3$}
+\def \sx {S$_x$}
+\def \saa {A$_1$}
+\def \sba {B$_1$}
+\def \sbr {B$_r$}
+
+\def \ss {$/$}
+
+\def \nt {N$_T$}
+
+\def \ua {$_1$}
+\def \ub {$_2$}
+
+
+\def \spone {$^{1}$}
+
+\def \spa {$^{[a]}$}
+\def \spb {$^{[b]}$}
+\def \spc {$^{[c]}$}
+\def \spd {$^{[d]}$}
+\def \spe {$^{[e]}$}
+\def \spf {$^{[f]}$}
+\def \spg {$^{[g]}$}
+\def \sph {$^{[h]}$}
+\def \spi {$^{[i]}$}
+\def \spj {$^{[j]}$}
+\def \spk {$^{[k]}$}
+\def \spl {$^{[l]}$}
+
+\newcommand{\jirafootnote}[3]{\vminten\let\thefootnote\relax\footnote{Section \ref{#1}, Table \ref{#2}: #3}}
+
+
+\newcommand{\jirafootnotable}[2]{\vminten\let\thefootnote\relax\footnote{Section \ref{#1}: #2}}
+
+
+
+
