@@ -1,46 +1,37 @@
 Cloud services must be accessible anytime and anywhere and not lose or corrupt
 users' data (reliability), and scale as user base continues to grow
 (scalability). Unfortunately, cloud-scale distributed systems behind the
-services remain difficult to get right. Large-scale distributed systems are
-getting more complex and new intricate bugs continue to create dependability
-issues that cause major economic loss. Guaranteeing dependability has proven to
-be challenging in these systems. In this proposal, We are tackling this
+services remain difficult to get right. Guaranteeing dependability has proven
+to be challenging in these systems. In this proposal, We are tackling this
 challenge. We try to unearth dependability bugs in cloud-scale distributed
 systems, in the aspects of reliability and scalability
 
-The first aspect that we focus is reliability. We find that one
-unsolved reliability problem in cloud systems is distributed concurrency bugs
-(DC bugs). DC bugs are caused by non-deterministic order of distributed events
-such as message arrivals, faults, and reboots. Cloud systems execute multiple
-complicated distributed protocols concurrently. The possible interleavings of
-the distributed events are beyond developer's imaginations and some
-interleavings might not be handled properly. The buggy interleavings can cause
-catastrophic failures such as data loss, data inconsistencies and downtimes.
-Thus, we adopt model checking to unearth DC bugs.
+The first aspect that we focus is reliability. We find that one unsolved
+reliability problem in cloud systems is distributed concurrency (DC) bugs. DC
+bugs are caused by non-deterministic order of distributed events such as message
+arrivals, faults, and reboots. Some interleavings of these events might not be
+handled properly, and lead to catastrophic failures such as data loss, data
+inconsistencies and downtimes. 
 
 The last seven years have seen a rise of implementation-level distributed system
 model checkers (dmck) for verifying the reliability of real distributed systems.
-Existing dmcks however rarely exercise multiple failures due to the state-space
+Existing dmcks however rarely exercise multiple faults due to the state-space
 explosion problem, and thus do not address present reliability challenges of
-cloud systems in dealing with complex failures. To scale dmck, we introduce
+cloud systems in dealing with complex faults. To scale dmck, we introduce
 semantic-aware model checking (SAMC), a white-box principle that takes simple
 semantic information of the target system and incorporates that knowledge into
-state-space reduction policies. We introduce four novel reduction policies,
-which collectively alleviate redundant re-orderings of messages, crashes, and
-reboots. SAMC can find DC bugs one to two orders of magnitude faster compared to
-state-of-the-art techniques. 
+state-space reduction policies.
 
-For the second aspect, we focus on scalability. Scale surpasses the limit
-of a single machine in meeting users' increasing demands of compute and storage,
-which led to many inventions of cloud-scale distributed systems.  On the
-negative side, scale creates new development and deployment issues.  Developers
-must ensure that their algorithms and protocol designs to be scal- able.
-However, until real deployment takes place, unexpected bugs in the actual
-implementations are unforeseen. We believe this new era of cloud-scale
+For the second aspect, we focus on scalability. Scale surpasses the limit of a
+single machine in meeting users' increasing demands of compute and storage.  On
+the negative side, scale creates new development and deployment issues.
+Developers must ensure that their algorithms and protocol designs to be
+scalable. However, until real deployment takes place, unexpected bugs in the
+actual implementations are unforeseen. We believe this new era of cloud-scale
 distributed systems has given birth to a new type of bug: scalability bugs.
 They are latent bugs that are scale-dependent; they only surface in large-scale
-deployments, but not in small/medium-scale ones. Their presence jeopardizes
-systems reliability and availability at scale.
+deployments only. Their presence jeopardizes systems reliability and
+availability at scale.
 
 We present \sck, a methodology that enables developers to scale-check
 distributed systems and find scalability bugs on one machine. To colocate a
