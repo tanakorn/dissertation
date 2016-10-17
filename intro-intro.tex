@@ -24,12 +24,16 @@ bugs continue to create dependability issues that cause major economic loss.
 Guaranteeing dependability has proven to be challenging in these systems
 \cite{Gunawi+11-FateDestini, Guo+11-Demeter, Wang+14-Exalt, Yang+09-Modist}.
 
-In this proposal, we are tackling this challenge by answering these 2 questions,
-(1) What bugs that harm the dependability, and (2) how do we test the systems to
-unearth these bugs so developers can fix them? The first question is motivated
-by that we do not have comprehensive knowledge about the bugs in distributed
-systems. There are many bug studies on single-machine softwares
-\cite{Jin+12-PerformanceBugs, Lu+08-ConcurrencyBugStudy, Palix+11-FaultsInLinux,
+In this proposal, we attempt to improve dependability of cloud-scale distributed
+systems in two aspects, reliability and scalability. We are tackling this
+challenge by answering these 2 questions, (1) What bugs that harm the
+dependability, and (2) how do we test the systems to unearth these bugs so
+developers can fix them? 
+%
+The first question is motivated by that we do not have comprehensive knowledge
+about the bugs in distributed systems. There are many bug studies on
+single-machine softwares \cite{Jin+12-PerformanceBugs,
+Lu+08-ConcurrencyBugStudy, Palix+11-FaultsInLinux,
 Sahoo+10-StudyBugsServerSoftware}, yet there are few formal bug studies on
 distributed-systems softwares; they did not study in a great number and across
 multiple types of systems \cite{Li+13-ScopeBugStudy, Xiao+14-NonDetMR}. We
@@ -46,10 +50,22 @@ injecting faults, but it does not address concurrency in distributed systems.
 reasonable time when injecting multiple faults. Or Exalt, which is a framework
 to test scalability, cannot be applied to CPU-intensive systems. 
 
+For reliablity, we find that one unsolved reliability problem in cloud systems
+is distributed concurrency (DC) bugs. DC bugs are caused  by non-deterministic
+order of distributed events such as message arrivals, faults, and reboots. Cloud
+systems execute multiple complicated distributed protocols concurrently (\eg,
+serving users' requests, operating some background tasks, and combined with
+untimely hardware failures). The possible interleavings of the distributed
+events are beyond developer's imaginations and some interleavings might not be
+handled properly. The buggy distributed interleavings can cause catastrophic
+failures such as data loss, data inconsistencies and downtimes. Thus, our effort
+to tackle reliability issues will concentrate on DC bugs.
+
 We propose how to further the current testing techniques beyond the limitations
 in this proposal. The proposal is arranged in this order: chapter \ref{chp-bg}
 explains the problem being solved in detail and discusses related work, chapter
-\ref{chp-plan} shows our research plans.
+\ref{chp-plan} shows our research plans, and chapter \ref{chp-con} gives a
+conclusion.
 %
 The proposal is a fusion of our previous work and our on-going work. It includes
 cloud bug studies \cite{Gunawi+14-Cbs, Leesatapornwongsa+16-TaxDC},
