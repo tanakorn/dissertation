@@ -4,14 +4,13 @@ users' data (reliability), and scale as user base continues to grow
 services remain difficult to get right. Guaranteeing dependability has proven
 to be challenging in these systems. In this proposal, We are tackling this
 challenge. We try to unearth dependability bugs in cloud-scale distributed
-systems, in the aspects of reliability and scalability
+systems, in the aspects of reliability and scalability.
 
-The first aspect that we focus is reliability. We find that one unsolved
-reliability problem in cloud systems is distributed concurrency (DC) bugs. DC
-bugs are caused by non-deterministic order of distributed events such as message
-arrivals, faults, and reboots. Some interleavings of these events might not be
-handled properly, and lead to catastrophic failures such as data loss, data
-inconsistencies and downtimes. 
+For reliability, we focus on one unsolved reliability problem in cloud systems,
+``{\em distributed concurrency (DC) bugs}''. DC bugs are caused by non-deterministic
+order of distributed events such as message arrivals, faults, and reboots. Some
+interleavings of these events might not be handled properly, and lead to
+catastrophic failures such as data loss, data inconsistencies and downtimes. 
 
 The last seven years have seen a rise of implementation-level distributed system
 model checkers (dmck) for verifying the reliability of real distributed systems.
@@ -23,15 +22,13 @@ semantic information of the target system and incorporates that knowledge into
 state-space reduction policies.
 
 For the second aspect, we focus on scalability. Scale surpasses the limit of a
-single machine in meeting users' increasing demands of compute and storage.  On
+single machine in meeting users' increasing demands of compute and storage. On
 the negative side, scale creates new development and deployment issues.
 Developers must ensure that their algorithms and protocol designs to be
 scalable. However, until real deployment takes place, unexpected bugs in the
-actual implementations are unforeseen. We believe this new era of cloud-scale
-distributed systems has given birth to a new type of bug: scalability bugs.
-They are latent bugs that are scale-dependent; they only surface in large-scale
-deployments only. Their presence jeopardizes systems reliability and
-availability at scale.
+actual implementations are unforeseen. This new era of cloud-scale distributed
+systems has given birth to ``{\em scalability bugs}''. They are latent bugs
+that are scale-dependent, and only surface in large scale.
 
 We present \sck, a methodology that enables developers to scale-check
 distributed systems and find scalability bugs on one machine. To colocate a
