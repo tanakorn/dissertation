@@ -50,17 +50,6 @@ injecting faults, but it does not address concurrency in distributed systems.
 reasonable time when injecting multiple faults. Or Exalt, which is a framework
 to test scalability, cannot be applied to CPU-intensive systems. 
 
-For reliablity, we find that one unsolved reliability problem in cloud systems
-is distributed concurrency (DC) bugs. DC bugs are caused  by non-deterministic
-order of distributed events such as message arrivals, faults, and reboots. Cloud
-systems execute multiple complicated distributed protocols concurrently (\eg,
-serving users' requests, operating some background tasks, and combined with
-untimely hardware failures). The possible interleavings of the distributed
-events are beyond developer's imaginations and some interleavings might not be
-handled properly. The buggy distributed interleavings can cause catastrophic
-failures such as data loss, data inconsistencies and downtimes. Thus, our effort
-to tackle reliability issues will concentrate on DC bugs.
-
 We propose how to further the current testing techniques beyond the limitations
 in this proposal. The proposal is arranged in this order: chapter \ref{chp-bg}
 explains the problem being solved in detail and discusses related work, chapter
