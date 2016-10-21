@@ -1,5 +1,4 @@
 
-
 \newcommand{\qbeg}{
 \begin{quote}
 %\begin{spacing}{0.9}
@@ -11,20 +10,14 @@
 \end{quote}
 }
 
-
-
-
 \newcommand{\fev}[1]{\textcolor{Maroon}{\textit{#1}}}
 \newcommand{\ev}[1]{\textcolor{gray}{\textbf{#1}}}
 
-
-%\def \cbrk {\\}
-\def \cbrk {}
-
-
+\begin{figure}[t]
+\fbox{
+\begin{minipage}{\textwidth}
 \qbeg
 {\bf ZooKeeper Bug \#335:}
-
 \enumerate{
 \item  Nodes A, B, C start with latest txid \#10 and elect
 B as leader,
@@ -46,4 +39,9 @@ with tx 12 (excluding tx \{\#11:Y\}!),
 have \{\#11:Y\} and  C has \{\#11:X\}.
 }
 \qend
+\end{minipage}
+}
+\mycaption{fig-code-zk}{Zookeeper bug \#335}{Timing steps for Zookeeper bug
+\#335 to manifest}
+\end{figure}
 
