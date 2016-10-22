@@ -51,19 +51,20 @@
 \def \numMaxRedRatio {166x}  
 \def \numRedRatioExecs {3000}
 
-%\newcommand{\mrb}[1]{\jira{MAPREDUCE}{MR}{#1}}
-%\newcommand{\zkb}[1]{\jira{ZOOKEEPER}{ZK}{#1}}
-%\newcommand{\zk}[1]{\jira{ZOOKEEPER}{ZooKeeper}{#1}}
-%\newcommand{\mr}[1]{\jira{MAPREDUCE}{MapReduce}{#1}}
-%\newcommand{\cs}[1]{\jira{CASSANDRA}{Cassandra}{#1}}
+%\newcommand{\mrb}[1]{MR-#1}
+%\newcommand{\zkb}[1]{ZK-#1}
+%\newcommand{\zk}[1]{ZooKeeper-#1}
+%\newcommand{\mr}[1]{MapReduce-#1}
+%\newcommand{\cs}[1]{Cassandra-#1}
 
-\newcommand{\mrb}[1]{MR-#1}
-\newcommand{\zkb}[1]{ZK-#1}
-\newcommand{\zk}[1]{ZooKeeper-#1}
-\newcommand{\mr}[1]{MapReduce-#1}
-\newcommand{\cs}[1]{Cassandra-#1}
+\newcommand{\jira}[3]{\href{http://issues.apache.org/jira/browse/#1-#3}{#2-#3}}
 
-%\newcommand{\jira}[3]{\href{http://issues.apache.org/jira/browse/#1-#3}{#2-#3}}
+\newcommand{\mrb}[1]{\jira{MAPREDUCE}{MR}{#1}}
+\newcommand{\zkb}[1]{\jira{ZOOKEEPER}{ZK}{#1}}
+\newcommand{\csb}[1]{\jira{CASSANDRA}{CA}{#1}}
+\newcommand{\zk}[1]{\jira{ZOOKEEPER}{ZooKeeper}{#1}}
+\newcommand{\mr}[1]{\jira{MAPREDUCE}{MapReduce}{#1}}
+\newcommand{\cs}[1]{\jira{CASSANDRA}{Cassandra}{#1}}
 
 
 \def \ll {\ts{L}}
