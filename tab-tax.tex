@@ -1,0 +1,53 @@
+\definecolor{Gray}{gray}{0.75}
+\begin{table}[!htb]
+%\footnotesize
+\centering
+\begin{tabular}{lp{5.5in}}
+\toprule
+%\rowcolor{Gray}
+\multicolumn{2}{c}{{\bf Triggering} }\\
+\midrule
+\multicolumn{2}{l}{\it What is the triggering timing condition?}\\
+&{Message arrives unexpectedly late/early}\\
+&{Message arrives unexpectedly in the middle}\\
+&{Fault (component failures) at an unexpected state}\\
+&{Reboot at an unexpected state}\\
+\multicolumn{2}{l}{\it What are the triggering inputs preconditions?}\\
+ & {Fault, reboot, timeout, background protocols, and others}\\ 
+%&{\scriptsize Node/Job crash}\\
+%&{\scriptsize Node/Job restart after crash}\\
+%&{\scriptsize Node/Job shut-down}\\
+%&{\scriptsize Node/Job start-up}\\
+%&{\scriptsize Time out}\\
+%&{\scriptsize Others (e.g., client requests)}\\
+\multicolumn{2}{l}{\it What is the triggering scope?}\\
+&{\it How many nodes/messages/protocols are involved?}\\
+\midrule
+%\rowcolor{Gray}
+\multicolumn{2}{c}{{\bf Errors \& Failures} }\\
+\midrule
+\multicolumn{2}{l}{\it What is the error symptom?}\\
+&{Local memory exceptions}\\
+&{Local semantic error messages \& exceptions}\\
+&{Local hang}\\
+&{Local silent errors (inconsistent local states) }\\
+&{Global missing messages}\\
+&{Global unexpected messages}\\
+&{Global silent errors (inconsistent global states)}\\
+\multicolumn{2}{l}{\it What is the failure symptom?}\\
+&{Node downtimes, data loss/corruption, operation failures, slowdowns}\\
+\midrule
+%\rowcolor{Gray}
+\multicolumn{2}{c}{{\bf Fixing} }\\
+\midrule
+\multicolumn{2}{l}{\it What is the fix strategy?}\\
+&{Fix Timing: add global synchronization}\\
+&{Fix Timing: add local synchronization}\\
+&{Fix Handling: retry message handling at a later time}\\
+&{Fix Handling: ignore a message}\\
+&{Fix Handling: accepting a message without new computation logics}\\
+&{Fix Handling: others}\\
+\bottomrule
+\end{tabular}
+\mycaption{tab:tax}{Taxonomy of DC Bugs}{}
+\end{table}

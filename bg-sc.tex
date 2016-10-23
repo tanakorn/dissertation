@@ -77,35 +77,6 @@ forward Y's old version number (\eg, Y$_1$).  As Y's new gossip is not
 propagated on time,  other nodes (\eg, Z) will mark Y as dead.  This happens to
 all nodes, not just Y.
 
-
-\if 0
-We mined bug repositories of four popular P2P key-value stores 
-(Cassandra, Riak and 
-Voldemort, Couchbase) and found \numStudy\footnote{The following are the 
-  bugs we study (\textbf{with embedded hyperlinks}).
-%
-Cassandra: \caa, \cab, \cac, \cad, \cae ;
-%
-Couchbase: \cba, \cbb, \cbc, \cbd ;
-%
-Riak: \rka, \rkb ; and 
-%
-Voldemort: \vda.
-%
-This manual mining was arduous because there is no
-standard jargon for ``scalability bugs'';
-we might have missed other related bugs.
-%
-%For brevity, we only describe one bug in detail (\sec\ref{mot-bug})
-%as the others have similar characteristics (\sec\ref{mot-observe}).
-} control-plane scalability bugs.
-%
-These bugs caused significant availability problems such as long cluster
-instability.
-%
-They also have complex characteristics (\sec\ref{mot-observe}).
-\fi
-
 \subsection{Observations}
 \label{sec-scobs}
 

@@ -1,0 +1,63 @@
+
+\begin{table}[!hbt]
+\begin{center}
+% {\small
+\begin{tabular}{r|p{5in}}
+\hline
+{\bf Classification} & {\bf Labels} \\
+\hline
+Issue Type & Vital, miscellaneous. \\
+\hline
+Aspect & Reliability, performance, availability, security, consistency,  scalability, topology, QoS. \\
+\hline
+Bug scope & Single machine, multiple machines, entire cluster. \\
+\hline
+Hardware & Core/processor, disk, memory, network, node. \\
+\hline
+HW Failure & Corrupt, limp, stop. \\
+\hline
+Software & Logic, error handling, optimization, config, race, hang, space, load. \\
+\hline
+Implication & Failed operation, performance, component downtime, data loss, data staleness, data corruption. \\
+\hline
+\end{tabular}
+
+
+%
+\if 0
+\begin{tabular}{p{3in}}
+\\
+\hline
+{\bf Per-component Labels} \\
+\hline
+{\em Cassandra:} Anti-entropy, boot, client, commit log, compaction, cross system, get, gossiper, hinted handoff, IO, memtable, migration, mutate, partitioner, snitch, sstable, streaming, tombstone. \\
+\hline
+{\em Flume:} Channel, collector, config provider, cross system, master/supervisor, sink, source. \\
+\hline
+{\em HBase:} Boot, client, commit log, compaction, coprocessor, cross system, fsck, IPC, master, memstore flush, namespace, read, region splitting, log splitting, region server, snapshot, write. \\
+\hline
+{\em HDFS:} Boot, client, datanode, fsck, HA, journaling, namenode, gateway, read, replication, ipc, snapshot, write. \\
+\hline
+{\em MapReduce:} AM, client, commit, history server, ipc, job tracker, log, map, NM, reduce, RM, security, shuffle, scheduler, speculative execution, task tracker. \\
+\hline
+{\em Zookeeper:} Atomic broadcast, client, leader election, snapshot. \\
+\hline
+\end{tabular}
+\fi
+%---------------------------------
+\end{center}
+%\vminfifteen
+%\vminten
+\vminfive
+\mycaption{tab-tag}{Issue Classifications}{
+%
+%  The tables list our issue classifications
+%and per-component labels.
+% the raw bug repositories have component labels, but they are
+%unsuitable for our study (\eg, they are 
+%too coarse-grained,  based on sub-directory names, and often
+%do not pinpoint the buggy components).
+}
+%\vminfifteen
+%\vminfive
+\end{table}

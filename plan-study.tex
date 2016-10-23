@@ -54,7 +54,7 @@ miscellaneous and skipped in our study.
 
 \subsubsection{Study Result}
 
-The finding of this study was published in \cbs paper \cite{Gunawi+14-Cbs}.  The
+The finding of this study was published in \cbs\ paper \cite{Gunawi+14-Cbs}.  The
 product of our classifications is stored in \cdb, a set of raw text files, data
 mining scripts and graph utilities \cite{CBS}, which enables us (and other \cdb\
 users) to perform both quantitative and qualitative analysis of cloud issues. 
@@ -115,4 +115,37 @@ many messages to re-order, failures to inject, \etc)?  What errors/effects
 inconsistency, performance problems, \etc)? How do propagation chains form from
 the root causes to errors? The answers to these questions guide our subsequent
 research projects.
+
+\subsection{Scalability Bug Study}
+
+For scalability bugs, the situation is even worse. We are not aware of any study
+on scalability bugs at all. We started a pilot study of scalability bugs to gain
+some insight about them. We studied 12 bugs in four key-value stores including
+Cassandra, Couchbase, Riak, and Voldemort.
+
+\subsubsection{Methodology}
+
+\begin{itemize}
+
+\item {\bf Target Systems \& Bug Repositories} Focusing on control-plane
+protocol in P2P systems, we chose four popular P2P key-value stores to study:
+Cassandra, Couchbase, Riak, and Voldemort. Because \cbs\ is a study aiming on
+different kinds of systems, the only P2P key-value store \cbs\ addresses is
+Cassandra. We have to mine bug repositories for the others manually.  And we
+found \numStudy\ control-plane scalability bugs.  (This manual mining was arduous
+because there is no standard jargon for ``scalability bugs''; we might have
+missed other related bugs.)
+
+\item {\bf Detail Study} In each bug, we studied the problematic protocol in
+serveral aspects: protocol design, implementation, problem root cause, symptom,
+and fix.
+
+\end{itemize}
+
+\subsubsection{Preliminary Result}
+
+From the study, we can gain some insight about scalability bugs in control-plane
+protocols. We show the observations in Section \ref{sec-scobs}. These
+observations guide us how to create a methodology for checking scalability of
+the systems.
 
