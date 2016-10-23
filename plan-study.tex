@@ -29,10 +29,7 @@ ZooKeeper~\cite{ZooKeeperWeb} (synchronization services), and finally
 Flume~\cite{FlumeWeb} (streaming systems).
 %
 All development projects of the target systems maintain highly organized issue
-repositories\footnote{Hadoop MapReduce in particular has two repositories
-(Hadoop and MapReduce). The first one contains mostly development
-infrastructure (\eg, UI, library) while the second one contains system issues.
-We use the latter.}.
+repositories.
 %
 Each repository contains development and deployment issues submitted mostly by
 the developers or a larger user community. The term ``issue'' is used here to
@@ -67,29 +64,55 @@ systems. We show a wide range of intricate bugs, many of which are unique to
 distributed cloud systems (\eg, scalability, topology, and killer bugs). And it
 is the main source of our DC-bug taxonomy and scalability-bug analysis.
 
-\subsection{DC Bug Taxonomy} 
+\subsection{DC Bug Taxonomy (Initial Work)}
 
-While there have been many LC-bug studies, I am not aware of any large-scale
-study of DC bugs. A recent study from Microsoft analyzed the effect of
-distributed concurrency on workload and only studied five DC bugs in MapReduce
-systems \cite{Xiao+14-NonDetMR}. To fill the void, I as one of the project
-leaders, have created the largest and most comprehensive taxonomy of 104
-real-world DC bugs (named \taxdc) from Cassandra, HBase, Hadoop MapReduce/Yarn,
-and ZooKeeper \cite{Leesatapornwongsa+16-TaxDC}. \taxdc\ contains in-depth
+While there have been many LC-bug studies, we are not aware of any large-scale
+study of DC bugs. To fill the void, we have created the largest and most
+comprehensive taxonomy of 104 real-world DC bugs (named \taxdc) from four
+distributed system: Cassandra, HBase, Hadoop MapReduce/Yarn, and ZooKeeper
+\cite{Leesatapornwongsa+16-TaxDC}.
+
+\subsubsection{Methodology}
+
+\input{tab-tax}
+
+\begin{itemize}
+
+\item {\bf Target Systems \& Bug Repositories:} We examined bugs from four
+distributed systems that represent a diverse set of system architectures: Hadoop
+MapReduce \cite{HadoopWeb} (distributed computing frameworks), HBase
+\cite{HBaseWeb} and Cassandra \cite{CassandraWeb} (distributed NoSQL systems),
+and ZooKeeper \cite{ZooKeeperWeb} (synchronization services).
+%
+We started our study from \cdb \cite{CBSWeb}, which already labels issues
+related to concurrency bugs. However, beyond simple labeling, the \cbs work does
+not differentiate DC from LC bugs and did not dissect DC bugs further.
+Thus, we first filtered out LC bugs, then exclude DC bugs that do not contain
+clear description, and finally randomly picked \numDcBugs\ samples from the
+remaining detailed DC bugs, specifically \numDcCA\ Cassandra, \numDcHB\ HBase,
+\numDcMR\ Hadoop MapReduce, and \numDcZK\ ZooKeeper DC bugs, reported in January
+2011-2014 (the time range of CBS work).  
+
+\item {\bf Taxonomy:} We study the characteristics of DC bugs along three key
+stages: triggering, errors \& failures, and fixing as shown in Table \ref{tab:tax}.
+
+\end{itemize}
+
+\subsubsection{Study Result}
+
+We publish the result in \taxdc\ paper \cite{Leesatapornwongsa+16-TaxDC}, and we
+also release \taxdc\ database online \cite{TaxDCWeb}.  \taxdc\ contains in-depth
 characteristics of DC bugs, stored in the form of 2,083 classification labels
-and 4,528 lines of re-enumerated steps to the bugs that I manually added.
-Motivated by the availability of bug benchmarks for LC bugs, I will release
-\taxdc\ as a large-scale DC bugs benchmark.
+and 4,528 lines of re-enumerated steps to the bugs that we manually added. 
 
-With \taxdc\, I can answer important questions such as: How often are DC bugs
-reported from real deployments? What types of DC bugs exist in real world?
-What are the root causes of DC bugs (out-of-order messages, failures, \etc)?
-Are existing LC-bug-detection tools applicable for DC bugs? How do developers
-fix DC bugs (by adding locks, states, \etc)? What are the inputs/triggering
-conditions?  What are the minimum number of distributed events needed to
-trigger the bugs (how many messages to re-order, failures to inject, \etc)?
-What errors/effects (specification violations) are caused by DC bugs (deadlock,
-data loss, state inconsistency, performance problems, \etc)? How do propagation
-chains form from the root causes to errors? The answers to these questions will
-guide my subsequent research projects.
+With \taxdc, we can answer important questions such as: What are the root causes
+of DC bugs (out-of-order messages, failures, \etc)?  Are existing
+LC-bug-detection tools applicable for DC bugs? How do developers fix DC bugs (by
+adding locks, states, \etc)? What are the inputs/triggering conditions?  What
+are the minimum number of distributed events needed to trigger the bugs (how
+many messages to re-order, failures to inject, \etc)?  What errors/effects
+(specification violations) are caused by DC bugs (deadlock, data loss, state
+inconsistency, performance problems, \etc)? How do propagation chains form from
+the root causes to errors? The answers to these questions guide our subsequent
+research projects.
 
