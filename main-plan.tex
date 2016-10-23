@@ -1,6 +1,18 @@
 \chapter{Research Plan}
 \label{chp-plan}
 
+To unearth bugs in cloud-scale distributed systems, the first thing we need is
+comprehensive knowledge about them, so we can establish proper solutions. In our
+research plan, we start with general bug study on cloud systems to see the big
+picture of the current problems. Then we dissect DC bugs and scalability bugs to
+analyze.
+%
+For DC bugs, we will advance the state of the art of dmcks. We are introducing 
+more pruning policies to tackle state-space explosion problem. And for
+scalability bugs, we will fill the missing piece of control-plane protocol bugs
+focusing on P2P systems.
+
 \input{plan-study}
 \input{plan-dmck}
 \input{plan-sck}
+
