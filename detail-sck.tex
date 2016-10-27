@@ -1,12 +1,14 @@
 \section{Scale Emulation}
 
 Next we move on to scalability bugs. Our observations in Section \ref{sec-scobs}
-accentuate the need for scale-checking distributed system implementations at
+accentuate the need for scale checking distributed system implementations at
 real scale, not via simulation nor extrapolation. 
 %
 Our proposed solution is to colocate as many nodes as possible (\eg, hundreds)
 on one machine without sacrificing accuracy by {\em emulate} hardware resources
 such that the individual nodes behave as if they run on independent machines.
+We are introducing \sck\, a scale-check methodology for control-plane protocols
+in P2P key-value systems.
 
 We first summarize our target problem, challenges, and principles in tackling
 the problem.
