@@ -109,7 +109,7 @@ implementation choice: metadata checkpoint, multi-map cloning, and its
 single-threaded implementation.  State-update processing time is hard to
 predict (ranges from 0.001 to 4 seconds) as it depends on a 2-dimensional
 input: the receiving node's ring table size and the number of new
-state changes (\sec\ref{sec-eval}).
+state changes.
 
 % not independent
 \item {\em Cascading impacts of ``not-so-independent'' nodes.}  In
@@ -174,7 +174,7 @@ Second, extrapolation monitors system behaviors in ``mini clusters'' and
 extrapolates them to larger scales (\sec2.1 in \cite{Wang+14-Exalt}).  However,
 mini clusters tend to be order(s) of magnitude smaller than real deployments.
 Most importantly, system behaviors do not always extrapolate linearly
-\cite{Wang+14-Exalt}; for the bugs in our work (\sec\ref{sec-eval}), even an
+\cite{Wang+14-Exalt}; for the bugs in our work (\sec\ref{sc-study}), even an
 extrapolation based on a 100-node cluster will not reveal the bug symptoms.
 
 Finally, real-scale emulation checks real implementations in an emulated
