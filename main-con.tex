@@ -6,5 +6,28 @@ systems that weaken reliability and scalability of the systems. For reliability
 bugs, we focus in distributed concurrency (DC) bugs. For scalability bugs, we
 focus in control-plane protocol bug, specifically in P2P storage systems.
 
-The key idea for unearthing DC bugs is advancing model checking techniques. 
+%We started our work by performing bug studies. Based on our initial work for
+%cloud bug study, we dissect DC bugs and study their critical characteristics.
+%Then we look at scalability bugs that are related 
+
+The key idea for unearthing DC bugs is advancing model checking techniques for
+dmcks to tackle state-space explosion. Because existing dmcks treat every target
+system as a complete \textit{black box}, and therefore perform unnecessary
+reorderings of distributed events that would lead to the same explored states
+(\ie, redundant executions).  To tackle the problem, we introduced
+Semantic-Aware Model Checking (SAMC), a novel white-box model checking approach
+that takes \textit{semantic knowledge} of how distributed events (specifically,
+messages, crashes, and reboots) are processed by the target system and
+incorporates that information in reduction policies. The policies are based on
+sound reduction techniques such as DPOR and symmetry.
+
+And for scalability bugs, we believe from the study that we need to scale check
+distributed system implementation at real scale, not via simulation nor
+extraploation. Our proposed solution is to colocate as many nodes as possible
+(\eg, hundreds) on one machine without sacrificing accuracy by {\em emulate}
+hardware resources such that the individual nodes behave as if they run on
+independent machines. We propose four emulation concepts to mitigate hardware
+contention problems. We are exploring these concepts to build scale check
+methodology for checking control-plane protocols in P2P key-value stores.
+
 
