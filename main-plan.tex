@@ -1,1 +1,72 @@
-\chapter{Research Plan}
+
+
+\chapter{Research Progress and Plan}
+
+\section{Research Progress}
+
+\begin{tabular}{|p{2.3in}|p{4in}|}
+
+\hline
+\multicolumn{2}{|c|}{{\bf Bug Study}} \\
+\hline
+%
+Cloud bug study & This is a previous work from our group. It was an equal effort
+work. We built \cdb\ and published the \cbs\ paper at SoCC '14
+\cite{Gunawi+14-Cbs}. Tanakorn Leesatapornwongsa was responsible for ZooKeeper
+bug study in this work. \\
+\hline
+%
+DC bug taxonomy & This is our complete work. It is done in 2015. We released our
+study and taxonomy (named \taxdc) online. This work was published at ASPLOS '16
+\cite{Leesatapornwongsa+16-TaxDC}. Two students in this work did equal effort.
+Tanakorn Leesatapornwongsa was responsible for Cassandra and ZooKeeper DC bug
+study. \\
+\hline
+%
+Scalability bug study & This is our preliminary work to understand scalability
+bugs in distributed systems. This is a foundation in our scale check project \\
+
+\hline
+\multicolumn{2}{|c|}{{\bf Distributed-System Model Checking}} \\
+\hline
+%
+Semantic-aware model checking & This is our complete work. It is done in 2014.
+We released our model checker to the public and published the SAMC paper at OSDI
+'14\\
+
+\hline
+\multicolumn{2}{|c|}{{\bf Scale Check}} \\
+\hline
+Scale check emulation and metho\-do\-logy & This is our ongoing work. We are
+introducing scale check concepts to Cassandra, Riak, and Voldemort systems. \\
+\hline
+
+\end{tabular}
+
+\section{Research Plan}
+
+To fulfill the dissertation research, we are working on our last piece, {\em
+scale check}. This is a plan of action we proposed.
+
+\begin{enumerate}
+
+\item Develop processing illusion (PIL) on Cassandra, 1 month, 12/1/2016 - 12/31/2016
+
+\item Develop single-process cluster (SPC) on Cassandra, 3 weeks, 1/1/2017 - 1/21/2017
+
+\item Develop global event driven architecture (GEDA) on Cassandra, 1 weeks, 1/22/2017 - 1/28/2017
+
+\item Develop memory footprint reduction (MFR) on Cassandra, 1 week, 1/29/2017 - 2/4/2017
+
+\item Integrate all techniques and summarize the \sck\ methodology, 1 week, 2/5/2017 - 2/11/2017
+
+\item Apply \sck\ to Riak and Voldemort, 3 weeks, 2/12/2017 - 2/25/2017
+
+\item Evaluate \sck\, 2 weeks, 2/26/2017 - 3/11/2017
+
+\item Write the dissertation, 1 month, 3/12/2017 - 4/12/2017
+
+\item Defend the dissertation
+
+\end{enumerate}
+
