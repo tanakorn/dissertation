@@ -1,37 +1,65 @@
-Cloud services must be accessible anytime and anywhere and not lose or corrupt
-users' data (reliability), and scale as user base continues to grow
-(scalability). Unfortunately, cloud-scale distributed systems behind the
-services remain difficult to get right. Guaranteeing dependability has proven
-to be challenging in these systems. In this proposal, We are tackling this
-challenge. We try to unearth dependability bugs in cloud-scale distributed
-systems, in the aspects of reliability and scalability.
+As more data and computation move from local to cloud settings, cloud-scale
+distributed systems such as scale-out storage systems, computing frameworks,
+synchronization services, and cluster management services have become a dominant
+backbone for many cloud services. Client-side software is getting thinner and
+more heavily relies on the capability, reliability, and availability of cloud
+systems. Users demand for 24/7 dependability of cloud services. Cloud services
+must be accessible anytime and anywhere and not lose or corrupt users data
+(reliability), and scale as user base continues to grow (scalability). 
 
-For reliability, we focus on one unsolved reliability problem in cloud systems,
-``{\em distributed concurrency (DC) bugs}''. DC bugs are caused by non-deterministic
-order of distributed events such as message arrivals, faults, and reboots. Some
-interleavings of these events might not be handled properly, and lead to
-catastrophic failures such as data loss, data inconsistencies and downtimes. 
+Unfortunately, such cloud-scale distributed systems remain difficult to get
+right. Large-scale distributed systems are getting more complex and new
+intricate bugs continue to create dependability issues that cause major economic
+loss. Guaranteeing dependability has proven to be challenging in these systems.
+We are trying to guarantee dependability by answering a question, ``{\em How can
+we identify dependability bugs in cloud-scale distributed systems, in the
+aspects of reliability and scalability?}''
 
-The last seven years have seen a rise of implementation-level distributed system
+The first part of this proposal, we focus on reliability aspect. We find that
+one unsolved reliability problem in cloud systems is distributed concurrency
+bugs (DC bugs). DC bugs are caused by non-deterministic order of distributed
+events such as message arrivals, faults, and reboots. Cloud systems execute
+multiple complicated distributed protocols concurrently. The possible
+interleavings of the distributed events are beyond developer's imaginations and
+some interleavings might not be handled properly. The buggy distributed
+interleavings can cause catastrophic failures such as data loss, data
+inconsistencies and downtimes. Thus, we are adopting model checking to unearth
+DC bugs.
+
+The last five years have seen a rise of implementation-level distributed system
 model checkers (dmck) for verifying the reliability of real distributed systems.
-Existing dmcks however rarely exercise multiple faults due to the state-space
+Existing dmcks however rarely exercise multiple failures due to the state-space
 explosion problem, and thus do not address present reliability challenges of
-cloud systems in dealing with complex faults. To scale dmck, we introduce
+cloud systems in dealing with complex failures. To scale dmck, we introduce
 semantic-aware model checking (SAMC), a white-box principle that takes simple
 semantic information of the target system and incorporates that knowledge into
-state-space reduction policies.
+state-space reduction policies. we present four novel reduction policies:
+local-message independence (LMI), crash-message independence (CMI), crash
+recovery symmetry (CRS), and reboot synchronization symmetry (RSS), which
+collectively alleviate redundant re-orderings of messages, crashes, and reboots.
+SAMC is systematic; it does not use randomness or bug-specific knowledge.  SAMC
+is simple; users write protocol-specific rules in few lines of code. SAMC is
+powerful; it can find deep bugs one to two orders of magnitude faster compared
+to state-of-the-art techniques. 
 
-For the second aspect, we focus on scalability. Scale surpasses the limit of a
-single machine in meeting users' increasing demands of compute and storage. On
-the negative side, scale creates new development and deployment issues.
-Developers must ensure that their algorithms and protocol designs to be
-scalable. However, until real deployment takes place, unexpected bugs in the
-actual implementations are unforeseen. This new era of cloud-scale distributed
-systems has given birth to ``{\em scalability bugs}''. They are latent bugs
-that are scale-dependent, and only surface in large scale.
+In the second part, we focus on scalability aspect. Scale surpasses the limit of
+a single machine in meeting users' increasing demands of compute and storage,
+which led to many inventions of cloud-scale distributed systems. The field has
+witnessed a phenomenal deployment scale of such systems. On the negative side,
+scale creates new development and deployment issues. Developers must ensure that
+their algorithms and protocol designs to be scal- able. However, until real
+deployment takes place, unexpected bugs in the actual implementations are
+unforeseen. We believe this new era of cloud-scale distributed systems has given
+birth to a new type of bug: scalability bugs. They are latent bugs that are
+scale-dependent; they only surface in large-scale deployments, but not in
+small/medium-scale ones. Their presence jeopardizes systems reliability and
+availability at scale.
 
 We present \sck, a methodology that enables developers to scale-check
 distributed systems and find scalability bugs on one machine. To colocate a
-large number of nodes without sacrificing accuracy, we remove hardware
-contentions with four novel strategies. And with these techniques, we achieve
-high collocation factor.
+large number of  nodes without sacrificing accuracy, we remove hardware
+contentions with four novel strategies, processing illusion (PIL),
+single-process cluster (SPC), global event-driven architecture (GEDA), and
+memory footprint reduction (MFR), which we have successfully integrated to
+Cassandra, Riak, and Voldemort. With \sck, we achieve a high colocation factor
+(500 nodes) and easily reproduce 6 control-path scalability bugs.
