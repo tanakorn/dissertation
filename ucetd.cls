@@ -64,7 +64,7 @@
 			\vspace{0.8in}
 			\MakeUppercase{\@title}\\
 			\vspace{0.8in}
-			A PROPOSAL SUBMITTED TO\\
+			A DISSERTATION SUBMITTED TO\\
 			THE FACULTY OF THE DIVISION OF THE \MakeUppercase{\@division}\\
 			IN CANDIDACY FOR THE DEGREE OF\\
 			\MakeUppercase{\@degree}\\
@@ -197,8 +197,7 @@
 	\newpage
 	\addcontentsline{toc}{chapter}{References}
 	\begin{singlespace}
-    \bibliography{B/defs,B/all,B/personal,B/confs,local.bib}
-    %\bibliography{ft2,master,refs}
+		\bibliography{ft2,master,refs}
 		\bibliographystyle{plain}
 	\end{singlespace}
 }
