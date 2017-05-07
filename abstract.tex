@@ -1,20 +1,16 @@
 In the era of cloud computing, users (normal and organization) move their data
-and computation from local machines and internal datacenters to cloud services.
-Client-side software is getting thinner and more heavily relies on cloud
-services, thus the services are expected to be 24/7 dependable. Cloud services
-must be accessible anytime and anywhere and not lose or corrupt users data
+and computation from local machines and internal datacenters to cloud services,
+thus the services are expected to be 24/7 dependable. Cloud services must be
+accessible anytime and anywhere and not lose or corrupt users data
 (reliability), and scale as user base continues to grow (scalability).
-Unfulfilled dependability is costly; cloud service companies collectively lose
-billions of dollars in revenue each year from service downtimes.
-
-Unfortunately, proving cloud services' dependability is challenging. Behind
-these cloud services, it is backed by large sophisticated distributed systems
-such as scalable data stores, distributed file systems, data-parallel
-frameworks, and cluster management systems. Such cloud-scale distributed systems
-remain difficult to get right because they need to address concurrency in the
-networks, complex failures in commodity hardware, massive user requests, and
-much more. These make the systems getting more complex and new intricate bugs
-continue to create dependability issues.
+Unfortunately, gauranteeing cloud services' dependability is challenging because
+these cloud services are backed by large sophisticated distributed systems such
+as scalable data stores, data-parallel frameworks, and cluster management
+systems. Such cloud-scale distributed systems remain difficult to get right
+because they need to address concurrency in the networks, complex failures in
+commodity hardware, massive user requests, and much more.  These make the
+systems getting more complex and new intricate bugs continue to create
+dependability issues.
 
 This dissertation tries to answer a simple questions of cloud dependability:
 ``{\em how can we make cloud-scale distributed systems reaching ideal
@@ -29,13 +25,12 @@ non-deterministic order of distributed events such as message arrivals, machine
 crashes, and reboots. Cloud systems execute multiple complicated distributed
 protocols concurrently. The possible interleavings of the distributed events are
 beyond developer's anticipations and some interleavings might not be handled
-properly. The buggy distributed interleavings can cause catastrophic failures
-such as data loss, data inconsistencies, and downtimes.
+properly that can lead to catastrophic failures.
 
-We make two contributions to tackle DC bugs. First, we advance state of the art
-of distributed system model checking by introducing semantic-aware model
-checking (SAMC). Distributed system model checkers (dmck) are used to test
-system reliability of real systems. Existing dmcks however rarely exercise
+To address DC bugs, we make two contributions. First, we advance state of the
+art of distributed system model checking by introducing ``{\em semantic-aware
+model checking'' (SAMC)}. Distributed system model checkers (dmck) are used to
+test system reliability of real systems. Existing dmcks however rarely exercise
 multiple faults due to the state-space explosion problem, and thus do not
 address present reliability challenges of cloud systems in dealing with complex
 faults. SAMC pushes the boundary of dmcks by introducing a white-box principle
