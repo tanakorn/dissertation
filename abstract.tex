@@ -1,65 +1,72 @@
-As more data and computation move from local to cloud settings, cloud-scale
-distributed systems such as scale-out storage systems, computing frameworks,
-synchronization services, and cluster management services have become a dominant
-backbone for many cloud services. Client-side software is getting thinner and
-more heavily relies on the capability, reliability, and availability of cloud
-systems. Users demand for 24/7 dependability of cloud services. Cloud services
+In the era of cloud computing, users (normal and organization) move their data
+and computation from local machines and internal datacenters to cloud services.
+Client-side software is getting thinner and more heavily relies on cloud
+services, thus the services are expected to be 24/7 dependable. Cloud services
 must be accessible anytime and anywhere and not lose or corrupt users data
-(reliability), and scale as user base continues to grow (scalability). 
+(reliability), and scale as user base continues to grow (scalability).
+Unfulfilled dependability is costly; cloud service companies collectively lose
+billions of dollars in revenue each year from service downtimes.
 
-Unfortunately, such cloud-scale distributed systems remain difficult to get
-right. Large-scale distributed systems are getting more complex and new
-intricate bugs continue to create dependability issues that cause major economic
-loss. Guaranteeing dependability has proven to be challenging in these systems.
-We are trying to guarantee dependability by answering a question, ``{\em How can
-we identify dependability bugs in cloud-scale distributed systems, in the
-aspects of reliability and scalability?}''
+Unfortunately, proving cloud services' dependability is challenging. Behind
+these cloud services, it is backed by large sophisticated distributed systems
+such as scalable data stores, distributed file systems, data-parallel
+frameworks, and cluster management systems. Such cloud-scale distributed systems
+remain difficult to get right because they need to address concurrency in the
+networks, complex failures in commodity hardware, massive user requests, and
+much more. These make the systems getting more complex and new intricate bugs
+continue to create dependability issues.
 
-The first part of this proposal, we focus on reliability aspect. We find that
-one unsolved reliability problem in cloud systems is distributed concurrency
-bugs (DC bugs). DC bugs are caused by non-deterministic order of distributed
-events such as message arrivals, faults, and reboots. Cloud systems execute
-multiple complicated distributed protocols concurrently. The possible
-interleavings of the distributed events are beyond developer's imaginations and
-some interleavings might not be handled properly. The buggy distributed
-interleavings can cause catastrophic failures such as data loss, data
-inconsistencies and downtimes. Thus, we are adopting model checking to unearth
-DC bugs.
+This dissertation tries to answer a simple questions of cloud dependability:
+``{\em how can we make cloud-scale distributed systems reaching ideal
+dependability?}'' We try to answer this question by focusing on the aspects of
+system relability and scalability. We focus on these two aspects because they
+are novel issues that occur in cloud environment only and not many works
+addressing them.
 
-The last five years have seen a rise of implementation-level distributed system
-model checkers (dmck) for verifying the reliability of real distributed systems.
-Existing dmcks however rarely exercise multiple failures due to the state-space
-explosion problem, and thus do not address present reliability challenges of
-cloud systems in dealing with complex failures. To scale dmck, we introduce
-semantic-aware model checking (SAMC), a white-box principle that takes simple
-semantic information of the target system and incorporates that knowledge into
-state-space reduction policies. we present four novel reduction policies:
-local-message independence (LMI), crash-message independence (CMI), crash
-recovery symmetry (CRS), and reboot synchronization symmetry (RSS), which
-collectively alleviate redundant re-orderings of messages, crashes, and reboots.
-SAMC is systematic; it does not use randomness or bug-specific knowledge.  SAMC
-is simple; users write protocol-specific rules in few lines of code. SAMC is
-powerful; it can find deep bugs one to two orders of magnitude faster compared
-to state-of-the-art techniques. 
+For reliablity aspect, we focus on one unsolved reliability problem in cloud
+systems that is distributed concurrency bugs (DC bugs). DC bugs are caused by
+non-deterministic order of distributed events such as message arrivals, machine
+crashes, and reboots. Cloud systems execute multiple complicated distributed
+protocols concurrently. The possible interleavings of the distributed events are
+beyond developer's anticipations and some interleavings might not be handled
+properly. The buggy distributed interleavings can cause catastrophic failures
+such as data loss, data inconsistencies, and downtimes.
 
-In the second part, we focus on scalability aspect. Scale surpasses the limit of
-a single machine in meeting users' increasing demands of compute and storage,
-which led to many inventions of cloud-scale distributed systems. The field has
-witnessed a phenomenal deployment scale of such systems. On the negative side,
-scale creates new development and deployment issues. Developers must ensure that
-their algorithms and protocol designs to be scal- able. However, until real
-deployment takes place, unexpected bugs in the actual implementations are
-unforeseen. We believe this new era of cloud-scale distributed systems has given
-birth to a new type of bug: scalability bugs. They are latent bugs that are
-scale-dependent; they only surface in large-scale deployments, but not in
-small/medium-scale ones. Their presence jeopardizes systems reliability and
-availability at scale.
+We make two contributions to tackle DC bugs. First, we advance state of the art
+of distributed system model checking by introducing semantic-aware model
+checking (SAMC). Distributed system model checkers (dmck) are used to test
+system reliability of real systems. Existing dmcks however rarely exercise
+multiple faults due to the state-space explosion problem, and thus do not
+address present reliability challenges of cloud systems in dealing with complex
+faults. SAMC pushes the boundary of dmcks by introducing a white-box principle
+that takes simple semantic information of the target system and incorporates
+that knowledge into state-space reduction policies.  We show that SAMC can find
+deep bugs one to two orders of magnitude faster compared to state-of-the-art
+techniques. 
 
-We present \sck, a methodology that enables developers to scale-check
-distributed systems and find scalability bugs on one machine. To colocate a
-large number of  nodes without sacrificing accuracy, we remove hardware
-contentions with four novel strategies, processing illusion (PIL),
-single-process cluster (SPC), global event-driven architecture (GEDA), and
-memory footprint reduction (MFR), which we have successfully integrated to
-Cassandra, Riak, and Voldemort. With \sck, we achieve a high colocation factor
-(500 nodes) and easily reproduce 6 control-path scalability bugs.
+Second, we conduct formal study on DC bugs to gain foundation knowledge for
+future DC bug research. We study 104 DC bugs from various widely-deployed
+cloud-scale distributed systems in many characteristics along several axes of
+analysis such as the triggering timing condition and input preconditions, error
+and failure symptoms, and fix strategies. And we present the first complete
+taxonomy of DC bugs, \taxdc.
+
+And for second aspect of system dependability, we focus on scalability. Scale
+surpasses the limit of a single machine in meeting users' increasing demands of
+compute and storage. On the negative side, scale creates new development and
+deployment issues. Developers must ensure that their algorithms and protocol
+designs to be scalable. However, until real deployment takes place, unexpected
+bugs in the actual implementations are unforeseen. This new era of cloud-scale
+distributed systems has given birth to ``scalability bugs'', latent bugs that
+are scale-dependent, and only surface in large scale.
+
+To address scalability bugs, we conduct a study on scalability bugs to
+understand how they manifest and what their root causes are, and introduce \sck,
+a methodology that enables developers to {\em scale-check} distributed systems
+and find scalability bugs economically on one machine. \sck helps developers
+identify potential buggy code and allows developers to colocate a large number
+of nodes to test the potential buggy code without sacrifying accuracy. We remove
+a problem of hardware contentions (\ie\ CPU, memory, and thread) with four novel
+strategies, and we successfully integrate \sck to Cassandra, HDFS, Riak, and
+Voldemort. With \sck, we achieve a high colocation factor (500 nodes), and can
+reproduce ten scalability bugs and identify two new hidden bugs.
