@@ -59,6 +59,21 @@
 % abc
 % ========================================================
 
+
+@InProceedings{Mace+15-PivotTracing,
+       author = {Jonathan Mace and Ryan Roelke and Rodrigo Fonseca},
+        title = "{Pivot Tracing: Dynamic Causal Monitoring for Distributed Systems}",
+     crossref = {SOSP15},
+}
+
+@InProceedings{Zhai+14-INDaaS,
+       author = {Ennan Zhai and Ruichuan Chen and David Isaac Wolinsky and Bryan Ford},
+        title = "{Heading Off Correlated Failures through Independence-as-a-Service}",
+     crossref = {OSDI14},
+}
+
+
+
 @Misc{PersonalCommunicationPC,
   title = "{START SEEING PERSONAL.BIB (AT THE VERY END), SOME PCS HAVE BEEN MOVED THERE}",
   year =         {2013},
@@ -79,6 +94,10 @@
 
 @Misc{OpenSSD,
   title = "{The OpenSSD Project}",
+  howpublished = "\url{http://www.openssd-project.org/wiki/The_OpenSSD_Project}",
+}
+
+@Misc{OpenSSD-Short,
   howpublished = "\url{http://www.openssd-project.org/wiki/The_OpenSSD_Project}",
 }
 
@@ -1320,6 +1339,11 @@ crossref = {FAST12},
 
 @Misc{SNIA-IOTTA,
   title = "{SNIA IOTTA: Storage Networking Industry Association's Input/Output Traces, Tools, and Analysis}",
+  howpublished = "\url{http://iotta.snia.org}", 
+}
+
+
+@Misc{SNIA-IOTTA-Short,
   howpublished = "\url{http://iotta.snia.org}", 
 }
 
@@ -3567,7 +3591,7 @@ hierarchies in chip multiprocessors}",
 % CassandraPaper
 @InProceedings{Lakshman+09-Cassandra, 
     author = {Avinash Lakshman and Prashant Malik},
-     title = "{Cassandra - a decentralized structured storage system}",
+     title = "{Cassandra - A Decentralized Structured Storage System}",
   crossref = {LADIS09}, 
 }
 
@@ -3678,6 +3702,11 @@ howpublished = "\url{http://hbase.apache.org}",
 @Misc{HDFSRAIDWeb,
 title = "{HDFS-RAID}",
 howpublished = "\url{http://wiki.apache.org/hadoop/HDFS-RAID}",
+}
+
+@Misc{HDFSWeb,
+title = "{HDFS}",
+howpublished = "\url{https://hortonworks.com/apache/hdfs/}",
 }
 
 @Misc{HadoopWeb,
@@ -4186,7 +4215,7 @@ howpublished = "\url{www.stanford.edu/~ouster/CS349W/index.html}",
 
 @InProceedings{Xu+09-LargeLogs,
     title = "{Detecting Large-Scale System Problems by Mining Console Logs}",
-   author = {Wei Xu and Ling Huang and Armando Fox and David Patterson and Michael Jordan},
+   author = {Wei Xu and Ling Huang and Armando Fox and David Patterson and Michael I. Jordan},
  crossref = {SOSP09},
 }
 
@@ -5372,7 +5401,7 @@ gging}",
 @Misc{Armbrust+09-Clouds,
   title = "{Above the Clouds: A Berkeley View of Cloud Computing}",
   author = {Michael Armbrust and Armando Fox and Rean Griffith and Anthony D. Joseph and Randy H. Katz and Andrew Konwinski and Gunho Lee and David A. Patterson and Ariel Rabkin and Ion Stoica and Matei Zaharia},
-  howpublished = "http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-28.pdf",
+  howpublished = "\url{http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-28.pdf}",
 }
 
 @Misc{Bent+09-checkpoint,
@@ -11445,7 +11474,7 @@ title = "Live Migration of Virtual Machines",
 
 @Misc{RiverClusterUChicago,
   title = "{RIVER: A Research Infrastructure to Explore Volatility, Energy-Efficiency, and Resilience}",
-  howpublished = "\url{http://www.nsf.gov/awardsearch/showAward?AWD_ID=1405959}",
+  howpublished = "\url{http://river.cs.uchicago.edu}",
 }
 
 @InProceedings{Hawblitzel+15-IronFleet,
@@ -11454,80 +11483,8 @@ title = "Live Migration of Virtual Machines",
   crossref = {SOSP15}, 
 }
 
-% I add this manually
-
-@InProceedings{Palix+11-FaultsInLinux,
-       author = {Nicolas Palix and Gal Thomas and Suman Saha and Christophe Calvs and Julia Lawall and Gilles Muller},
-        title = "{Faults in Linux: Ten Years Later}",
-     crossref = {ASPLOS11},
+@InProceedings{Brewer+16-DiskCloudy,
+     author = {Eric Brewer},
+     title = "{Spinning Disks and Their Cloudy Future (Keynote)}",
+     crossref = {FAST16},
 }
-
-@InProceedings{Burckhardt+10-PCT,
-       author = {Sebastian Burckhardt and Pravesh Kothari and Madanlal Musuvathi and Santosh Nagarakatte}, 
-        title = "{A Randomized Scheduler with Probabilistic Guarantees of Finding Bugs}", 
-    booktitle = {ASPLOS},
-         year = {2010} 
-} 
-
-@InProceedings{Sen+08-RaceFuzzer,
-  author = {Koushik Sen},
-  title = "{Race Directed Random Testing of Concurrent Programs}",
-  booktitle = {PLDI},
-  year = {2008}
-}
-
-@InProceedings{Calotoiu+13-ApmScaleBug,
-       author = {Alexandru Calotoiu and Torsten Hoefler and Marius Poke and Felix Wolf},
-        title = "{Using Automated Performance Modeling to Find Scalability Bugs in Complex Codes}",
-     crossref = {SC13},
-}
-
-@Article{Laguna+15-DebugAtScale,
-       author = {Ignacio Laguna and Dong H. Ahn and Bronis R. de Supinski and Todd Gamblin and Gregory L. Lee and Martin Schulz and Saurabh Bagchi and Milind Kulkarni and Bowen Zhou and Zhezhe Chen and Feng Qin},
-        title = "{Debugging High-Performance Computing Applications at Massive Scales}",
-     journal = {Communications of the ACM (CACM)},
-  year = {2015},
-  month = {September},
-  volume = {58},
-  number = {9},
-}
-
-@InProceedings{Shudler+15-ExascaleLib,
-       author = {Sergei Shudler and Alexandru Calotoiu and Torsten Hoefler and Alexandre Strube and Felix Wolf},
-        title = "{Exascaling Your Library: Will Your Implementation Meet Your Expectations?}",
-     crossref = {ICSE15},
-}
-
-@Misc{CA-One,
-       title = "{BUG: CASSANDRA-6127: vnodes don't scale to hundreds of nodes}",
-       howpublished = "\url{https://issues.apache.org/jira/browse/CASSANDRA-6127}",
-}
-
-@InProceedings{Hayashibara+04-PhiFailureDetector,
-       author = {Naohiro Hayashibara and Xavier Defago and Rami Yared and Takuya Katayama},
-        title = "{The Phi Accrual Failure Detector}",
-     crossref = {SRDS04},
-}
-
-@InProceedings{Yin+11-FixesBecomeBugs,
-       author = {Zuoning Yin and Ding Yuan and Yuanyuan Zhou and Shankar Pasupathy and Lakshmi Bairavasundaram},
-        title = "{How do fixes become bugs?}",
-     crossref = {FSE11},
-}
-
-@InProceedings{Gupta+06-TimeDilation,
-       author = {Diwaker Gupta and Kenmeth Yocum and Marvin McNett and Alex C.  Snoeren and Amin Vahdat and Geoffrey M. Voelker},
-        title = "{To Infinity and Beyond: Time-Warped Network Emulation}",
-     crossref = {NSDI06},
-}
-
-@Misc{VoldemortNIO,
-       title = "{NIO in Voldemort: Non-heap memory usage}",
-howpublished = "\url{https://groups.google.com/forum/#!topic/project-voldemort/J7ADKefjR50}",
-}
-
-@Misc{VoldemortWeb,
-       title = "{Project Voldemort}",
-       howpublished = "\url{http://www.project-voldemort.com/voldemort/}",
-}
-
