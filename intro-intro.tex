@@ -1,3 +1,56 @@
+``\textit{Cloud computing}'' has been given many definitions from many companies
+and experts \cite{TwentyoneCloudDef, IBMCloudDef, PCMagCloudDef,
+Foster+08-CloudAndGrid}. These definitions are different in details, but they
+have some common characteristics; they are on-demand internet-based services
+that can scale to fit increasing users' requirements, and users pay only for
+their use. Cloud computing comes in three models: (1) Software as a Service
+(SaaS) which is applications that run on Internet, (2) Platform as a Service
+(PaaS) which provide computing environment over internet to run services or
+applications, and (3) Infrastructure as a Service (Iaas) which provide computing
+resources to build platforms and services.
+%
+Cloud computing help users (from end users to organizational users) reduce the
+capital investment in hardware and can make busisness move faster (\xxx{need
+citation}). We see a trend that users are moving their data and computation from
+local machines and in-house datacenters to the cloud \cite{AdobeCloudStat,
+AWSCustomer, GmailStat, GoogleDriveStat, DropboxStat, FacebookStat} \xxx{add
+more citation from scientific world}.
+
+This trend makes client-side software get thinner and more heavily rely on the
+capability, reliability, and availability of cloud services, thus the services
+are expected to be 24/7 dependable. Cloud services must be accessible anytime
+and anywhere and not lose or corrupt users data (reliability), and scale as user
+base continues to grow (scalability). 
+%
+Unfulfilled dependability is costly. Some researchers estimate that 568 hours of
+downtime at 13 well-known cloud services since 2007 to 2012 had an economic
+impact of more than \$70 million \cite{Essers12-70Million}. Others predict
+worse: for every hour it is not up and running, a cloud service can take a hit
+between \$1 to 5 million \cite{Linthicum13-InfoworldCostOutages}.
+
+Unfortunately, proving cloud services' dependability is challenging. Behind the
+cloud computing, it is backed by large sophisticated distributed software stack
+\cite{Burrows06-Chubby, Chang+06-BigTable, Chapin+95-Hive, Corbett+12-Spanner,
+DeanGhemawat04-MapReduce, DeCandia+07-Dynamo, Ghemawat+03-GoogleFS,
+Hunt+10-ZooKeeperPaper,  Lakshman+09-Cassandra, Melnik+10-DremelInteractive,
+Zaharia+12-RDD} that is running on top of large-scale cluster \xxx{citation}.
+Such cloud distributed systems remain difficult to get right because they need
+to address data races among machines, complex failures that randomly happen,
+massive user requests, and much more issues that caused from cloud stack.
+Addressing these cloud-specific issues makes the systems getting more complex,
+and new intricate bugs continue to happen and create dependability problems.
+
+Data races are a fundamental problem in any concurrent software systems. Unlike
+non-distributed software, cloud distributed systems are subject to not only
+local concurrency (\eg, thread interleaving) but also distributed concurrency
+(\eg, asynchronous message interleaving).
+
+talk about concurrency and failure
+
+talk about massive user request
+
+\if 0
+
 As more data and computation move from local to cloud settings, cloud-scale
 distributed systems such as scale-out storage systems \cite{Chang+06-BigTable,
 DeCandia+07-Dynamo, Ghemawat+03-GoogleFS, Nightingale+12-FlatFDS}, computing
@@ -90,3 +143,4 @@ cloud bug studies \cite{Gunawi+14-Cbs, Leesatapornwongsa+16-TaxDC},
 semantic-aware model checking \cite{Leesatapornwongsa+14-Samc}, and scale check
 methodology.
 
+\fi
