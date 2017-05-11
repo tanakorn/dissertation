@@ -42,12 +42,13 @@ and new intricate bugs continue to happen and create dependability problems.
 
 Data races are a fundamental problem in any concurrent software systems. Unlike
 non-distributed software, cloud distributed systems are subject to not only
-local concurrency (\eg, thread interleaving) but also distributed concurrency
-(\eg, asynchronous message interleaving).
+local concurrency bugs, which basically come from thread interleaving, but also
+distributed concurrency bugs, which come from inter-node message interleaving. 
+Moreover, cloud hardware is built from commodity hardware that failures can
+happen at anytime and can be very complex. The timing of these hardware failures
+plus message interleaving makes concurrency bugs in cloud systems more complex.
 
-talk about concurrency and failure
-
-talk about massive user request
+\xxx{talk about massive user request}
 
 \if 0
 
