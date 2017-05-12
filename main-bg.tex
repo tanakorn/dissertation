@@ -1,16 +1,18 @@
 \chapter{Background and Related Work}
 \label{chp-bg}
 
-In this proposal, we aim to improve the dependability of the systems in two
-aspects, reliability and scalability. Our work focus on unearthing bugs that are
-related to these two issues. For reliability, we focus on {\em distributed
-concurrency (DC) bugs}, and for scalability, we focus on {\em control-plane
-scalability bugs}.
+This chapter provides the background of this dissertation. We briefly discuss
+about cloud computing and cloud backend in Section \ref{bg-cloud}, cloud bugs
+in Section \ref{bg-bugs}, DC bugs in detail in Section \ref{bg-dc}, and
+scalability bugs in Section \ref{bg-sc}. 
 %
-This chapter discusses the background of these two types of bugs and related
-work to combat them.
+%We also discuss about related work to combat DC bugs and scalability bugs at the
+%end of this chapter (Section \ref{bg-related}).
 
+\input{bg-cloud} % talk about cloud-scale distributed systems
+\input{bg-bugs} % talk about cloud bugs
 \input{bg-dc}
 \input{bg-sc}
-%\input{bg-con}
+%\input{bg-related}
+\input{bg-con}
 
