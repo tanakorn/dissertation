@@ -1,1 +1,24 @@
 \section{Scalability Bugs}
+
+Scalability bugs are a type of bug that newly born in the era of cloud
+computing. These bugs are latent such that they do not surface in
+small/medium-scale deployments, but only surface in large scale. They threaten
+systems reliability and availability at scale. As we discussed above, cloud
+backend needs to be scalable; algorithms and protocols in cloud distributed
+systems are designed to be scalable. However, until real deployment takes place,
+if developers do not have a large cluster to test their actual implementations,
+unexpected bugs are unforeseen. 
+
+We see that most of the work \cite{Calotoiu+13-ApmScaleBug,
+Laguna+15-DebugAtScale, Shudler+15-ExascaleLib, Wang+14-Exalt, Zhou+11-Vrisha,
+Zhou+13-Wukong} focuses on the data path, mainly to validate the scalability of
+read/write operations (linear throughput or stable latency as the cluster
+scales). But scalability correctness however is not merely about the data path.
+Distributed systems are full of ``control paths'' such as bootstrapping,
+rebalancing, and adding/decommissioning nodes (scaling out/down). These
+management protocols must modify cluster-wide metadata that lives in each node
+in the system (\eg, ring partition table) to decide how data flows in the
+cluster. Unfortunately, control path correctness is often overlooked, so in this
+dissertation, we aim our attention to ``{\em control-plane scalability bugs}''.
+
+
