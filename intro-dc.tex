@@ -49,14 +49,14 @@ fault events (\eg, crashes, reboots, \etc) into their exploration strategies, as
 such inclusion would exacerbate the state-space explosion problem.
 
 To address these limitations, we introduce Semantic-Aware Model Checking
-(\textbf{SAMC}) \cite{Leesatapornwongsa+15-SamcIssta,Leesatapornwongsa+14-Samc},
-a novel white-box model checking approach that takes \textit{semantic knowledge}
-of how distributed events (specifically, messages, crashes, and reboots) are
-processed by the target system and incorporates that to create reduction
-policies. The policies are based on sound reduction techniques such as DPOR and
-symmetry. The policies tell SAMC not to re-order some pairs of events such as
-message-message pairs, and message-crash pairs, yet preserves soundness, because
-those cut out re-orderings are redundant, and unnecessary to check.
+(\textbf{SAMC}), a novel white-box model checking approach that takes
+\textit{semantic knowledge} of how distributed events (specifically, messages,
+crashes, and reboots) are processed by the target system and incorporates that
+to create reduction policies. The policies are based on sound reduction
+techniques such as DPOR and symmetry. The policies tell SAMC not to re-order
+some pairs of events such as message-message pairs, and message-crash pairs, yet
+preserves soundness, because those cut out re-orderings are redundant, and
+unnecessary to check.
 
 SAMC can reproduce twelve old bugs in three cloud distributed systems
 (Cassandra, Hadoop MapReduce, and ZooKeeper) involving 30-120 distributed events
@@ -75,14 +75,56 @@ However, we are not aware of any public large-scale DC-bug study, a recent study
 from Microsoft analyzed the effect of distributed concurrency of workload and
 only studied five DC bugs in MapReduce \xxx{include NEC work}.
 
-To fill the void, we create the first largest taxonomy of 104 real-world DC bugs
-(named \taxdc) \cite{Leesatapornwongsa+16-TaxDC} from four popular large-scale
-distributed systems: Cassandra, HBase, Hadoop MapReduce/Yarn, and ZooKeeper.
-\taxdc\ contains in-depth characteristics of DC bugs, stored in the form of
-2,083 classification labels and 4,528 lines of re-enumerated steps to the bugs
-that we manually added. We show that although DC bugs are complex, but they can
-be abstracted and categorized with our taxonomy that covers all aspects of DC
-bugs such as bug triggering, errors and failures, and bug fixing.
+In this dissertation, we fill the void by performing large-scale DC-bug study.
+We study 104 real-world DC bugs from four various popular cloud-scale
+distributed systems: Cassandra, HBase, Hadoop MapReduce/Yarn, and ZooKeeper. We
+study DC bugs in all aspects including trigger, errors and failures, and fixes. 
 
-\xxx{i might add more about taxdc}
+For triggering conditions, we study DC bugs from two perspectives:
+\begin{enumerate}
+
+\item Timing conditions: For every DC bug, we identify the smallest set of
+concurrent events E, so that a specific ordering of E can guarantee the bug
+manifestation. This is similar to the interleaving condition for local
+concurrency bugs.
+
+\item Input preconditions: In order for those events in E to happen, regardless
+of the ordering, certain inputs or fault conditions (\eg, node crashes) must
+occur. This is similar to the input condition for local concurrency bugs.
+
+\end{enumerate}
+
+Understanding the triggering can help the design of testing tools that can
+proactively trigger DC bugs, bug detection tools that can predict which bugs can
+be triggered through program analysis, and failure prevention tools that can
+sabotage the triggering conditions at run time.
+
+Other than the trigger, we also look into errors and failures. From the
+triggering conditions, we then scrutinize the first error that happens
+immediately after. First errors are the pivotal point that bridges the
+triggering and error-propagation process. We categorize first errors into {\em
+local} errors and {\em global} errors, based on whether they can be observed
+from the triggering node alone. 
+%
+And after the first errors, we track down to system failures that are noticeable
+to users such as downtimes, lost/corrupted/inconsistent data, failed operations,
+and degraded performance. Identifying errors and failures help failure diagnosis
+get closer to disclosing bug triggering and root causes and help bug detection
+get closer to accurately predict failures.
+
+Lastly, we study how developers fix DC bugs to understand their fix strategies.
+We want to see how different DC bug fixes compared to local concurrency bugs. In
+general, we find that DC bugs can be fixed by either disabling the triggering
+timing or changing the system's handling to that timing ({\em fix timing} vs.
+{\em fix handling}). The former prevents concurrency with extra synchronization
+and the latter allows concurrency by handling untimely events properly.
+Understanding the fix strategies will help research on runtime failure
+prevention and automatic bug fixing.
+
+Our contribution from the study is the first complete taxonomy of DC bugs which
+named \taxdc. \taxdc\ contains in-depth characteristics of DC bugs, stored in
+the form of 2,083 classification labels and 4,528 lines of re-enumerated steps
+to the bugs that we manually added. And as mentioned above, \taxdc\ can guide
+various future research on combating DC bugs such as model checking, bug
+detections, failure diagnosis, and failure prevention and fixing.
 
