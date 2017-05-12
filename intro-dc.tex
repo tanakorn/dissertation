@@ -69,11 +69,16 @@ bugs in Hadoop MapReduce and ZooKeeper.
 
 Bug and failure studies can significantly guide many aspects of dependability
 research. Many researchers have recently employed formal studies on bugs and
-failures \xxx{gather citation from research statement}.
+failures \cite{Jin+12-PerformanceBugs, Li+13-ScopeBugStudy, Li+07-MemoryErrors,
+Lu+08-ConcurrencyBugStudy, Sahoo+10-StudyBugsServerSoftware,
+SridharanLiberty12-StudyDRAMFailures, Xiao+14-NonDetMR,
+Yin+11-StudyConfErrors}.
 %
-However, we are not aware of any public large-scale DC-bug study, a recent study
-from Microsoft analyzed the effect of distributed concurrency of workload and
-only studied five DC bugs in MapReduce \xxx{include NEC work}.
+However, we are not aware of any public large-scale DC-bug study, a recent
+study from Microsoft analyzed the effect of distributed concurrency of workload
+and only studied five DC bugs in MapReduce \cite{Xiao+14-NonDetMR}. NEC Labs
+dissected network-failure-related DC bugs to study and did not publicly release
+it \cite{Joshi+13-SetsudoTesting}.
 
 In this dissertation, we fill the void by performing large-scale DC-bug study.
 We study 104 real-world DC bugs from four various popular cloud-scale
@@ -93,7 +98,6 @@ of the ordering, certain inputs or fault conditions (\eg, node crashes) must
 occur. This is similar to the input condition for local concurrency bugs.
 
 \end{enumerate}
-
 Understanding the triggering can help the design of testing tools that can
 proactively trigger DC bugs, bug detection tools that can predict which bugs can
 be triggered through program analysis, and failure prevention tools that can
