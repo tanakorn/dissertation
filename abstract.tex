@@ -7,27 +7,27 @@ Unfortunately, gauranteeing cloud services' dependability is challenging because
 these cloud services are backed by large sophisticated distributed systems such
 as scalable data stores, data-parallel frameworks, and cluster management
 systems. Such cloud-scale distributed systems remain difficult to get right
-because they need to address concurrency in the networks, complex failures in
-commodity hardware, massive user requests, and much more.  These make the
-systems getting more complex and new intricate bugs continue to create
-dependability issues.
+because they need to address data races among nodes, complex failures in
+commodity hardware, tremendous user requests, and much more. Addressing these
+cloud-specific challenges makes the systems getting more complex and new
+intricate bugs continue to create dependability problems.
 
-This dissertation tries to answer a simple questions of cloud dependability:
+This dissertation tries to answer a vital question of cloud dependability:
 ``{\em how can we make cloud-scale distributed systems reaching ideal
-dependability?}'' We try to answer this question by focusing on the aspects of
-system relability and scalability. We focus on these two aspects because they
-are novel issues that occur in cloud environment only and not many works
-addressing them.
+dependability?}'' We try to answer this question by focusing on the problems of
+distributed concurrency bugs and scalability bugs. We focus on these two
+problems because they are novel issues that occur in cloud environment only and
+not many works addressing them.
 
-For reliablity aspect, we focus on one unsolved reliability problem in cloud
-systems that is distributed concurrency bugs (DC bugs). DC bugs are caused by
-non-deterministic order of distributed events such as message arrivals, machine
-crashes, and reboots. Cloud systems execute multiple complicated distributed
-protocols concurrently. The possible interleavings of the distributed events are
-beyond developer's anticipations and some interleavings might not be handled
-properly that can lead to catastrophic failures.
-
-To address DC bugs, we make two contributions. First, we advance state of the
+Distirbuted concurrency bug (DC bug) is one of unsolved reliability problem in
+cloud systems. DC bugs are caused by non-deterministic order of distributed
+events such as message arrivals, machine crashes, and reboots. Cloud systems
+execute multiple complicated distributed protocols concurrently. The possible
+interleavings of the distributed events are beyond developer's anticipations and
+some interleavings might not be handled properly that can lead to catastrophic
+failures.
+%
+To combat DC bugs, we make two contributions. First, we advance state of the
 art of distributed system model checking by introducing ``{\em semantic-aware
 model checking'' (SAMC)}. Distributed system model checkers (dmck) are used to
 test system reliability of real systems. Existing dmcks however rarely exercise
@@ -46,14 +46,14 @@ analysis such as the triggering timing condition and input preconditions, error
 and failure symptoms, and fix strategies. And we present the first complete
 taxonomy of DC bugs, \taxdc.
 
-And for second aspect of system dependability, we focus on scalability. Scale
-surpasses the limit of a single machine in meeting users' increasing demands of
-compute and storage. On the negative side, scale creates new development and
-deployment issues. Developers must ensure that their algorithms and protocol
-designs to be scalable. However, until real deployment takes place, unexpected
-bugs in the actual implementations are unforeseen. This new era of cloud-scale
-distributed systems has given birth to ``scalability bugs'', latent bugs that
-are scale-dependent, and only surface in large scale.
+And for second aspect of system dependability, we focus on scalability bugs.
+Scale surpasses the limit of a single machine in meeting users' increasing
+demands of compute and storage. On the negative side, scale creates new
+development and deployment issues. Developers must ensure that their algorithms
+and protocol designs to be scalable. However, until real deployment takes place,
+unexpected bugs in the actual implementations are unforeseen. This new era of
+cloud-scale distributed systems has given birth to ``scalability bugs'', latent
+bugs that are scale-dependent, and only surface in large scale.
 
 To address scalability bugs, we conduct a study on scalability bugs to
 understand how they manifest and what their root causes are, and introduce \sck,

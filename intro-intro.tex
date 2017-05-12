@@ -3,11 +3,7 @@ and experts \cite{TwentyoneCloudDef, IBMCloudDef, PCMagCloudDef,
 Foster+08-CloudAndGrid}. These definitions are different in details, but they
 have some common characteristics; they are on-demand internet-based services
 that can scale to fit increasing users' requirements, and users pay only for
-their use. Cloud computing comes in three models: (1) Software as a Service
-(SaaS) which is applications that run on Internet, (2) Platform as a Service
-(PaaS) which provide computing environment over internet to run services or
-applications, and (3) Infrastructure as a Service (Iaas) which provide computing
-resources to build platforms and services.
+their use.
 %
 Cloud computing help users (from end users to organizational users) reduce the
 capital investment in hardware and can make busisness move faster (\xxx{need
@@ -17,10 +13,10 @@ AWSCustomer, GmailStat, GoogleDriveStat, DropboxStat, FacebookStat} \xxx{add
 more citation from scientific world}.
 
 This trend makes client-side software get thinner and more heavily rely on the
-capability, reliability, and availability of cloud services, thus the services
-are expected to be 24/7 dependable. Cloud services must be accessible anytime
-and anywhere and not lose or corrupt users data (reliability), and scale as user
-base continues to grow (scalability). 
+cloud services, thus the services are expected to be 24/7 dependable. Cloud
+services must be accessible anytime and anywhere and not lose or corrupt users
+data (reliability), and scale as user base continues to grow (scalability)
+\cite{Buyya+09-Cloud5thUtil}.
 %
 Unfulfilled dependability is costly. Some researchers estimate that 568 hours of
 downtime at 13 well-known cloud services since 2007 to 2012 had an economic
@@ -32,23 +28,33 @@ Unfortunately, proving cloud services' dependability is challenging. Behind the
 cloud computing, it is backed by large sophisticated distributed software stack
 \cite{Burrows06-Chubby, Chang+06-BigTable, Chapin+95-Hive, Corbett+12-Spanner,
 DeanGhemawat04-MapReduce, DeCandia+07-Dynamo, Ghemawat+03-GoogleFS,
-Hunt+10-ZooKeeperPaper,  Lakshman+09-Cassandra, Melnik+10-DremelInteractive,
+Hunt+10-ZooKeeperPaper, Lakshman+09-Cassandra, Melnik+10-DremelInteractive,
 Zaharia+12-RDD} that is running on top of large-scale cluster \xxx{citation}.
 Such cloud distributed systems remain difficult to get right because they need
 to address data races among machines, complex failures that randomly happen,
-massive user requests, and much more issues that caused from cloud stack.
-Addressing these cloud-specific issues makes the systems getting more complex,
-and new intricate bugs continue to happen and create dependability problems.
+tremendous user requests, and much more issues that caused from cloud computing
+infrastructure.
 
-Data races are a fundamental problem in any concurrent software systems. Unlike
+Data races are a well-known problem in any concurrent software systems. Unlike
 non-distributed software, cloud distributed systems are subject to not only
 local concurrency bugs, which basically come from thread interleaving, but also
 distributed concurrency bugs, which come from inter-node message interleaving. 
 Moreover, cloud hardware is built from commodity hardware that failures can
 happen at anytime and can be very complex. The timing of these hardware failures
-plus message interleaving makes concurrency bugs in cloud systems more complex.
+plus message interleaving makes it hard to handle the concurrency correctly.
 
-\xxx{talk about massive user request}
+\xxx{talk about tremenduos user request}
+
+Addressing these cloud-specific challenges makes the systems getting more
+complex, and new intricate bugs continue to happen and create dependability
+problems. Guaranteeing dependability has proven to be challenging in these
+systems \cite{Gunawi+11-FateDestini, Guo+11-Demeter, Wang+14-Exalt,
+Yang+09-Modist}. This raises a vital question: ``{\em how can we make
+cloud-scale distributed systems reaching ideal dependability?}'' We try to
+answer this question by focusing on the problems of distributed concurrency bugs
+and scalability bugs. These two are critical problems because they are novel
+issues that occur in cloud environment only and not many works addressing them.
+The following sections discuss our contributions to address the challenges.
 
 \if 0
 
