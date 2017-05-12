@@ -1,16 +1,15 @@
 In the era of cloud computing, users (normal and organization) move their data
 and computation from local machines and internal datacenters to cloud services,
 thus the services are expected to be 24/7 dependable. Cloud services must be
-accessible anytime and anywhere and not lose or corrupt users data
-(reliability), and scale as user base continues to grow (scalability).
-Unfortunately, gauranteeing cloud services' dependability is challenging because
-these cloud services are backed by large sophisticated distributed systems such
-as scalable data stores, data-parallel frameworks, and cluster management
-systems. Such cloud-scale distributed systems remain difficult to get right
-because they need to address data races among nodes, complex failures in
-commodity hardware, tremendous user requests, and much more. Addressing these
-cloud-specific challenges makes the systems getting more complex and new
-intricate bugs continue to create dependability problems.
+accessible anytime and anywhere and not lose or corrupt users data, and scale as
+user base continues to grow.  Unfortunately, gauranteeing cloud services'
+dependability is challenging because these cloud services are backed by large
+sophisticated distributed systems such as scalable data stores, data-parallel
+frameworks, and cluster management systems. Such cloud-scale distributed systems
+remain difficult to get right because they need to address data races among
+nodes, complex failures in commodity hardware, tremendous user requests, and
+much more. Addressing these cloud-specific challenges makes the systems getting
+more complex and new intricate bugs continue to create dependability problems.
 
 This dissertation tries to answer a vital question of cloud dependability:
 ``{\em how can we make cloud-scale distributed systems reaching ideal
