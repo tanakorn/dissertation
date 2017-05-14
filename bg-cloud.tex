@@ -70,7 +70,14 @@ generate intermediate key-value pairs, which reduce functions will values of
 data with the same keys. Apache also has open-source framework, which is similar
 to Google MapReduce, called Hadoop MapReduce.
 
-\item \textit{Scalable data stores}:
+\item \textit{NoSQL data stores}: These are data stores that are not relational
+database. Storing and accessing data do not have strict tabular relations like
+in relational database, and are not done by SQL query (some systems support SQL
+query but not fully), such as key-value stores, document stores, and object
+stores. Most NoSQL stores adopt the concept of ``eventual consistency'' to
+improve availablity during network partition (favoring ``C'' in CAP theorem). An
+example of NoSQL is Dynamo from Amazon. Dynamo is decentralized distributed
+key-value store. Its open-source counterpart from Apache is Cassandra.
 
 \item \textit{Synchronization services}: These are utility services that support
 other large distributed systems. They help nodes in other systems synchronize
