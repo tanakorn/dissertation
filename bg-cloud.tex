@@ -56,9 +56,9 @@ systems that we work on in this dissertation.
 files across machines in clusters (however, some systems cannot be mounted as
 other traditional file systems, and some users consider them as data store
 \cite{HadoopStorage}). Distributed file systems do replication or erasure coding
-for data files across machines in order to be fault tolerant, and to increase
-performance via data aggregation. Exmaples of these systems are GFS from Google,
-and HDFS which is open-source version of GFS.
+across machines in order to be fault tolerant, and to increase performance via
+data aggregation. Exmaples of these systems are GFS from Google, and HDFS from
+Apache which is open-source version of GFS.
 
 \item \textit{Data-parallel framework}: these frameworks process ``big data'' by
 leverage parallelism. It eases parallel computing by enabling users to increase
@@ -68,7 +68,7 @@ states, MapReduce is a programming model that consist of \textit{map} and
 \textit{reduce} functions. Map functions process key-value pairs of data and
 generate intermediate key-value pairs, which reduce functions will values of
 data with the same keys. Apache also has open-source framework, which is similar
-to Google MapReduce, called Hadoop.
+to Google MapReduce, called Hadoop MapReduce.
 
 \item \textit{Scalable data stores}:
 
