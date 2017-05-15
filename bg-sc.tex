@@ -1,166 +1,44 @@
-\section{Control-Plane Scalability Bugs}
+\section{Scalability}
 \label{bg-sc}
 
-Distributed systems are full of ``control paths'' such as bootstrapping,
-rebalancing, and adding/de\-com\-mission\-ing nodes (scaling out/down). These
-management protocols must modify cluster-wide metadata that lives in each node
-in the system (\eg, ring partition table) to decide how data flows in the
-cluster. 
+\subsection{Vertical Scaling vsa Horizontal Scaling} 
 
-Our work emphasizes that scalability bugs also linger in control paths (\ie,
-{\em control-plane scalability bugs}). These bugs are unfortunately often
-overlooked, but yet control path correctness is crucial in today's era of
-elastic cloud where cluster size is not constant all the time; rebooting,
-scaling out/down, and rebalancing are common operations. We show an example of
-control-plane in \sec\ref{sec-scbug}, and our observations in
-\sec\ref{sec-scobs}.
-
-\subsection{A Sample Bug}
-\label{sec-scbug}
-
-We now describe in detail a control-plane scalability bug in Cassandra,
-\csb{6127} \cite{CA-One}.
-%
-The bug surfaced on a cluster with hundreds of nodes and led to
-``\textit{\textbf{flapping}}'' nodes, a condition where node up/down status
-continuously changes;  tens of thousands of flaps\footnote{A ``\textbf{flap}''
-is when a node X marks a peer node Y as down.}  were observed.
-
-\input{fig-cass1}
-
-To understand this bug, we need to understand the following protocols.
+When systems' workload grows (the number of users raises or individual users'
+requests increase), developers need to scale the systems to add more capability
+and keep users satisfied. Two traditional approaches to scale system are used as
+we show below \cite{Michael+07-ScaleUpXScaleOut}:
 \begin{itemize}
-\item {\bf Bootstrap:} Each node first creates partition keys (\eg, 32
-random numbers) and gossips this information to peer nodes.
-\item {\bf Gossip broadcast:} {\em Every second}, each node gossips to one 
-random node about a list of nodes and partitions it knows (including
-itself) and their {\em version} numbers.  Each node also increments its 
-version number (``I'm still alive'') before gossiping.
-\item {\bf Gossip processing:} The receiving node then finds any state
-(metadata) differences between the two nodes to synchronize their views of
-the ring.  Eventually, all nodes know about each other.
-\item {\bf Failure detection:} {\em Every second}, a failure detection
-daemon runs \cite{Lakshman+09-Cassandra}.  Put simply, if a node X has not 
-received a new gossip about Y {\em from anyone} (Y's version has not 
-changed after some period of time), X will declare Y dead (a flap).  When
-X receives a new gossip about Y, it marks Y alive.
-\end{itemize}
 
-% about the bug
-There are two factors that induce the bug.  The first is the {\em long latency
-of scale-dependent state-update gossip processing during bootstrapping} (``f''
-in Figure \ref{fig-cass1}).  While gossip processing is usually fast in a stable
-cluster, it is expensive during bootstrapping as the gossips carry many new
-state changes about the ring; the state-update processing time is
-scale-dependent ($O(N^3)$); the larger the cluster ($N$), the larger the ring
-map, the longer the processing time is.
-%
-This long latency is caused by {\bf (1)} state-update checkpoint to on-disk
-database and {\bf (2)} multi-map cloning and updates.
-%
-The first one is needed for fast fault tolerance; after a node crashes, it can
-reboot fast as it knows the latest view of the ring.
-%
-The second one is preferred for simplicity; Cassandra clones its \ts{MultiMap}
-ring table and applies changes one by one to alleviate long write locks.
-%
-% in order to prevent a long write lock on the ring table which can block other
-% user-facing protocols.
+\item \textbf{Vertical scaling or scale-up}: this approach expands system
+capabilities by adding more resources (\eg, CPU, memory, and storage) to a
+sing node to boost its performance, and make software to leverage additional
+resources. For example, run more processes of applications in the node.
 
-% long
-The second factor is the {\em single threaded} implementation of gossip
-processing.  As shown in Figure \ref{fig-cass1},  this inability to process
-multiple gossips/state updates concurrently (for the sake of preventing
-concurrency bugs) creates a {\em backlog} of new gossips.  For example, in {\em
-every second}, Y tells someone it's alive with increasing version number (\eg,
-Y$_7$), but the receiving nodes are still busy processing state changes and only
-forward Y's old version number (\eg, Y$_1$).  As Y's new gossip is not
-propagated on time,  other nodes (\eg, Z) will mark Y as dead.  This happens to
-all nodes, not just Y.
-
-\subsection{Observations}
-\label{sec-scobs}
-
-From the bug above, we make several important observations regarding
-control-plane scalability bugs and distributed
-
-\begin{itemize}
-% only appear in large scale .. 
-\item {\em Only appear at extreme scale:} \caone\ does not surface in 30-node
-deployment. In 128-node cluster, the symptom appears mildly (tens of flaps).
-From 200-500 nodes, flapping skyrockets to thousands of flaps. Testing in
-small/medium scales is not sufficient.
-
-% theory is not enough
-\item {\em Scalable in design, but not in practice.}  Related to \caone, the
-accrual failure detector \cite{Hayashibara+04-PhiFailureDetector} in
-Cassandra is scalable in design \cite{Lakshman+09-Cassandra}.  However, the
-design proof does not account gossip processing time, which can be long. To
-understand the bug, the developers tried to ``do the [simple] math''
-\cite{CA-One} but failed. In practice, new gossips are not propagated every
-second (due to the backlog). The actual implementations overload gossips with
-many other purposes (\eg, announcing boot/rebalance changes) beyond their
-original design sketch.
-
-
-% deep
-\item {\em Implementation specific and hard to predict.}  The
-backlog-induced flapping in \caone\ was caused specifically by Cassandra's
-implementation choice: metadata checkpoint, multi-map cloning, and its
-single-threaded implementation.  State-update processing time is hard to
-predict (ranges from 0.001 to 4 seconds) as it depends on a 2-dimensional
-input: the receiving node's ring table size and the number of new
-state changes.
-
-% not independent
-\item {\em Cascading impacts of ``not-so-independent'' nodes.}  In
-cluster-wide control protocols, distributed nodes are  not
-necessarily independent; nodes must communicate with each other
-to synchronize their views of cluster metadata.  As the cluster grows, the
-cluster metadata size increases.  Thus, unpredictable processing time in
-individual nodes can create cascading impacts to the whole cluster.
-
-% 
-\item {\em Long and difficult large-scale debugging:}
-%
-The bug report of \caone\ generated over 40 back-and-forth discussion
-comments and took 2 months to fix.  It is apparent \cite{CA-One} that
-there were many hurdles of deploying and debugging the buggy protocol at
-real scale.  Important to note is that debugging is {\em not} a single
-iteration; developers must {\em repeatedly} instrument the system (add
-more logs) and re-run the system at scale to find and fix the bug, which
-is not trivial.  The scalability bugs we studied took 6 to 157 days to
-fix (27 on average).
-
-\item {\em Not all developers have large test budgets:}
-%
-Another factor of delayed fixes is the lack of budget for large
-test clusters.  Such luxury tends to be accessible to developers
-in large companies, but not to
-open-source developers.  When
-\caone\ was submitted by a customer who had hundreds of nodes, the
-Cassandra developers did not have an instant access to a test cluster of
-the same scale.
-
-% repeated 
-\item {\em Quick fixes and repeated bugs:} Bugs are often fixed with quick
-patches (development pressures), but the fix might not eradicate the problem
-completely \cite{Yin+11-FixesBecomeBugs}.
-%
-The patch for \caone\ simply disables failure detection during bootstrap. But
-the bug still appeared in another workload (\eg, scaling out from 128 to 256
-nodes).
-%
-The simple fix has been removed later and the gossip protocol has been
-redesigned.
-%
-And old fixes can become obsolete in protocol re-designs, which then can give
-birth to new scalability bugs such as the fix for \csb{3831} became obsolete as
-``vnodes'' was introduced, then led to a new scalability bug (\csb{3881}).
+\item \textbf{Horizontal scaling or scale-out}: this approach enhance the
+capability by adding more nodes to current distributed systems to yeild higher
+aggregate capability; mostly, the nodes that we are adding are low-cost
+machines.
 
 \end{itemize}
 
-\subsection{State of the Art}
+In the past, vertical scaling was widely favored by many companies.
+Multiprocessor with higher clock rate can satisfy computing power need of
+largest companies \cite{Michael+07-ScaleUpXScaleOut}. Vertical scaling requires
+less human effort than horizontal scaling; it does not need more administrative
+effort because the number of machines and systems administrators need to handle
+is still the same. The disadvantages of vertical scaling are the upgradability
+is limited by existing hardware manufacturing, and the upgrade cost is
+expensive.
+
+Because of the upgradability and price issues, nowadays, the trend goes to
+horizontal scaling. Many cloud service companies adopt this approache (\eg,
+Google, Facebook, Amazon, \etc). The cost of horizontal scaling is much more
+cheaper than the vertical scaling and there is not limitation for hardware to
+scale out infinitely (the limitations are posed by software stack)
+\cite{ScaleUpVsScaleOut}. In addition, hardware manufaturers try to facilitate
+scale-out approach \cite{Michael+07-ScaleUpXScaleOut}.
+
+\subsection{Scalability Testing}
 
 We now discuss popular approaches (simulation, extrapolation, and emulation) for
 unearthing scalability bugs.
@@ -175,8 +53,7 @@ Second, extrapolation monitors system behaviors in ``mini clusters'' and
 extrapolates them to larger scales (\sec2.1 in \cite{Wang+14-Exalt}).  However,
 mini clusters tend to be order(s) of magnitude smaller than real deployments.
 Most importantly, system behaviors do not always extrapolate linearly
-\cite{Wang+14-Exalt}; for the bugs in our work (\sec\ref{sc-study}), even an
-extrapolation based on a 100-node cluster will not reveal the bug symptoms.
+\cite{Wang+14-Exalt}. 
 
 Finally, real-scale emulation checks real implementations in an emulated
 environment (\eg, DieCast and Exalt).  DieCast \cite{Gupta+08-DieCast},
