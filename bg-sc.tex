@@ -1,7 +1,8 @@
 \section{Scalability}
 \label{bg-sc}
 
-\subsection{Vertical Scaling vsa Horizontal Scaling} 
+\subsection{Vertical Scaling vs Horizontal Scaling} 
+\label{bg-sc-type}
 
 When systems' workload grows (the number of users raises or individual users'
 requests increase), developers need to scale the systems to add more capability
@@ -40,35 +41,52 @@ scale-out approach \cite{Michael+07-ScaleUpXScaleOut}.
 
 \subsection{Scalability Testing}
 
+As we discussed in \ref{bg-sc-type}, horizontal scaling or scale-out is a trend
+now because it does not expose hardware limitation. The limitation is in
+software stack so developers need to invent scalable algorithms and protocols,
+however, before real deployment, if they do not have a large cluster to test
+their implementations, there could be ``scalability bugs'' hide there.
+
 We now discuss popular approaches (simulation, extrapolation, and emulation) for
-unearthing scalability bugs.
+unearthing scalability bugs that avoid acquiring a number of machines, because
+testing on such deployments is costly.
 % ......
 First, simulation approaches test system/application models in different scales
-\cite{Calotoiu+13-ApmScaleBug, Laguna+15-DebugAtScale}. A model can look
-scalable but the actual implementation can contain unforeseen bugs. Our
-observations above accentuate the need for scale-checking distributed system
-{\em implementations} at {\em real scale}.
+\cite{Calotoiu+13-ApmScaleBug, Laguna+15-DebugAtScale}, However, a model can
+look scalable but the actual implementation can contain unforeseen bugs. Later
+in section \ref{xxx}, we will show our observations from \textit{real world}
+scability bugs that simulation cannot detect them.
 
 Second, extrapolation monitors system behaviors in ``mini clusters'' and
-extrapolates them to larger scales (\sec2.1 in \cite{Wang+14-Exalt}).  However,
+extrapolates them to larger scales (\sec2.1 in \cite{Wang+14-Exalt}). However,
 mini clusters tend to be order(s) of magnitude smaller than real deployments.
 Most importantly, system behaviors do not always extrapolate linearly
 \cite{Wang+14-Exalt}. 
 
 Finally, real-scale emulation checks real implementations in an emulated
-environment (\eg, DieCast and Exalt).  DieCast \cite{Gupta+08-DieCast},
-invented for network emulation, can colocate many processes/VMs on a single
-machine as if they run individually without contention.  The trick is adding
-``time dilation factor'' (TDF) support \cite{Gupta+06-TimeDilation} into the
-VMM (\eg, Xen).  For example, TDF=5 implies that for every second of wall-clock
-time, each emulated VM on the VMM believes that time has advanced by only 200
-ms.  The most significant drawback of DieCast is that high colocation factor
-(\eg, TDF$=$100) is likely not desirable, for two reasons: prolonged testing
-time (TDF$=$100 implies 100x longer run) and memory overcapacity.  Many
-distributed systems today are implemented in managed languages (\eg, Java,
-Erlang) whose runtimes consume non-negligible memory overhead. Java and Erlang
-VMs for example use around 70 and 64 MB of memory per process respectively.
-DieCast was only evaluated with TDF=10.
+environment \cite{Gupta+08-DieCast, Wang+14-Exalt}. This approach emulates real
+large-scale system in a single machine. For example, a naive way to achieve this
+is just colocating multiple processes/VMs on one machine. The limitation here is
+emulation consumes real resources (CPU, memory, and storage), so with limited
+resources, we can not emulate \textit{really large} deployment (\eg, can test up
+to 50-node deployment). Some works try to resolve this resource contention issue
+\cite{Gupta+08-DieCast, Wang+14-Exalt}. We will discuss them in section
+\ref{xxx}, related work.
+
+\if 0
+DieCast \cite{Gupta+08-DieCast}, invented for network emulation, can colocate
+many processes/VMs on a single machine as if they run individually without
+contention.  The trick is adding ``time dilation factor'' (TDF) support
+\cite{Gupta+06-TimeDilation} into the VMM (\eg, Xen).  For example, TDF=5
+implies that for every second of wall-clock time, each emulated VM on the VMM
+believes that time has advanced by only 200 ms.  The most significant drawback
+of DieCast is that high colocation factor (\eg, TDF$=$100) is likely not
+desirable, for two reasons: prolonged testing time (TDF$=$100 implies 100x
+longer run) and memory overcapacity.  Many distributed systems today are
+implemented in managed languages (\eg, Java, Erlang) whose runtimes consume
+non-negligible memory overhead. Java and Erlang VMs for example use around 70
+and 64 MB of memory per process respectively.  DieCast was only evaluated with
+TDF=10.
 
 Exalt \cite{Wang+14-Exalt} targets I/O-intensive scalability bugs.  With a
 custom data compression, users' data is compressed to zero byte on disk (but the
@@ -86,4 +104,5 @@ typically caused by the scale-dependent processing time, not network or I/O
 bottlenecks.  As DieCast targets {\em network} emulation via time dilation and
 Exalt targets {\em storage} space emulation via compression, our work uniquely
 targets {\em processing time} emulation, completing a missing piece.
+\fi
 
