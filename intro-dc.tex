@@ -16,54 +16,17 @@ Here is our contributions to combat DC bugs in systematic and comprehensive mann
 
 \begin{enumerate}
 
-\item Semantic-Aware Model Checking (SAMC): we advance the state of the art of
-model checking for distributed systems by adopting white-box approach to tackle
-state-space explosion, the current limitation of model checking.
-
 \item Taxonomy for DC bugs (\taxdc): we perform an in-depth study of more than
 100 real-world DC bugs and built a first complet taxonomy for DC bugs. This
 study will give insight to guide many future research work on DC bugs.
 
+\item Semantic-Aware Model Checking (SAMC): we advance the state of the art of
+model checking for distributed systems by adopting white-box approach to tackle
+state-space explosion, the current limitation of model checking.
+
 \end{enumerate}
 
 The brief detail of these two works are discussed below.
-
-\subsection{Semantic-Aware Model Checking}
-
-One powerful method for discovering hidden DC bugs is the use of an
-\textit{implementation-level distributed system model checker} (\textbf{dmck}).
-A dmck can discover buggy interleavings that lead to DC bugs by reordering every
-possibility of nondeterministic distributed events. The last ten years have seen
-a rise of dmcks such as MaceMC, \modist, or Demeter. One big challenge faced by a
-dmck is the state-space explosion problem (\ie, there are too many distributed
-events to re-order). To address this, existing dmcks adopt a random walk or
-basic reduction techniques such as dynamic partial order reduction (DPOR).
-Despite these early successes, existing approaches cannot unearth many
-real-world DC bugs, so we advance state of the art of dmck to combat DC bugs.
-
-We start by addressing two limitations of existing dmcks. First, existing dmcks
-treat every target system as a complete \textit{black box}, and perform
-unnecessary reorderings of distributed events that would lead to the same states
-(\ie, redundant executions). Second, they do not incorporate complex multiple
-fault events (\eg, crashes, reboots, \etc) into their exploration strategies, as
-such inclusion would exacerbate the state-space explosion problem.
-
-To address these limitations, we introduce Semantic-Aware Model Checking
-(\textbf{SAMC}), a novel white-box model checking approach that takes
-\textit{semantic knowledge} of how distributed events (specifically, messages,
-crashes, and reboots) are processed by the target system and incorporates that
-to create reduction policies. The policies are based on sound reduction
-techniques such as DPOR and symmetry. The policies tell SAMC not to re-order
-some pairs of events such as message-message pairs, and message-crash pairs, yet
-preserves soundness, because those cut out re-orderings are redundant, and
-unnecessary to check.
-
-SAMC can reproduce twelve old bugs in three cloud distributed systems
-(Cassandra, Hadoop MapReduce, and ZooKeeper) involving 30-120 distributed events
-and multiple crashes and reboots. Some of these bugs cannot be unearthed by
-non-SAMC approaches, even after two days. SAMC can find the bugs up to 340 (49x
-on average) faster compared to state-of-the-art techniques, it found two new
-bugs in Hadoop MapReduce and ZooKeeper.
 
 \subsection{DC Bug Study \& Taxonomy}
 
@@ -131,4 +94,41 @@ the form of 2,083 classification labels and 4,528 lines of re-enumerated steps
 to the bugs that we manually added. And as mentioned above, \taxdc\ can guide
 various future research on combating DC bugs such as model checking, bug
 detections, failure diagnosis, and failure prevention and fixing.
+
+\subsection{Semantic-Aware Model Checking}
+
+One powerful method for discovering hidden DC bugs is the use of an
+\textit{implementation-level distributed system model checker} (\textbf{dmck}).
+A dmck can discover buggy interleavings that lead to DC bugs by reordering every
+possibility of nondeterministic distributed events. The last ten years have seen
+a rise of dmcks such as MaceMC, \modist, or Demeter. One big challenge faced by a
+dmck is the state-space explosion problem (\ie, there are too many distributed
+events to re-order). To address this, existing dmcks adopt a random walk or
+basic reduction techniques such as dynamic partial order reduction (DPOR).
+Despite these early successes, existing approaches cannot unearth many
+real-world DC bugs, so we advance state of the art of dmck to combat DC bugs.
+
+We start by addressing two limitations of existing dmcks. First, existing dmcks
+treat every target system as a complete \textit{black box}, and perform
+unnecessary reorderings of distributed events that would lead to the same states
+(\ie, redundant executions). Second, they do not incorporate complex multiple
+fault events (\eg, crashes, reboots, \etc) into their exploration strategies, as
+such inclusion would exacerbate the state-space explosion problem.
+
+To address these limitations, we introduce Semantic-Aware Model Checking
+(\textbf{SAMC}), a novel white-box model checking approach that takes
+\textit{semantic knowledge} of how distributed events (specifically, messages,
+crashes, and reboots) are processed by the target system and incorporates that
+to create reduction policies. The policies are based on sound reduction
+techniques such as DPOR and symmetry. The policies tell SAMC not to re-order
+some pairs of events such as message-message pairs, and message-crash pairs, yet
+preserves soundness, because those cut out re-orderings are redundant, and
+unnecessary to check.
+
+SAMC can reproduce twelve old bugs in three cloud distributed systems
+(Cassandra, Hadoop MapReduce, and ZooKeeper) involving 30-120 distributed events
+and multiple crashes and reboots. Some of these bugs cannot be unearthed by
+non-SAMC approaches, even after two days. SAMC can find the bugs up to 340 (49x
+on average) faster compared to state-of-the-art techniques, it found two new
+bugs in Hadoop MapReduce and ZooKeeper.
 
