@@ -1,5 +1,23 @@
-\section{Distributed Concurrency Bugs}
+\section{Distributed Concurrency}
 \label{bg-dc}
+
+\subsection{Local Concurrency vs Distributed Concurrency}
+
+One core problem in any concurrent software systems is data races. A well-known
+concurrency that causes data races is from thread execution interleaving in
+multi-threaded software or what we call in this dissertation ``local
+concurrency''. Multi-threaded software has become common in the age of
+multiprocessor, but building multi-threaded software is hard.
+
+However, in distributed systems, they are also subject to ``distributed
+concurrency'' that is caused from interleaving of executions in multiple nodes.
+Nodes in distributed systems do not have share memory and they access data in
+other nodes by network messages, so basically, distributed concurrency is from
+concurrent message arrivals and internal executions in running nodes.
+
+Failure
+
+\if 0
 
 One notorious type of software bugs is concurrency bugs. These timing-related
 bugs manifest non-deterministically, and hence are extremely difficult to
@@ -37,11 +55,6 @@ rest is other faults such as disk errors (not shown).
 
 \input{fig-bars}
 
-\if 0
-We can see that some DC bugs require complex conditions to manifest (\ie
-multiple faults including crashes, reboots, timeouts, and other hardware
-failures). We will discuss what is state of the art to find DC bugs in the next
-section.
 \fi
 
 \subsection{Distributed Systems Model Checker (DMCK)}
@@ -58,7 +71,7 @@ scalability issues will arise due to state-space explosion.
 
 \input{fig-dmck}
 
-The last seven years have seen a rise of software model checker that checks
+The last ten years have seen a rise of software model checker that checks
 distributed systems directly at the implementation level.  Figure~\ref{fig-dmck}
 illustrates a dmck integration to a target distributed system, a simple
 representation of existing dmck frameworks~\cite{Guo+11-Demeter,
@@ -69,6 +82,8 @@ preventing the target system to process the events until the dmck enables them.
 A main dmck mechanism is the permutation of events; the goal is to push the
 target system into all possible ordering scenarios.  For example, the dmck can
 enforce \ts{abcd} ordering in one execution, \ts{bcad} in another, and so on.
+
+\if 0 
 
 \subsection{State-of-the-Art DMCKs}
 
@@ -152,3 +167,5 @@ emphasizes the importance of multiple faults, but their major
 limitation is that they are not a dmck.  That is, they cannot
 systematically control and permute non-deterministic choices such as
 message and fault reorderings.
+
+\fi
