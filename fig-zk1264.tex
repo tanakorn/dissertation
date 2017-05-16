@@ -1,0 +1,87 @@
+
+\newcommand{\fev}[1]{\textcolor{Maroon}{\textit{#1}}}
+\newcommand{\ev}[1]{\textcolor{gray}{\textbf{#1}}}
+
+
+\begin{figure}
+\fbox{
+\begin{minipage}{\textwidth}
+\vspace{10pt}
+\begin{quote}
+{\bf ZooKeeper Bug \#1264:}
+\enumerate{
+\item \fev{Follower F crashed} in the past,
+\item \fev{F reboots} and joins the cluster; then \fev{F synchronizes data} with Leader L
+\item F sends FOLLOWERINFO message to L [synchronization message]
+\item L sends LEADERINFO message to F [synchronization message]
+\item F sends ACKEPOCH message to L [synchronization message]
+\item L sends SNAP message to F [synchronization message]
+\item L sends data tree snapshot to F [synchronization message]
+\item L sends NEWLEADER message to F [synchronization message]
+\item \fev{Client C sends a request} to update data with Tx-\#15 to L; L does atomic broadcast to update all followers
+\item L sends update proposal message for Tx-\#15 to F [broadcast message]
+\item F sends update ack message for Tx-\#15 to L [broadcast message]
+\item \fev{L sends update commit message} for Tx-\#15 to F [broadcast message]
+\item \fev{F applies the update} for Tx-\#15 to in-memory data tree, but not to on-disk log (because F has not received UPTODATE message)
+\item \fev{L sends UPTODATE message} to F [synchronization message]
+\item C sends a request to update data with Tx-\#16 to L
+\item L sends update proposal for Tx-\#16 to F
+\item F sends update ack for Tx-\#16 to L
+\item L sends update commit for Tx-\#16 to F
+\item F applies the update for Tx-\#16 to in-memory data tree and on-disk log
+\item \fev{F crashes} (before \fev{F does snapshot})
+\item F reboots and joins the cluster again
+\item L synchronized data with F by sending update starting from Tx-\#17
+\item F loses the update for Tx-15 C did in step 9
+
+%\item \fev{Follower F crashed} in the past,
+%\item \fev{F reboots} and joins the cluster,
+%\item Leader L sync data with F and send snapshot, 
+%\item \fev{In the middle of step 3-6}, client updates data with Tx-\#15; L forwards the update to F,
+%\item F applies the update in memory only, due to a concurrent sync,
+%\item L tells F syncing is finished, % \fev{after step 5},
+%\item Client updates data with Tx-\#16; F writes update to disk correctly,
+%\item \fev{F crashes},
+%\item \fev{F reboots} and joins the cluster again,
+%\item L sync data with F, but this time L sends only ``diff'' starting with Tx-\#17
+%\item F permanently \fev{loses data} from Tx-\#15, inconsistent with L and other followers!
+}
+\end{quote}
+\vspace{10pt}
+\end{minipage}
+}
+\mycaption{fig-zook}{A DC bug in ZooKeeper}{}
+\end{figure}
+
+
+\if 0
+\begin{figure}[t]
+\centering
+%\footnotesize
+\begin{tabular}{|p{3.2in}|} 
+% ---------------------------------------------------- Sample
+\hline
+{\bf \zk{1264}:}
+\ev{(1)} \fev{Follower F crashed} in the past,
+\ev{(2)} \fev{F reboots} and joins the cluster,
+\ev{(3)} Leader L sync data with F and send snapshot, 
+\ev{(4)} \fev{In the middle of step 3-6},
+% Before syncing finishes (in step 6), 
+client updates data with Tx-\#15; L forwards the update to F,
+\ev{(5)} F applies the update in memory only, due to a concurrent sync,
+\ev{(6)} L tells F syncing is finished, % \fev{after step 5},
+\ev{(7)} Client updates data with Tx-\#16; F writes update to disk correctly,
+\ev{(8)} \fev{F crashes},
+\ev{(9)} \fev{F reboots} and joins the cluster again,
+\ev{(10)} L sync data with F, but this time L sends only ``diff'' starting with Tx-\#17
+\ev{(11)} F permanently \fev{loses data} from Tx-\#15,
+inconsistent with L and other followers!
+% \ev{(12)} Violaton: permanent data inconsistency as F does not have data from txid \#15,
+\\ \hline
+% ----------------------------------------------------
+\end{tabular}
+%---------------------------------
+\vminfive
+\mycaption{fig-zook}{A DC bug in ZooKeeper}{}
+\end{figure}
+\fi
