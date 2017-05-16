@@ -1,61 +1,47 @@
 \section{Distributed Concurrency}
 \label{bg-dc}
 
-\subsection{Local Concurrency vs Distributed Concurrency}
+\subsection{Local Concurrency and Distributed Concurrency}
 
-One core problem in any concurrent software systems is data races. A well-known
-concurrency that causes data races is from thread execution interleaving in
-multi-threaded software or what we call in this dissertation ``local
-concurrency''. Multi-threaded software has become common in the age of
-multiprocessor, but building multi-threaded software is hard.
+\input{fig-zk1264}
 
-However, in distributed systems, they are also subject to ``distributed
-concurrency'' that is caused from interleaving of executions in multiple nodes.
-Nodes in distributed systems do not have share memory and they access data in
-other nodes by network messages, so basically, distributed concurrency is from
-concurrent message arrivals and internal executions in running nodes.
+A well-known concurrency that developers most familiar with is from thread
+execution interleaving in multi-threaded software or what we call in this
+dissertation ``local concurrency''. Multi-threaded software has become common in
+the age of multi-core processor, however, building multi-threaded software is
+hard. Developers need to handle all possible interleaving of multiple threads
+that are accessing to same data properly, otherwise concurrency bugs will
+happen. These bugs are timing-related and non-deterministic, and they are
+extremely difficult to test and debug.
 
-Failure
+For distributed systems, other than local concurrency, the systems are also
+subject to ``distributed concurrency'' that is caused from interleaving of
+computations in multiple nodes. Nodes in distributed systems do not have shared
+memory and they access data in other nodes via network communication, so
+basically, distributed concurrency comes from concurrent message arrivals and
+internal computations in running nodes.
 
-\if 0
+Other than timing of message arrivals and local computations, concurrent bugs in
+distributed systems are caused from timing of failures as well. Cloud software
+is often deploy on commodity hardware for vertical scaling purpose (Section
+\ref{xxx}). This commodity hardware is unreliable, and hardware failures are not
+an option \xxx{citation as Thanh did}. Cloud distributed systems need to
+response to these failures, they need to detect and recover from the failures
+and makes sure that users's data will not be lost or corrupted. Gauranteeing
+this correctness is proven to be hard \xxx{cite FATE, Thanh's disser},
+cloud-scale distributed systems need to handle failures that can happen at any
+time and at any state of the systems. Some ordering of message arrivals could
+make systems into state that developers never anticipate and is prone to error
+when failure happens.
 
-One notorious type of software bugs is concurrency bugs. These timing-related
-bugs manifest non-deterministically, and hence are extremely difficult to
-detect, diagnose, and fix. A huge body of work exists in this space that
-focuses on ``local'' concurrency (LC) bugs in single-machine multi-threaded
-software, caused by incorrect interleaving of memory accesses.
-
-Unfortunately, the reliability of datacenter distributed systems is severely
-threatened by non-deterministic concurrency bugs as well, which we refer as
-{\em distributed concurrency (DC) bugs}.  
-% 
-Distributed systems execute many complicated distributed protocols on
-hundreds/thousands of machines with no common clocks. Moreover, cloud systems
-run on large clusters of unreliable commodity machines, an environment that
-produces a growing number and frequency of failures, including ``surprising''
-failures \cite{Birman+09-CloudAgenda, Henry09-AmazonFUD}.  This combination
-makes distributed systems prone to DC bugs caused by non-deterministic timing
-of distributed events such as message arrivals, node crashes, node reboots, and
-timeouts. It is common to see complex fault-induced DC bugs such as the one
-in Figure \ref{fig-code-zk}.
-
-%DC bugs cannot be directly tackled by LC bug techniques, and they cause fatal
-%implications such as operation failures, downtimes, data loss and
-%inconsistencies. 
-
-\input{code-zk}
-
-We look at 104 DC bugs from widely-deployed cloud-scale datacenter distributed
-systems including Cassandra, Hadoop MapReduce, HBase, and ZooKeeper.
-Statistically, Figure \ref{bars}a (\BFLT) shows that \pctFaultYes\ of DC bugs
-must have at least one fault. In more detail, Figure \ref{bars}b-d (\BTO, \BCR,
-\BRB) shows the percentage of issues that require timeouts, crashes and reboots
-respectively, including how many instances of such faults must be there; the
-rest is other faults such as disk errors (not shown).
-
-\input{fig-bars}
-
-\fi
+Consider hardware failures, concurrency bugs in cloud-scale distributed systems
+is not only about interleaving of message arrivals and local computations, but
+also timing of hardware failures as well. Figure \ref{fig-zk1264} shows an
+example of a concurrency bug that happens because of untimely ordering of
+message arrivals and node crashes. This bugs surfaces only if a follower
+receives an UPTODATE message (step 14) after a commit message (step 12), and the
+follower crashes before it does snapshot (step 20); only untimely message
+arrivals or the timing of follower crash is not enough for bug to surface.
 
 \subsection{Distributed Systems Model Checker (DMCK)}
 
