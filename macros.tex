@@ -311,6 +311,39 @@
 %\setlength\parindent{0pt}
 %\setlength\parskip{3pt}
 
+\definecolor{fgray}{gray}{0.9}
 
+\newcommand{\hb}[1]{\jira{HBASE}{h}{#1}}
+\newcommand{\ca}[1]{\jira{CASSANDRA}{c}{#1}}
 
+\newcounter{Fcounter}
+\newcommand{\freset}{\setcounter{Fcounter}{1}}
 
+\newcommand{\finding}[1]{
+\begin{spacing}{0.80}
+\findingTable{#1}
+\end{spacing}
+}
+
+\newcommand{\findingTable}[1]{
+%\vminfive
+\begin{table}[h!]
+\begin{tabular}{|p{3.2in}|}
+\hline
+\rowcolor{fgray}
+\findingBody{#1}\\
+\hline
+\end{tabular}
+\end{table}
+%\vminfifteen
+\vminten
+}
+
+\newcommand{\findingBody}[1]{{\small
+\textbf{Finding \#$\arabic{Fcounter}$:}
+\stepcounter{Fcounter}
+%\textit{#1}
+#1 }
+}
+
+\setcounter{Fcounter}{1}

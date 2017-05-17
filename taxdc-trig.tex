@@ -1,0 +1,388 @@
+\section{Trigger}
+\label{sec-trig}
+
+DC bugs often have a long triggering process, with many local and
+global events involved.  To better reason about this complicated process,
+we study them from two
+perspectives:
+
+\begin{enumerate}
+
+\item
+{\em Timing conditions} (\sec\ref{trig-time}): For every DC bug, we
+identify the smallest set of concurrent events $E$, so that a specific
+ordering of $E$ can guarantee the bug manifestation.  This is similar
+to the interleaving condition for LC bugs.
+
+
+
+\item
+{\em Input preconditions} (\sec\ref{trig-input}): In order for those
+events in $E$ to happen, regardless of the ordering, certain inputs or
+fault conditions (\eg, node crashes) must occur.  This is similar to the
+input condition for LC bugs.
+
+\end{enumerate}
+%
+Understanding the triggering can help the design of testing tools
+that can proactively trigger DC bugs, bug detection tools that 
+can predict which bugs can be triggered through program analysis,
+and failure prevention tools that can  sabotage the triggering
+conditions at run time.
+
+
+
+
+
+
+% ===============================================
+\subsection{Timing Conditions (TC)}
+\label{trig-time}
+
+
+Most DC bugs are triggered either by untimely delivery of messages,
+referred to as {\it message timing bugs}, or by untimely faults or
+reboots, referred to as {\it fault timing bugs}.  Rarely DC bugs are
+triggered by both untimely messages and untimely faults, referred to
+as {\it message-fault bugs}.  Table \ref{tab:trig} shows the
+per-system breakdown and Figure \ref{bars}a (\BTMC) the overall
+breakdown.  Since a few bugs are triggered by more than one type of
+timing conditions
+(\sec\ref{trig-scope}), the sum of numbers in Table \ref{tab:trig} is
+slightly larger than the total number of DC bugs.
+
+% ----------------------------
+\paragraph{Message Timing Bugs.}
+
+The timing conditions can be abstracted to two categories:
+
+
+\begin{enumerate}[label=\alph*.]
+%\begin{enumerate}
+
+\item 
+{\em Order violation} (\pctTrigOrder\ in Table \ref{tab:trig}) means 
+a DC bug manifests
+whenever a message comes earlier (later) than another event, which is
+another message or a local computation, but not when the message comes
+later (earlier).
+
+\item
+{\em Atomicity violation} (\pctTrigAtom\ in Table \ref{tab:trig}) 
+means a DC bug manifests
+whenever a message comes in the middle of a set of events, which is a
+local computation or global communication, but not when the message
+comes either before or after the events.
+
+\end{enumerate}
+%
+LC and DC bugs are similar in that their timing conditions can both be
+abstracted into the above two types. However, the subjects in these
+conditions are different: shared memory accesses in LC and message
+deliveries in DC. The ratio between order violation and atomicity
+violation bugs are also different:
+previous study of LC bugs showed that
+atomicity violations are much more common than order violations in practice
+%
+\cite{Lu+08-ConcurrencyBugStudy}; 
+our study of DC bugs 
+shows that this relationship does not apply or even gets reversed
+in several representative distributed systems.
+%
+%
+%
+
+
+\input{tab-trig} %----tab
+
+
+\if 0
+\jirafootnote{trig-time}{tab:trig}{
+\spa \ca{5631}, \hb{4015}, \mr{3006}, \zk{1144};  % order violation
+\spb \ca{1011}, \hb{4729}, \mr{5198}, \zk{1496};  % atomicity violation
+\spc \ca{6415}, \hb{5806}, \mr{4819}, \zk{1653};  % crash timing
+\spd \ca{2083}, \hb{6317}, \mr{5489}, \zk{975}.  % reboot timing
+%
+--- These examples are clickable hyperlinks pointing to 
+\href{https://issues.apache.org/jira/browse/MAPREDUCE-3006}{https://issues.apache.org/jira/browse/S-NUM} where ``S'' and
+``NUM'' are the system name and the issue number respectively.
+For example, \mr{3006} points to 
+\href{https://issues.apache.org/jira/browse/MAPREDUCE-3006}{https://issues.apache.org/jira/browse/MAPREDUCE-3006}.
+}
+\fi
+
+
+
+% message-message
+An order violation can originate from a race between two messages
+({\em message-message race}) at one node.  The race can happen between
+two message arrivals.  For example, Figure \ref{pat}a illustrates
+\mac\ss\mbc\ race at node C in \mr{3274}.  Specifically, B\sub{RM}
+sends to C\sub{NM} a task-init message (\mbc\sub{init}), and soon
+afterwards, A\sub{AM} sends to C\sub{NM} a task-kill preemption
+message (\mac\sub{kill}), however \mac\sub{kill} arrives {\em before}
+\mbc\sub{init} and thus is incorrectly ignored by C.  The bug would
+not manifest if \mac\sub{kill} arrives {\em after} \mbc\sub{init}
+(Figure \ref{pat}b).
+%
+Message-message race can also happen between a message arrival and a
+message sending.  For example, the \mab\ss\mbc\ race in Figure
+\ref{pat}c depicts \hb{5780}.  In this bug, B\sub{RS} sends to
+C\sub{Master} a cluster-join request (\mbc\sub{join}) unexpectedly
+{\em before} a security-key message (\mab\sub{key}) from A\sub{ZK}
+arrives at B, causing the initialization to abort.
+
+Interestingly, message-message race can also occur concurrently across
+two nodes.  For example, Figure \ref{pat}d illustrates
+\mab\ss\mba\ race crisscrossing two nodes A and B in
+\mr{5358}.  Specifically, A\sub{AM} sends \mab\sub{kill} to a backup
+speculative task at B\sub{NM} because the job has completed, but
+concurrently the backup task at B sends \mba\sub{complete} to A,
+creating a double-complete exception at A.  If \mab\sub{kill} arrives
+early at B, \mba\ will not exist and the bug will not manifest (Figure
+\ref{pat}e).
+
+% message-compute
+An order violation can also originate from a race between a message
+and a local computation ({\em message-compute race}).  For example,
+Figure \ref{pat}f illustrates \mab\ss\lbp\ race in \mr{4157}.  First,
+B\sub{AM} was informed that a task has finished and B plans to close
+the job and remove its local temporary files (\lbp). However, just
+{\em before} \lbp, A\sub{RM} sends to B a kill message (\mab) and
+hence the files are never removed, eventually creating space issues.
+To prevent the failure, the kill message has to arrive after the local
+cleanup (Figure \ref{pat}g).
+
+
+% atomicity violations
+An atomicity violation, as defined above, originates when a message
+arrives in the middle of a supposedly-atomic local computation or
+global communication.
+%
+For example, Figure \ref{pat}h illustrates \mr{5009}.
+When B\sub{NM}
+is in the middle of a commit transaction, transferring task output
+data (\mbc) to C\sub{HDFS},  A\sub{RM} sends a kill
+preemption message (\mab) to B, preempting the task without resetting
+commit states on C.
+The system is never able to finish the commit --- when B
+later reruns the task and tries to commit to C (\mbc'), C throws a
+double-commit exception.  This failure would not happen if the kill
+message (\mab) comes before or after the commit transaction
+(\mbc).
+
+
+
+
+\input{fig-pat} %----fig
+
+
+
+% -------------------------
+\paragraph{Fault and Reboot Timing Bugs.}
+
+Fault and reboot timing bugs (\pctTrigFR\ in Table \ref{tab:trig})
+manifest when faults and/or
+reboots occur at specific global states $S$\sub{i}; the bugs do not
+manifest if the faults and reboots happen at different global states
+$S$\sub{j}. 
+
+Figure \ref{pat}i illustrates a fault-timing bug in \mr{3858}.  Here,
+A\sub{NM1} is sending a task's output to B\sub{AM} (\mab) but A
+crashes in the middle (A*) leaving the output half-sent. 
+The system is then unable to recover from this untimely crash --- B
+detects the fault and reruns the task at C\sub{NM2} (via \mbc) and
+later when C re-sends the output (\mcb), B throws an exception.  This
+bug would not manifest, if the crash (A*) happens before/after
+the output transfer (\mab).
+
+Figure \ref{pat}j depicts a reboot-timing bug in \mr{3186}.  Here,
+A\sub{RM} sends a job (\mab) to B\sub{AM} and while B is executing the
+job, A crashes and reboots (A*, A!)  losing all its in-memory job
+description.  Later, B sends a job-commit message (\mba) but A throws
+an exception because A does not have the job information.  The bug
+would not manifest if A reboots later: if A is still down when B sends
+\mba\sub{commit} message, B will realize the crash and cancel the job before
+A reboots and A will repeat the entire job assignment correctly.
+
+
+
+
+\input{fig-zookeeper}
+
+
+
+\paragraph{Message-Fault Bugs.}
+Four DC bugs are caused by a combination of messages and faults. 
+For example, in Figure
+\ref{fig-zook}, a message (step 4) arrives in the middle of some
+atomic operation (step 3-6). This message atomicity violation leads
+to an error that further requires a fault timing (step 8) to become an
+externally visible failure.
+
+
+
+\finding{DC bugs are triggered mostly by 
+\textit{untimely messages} (\pctTrigMsg\ in Table \ref{tab:trig}) 
+and % $\sim$70\%
+sometimes by \textit{untimely faults/reboots} (\pctTrigFR), % $\sim$30\% 
+and occasionally by a \textit{combination} of both (\pctTrigMix). % $<$5\%
+Among untimely messages, two thirds commit order violations 
+% Some untimely messages commit order violations (\pctTrigMsgOrder), %\sim$60
+due to message-message or message-computation race on the node they arrive;
+%(Figure\ref{pat}a--g);
+the others commit atomicity violations.}
+%(Figure\ref{pat}h).}
+
+%These patterns provide
+%important guidance to future research in combating DC bugs
+%(\ref{sec-sol}).
+%}
+
+
+
+
+% ===============================================
+\subsection{Input Preconditions (IP)} 
+\label{trig-input}
+
+
+The previous section presents simple timing conditions that can be
+understood in few simple steps.  In practice, many of the conditions
+happen ``deep'' in system execution.  In other words, the triggering
+path is caused by complex input preconditions (IP) such as faults, reboots,
+and multiple protocols.  Let's use the same example in Figure
+\ref{fig-zook}.
+%
+First, a fault and a reboot (step 1-2) and a client request (step 4)
+must happen to create a path to the message atomicity violation (step
+4 interfering with step 3-6).
+%
+Second, conflicting messages from two different protocols (ZAB and
+NodeJoin initiated in step 2 and 4) have to follow specific
+bug-triggering timing conditions.
+%
+Even after the atomicity violation (after step 6), the bug is not
+guaranteed to lead to any error yet (\ie, a benign race).
+%
+Finally, the follower experiences an untimely fault (step 8), such
+that after it reboots (step 9), a global replica-inconsistency error
+will happen (step 11).
+%
+Put it in a reverse way, before step 8, the global state is $S$\sub{i}
+and $S$\sub{i}$+$crash$\rightarrow$error, and the only way for the
+system to reach $S$\sub{i} is from complex preconditions such as a
+fault, a reboot, and some foreground and background protocols.
+
+
+
+Statistically, Figure \ref{bars}b (\BFLT) shows that \pctFaultYes\ of
+DC bugs must have at least one fault.  In more detail, Figure
+\ref{bars}c-e (\BTO, \BCR, \BRB) shows the percentage of issues that
+require timeouts, crashes and reboots respectively, including how many
+instances of such faults must be there; the rest is other faults such
+as disk errors (not shown).
+
+
+Figure \ref{bars}f (\BPROT) shows how many ``protocol initiations''
+mentioned in the bug description.  For example, if the system needs to
+perform one execution of background protocol and also three concurrent
+calls to the \ts{write} protocol, then we label it with four protocol
+initiations.  Up to 3 protocol initiations covers three quarters of
+DC bugs.
+%
+When we count the number of {\em unique} protocols involved in all the
+bugs we study, we record \totProtCA\ Cassandra, \totProtHB\ HBase,
+\totProtMR\ MapReduce, \totProtZK\ ZooKeeper unique protocols, or
+\totProtAll\ protocols in total.  This again highlights the complexity
+of fully complete systems.
+%
+Figure \ref{bars}g (\BBFG) shows our categorization of protocols that
+are concurrently running into foreground only,
+background only, and foreground-background (mix)
+categories.  More than three quarters of the bugs involve some
+background protocols and about a quarter involves a mix of foreground
+and background protocols.
+
+\finding{Many DC bugs need \textit{complex input preconditions}, 
+such as faults
+(\pctFaultYes\ in Figure \ref{bars}b), multiple protocols
+(\pctProtMany\ in Figure \ref{bars}f), and background protocols 
+(\pctProtBg\ in Figure \ref{bars}g) .}
+
+
+
+
+\input{fig-bars}
+
+\input{fig-paxos} % --
+
+\if 0
+\pctProtMany\ \xxx\ of the bugs must
+have at least two different protocols running.  A protocol sometimes
+must also be triggered multiple times (\eg, three clients concurrently
+run the \ts{write} protocol), but currently we do not track this
+number.  
+\fi
+
+
+\vten
+
+
+% ===============================================
+\subsection{Triggering Scope (TS)}
+\label{trig-scope}
+
+
+We now analyze the triggering scope (TS), which is a complexity measure of
+DC-bug timing conditions.  We use four metrics to measure the scope:
+message count (\BTSM), node (\BTSN), protocol (\BTSP), and untimely
+event (\BTSU) counts as shown in Figure \ref{bars}h-k.  This statistic
+is important with respect to the scalability of model checking, bug
+detection and failure diagnostic tools
+(\sec\ref{less-dmck}-\ref{less-diagnose}).
+
+Message count implies the minimum
+number of messages involved in $E$ as defined in the beginning of
+section \ref{sec-trig}.  Figure \ref{bars}h (\BTSM) shows that one or two
+triggering messages are the most common, with 7 messages as the
+maximum.  Informally, zero implies fault timing bugs without any
+message-related races, one implies message-compute race, two implies
+message-message as in Figure \ref{pat}a, and three implies a scenario
+such as \mac/(\mab-\mbc) race where \mab\ and \mac\ are concurrent or
+non-blocking message sending operations.
+
+The node and protocol scopes present how many nodes and protocols are
+involved within the message scope.  Figure \ref{bars}i-j (\BTSN\ and
+\BTSP) shows that the scale of node and protocol triggering scope is
+also small, mostly two or three nodes and one or two protocols.
+
+The untimely events count implies the total number of order
+violations, atomicity violations, untimely faults and reboots in the
+triggering timing condition of a bug.  Figure \ref{bars}k
+(\BTSU) shows that only eight bugs require more than one untimely
+events.  Four of them are message-fault bugs, each 
+requiring one untimely message and one
+untimely fault to trigger (\eg, step 4 and 8 in 
+Figure \ref{fig-zook}).  Three are fault-reboot timing bugs,
+each requiring one untimely fault and one untimely reboot.
+The last one is \ca{6023}, shown in Figure \ref{fig-paxos}, requiring
+three message-message order violations to happen.
+
+%TODO
+% --- after the occurrence of 
+%the one untimely event, the first error will deterministically propagate to
+%failures
+
+\finding{The \textit{timing conditions} of most DC bugs only involve 
+\textit{one to three} messages, nodes, and protocols ($>$90\% in
+Figure \ref{bars}h-j).  Most DC bugs are mostly triggered by 
+only \textit{one} untimely event (\pctTrigScopeUnEvOne\ in Figure 
+\ref{bars}k).}
+%, which
+%is a positive finding for the scalability of
+%future bug finding tools (\sec\ref{less-bft}).
+%Furthermore, more focus on interactions between foreground
+%and background protocols that involve control logic should
+%be exercised. 
+

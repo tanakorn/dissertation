@@ -1,0 +1,28 @@
+
+
+\begin{table}[t]
+\small
+\centering
+\begin{tabular}{lcccc}
+\toprule
+   & Ordering & Atomicity & Fault & Reboot \\
+\midrule
+CA &  4  & 4 & 6 & 5 \\
+HB &  13  & 9 & 8 & 1 \\
+MR & 25  & 4 & 5 & 3 \\
+ZK &  4  & 8 & 7 & 5 \\
+\midrule
+All &  46  & 25 & 26 & 14 \\
+\bottomrule
+\end{tabular}
+
+\mycaption{tab:trig}{\#DC bugs triggered by timing conditions
+(\sec{\ref{trig-time}})}{The total is more than \numDcBugs\ because some bugs
+require more than one triggering condition. More specifically, 46 bugs 
+(\pctTrigOrder) are caused {\em only} by 
+ordering violations, 21 bugs (\pctTrigAtom) 
+{\em only} by atomicity violations, and 4 bugs (\pctTrigMix) by multiple timing 
+conditions (as also shown in Figure \ref{bars}a).}
+
+\end{table}
+

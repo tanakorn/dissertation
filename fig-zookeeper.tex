@@ -1,0 +1,48 @@
+
+
+%\newcommand{\fev}[1]{\textcolor{Maroon}{\textit{#1}}}
+%\newcommand{\ev}[1]{\textcolor{gray}{\textbf{#1}}}
+
+
+\begin{figure}[t]
+\centering
+\footnotesize
+\begin{tabular}{|p{3.2in}|} 
+% ---------------------------------------------------- Sample
+\hline
+{\bf \zk{1264}:}
+\ev{(1)} \fev{Follower F crashed} in the past,
+\ev{(2)} \fev{F reboots} and joins the cluster,
+\ev{(3)} Leader L sync data with F and send snapshot, 
+\ev{(4)} \fev{In the middle of step 3-6},
+% Before syncing finishes (in step 6), 
+client updates data with Tx-\#15; L forwards the update to F,
+\ev{(5)} F applies the update in memory only, due to a concurrent sync,
+\ev{(6)} L tells F syncing is finished, % \fev{after step 5},
+\ev{(7)} Client updates data with Tx-\#16; F writes update to disk correctly,
+\ev{(8)} \fev{F crashes},
+\ev{(9)} \fev{F reboots} and joins the cluster again,
+\ev{(10)} L sync data with F, but this time L sends only ``diff'' starting with Tx-\#17
+\ev{(11)} F permanently \fev{loses data} from Tx-\#15,
+inconsistent with L and other followers!
+% \ev{(12)} Violaton: permanent data inconsistency as F does not have data from txid \#15,
+\\ \hline
+% ----------------------------------------------------
+\end{tabular}
+%---------------------------------
+\vminfive
+\mycaption{fig-zook}{A DC bug in ZooKeeper}{}
+\end{figure}
+
+
+
+%\ev{(5)} L forwards the update request txid \#15 to F,
+
+% ---------------------------------------------------- CA simple
+% ---------------------------------------------------- CA complex
+% ---------------------------------------------------- HBase simple
+% ---------------------------------------------------- HBase complex
+% ---------------------------------------------------- MR simple
+% ---------------------------------------------------- MR complex
+% ---------------------------------------------------- ZK simple
+% ---------------------------------------------------- ZK complex
