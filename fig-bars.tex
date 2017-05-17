@@ -1,11 +1,14 @@
-\begin{figure}[!htb]
+
+
+
+\begin{figure}[t]
 
 \centerline{
 \begin{tikzpicture}[font=\sffamily\footnotesize]
 \begin{axis}[
 xbar stacked,
 y=0.8cm,
-%width=5in,
+width=3.375in,
 width=\columnwidth,
 %height=120pt,
 xmin=0,
@@ -13,9 +16,11 @@ xmax=100,
 bar width=12pt,  
 %xmajorgrids=true,
 %ylabel={Categorizations},
-symbolic y coords={RB, CR, TO, FLT},
+%symbolic y coords={TRIG, CD, PIN, IMP, REP, EM, RB, CR, TO, FLT, LM, TSM, TSP, TSN},
+symbolic y coords={REP, FIX, IMP, EM, ES, ERR, TSU, TSP, TSN, TSM, PIN, SP, RB, CR, TO, FLT, TRIG},
 ytick=data,
-yticklabels={{(d) RB, (c) CR, (b) TO, (a) FLT}},
+%yticklabels={{(n) TRIG, (m) CD, (l) PIN, (k) IMP, (j) REP, (i) EM, (h) RB, (g) CR, (f) TO, (e) FLT, (d) LM, (c) TSM, (b) TSP, (a) TSN}},
+yticklabels={{(q) WHR, (p) FIX, (o) FAIL, (n) ER-E/S, (m) ER-L/G, (l) ERROR, (k) TS-UEv, (j) TS-PR, (i) TS-ND, (h) TS-MSG, (g) IP-B/F, (f) IP-PR, (e) IP-RB, (d) IP-CR, (c) IP-TO, (b) IP-FLT, (a) TC}},
 every axis y label/.style={at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel},
 xticklabels={,,},
 axis x line*=none,
@@ -27,10 +32,14 @@ axis y line*=right
 %\includegraphics[width=1.8in]{F/empty.eps}
 }
 \vminten
-\mycaption{bars}{Statistical overview of DC bugs}{(a) the percentage of bugs that
-require faults; (b) the percentage of bugs that require timeouts; (c) the
-percentage of bugs that require the different number of crashes; (d) the
-percentages of bugs that require the different number of reboots.}
+\mycaption{bars}{Statistical overview of \tdc}
+{Timing Conditions (TC) is discussed in \sec\ref{trig-time},
+Input Preconditions (IP) in \sec\ref{trig-input},
+Triggering Scope (TS) in \sec\ref{trig-scope},
+Errors (ER) in \sec\ref{err-err},
+Failures (FAIL) in \sec\ref{err-fail},
+Fixes (FIX) in \sec\ref{sec-fix},
+and Where Found (WHR) in \sec\ref{sec-stat}.}
 % \vten
 
 \end{figure}
