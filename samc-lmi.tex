@@ -1,0 +1,108 @@
+
+
+
+
+% ------------------------
+\subsection{Local-Message Independence (LMI)}
+\label{sam-lmi}
+
+
+
+
+
+% LMI basic
+We define {\em local messages} as messages that are concurrently in
+flight to a given node (\ie, intra-node messages).  As shown in
+Figure~\ref{fig-pol}a, a black-box DPOR treats the message processing
+semantic inside the node as a black box, and thus must declare the
+incoming messages as dependent, leading to 4! permutation
+of \ma\mb\mc\md.  On the other hand, with white-box knowledge,
+local-message independence (LMI) can define {\em independency
+relationship among local messages}.  For example, illustratively in
+Figure~\ref{fig-pol}b, given the node's local state (\ls) and the
+processing semantic (embedded in the \ts{if} statement), LMI is able
+to define that \ma\ and \mb\ are dependent, \mc\ and \md\ are
+dependent, but the two groups are independent, which then leads to
+only 4 re-orderings.  This reduction illustration is similar to the
+one in Section~\ref{mot-state}, but this time LMI enables DPOR
+application on local messages.
+
+
+% LMI question
+LMI can be easily added to a dmck.  A dmck server typically has a
+complete view of the local states (\sec\ref{mot-bgterms}).  What is
+needed is the {\em message processing semantic}: how will a node (\nn)
+process an incoming message (\mm) given the node's current local state
+(\ls)?  The answer lies in these four simple {\em message processing
+patterns} (discard, increment, constant, and modify):
+
+
+{\small
+\begin{alltt}
+     \underline{Discard:}           \underline{Increment:}  
+     if (pd(m,ls))      if (pi(m,ls))
+      (noop);             ls++;       
+
+     \underline{Constant:}          \underline{Modify:}  
+     if (pc(m,ls))      if (pm(m,ls))
+       ls = Const;        ls = modify(m,ls);
+\end{alltt}
+}
+
+% LMI pattern .....
+In practice, \ls\ and \mm\ contain many fields.  For simplicity, we
+treat them as integers.  The functions with prefix \pp\ are boolean
+read-only functions (predicates) that compare an incoming message
+(\mm) with respect to the local state (\ls); for example, \pd\ can
+return true if \ts{m<s}.  The first pattern is a {\em discard} pattern
+where the message is simply discarded if \pd\ is true.  This pattern
+is prevalent in distributed systems with votes/versions; old
+votes/versions tend to be discarded (\eg, our example
+in \sec\ref{sam-ex}).  The {\em increment} pattern performs an
+increment-by-one update if \pi\ is true, which is also quite common in
+many protocols (\eg, counting commit acknowledgements).  The {\em
+constant} pattern changes the local state to a constant whenever \pc\
+is true.  Finally, the {\em modify} pattern changes the local state
+whenever \pm\ is true.
+
+
+% LMI policy
+Based on these patterns, we can  apply LMI in the following
+ways.
+%
+(1) \mx\ is independent of \my\ if \pd\ is true on any of \mx\ and \my.
+That is, if \mx\ (or \my) will be discarded, 
+then it does not need to be re-ordered 
+with other messages.
+%
+(2) \mx\ is independent of \my\ if \pi\ (or \pc) is true on both \mx\ and \my.
+That is, the re-orderings do not matter because the local state is
+monotonically increasing by one (or changed to the same constant).
+%
+(3) \mx\ and \my\ are dependent if \pm\ is true on \mx\ and 
+\pd\ is not true on \my.  
+That is, since both messages modify the local state in unique ways, then the
+re-orderings can be ``interesting'' and hence should be exercised.
+%
+All these rules are continuously evaluated before every event is
+enabled.  If multiple cases are true, dependency has higher precedence
+than independency.
+
+
+
+
+
+
+
+% LMI, application 
+Overall, LMI allows dmck to smartly skip redundant re-orderings by
+leveraging simple patterns.  The job of the tester is to find the
+message processing patterns from a target protocol and write {\em
+protocol-specific rules} (\ie, filling in the content of the four LMI
+predicate functions (\pd, \pi, \pc, and \pm) specific to the target
+protocol).  As an example, for our simple leader election protocol
+(\sec\ref{sam-ex}), \pd\ can be as simple as:
+return \ts{m.vote} \ts{<}
+\ts{ls.myVote}.
+
+

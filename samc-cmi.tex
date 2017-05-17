@@ -1,0 +1,86 @@
+
+
+\subsection{Crash-Message Independence (CMI)}
+\label{sam-cmi}
+
+
+% CMI motivation
+Figure~\ref{fig-pol}c illustrates the motivation behind our next
+policy.  The figure resembles an atomic broadcast protocol where a
+leader (\ts{L}) sends commit messages to the followers (\ts{F}s).
+Let's assume commit messages \ts{ab} to \fone\ and \ts{cd} to \ftwo\
+are still in flight (\ie, currently outstanding in the dmck; not
+shown).  In addition, the dmck would like to crash \ftri, which we
+label as a crash event \xx.  The question we raise is: how should \xx\
+be re-ordered with respect to other outstanding messages
+(\ma, \mb, \mc, and \md)?
+
+
+% CMI problem dmck
+As we mentioned before, we find {\em no} single dmck that incorporates
+crash semantics into reduction policies.  As an implication, in our
+example, the dmck must reorder \xx\ with respect to other outstanding
+messages, generating executions \ts{Xabcd}, \ts{aXbcd}, \ts{abXcd},
+and so on.  Worse, when \ts{abcd} are reordered, \xx\ will be
+reordered again.  We find this as one major fundamental problem why
+existing dmcks do not scale with the inclusion of failures.
+
+% CMI pattern
+To solve this, we introduce crash-message independence (CMI) which
+defines {\em independency relationship between a to-be-injected crash
+and outstanding messages}.  The key lies in these two crash reaction
+patterns (global vs. local impact) running on the surviving nodes
+(\eg, the leader node in Figure~\ref{fig-pol}c).
+
+
+{\small
+\begin{alltt}
+      \underline{Global impact:}       \underline{Local impact:}
+      if (pg(X,ls))         if (pl(X,ls)) 
+        modify(ls);           modify(ls);
+        sendMsg();           
+\end{alltt}
+}
+
+
+% CMI pattern
+The functions with prefix \pp\ are predicate functions that compare
+the crash event \xx\ with respect to the surviving node's local state
+(\eg, the leader's local state).  The \pg\ predicate in the {\em
+global-impact} pattern defines that the crash \xx\ during the local
+state \ls\ will lead to a local state change {\em and} new outgoing
+messages (\eg, to other surviving nodes).  Here, no reduction can be
+done because the new crash-induced outgoing messages must be
+re-ordered with the current outstanding messages.  On the other hand,
+reduction opportunities exist within the {\em local-impact} pattern,
+wherein the \pl\ predicate specifies that the crash will just lead to
+a local state change but not new messages, which implies that the
+crash does not need to be re-ordered.  
+
+
+% CMI policies
+Based on the two crash impact patterns, we apply CMI in the following ways.
+%
+Given a local state \ls\ at node \nn, a peer failure \xx, and outstanding
+messages (\mone...\mn) from \nn\ to other surviving peers, CMI performs:
+%
+(1) If \pl\ is true, then \xx\ and \mone...\mn\ are independent.
+%
+(2) If \pg\ is true, then \xx\ and \mone...\mn\ are dependent.
+%
+In Figure~\ref{fig-pol}c for example, if \pl\ is true in node \ts{L},
+then \xx\ does not impact outstanding messages to \fone\ and \ftwo,
+and thus \xx\ is independent to \ts{abcd}; exercising
+\ts{Xabcd} is sufficient.
+
+
+% CMI deployment
+An example of CMI application is a quorum-based write protocol.  If a
+follower crash occurs and quorum is still established, the leader will
+just decrease the number of followers (local state change only).  Here,
+for the protocol-specific rules, the tester can specify \pl\ with
+\ts{\#follower} \ts{>=} \ts{majority} and \pg\ with the reverse. 
+Overall, CMI helps dmck scale with the inclusion of failures, specifically by
+skipping redundant re-orderings of crashes with respect to outstanding
+messages.
+
