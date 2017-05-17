@@ -1,0 +1,40 @@
+
+
+
+
+\section{Other Statistics}
+\label{sec-stat}
+
+% \input{fig-whisk}
+
+\if 0
+\jirafootnotable{sec-stat}{\spa \mr{3006}, 
+\mr{3531}, \mr{3596}, \mr{3656}, \mr{3858}, \mr{4252}}
+\fi
+
+We now present other quantitative findings not included in
+previous discussions.  We attempted to measure the complexity of DC
+bugs using four metrics: (a) the number of ``re-enumerated steps'' as
+informally defined in \sec\ref{met-valid}, (b) the patch LOC
+including new test suites for the corresponding bug, (c) the time to
+resolve (TTR), and (d) the number of discussion comments between the
+bug submitter and developers.
+%
+The 25th percentile, median, and 75th percentile for the four metrics
+are
+%
+(a) \stepTFP, \stepMed, and \stepSFP\ steps, 
+%
+(b) \locTFP, \locMed, and \locSFP\ LOC, 
+%
+(c) \ttrTFP, \ttrMed, and \ttrSFP\ days to resolve, 
+%
+(d) \commTFP, \commMed, and \commSFP\ comments.  
+
+In terms of where the bugs were found, Figure \ref{bars}r (\BWHR)
+highlights that \pctWhrField\ were found in deployment and
+\pctWhrTest\ from failed unit tests.  The rest, \pctWhrNotDef, are not
+defined (could be manually found or from deployment).  Some DC bugs
+were reported from large-scale deployments such as executions of
+thousands of tasks on hundreds of machines.%\spa
+

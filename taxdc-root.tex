@@ -1,0 +1,96 @@
+\section{Root Causes}
+\label{sec-root}
+
+It is difficult to know for sure why many DC-bug triggering conditions
+were not anticipated by the developers (\ie, the root causes).  In
+this section, we postulate some possible and common misbeliefs behind
+DC bugs.
+
+
+\vni {\it ``One hop is faster than two hop.''}
+% one hop vs. two hop
+Some bugs manifest under scenario \mbc\ss(\mba-\mac), similar to Figure
+\ref{pat}a.  Developers may assume that \mbc\ (one hop) should arrive
+earlier than \mba-\mac\ (two hops), but
+\mac\ can arrive earlier and hit a DC bug.
+
+
+\vni {\it ``No hop is faster than one hop.''}
+Some bugs manifest under
+scenario \mba-(\lbp\ss\mab), similar to Figure \ref{pat}f.  Developers
+may incorrectly expect \lbp\ (local computation with no hop) to always
+finish before \mab\ arrives (one hop).  
+% ex: \zk{1270}
+% ...
+
+\vni {\it ``Atomic blocks cannot be broken.''}
+Developers might believe that ``atomic'' blocks (local or global
+transactions) 
+can only be broken unintentionally by some faults such as crashes.
+However, we see a few cases where atomic blocks are broken inadvertently
+by the system itself, specifically via untimely arrival of
+kill/preemption messages in the middle of an atomic block.
+More often, the system does not record
+this interruption
+and thus unconsciously leaves state changes half way.  Contrary, in
+fault-induced interruption, some fault recovery protocol typically
+will handle it.
+
+
+\vni {\it ``Interactions between multiple protocols seem to be
+  safe.''} In common cases, multiple protocols rarely interact, and
+even when they do, non-deterministic DC bugs might not surface.  This can
+be unwittingly treated as normally safe, but does not mean
+completely safe.
+
+
+\if 0
+\jirafootnotable{sec-root}{
+\spa \hb{5780}, \mr{3596};  % one hop faster than two hops
+\spb \mr{3780}, \zk{1270};  % no hop faster than one hop
+\spc \hb{7643}, \mr{5198};  % atomic block broken
+\spd \hb{5179}, \mr{4751}, \zk{1046};  % unsafe multiple protocol
+\spe \ca{6571}, \mr{5465}, \zk{1496};  % add more states
+}
+\fi
+
+
+\vni {\it ``Enough states are maintained.''}  Untimely events can
+unexpectedly corrupt system states and when this happens the system
+does not have enough information to recollect what had happened in the
+past, as not all event history is logged.  We observe that some fixes
+add new in-memory/on-disk state variables to handle
+untimely message and fault timings.
+
+
+
+
+
+
+\if 0
+% this one is actually very rare, so i exclude this
+\vni {\it ``An earlier message will receive an earlier reply.''}  For
+example, given \mcb-\mbc\ss\mca-\mac, developers may expect the first
+message's reply (\mbc) to arrive earlier than second message's reply
+(\mac), again similarly to Figure \ref{pat}b.  But the replies can
+arrive out of order (\ref{pat}a).  
+
+% this one has similar nature as one hop vs. 2 hop
+% i exclude this unless we have space later
+\vni {\it ``The message sent earlier will take effect earlier''} For
+example, we discussed earlier that \mr{3274} is triggered by a
+\mbc/\mac\ race, and the software cannot handle \mac\sub{kill} when it
+arrives earlier than \mbc\sub{init}.  (Figure \ref{pat}a), In
+fact, \mbc\sub{init} is caused by another message \mab\sub{init} that
+leaves node A\sub{AM} a while before \mac\sub{kill} does, which may be
+why developers assume \mbc\ will arrive before \mac\ at C.
+%
+\fi
+
+
+
+
+\finding{Many DC bugs are related with a few common misconceptions 
+that are unique to distributed systems.}
+
+
