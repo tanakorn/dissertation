@@ -1,0 +1,28 @@
+
+\begin{figure}[t]
+\begin{center}
+\footnotesize
+\centering
+%---------------------------------
+\begin{tabular}{|p{3.2in}|} 
+\hline
+{\bf \hb{9095}:}
+\ev{(1)} RS successfully OPENED region R,
+\ev{(2)} RS notifies ZK that region R is OPENED,
+\ev{(3)} ZK continues region R state msg to Master,
+\ev{(4)} Master starts processing OPENED msg,
+\ev{(5)} Meanwhile RS CLOSED region R (asked by Client),
+\ev{(6)} RS notifies ZK that region R is CLOSED,
+\ev{(7)} Master asks ZK to delete znode for region R,
+\fev{concurrently racing with step 6!},
+\ev{(8)} ZK deletes region R's znode,
+\ev{(9)} Master never assigns region R to any RS.
+\fev{R becomes an orphan!}
+\\ \hline
+\end{tabular}
+%---------------------------------
+\end{center}
+\vminten
+\mycaption{fig-hbase}{Race of HBase's messages to ZooKeeper}{}
+\vten
+\end{figure}
