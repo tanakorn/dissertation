@@ -1,0 +1,151 @@
+
+
+
+
+\section{Errors and Failures}
+\label{sec-err}
+
+\subsection{Error Symptoms}
+\label{err-err}
+
+% goal
+From the triggering conditions, we then scrutinize the {\em first}
+error that happens immediately after.  First errors are the pivotal
+point that bridges the triggering and error-propagation process.
+Identifying first errors help failure diagnosis get closer to
+disclosing bug triggering and root causes and help bug detection get
+closer to accurately predict failures (\sec\ref{sec-less}).
+
+
+
+
+% our category
+We categorize first errors into {\em local} errors and {\em global}
+errors, based on whether they can be observed from the triggering node
+\nt\ alone.  Here, \nt\ is the node where triggering ends.  It is the
+receiver node of untimely messages (\eg, node C in Figure \ref{pat}a)
+or the node with untimely fault (\eg, node A in Figure \ref{pat}i).
+For each error, we also check whether it is an {\it explicit} or {\em
+  silent} error.  
+Table \ref{tab:error} and Figure \ref{bars}l
+(\BERR) show the per-system and overall breakdowns
+respectively. 
+Some MapReduce bugs caused multiple concurrent first errors of different types.
+
+\if 0
+\jirafootnote{err-err}{tab:error}{
+\spa \ca{5925}, \hb{6375}, \mr{5198};  % local memory exception
+\spb \hb{4540}, \mr{4607}, \zk{1046};           % local state machine/semantic
+\spc \hb{5606}, \mr{4252}, \zk{1144};           % local hangs 
+\spd \ca{2590}, \hb{6227}, \mr{4099}, \zk{1382};    % local silent (other than hang)
+\spe \ca{1011}, \hb{4015}, \mr{2953};  % global wrong
+\spf \ca{5393}, \hb{6060}, \mr{4819};  % global miss
+\spg \ca{6023}, \hb{6070}, \zk{962}; % global silent
+}
+\fi
+
+
+% local
+First, DC bugs can manifest into both local explicit errors and local
+silent errors. The former includes
+%
+{\em memory exceptions} such as null-pointer exceptions
+(\pctErrLocMem\ in Table \ref{tab:error}) and {\em semantic errors} 
+such as wrong state-machine transition exceptions thrown by 
+the software (\pctErrLocSem).
+%
+Local silent errors include
+%
+{\em hangs}, such as forever waiting for certain states to change
+or certain messages to arrive which are typically observed implicitly
+by users (\pctErrLocHang),
+%
+and {\em local silent} state corruption, such as half-cleaned
+temporary files (\pctErrLocSil).
+
+
+\input{tab-error}
+
+% global
+When local error is non-obvious in \nt, we analyze if the error is
+observable in other nodes communicating with \nt.  Many
+DC bugs manifest into explicit global errors through {\em wrong
+messages} (\pctErrGlobWrong\ in Table \ref{tab:error}). Specifically, 
+the communicating
+node receives an incorrect message from \nt, and throws an exception
+during the message handling.  However, a few DC bugs still lead to
+silent global errors. These include {\em missing messages}, where
+\nt\ never sends a reply that the communicating node is waiting for
+in the absence of timeout (\pctErrGlobMiss), and {\em global
+  silent} state corruption such as replica inconsistencies
+between \nt\ and the other nodes (\pctErrGlobSil).
+
+
+\finding{\textit{Local} and \textit{global} first errors are about
+equally common; \pctErrLoc\ vs. \pctErrGlob\ in Figure \ref{bars}m
+(\BLG).  About half of the DC bugs generate \textit{explicit} first
+errors (\pctErrExp), including local exceptions and global wrong
+messages, and the remaining DC bugs lead to \textit{silent} errors
+(\pctErrImp), as shown in Figure \ref{bars}n (\BES). 
+%
+Some of them immediately lead to hangs in the triggering node $N_T$
+(\pctErrLocHang) or a node communicating with $N_T$
+(\pctErrGlobMiss).  }
+
+
+
+
+
+
+
+
+% =========================================
+\subsection{Failure Symptoms}
+\label{err-fail}
+
+
+
+
+
+
+Figure \ref{bars}o (\BFAIL) shows that errors from DC bugs will
+eventually lead to a wide range of fatal failures including
+%
+node downtimes (\pctFailNode),
+data loss/corruption/inconsistencies (\pctFailData),
+operation failures (\pctFailOp),
+and performance degradation (\pctFailPer).
+%
+A node downtime happens when the node either crashes or
+hangs (\ie, it may still be heartbeating).
+It happens to both master/leader nodes and worker/follower nodes
+in our study.
+%Developers often have a hard
+%time in debugging fail-silent behaviors and prefer fail-stop
+%behaviors \cite{mr-3634}.
+%
+Data-related failures and performance problems are an artifact of
+incorrect state logic induced from DC bugs.  For example, in HBase,
+concurrent region updates and log splittings can cause data loss.
+In Cassandra, some dead nodes are incorrectly listed as alive causing
+unnecessary data movement that degrades performance.
+% 
+Node downtimes and data-related failures could also cause some operations
+to fail.  To avoid double counting,
+we consider a bug as causing operation failures only when it does not cause
+node downtimes or data-related failures.
+
+\if 0
+\jirafootnotable{err-fail}{
+\spa \hb{6153}, \mr{5198}, \zk{1144}; % node down
+\spb \ca{2083}, \hb{6227}, \mr{4819}, \zk{1154}; % data loss / stale / corrupt
+\spc \ca{5631}, \hb{5780}, \mr{4833}, \zk{1291}; % opfail
+\spd \ca{3626}, \hb{5606}, \zk{975}; % perf degrade
+}
+\fi
+
+
+
+
+
+

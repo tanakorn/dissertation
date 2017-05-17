@@ -1,0 +1,32 @@
+
+
+\begin{table}[t]
+\small
+\centering
+\begin{tabular}{lcccccccc}
+\toprule
+   & \mc{4}{c}{Local Errors} && \mc{3}{c}{Global Errors}\\
+\cmidrule{2-5}
+\cmidrule{7-9}
+   & Mem & Sem & Hang & Sil &    & Wrong & Miss & Sil \\
+%   & \spa & \spb & \spc & \spd &    & \spe & \spf & \spg \\
+\midrule
+CA &  2  & 0 & 0 & 4 & & 3 & 3 & 7  \\
+HB &  1  & 2 & 1 & 2 & & 15 & 3 & 6  \\
+MR &  2  & 13 & 7 & 4 & & 14 & 4 & 0  \\
+ZK &  0  & 6 & 2 & 5 & & 1 & 0 & 5  \\
+\midrule
+All &  5  & 21 & 10 & 15 & & 33 & 10 & 18  \\
+\bottomrule
+\end{tabular}
+\mycaption{tab:error}{First error symptoms of DC bugs (\sec{\ref{err-err}})}
+{Some bugs cause multiple concurrent first errors.}
+\end{table}
+
+
+\if 0
+The
+abbreviations are the following.
+Mem: memory error, Sem: semantic,
+Sil: silent,  Miss: missing message, and Wrong: wrong message.
+\fi
