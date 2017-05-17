@@ -1,0 +1,46 @@
+%\section{Introduction}
+%\label{sec-intro}
+
+Concurrency bugs are one notorious type of software bugs that happen in
+concurrency systems. These timing-related bugs manifest non-deterministically,
+and hence are extremely difficult to detect, diagnose, and fix. A huge body of
+work exists in this space that focuses on ``local'' concurrency (LC) bugs in
+single-machine multi-threaded software, caused by incorrect interleaving of
+memory accesses. And for cloud-scale distributed systems, the reliability is
+also severely threatened by non-deterministic concurrency bugs as well, which we
+refer as {\em distributed concurrency (DC) bugs}. Distributed systems execute
+many complicated distributed protocols on hundreds/thousands of machines with no
+common clocks, and must face a variety of random hardware failures
+\cite{Do+13-Limplock, Gunawi+14-Cbs}. This combination makes distributed
+systems prone to DC bugs caused by non-deterministic timing of distributed
+events such as message arrivals, node crashes, reboots, and timeouts. These DC
+bugs cannot be directly tackled by LC bug techniques, and they cause fatal
+implications such as operation failures, downtimes, data loss and
+inconsistencies.
+
+Fighting DC bugs is challenging, particularly given the preliminary
+understanding of real-world DC bugs.  To make progress, a comprehensive bug
+study is needed. Past studies have closely examined bugs in various software
+systems \cite{Chou+01-Empirical, Lu+13-FsEvolution, linux.asplos11}, which have
+motivated and guided many aspects of reliability research.
+%
+There are few bug studies on cloud-scale distributed systems
+\cite{Gunawi+14-Cbs, Li+13-ScopeBugStudy}, but they did not specifically dissect
+DC bugs. There was an internal bug study dissecting network-failure-related DC
+bugs to be a foundation to combat those bugs, but it was not published
+\cite{Joshi+13-SetsudoTesting}, and one recent work analyzed non-determinism in
+MapReduce programs but only discussed five bugs \cite{Xiao+14-NonDetMR}.
+%
+Thorough studies have also been conducted for LC bugs \cite{study.dsn10,
+Lu+08-ConcurrencyBugStudy} with many follow-up work to date, yet {\em there is
+no comprehensive study on real-world distributed concurrency bugs}. We fill this
+void in this chapter by presenting our in-depth analysis of \numDcBugs\ DC bugs.
+The bugs came from four popular datacenter distributed systems: Cassandra
+\cite{CassandraWeb}, HBase \cite{HBaseWeb}, Hadoop MapReduce \cite{HadoopWeb},
+and ZooKeeper \cite{ZooKeeperWeb}.
+%
+We introduce \taxdc, a comprehensive taxonomy of real-world DC bugs across
+several axes of analysis such as the triggering timing condition and input
+preconditions, error and failure symptoms, and fix strategies, as shown in
+detail in Table \ref{tab:tax}.
+

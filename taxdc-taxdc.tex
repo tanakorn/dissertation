@@ -1,0 +1,25 @@
+
+\section{TaxDC Contribution}
+
+As the main contribution, \tdc\ will be the first large-scale DC-bug benchmark.
+In the last six years, bug benchmarks for LC bugs have been released
+\cite{Jalbert11-RADBench, jieyu}, but no large-scale benchmarks exist for DC
+bugs.  Researchers who want to evaluate the effectiveness of existing or new
+tools in combating DC bugs do not have a benchmark reference.  \tdc\ provides
+researchers with more than 100 thoroughly taxonomized DC bugs to choose from.
+Practitioners can also use \tdc\ to check whether their systems have similar
+bugs.  The DC bugs we studied are considerably general, representing bugs in
+popular types of distributed systems.
+
+As a side contribution, \tdc\ can help open up new research directions.  In the
+past, the lack of understanding of real-world DC bugs has hindered researchers
+to innovate new ways to combat DC bugs.  The state of the art focuses on three
+lines of research: monitoring and postmortem debugging \cite{Geels+07-Friday,
+Liu+08-D3S, Liu+07-WiDS, Reynolds+06-Pip}, testing and model checking
+\cite{Guo+11-Demeter, Killian+07-LifeDeathMaceMC, Leesatapornwongsa+14-Samc,
+Simsa+10-Dbug, Yang+09-Modist}, and verifiable language frameworks
+\cite{Desai+13-PLang, Wilcox+15-Verdi}.  We hope our study will not only improve
+these lines of research, but also inspire new research in bug detection tool
+design, runtime prevention, and bug fixing, as elaborated more in Section
+\ref{sec-less}.
+
