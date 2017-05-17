@@ -1,0 +1,226 @@
+
+
+\section{Methodology}
+\label{sec-met}
+
+%\myquote{``I'm suspecting there is a race condition.'' --- \zk{1496}}
+
+
+% -------------------------------------------------
+\vfifteen
+\subsection{Basic Definitions}
+\label{met-def}
+
+A {\em distributed concurrency (DC) bug} is a 
+concurrency bug in distributed
+systems caused by distributed events that can occur in
+non-deterministic order.  An {\em event} can be a message arrival/sending, 
+local computation, fault, and reboot.
+%
+A {\em local concurrency (LC) bug} is a 
+concurrency bug that happens locally
+within a node due to thread interleaving.
+%
+In our model, a {\em distributed system} is a collection of
+shared-nothing nodes.  Each node can run multiple protocols in
+multiple threads.
+%
+
+
+% -------------------------------------------------
+\subsection{Target Systems and Dataset}
+\label{met-data}
+
+
+Our study examined bugs from four widely-deployed
+open-source datacenter distributed
+systems that represent a diverse set of system architectures: Hadoop
+MapReduce (including Yarn) \cite{HadoopWeb} representing distributed
+computing frameworks, HBase \cite{HBaseWeb} and Cassandra
+\cite{CassandraWeb} representing distributed key-value stores (also
+known as NoSQL systems), and ZooKeeper \cite{ZooKeeperWeb}
+representing synchronization services.
+%
+They are all fully complete systems containing many complex concurrent
+protocols.  Throughout the chapter, we will present short examples of DC
+bugs in these systems.  Some detailed examples are illustrated in Figure
+\ref{fig-zook}, \ref{fig-paxos} and \ref{fig-hbase}.
+
+The development projects of our target systems are all hosted under
+Apache Software Foundation wherein organized issue repositories (named
+``JIRA'') are maintained.  To date, across the four systems, there are
+over 30,000 issues submitted.  One major challenge is that issues
+pertaining to DC bugs do not always contain plain terms such as
+``concurrency'', ``race'', ``atomicity'', \etc\ Scanning all the
+issues is a daunting task.  Thus, we started our study from an open
+source cloud bug study (CBS) database \cite{CBSWeb}, which already
+labels issues related to concurrency bugs.  However, beyond simple
+labeling, the CBS work did not differentiate DC from LC bugs and did
+not dissect DC bugs further.
+
+From CBS, we first filtered out LC bugs, then exclude 
+DC bugs that do not contain clear description, and finally
+randomly picked \numDcBugs\ samples
+from the remaining detailed DC bugs, specifically \numDcCA\
+Cassandra, \numDcHB\ HBase, \numDcMR\ Hadoop MapReduce, and \numDcZK\
+ZooKeeper DC bugs, reported in January 2011-2014 (the time range of
+CBS work).  
+We have seen much fewer clearly explained DC bugs in CBS from 
+Cassandra and ZooKeeper than those from HBase and Hadoop MapReduce, which 
+may be related to the fact that they are different types of distributed
+systems.  For example,  ZooKeeper, as a
+synchronization service, is quite robust as it is built on the
+assumption of event asynchrony since day one. Cassandra was built on
+eventual consistency, and thus did not have many complex transactions,
+until recently when Cassandra adopts Paxos.  We still see new DC bugs
+throughout 2014-2015 (some pointed to us by the developers); they can
+be included into \tdc\ in the future.
+
+
+
+
+% ---------------------------------
+\subsection{Taxonomy}
+\label{met-tax}
+
+
+\input{tab-tax}
+
+We study the characteristics of DC
+bugs along three key stages: triggering, errors \& failures, and
+fixing (Table \ref{tab:tax}).
+%
+{\it Triggering} is the process where software execution states
+deviate from correct to incorrect under specific conditions.  At the
+end of this process, the manifestation of DC bugs changes from
+non-deterministic to deterministic.
+%
+{\it Errors and failures} are internal and external software
+misbehaviors.
+%
+{\it Fixing} shows how developers correct the bug.  We
+will discuss in detail these categories in their respective sections.
+
+% -----------------------------------------
+\subsection{Threats to Validity}
+\label{met-valid}
+
+For every bug, we first ensure that the developers marked it as a real bug (not
+a false positive).  We also check that the bug description is clear. Finally, We
+then {\em re-enumerate} the full sequence of operations (the ``{\em steps}'') to
+a clearer and more concise description such as the ones in Figure
+\ref{fig-zook}. 
+%
+Our study cannot and does not cover DC bugs not fixed by the developers.  Even
+for fixed bugs, we do not cover those that are not described clearly in the bug
+repositories, a sacrifice we had to make to maintain the accuracy of our
+results.  
+
+Readers should be cautioned not to generalize the statistics we report as each
+distributed system has unique purpose, design and implementation.
+%
+For example, we observe 2:1 overall ratio between order and atomicity violations
+\sec\ref{trig-time}, however the individual ratios are different across the four
+systems (\eg\ 1:2 in ZooKeeper and 6:1 in MapReduce).  
+%
+Like all empirical studies, our findings have to be interpreted with our
+methodology in mind.
+
+%\vfive % for good spacing
+
+% -----------------------------------------
+\subsection{TaxDC Database}
+\label{met-db}
+
+We name the product of our study \tdc\ database.  \tdc\ contains in
+total \numTagsAll\ classification labels and \numDescLOC\ lines of
+clear and concise re-description of the bugs (our version, that we
+manually wrote) including the re-enumeration of the steps, triggering
+conditions, errors and fixes.
+%
+We release \tdc\ to the public
+\footnote{\url{http://ucare.cs.uchicago.edu/project/taxDC}}.  We believe \tdc\
+will be a rich ``bug benchmark'' for researchers who want to tackle distributed
+concurrency problems.  They will have sample bugs to begin with, advance their
+work, and do not have to repeat our multi-people-year effort.
+
+
+\vfive % for good spacing
+
+% -----------------------------------------
+\subsection{Detailed Terminologies}
+\label{met-pres}
+
+% ----------------- state
+Below are the detailed terminologies we use in this chapter.
+% basics
+We use the term ``state'' to interchangeably imply {\em local state}
+(both in-memory and on-disk per-node state) or {\em global state}
+(a collection of local states and outstanding messages).
+%
+A {\em protocol} (\eg, read, write, load balancing) creates a chain of
+events that modify system state.
+%
+User-facing protocols are referred as {\em foreground} protocols while
+those generated by daemons or operators are referred
+as {\em background} protocols.
+
+
+% ------------------- fault
+We consider four types of {\em events}: message, local computation,
+fault and reboot.  The term {\em fault} represents component failures
+such as crashes, timeouts, and disk errors.
+%
+A {\em timeout} (system-specific) implies a network disconnection
+or busy peer node.
+%
+A {\em crash} usually implies the node experiences a power failure. %and does
+%not come back up.
+%
+A {\em reboot} means the node comes back up.
+
+
+% ---------------------------- DC bug presentation
+Throughout the chapter, we present bug examples by abstracting
+system-specific names.  As shown in Figure \ref{pat}, we use capital
+letters for nodes (\eg, A, B), two small letters for a message between
+two nodes (\mab\ is from A to B).  Occasionally, we attach
+system-specific information in the subscript (\eg, A\sub{AppMaster}
+sends \mab\sub{taskKill} message to B\sub{NodeManager}).
+%
+We use \underline{`` \textbf{/} ''} to imply concurrency
+(\mac\ss\mbc\ implies the two messages can arrive at C in different
+orders, \mac\ or \mbc\ first).
+%
+A dash, \underline{`` {\bf --} ''}, means causal relation of two
+events (\mab-\mbc\ means \mab\ causally precedes\ \mbc).
+%
+Finally, we use \underline{``N{\bf *}''} to represent crash,
+\underline{``N{\bf !}''} reboot, and \underline{``N{\bf +}''} local
+computation at N.
+
+
+% -------------------------- issue citation
+We cite bug examples with clickable hyperlinks (\eg, \mr{3274}).
+%
+To keep most examples uniform, we use MapReduce examples whenever
+possible.
+%
+%For interested readers, we cite more examples in the 
+%footnotes (\eg, \spa\spb\spc).
+%
+%
+We use the following abbreviations for system names:
+``c/CA'' for Cassandra,
+``h/HB'' for HBase, 
+``m/MR'' for Hadoop MapReduce, and
+``z/ZK'' for ZooKeeper;
+% 
+and for system-specific components:
+``AM'' for application master,
+``RM'' for resource manager,
+``NM'' for node manager, 
+``RS'' for region server, and
+``ZAB'' for ZooKeeper atomic broadcast.
+
+
