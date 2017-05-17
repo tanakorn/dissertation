@@ -1,0 +1,31 @@
+
+
+\begin{table}[t]
+\small
+\centering
+\begin{tabular}{lcccccccc}
+\toprule
+   & \mc{2}{c}{Fix Timing} && \mc{5}{c}{Fix Handling}\\
+\cmidrule{2-3}
+\cmidrule{5-9}
+   &  G & L &&
+   \mc{2}{c}{Detect} &&
+   \mc{2}{c}{Recover}\\
+\cmidrule{5-6}
+\cmidrule{8-9}
+   &&&&
+   TO & Msg & &
+   Canc & Misc \\
+\midrule
+CA & 1   & 0 && 3 & 2 && 4 & 6   \\
+HB & 0   & 1 && 3 & 1 && 6 & 1   \\
+MR & 2   & 1 && 1 & 1 && 2 & 1   \\
+ZK & 0   & 3 && 0 & 1 && 1 & 7   \\
+\midrule
+All& 3   & 5 && 7 & 5 && 13& 15  \\
+\bottomrule
+\end{tabular}
+\mycaption{tab:fix-crash}{Fix strategies for fault/reboot 
+timing bugs (\sec{\ref{fix-crash}})}
+{Some bugs require more than one fix strategy.}
+\end{table}

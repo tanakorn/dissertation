@@ -1,0 +1,141 @@
+\section{Fixes}
+\label{sec-fix}
+
+We next analyze bug patches to understand developers' fix strategies.
+In general, we find that DC bugs can be fixed by either disabling the
+triggering timing or changing the system's handling to that timing
+({\em fix timing} vs. {\em fix handling}).  The former
+prevents concurrency with extra synchronization and the latter allows
+concurrency by handling untimely events properly.  Since message
+timing bugs are fixed quite differently from fault timing bugs, we
+separate them below.
+
+% -------------------------------------------------
+\subsection{Message Timing Bug Fixes}
+\label{fix-msg}
+
+
+
+
+The left half of Table \ref{tab:fix-msg} shows that
+only one fifth of message timing bugs are fixed by disabling the
+triggering timing, through either
+ global or local synchronization.
+%
+Only a couple of bugs are fixed through extra {\em global
+  synchronization}, mainly due to its complexity and communication
+cost.  For example, to prevent a triggering pattern \lbp\ss\mab\ in
+Figure \ref{pat}f, \mr{5465}'s fix {\em adds} a monitor on A\sub{RM}
+to wait for \mba\sub{done} message from B\sub{AM} after B finishes
+with its local computation (\lbp); the result is
+\lbp-\mba-\mab\ global serialization.
+%
+More often, the buggy timing is disabled through {\em local
+  synchronization}, such as re-ordering message sending operations
+within a single node.  For example, \hb{5780}'s fix for
+\mab\ss\mbc\ race in Figure \ref{pat}c forces the sending of
+\mbc\ request at B to wait for the receipt of \mab; the result is
+\mab-\mbc\ local serialization at B.
+
+
+\input{tab-fix-msg}
+
+\if 0
+\jirafootnote{fix-msg}{tab:fix-msg}{
+\spa \hb{4729}, \mr{5465};                       % FixMsgTimeGlobal
+\spb \hb{5780}, \mr{4099}, \zk{1144};            % FixMsgTimeLocal
+\spc \hb{8940}, \mr{3274};                       % FixMsgHandRetry
+\spd \ca{2371}, \hb{6227}, \mr{4252}, \zk{1208}; % FixMsgHandIgnore
+\spe \ca{6013}, \hb{6070}, \mr{4637};     % FixMsgHandAcc
+\spf \ca{5631}, \hb{6537}, \mr{3858}, \zk{962};     % FixMsgHandOth
+}
+\fi
+
+The right half of Table \ref{tab:fix-msg} shows that fix handling is
+more popular.  Fix handling fortunately can be simple;  many fixes
+do {\em not} introduce brand-new computation logic into
+the system, which can be done in three ways.
+% 
+First, the fix can handle the untimely message by simply {\em
+  retrying} it at a later time (as opposed to ignoring or
+accepting it incorrectly).  For example, to handle \mbc\ss\mac\ race
+in Figure \ref{pat}a, \mr{3274} retries the unexpectedly-early
+\mac\sub{kill} message at a later time, right after the
+to-be-killed task starts.
+%
+Second, the fix can simply {\em ignore} the message (as opposed
+to accepting it incorrectly).  For example, to handle
+\mab\ss\mba\ race in Figure \ref{pat}d, \mr{5358} simply ignores
+the unexpectedly-late \mba\sub{finish} message that arrives after
+A\sub{AM} sends an \mab\sub{kill} message.
+%
+Finally, the patch can simply {\em accept} the untimely message
+by {\em re-using} existing handlers (as opposed to ignoring it or throwing
+an error).  For example, \mr{2995}'s fix changes the node AM to accept
+an unexpectedly-early expiration message using an existing
+handler that was originally designed to accept the same message at a
+later state of AM.  \mr{5198}'s fix handles the atomicity violation by
+using an existing handler and simply cancels the atomicity violating
+local operation.
+%
+The rest of the fix-handling cases require new computation
+logic to fix bugs.
+
+
+
+
+% -------------------------------------------------
+\subsection{Fault/Reboot Timing Bug Fixes}
+\label{fix-crash}
+
+
+
+
+
+
+Table \ref{tab:fix-crash} summarizes fix strategies for fault/reboot
+timing bugs.  Unlike message timing, only rare bugs can be fixed by
+controlling the triggering timing either globally or
+locally (\eg, by controlling the timing of the fault recovery
+actions).  A prime example is an HBase cluster-wide restart scenario
+(\hb{3596}).  Here, as A shuts down earlier, B assumes responsibility
+of A's regions (via a region-takeover recovery protocol), but soon B
+shuts down as well with the regions still locked in ZooKeeper and the
+takeover cannot be resumed after restart.  The patch simply adds a
+delay before a node starts region takeover so that it will likely get
+forced down before the takeover starts.
+
+\input{tab-fix-crash}
+
+\if 0
+\jirafootnote{fix-crash}{tab:fix-crash}{
+\spa \ca{2083}, \mr{4832}; % FixFaultTimeGlobal
+\spb \hb{3596}, \mr{5476}, \zk{1264}; % FixFaultTimeLocal
+\spc \ca{5393}, \hb{6060}, \mr{3186}; % FixFaultHandTO
+\spd \ca{2496}, \hb{6317}, \mr{5489}, \zk{1154}; % FixFaultHandMsg
+\spe \hb{10090},\mr{3186}, \zk{1154}; % FixFaultHandCS
+\spf \ca{2590}, \hb{3446}, \mr{2783}, \zk{1419}; % FixFaultHandOth
+}
+\fi
+
+For the majority of fault timing bugs, their patches conduct two
+tasks: (1) detect the local/global state inconsistency caused by the
+fault and (2) repair/recover the inconsistency.  The former is
+accomplished through timeouts, additional message
+exchanges, or others (omitted from Table \ref{tab:fix-crash}).
+The latter can be achieved by simply canceling
+operations or adding new computation logic.
+
+
+\finding{A \textit{small number of fix strategies} have 
+fixed most DC bugs.  A few DC bugs are fixed by \textit{disabling} 
+the triggering timing (\pctFixTime\ in Figure \ref{bars}p), 
+occasionally through extra messages and mostly 
+through local operation re-orderings.
+Most DC bugs are fixed by better handling the triggering 
+timing, most of which do not introduce new computation logic --- 
+they \textit{ignore} or \textit{delay} messages,
+\textit{re-use} existing handlers, and \textit{cancel} computation 
+(\pctFixHandEasy).}
+%Figure \ref{bars}p (\BFIX) summarizes the numbers above.}
+

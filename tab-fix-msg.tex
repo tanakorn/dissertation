@@ -1,0 +1,25 @@
+
+
+\begin{table}[t]
+\small
+\centering
+\begin{tabular}{lccccccc}
+\toprule
+   & \mc{2}{c}{Fix Timing} && \mc{4}{c}{Fix Handling}\\
+\cmidrule{2-3}
+\cmidrule{5-8}
+   & Glob & Loc & & Ret & Ign & Acc & Misc \\
+\midrule
+CA & 0   & 0 &&0 &1 & 3 & 4 \\
+HB & 2   & 7 &&2 &1 & 7 & 3 \\
+MR & 2   & 8 &&2 &7 & 8 & 3 \\
+ZK & 0   & 4 &&0 &3 & 0 & 1 \\
+\midrule
+All& 4   & 19&&4 &12& 18& 11\\
+\bottomrule
+\end{tabular}
+\mycaption{tab:fix-msg}{Fix strategies for message timing bugs 
+(\sec{\ref{fix-msg}})}
+{Some bugs require more than one fix strategy.}
+\end{table}
+
