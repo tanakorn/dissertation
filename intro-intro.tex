@@ -10,7 +10,7 @@ capital investment in hardware that is mostly underutilized
 \cite{Marston+11-CloudBusiness}. We see a trend that users are moving their data
 and computation from local machines and in-house datacenters to the cloud
 \cite{AdobeCloudStat, AWSCustomer, GmailStat, GoogleDriveStat, DropboxStat,
-FacebookStat} \xxx{add more citation from scientific world}.
+AstroInCloud, FacebookStat, Luo+16-BigDataBioResearch}.
 
 This trend makes client-side software get thinner and more heavily rely on the
 cloud services, thus the services are expected to be 24/7 dependable. Cloud
@@ -43,7 +43,13 @@ failures can happen at anytime and can be very complex. The timing of these
 hardware failures plus message interleaving makes it hard to handle the
 concurrency correctly.
 
-\xxx{talk about tremenduos user request}
+Moreover, the size of cloud users is tremendous and cloud service providers need
+to guarantee service quality (\ie, availability and performance) to their users.
+The providers need to ensure that their capabilities can satisfy the current
+users and also make sure there is no glitch when users are growing. Cloud
+providers normally employ large-scale systems to achieve high aggregate
+capabilities, but large-scale systems are challenging to build and costly to
+test their correctness.
 
 Addressing these challenges makes the systems getting more complex. New
 intricate bugs continue to happen and create dependability problems.
@@ -56,98 +62,3 @@ These two are critical problems because they are novel issues that occur in
 cloud environment only and not many works addressing them.  The following
 sections discuss our contributions to address the challenges.
 
-\if 0
-
-As more data and computation move from local to cloud settings, cloud-scale
-distributed systems such as scale-out storage systems \cite{Chang+06-BigTable,
-DeCandia+07-Dynamo, Ghemawat+03-GoogleFS, Nightingale+12-FlatFDS}, computing
-frameworks \cite{DeanGhemawat04-MapReduce, Murray+13-NaiadTimelyDataflow},
-synchronization services \cite{Burrows06-Chubby, Hunt+10-ZooKeeperPaper}, and
-cluster management services \cite{Hindman+11-Mesos, Kumar+13-Yarn} have become a
-dominant backbone for many cloud services. Client-side software is getting
-thinner and more heavily relies on the capability, reliability, and availability
-of cloud systems. Users demand 24/7 dependability of cloud computing systems.
-They must be accessible anytime and anywhere and not lose or corrupt users'
-data, which means they must be reliable; they have to provision fast and stable
-response time, which means they need stable performance; and while user base
-continues growing, they must be scalable also.
-
-Unfulfilled dependability is costly. Some researchers estimate that 568 hours of
-downtime at 13 well-known cloud services since 2007 to 2012 had an economic
-impact of more than \$70 million~\cite{Essers12-70Million}. Others predict
-worse: for every hour it is not up and running, a cloud service can take a hit
-between \$1 to 5 million~\cite{Linthicum13-InfoworldCostOutages}.
-Unfortunately, such cloud-scale distributed systems remain difficult to get
-right. 
-%
-Cloud-scale distributed systems are getting more and more complex. New intricate
-bugs continue to create dependability issues that cause major economic loss.
-Guaranteeing dependability has proven to be challenging in these systems
-\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Wang+14-Exalt, Yang+09-Modist}.
-
-%\section{Dependability Research}
-
-In this proposal, we attempt to improve dependability of cloud-scale distributed
-systems. We are tackling this challenge by answering these 2 questions, (1) What
-bugs that harm the dependability?, and (2) how do we test the systems to unearth
-these bugs so developers can fix them? 
-%
-The first question is motivated by that we do not have comprehensive knowledge
-about the bugs in distributed systems. There are many bug studies on
-single-machine softwares \cite{Jin+12-PerformanceBugs,
-Lu+08-ConcurrencyBugStudy, Palix+11-FaultsInLinux,
-Sahoo+10-StudyBugsServerSoftware}, yet there are few formal bug studies on
-distributed-systems softwares; they did not study in a great number and across
-multiple types of systems \cite{Li+13-ScopeBugStudy, Xiao+14-NonDetMR}. We
-believe that we need comprehensive understanding about cloud bugs to combat
-them.
-
-For the second question, we are motivated by the fact that in the past decade,
-systems community has developed many testing techniques
-\cite{Gunawi+11-FateDestini, Guo+11-Demeter, Wang+14-Exalt, Yang+09-Modist} to
-find bugs in distributed systems, but these techniques still have limitations.
-For example, \fate\ \cite{Gunawi+11-FateDestini} tests reliability of systems by
-injecting faults, but it does not address concurrency in distributed systems.
-\modist, which is a model checker, addresses concurrency, but it cannot work in
-reasonable time when injecting multiple faults. Or Exalt, which is a framework
-to test scalability, cannot be applied to CPU-intensive systems. 
-
-We choose to start dependability research on two aspects, reliability and
-scalability.
-%
-For reliablity, we find that one unsolved reliability problem in cloud systems
-is ``{\em distributed concurrency (DC) bugs}''. DC bugs are caused  by
-non-deterministic order of distributed events such as message arrivals, faults,
-and reboots. Cloud systems execute multiple complicated distributed protocols
-concurrently (\eg, serving users' requests, operating some background tasks, and
-combined with untimely hardware failures). The possible interleavings of the
-distributed events are not completely envisioned by developers and some
-interleavings might not be handled properly. The buggy distributed interleavings
-can cause catastrophic failures such as data loss, data inconsistencies and
-downtimes. Our effort to tackle reliability issues will concentrate on DC
-bugs.
-
-And for scalability, we see that most of the work \cite{Calotoiu+13-ApmScaleBug,
-Laguna+15-DebugAtScale, Shudler+15-ExascaleLib, Wang+14-Exalt, Zhou+11-Vrisha,
-Zhou+13-Wukong} focuses on the data path, mainly to validate the scalability of
-read/write operations (linear throughput or stable latency as the cluster
-scales). But scalability correctness however is not merely about the data path.
-Distributed systems are full of ``control paths'' such as bootstrapping,
-rebalancing, and adding/decommissioning nodes (scaling out/down). These
-management protocols must modify cluster-wide metadata that lives in each
-node in the system (\eg, ring partition table) to decide how data flows in
-the cluster. Unfortunately, control path correctness is often overlooked, so we
-aim our attention to ``{\em control-plane scalability bugs}'' in this proposal.
-
-We propose how to further the current testing techniques beyond the limitations
-in this proposal. The proposal is arranged in this order: chapter \ref{chp-bg}
-explains the problem being solved in detail and discusses related work, chapter
-\ref{chp-detail} shows our research in detail, and chapter \ref{chp-con} gives a
-conclusion.
-%
-The proposal is a fusion of our previous work and our on-going work. It includes
-cloud bug studies \cite{Gunawi+14-Cbs, Leesatapornwongsa+16-TaxDC},
-semantic-aware model checking \cite{Leesatapornwongsa+14-Samc}, and scale check
-methodology.
-
-\fi
