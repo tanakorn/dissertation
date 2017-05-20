@@ -5,14 +5,45 @@ dissertation below.
 
 \begin{itemize}
 
-\item Background
+\item \textbf{Background:} Chapter \ref{chp-bg} discusses a background of cloud
+computing and cloud-scale distributed systems, and how concurrency and
+scalability affect system developing.
 
-\item Distributed concurrency bug study and taxonomy
+\item \textbf{Distributed concurrency bug study and taxonomy:}: Chapter
+\ref{chp-taxdc} introduces \taxdc, a DC-bug study and taxonomy. The study
+provides insights how DC bugs are triggered, how they affect systems, and how
+they are fixed. These insights will help future research on combating DC bugs
+including model checking, bug detection, formal verification, failure diagnosis,
+and failure prevention.
 
-\item Semantic-aware model checking
+\item \textbf{Semantic-aware model checking:} Chapter \ref{chp-samc} presents
+SAMC, a white-box approach to model check distributed systems. The approach
+advances the state-of-the-art of leverageing semantic knowledges to prune out
+redundant executions to tackle state space explosion. SAMC introduces some
+principles of semantic awareness that can mitigate the problem and this chapter
+also shows \sampro, a prototype of how SAMC approach can be adopted to
+Cassandra, Hadoop, and ZooKeeper.
 
-\item Scalability bug study
+\item \textbf{Scalability bug study:} Chapter \ref{chp-scb} presents SCB, a
+study of scalability bugs in cloud-scale distributed systems. The study
+provisions foundational knowledge of how a new type of bugs happen when systems
+are targeted to deploy on large scale (\eg, 500 nodes). This is the first formal
+study on scalability bugs.
 
-\item Scalability checking methodology
+\item \textbf{Scalability checking methodology:} Chapter \ref{chp-sck} presents
+\sck, a methodology to check scalability of systems in an economical manners.
+\sck introduces an approach for developers to colocate multiple CPU-intensive
+nodes on one machine to test and debug scalability bugs. With \sck, developers
+can mitigate a resource contention problem and yield the similar test and debug
+outcome as deploying systems on real large scale.
+
+\item \textbf{Related work:} Chapter \ref{chp-rel} summarizes related work to
+tackle build distributed system model checkers. And this chapter also gives a
+brief of related research efforts to colocate multiple nodes on one machine to
+test scalability of the systems.
+
+\item \textbf{Conclusion and future work:} Chapter \ref{chp-con} concludes this
+dissertation, summarizes lessons learned, and discuss research avenues to make
+research work in this dissertation more complete.
 
 \end{itemize}
