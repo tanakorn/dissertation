@@ -9,6 +9,47 @@ systems are designed to be scalable. However, until real deployment takes place,
 if developers do not have a large cluster to test their actual implementations,
 unexpected bugs are unforeseen. 
 
+The following is our contribution to tackle this novel type of bugs:
+
+\begin{enumerate}
+
+\item Scalability bug study (SCB): we perform an in-depth study of 41
+scalability bugs to analyze how an era of cloud computing gives a birth to a new
+type of bugs that is scale dependent. This study is a bug benchmark for future
+research on scalability aspect of cloud-scale distributed systems.
+
+\item Scalability checking methodology for cloud-scale distributed systems
+(\sck): we propose a methodology to help developers test and debug scalability
+of systems in an economical way by colocate multiple nodes on one machine.
+
+\end{enumerate}
+
+The next sections discuss some detail of these two works.
+
+\subsection{Scalablity Bug Study}
+
+For scalability bugs, the situation is worse. We are not aware of any study on
+scalability bugs at all, so in this dissertation, we start a study of
+scalability bugs to gain some foundational knowledge about them. We studied 41
+bugs in seven systems including Cassandra, Couchbase, Hadoop MapReduce, HBase,
+HDFS, Riak, and Voldemort.
+
+From the study, here is our observations regard to scalability bugs:
+
+\begin{itemize}
+\item Scalability bugs only appear at extreme scale.
+\item Systems can be scalable in design, but not in practice.
+\item Scalability bugs could be implementation specific and hard to predict.
+\item Scalability bugs are caused from cascading impacts of ``not independent'' nodes.
+\item It is long and difficult to debug large-scale.
+\item Not all developers have large test budgets.
+\end{itemize}
+
+\subsection{Scalability Checking Methodology}
+
+\xxx{Fill this after write sck chapter}
+
+\if 0
 We see that most of the work \cite{Calotoiu+13-ApmScaleBug,
 Laguna+15-DebugAtScale, Shudler+15-ExascaleLib, Wang+14-Exalt, Zhou+11-Vrisha,
 Zhou+13-Wukong} focuses on the data path, mainly to validate the scalability of
@@ -20,5 +61,4 @@ management protocols must modify cluster-wide metadata that lives in each node
 in the system (\eg, ring partition table) to decide how data flows in the
 cluster. Unfortunately, control path correctness is often overlooked, so in this
 dissertation, we aim our attention to ``{\em control-plane scalability bugs}''.
-
-
+\fi
