@@ -1,0 +1,75 @@
+\section{SAMC}
+
+\subsection{Semantic Awareness}
+
+In a simple leader election protocol, every node broadcasts its vote to reach a
+quorum and elect a leader.  Each node begins by voting for itself (\eg, \ntwo\
+broadcasts \ts{vote=2}).  Each node receives vote broadcasts from other peers
+and processes every vote with this simplified code segment below.  As depicted
+in the code segment below, if an incoming vote is less than the node's current
+vote, it is simply discarded.  If it is larger, the node changes its vote and
+broadcasts the new vote.
+
+\begin{alltt}
+if (msg.vote < myVote) \{
+  discard;
+\} else \{
+  myVote = msg.vote; broadcast(myVote);
+\}
+\end{alltt}
+
+Let's assume \nfour\ with \ts{vote=4} is receiving three concurrent messages
+with votes \ts{1}, \ts{2}, and \ts{3} from its peers.  Here, a dmck with a
+black-box DPOR approach must perform 6 (3!) orderings (\ts{123}, \ts{132}, and
+so on).  This is because a black-box DPOR does {\em not} know the {\em message
+processing semantic} (\ie, how messages will be processed by the receiving
+node).  Thus, a black-box DPOR must treat all of them as dependent
+(\sec\ref{mot-state}); they must be re-ordered for soundness.  However, by
+knowing the processing logic above, a dmck can soundly conclude that all
+orderings will lead to the same state; all messages will be discarded by \nfour\
+and its local state will not change.  Thus, a semantic-aware dmck can reduce the
+6 redundant executions to just 1 execution.
+
+The example above shows a scalability limitation of a black-box dmck.
+Fortunately, simple semantic knowledge has a great potential in removing
+redundant executions.  Furthermore, semantic knowledge can be incorporated on
+top of sound model checking foundations such as DPOR and symmetry, as we
+describe next.
+
+\subsection{Architecture}
+\label{sam-arch}
+
+% figure, 3 mechanisms: abstractions (via history table), 
+Figure~\ref{fig-samc} depicts the three levels of SAMC: sound
+exploration mechanisms, reduction policies, and protocol-specific
+rules.  SAMC is built on top of sound model checking foundations such
+as DPOR~\cite{Flanagan+05-Dpor, Godefroid+96-Dpor} and
+symmetry~\cite{Clarke+98-SymReduct, Prasad+00-SymBasedMc}.  We name
+these foundations as mechanisms because a dmck must specify
+accordingly what events are dependent/independent and symmetrical,
+which in SAMC will be done by the reduction policies and
+protocol-specific rules.
+
+\input{fig-samc} % ------ fig samc
+
+% 4 approaches and benefits
+Our main contribution lies within our four novel {\em semantic-aware
+  reduction policies}: local-message independence (LMI), crash-message
+independence (CMI), crash recovery symmetry (CRS), and reboot
+synchronization symmetry (RSS).  To the best of our knowledge, none of
+these approaches have been introduced in the literature.  At the heart
+of these policies are {\em generic event processing patterns} (\ie,
+patterns of how messages, crashes, and reboots are processed by
+distributed systems).  Our policies and patterns are simple and
+powerful; they can be applied to many different distributed systems.  Testers
+can extract the patterns from their target protocols (\eg,
+leader election, atomic broadcast) and write protocol-specific
+rules in few lines of code.
+
+In the next section, we first present our four reduction policies
+along with the processing patterns.  Later, we will discuss ways to
+extract the patterns from target systems (\sec\ref{sam-extract}) and
+then show the protocol-specific rules for our target systems
+(\sec\ref{imp-targets}).
+
+

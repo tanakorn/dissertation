@@ -13,44 +13,13 @@ semantic awareness to assist model checking, and introduce ``Semantic-Aware
 Model Checking'' (SAMC), a white-box model checking approach that takes semantic
 knowledge of how events (\eg, messages, crashes, and reboots) are processed by
 the target system and incorporates that information in reduction policies. We
-first discuss background of dmck and the state of the art in Section \ref{dmck}
+first discuss background of dmck and the state of the art in Section \ref{dmck},
+then we discuss about the concept of SAMC and its implementation in Section
+\ref{dmck} and \ref{dmck} respectively. We evalute SAMC by comparing with the
+state of the art in Section \ref{dmck}, and lastly, we discuss other issues in
+adopting SAMC to check distirbuted systems in Section \ref{dmck}.
 
 %To show the intuition
 %behind SAMC, we first give an example of a simple leader election protocol.
 %Then, we present SAMC architecture and our four reduction policies.
 
-\section{Semantic Awareness}
-
-In a simple leader election protocol, every node broadcasts its vote to reach a
-quorum and elect a leader.  Each node begins by voting for itself (\eg, \ntwo\
-broadcasts \ts{vote=2}).  Each node receives vote broadcasts from other peers
-and processes every vote with this simplified code segment below.  As depicted
-in the code segment below, if an incoming vote is less than the node's current
-vote, it is simply discarded.  If it is larger, the node changes its vote and
-broadcasts the new vote.
-
-\begin{alltt}
-if (msg.vote < myVote) \{
-  discard;
-\} else \{
-  myVote = msg.vote; broadcast(myVote);
-\}
-\end{alltt}
-
-Let's assume \nfour\ with \ts{vote=4} is receiving three concurrent messages
-with votes \ts{1}, \ts{2}, and \ts{3} from its peers.  Here, a dmck with a
-black-box DPOR approach must perform 6 (3!) orderings (\ts{123}, \ts{132}, and
-so on).  This is because a black-box DPOR does {\em not} know the {\em message
-processing semantic} (\ie, how messages will be processed by the receiving
-node).  Thus, a black-box DPOR must treat all of them as dependent
-(\sec\ref{mot-state}); they must be re-ordered for soundness.  However, by
-knowing the processing logic above, a dmck can soundly conclude that all
-orderings will lead to the same state; all messages will be discarded by \nfour\
-and its local state will not change.  Thus, a semantic-aware dmck can reduce the
-6 redundant executions to just 1 execution.
-
-The example above shows a scalability limitation of a black-box dmck.
-Fortunately, simple semantic knowledge has a great potential in removing
-redundant executions.  Furthermore, semantic knowledge can be incorporated on
-top of sound model checking foundations such as DPOR and symmetry, as we
-describe next.
