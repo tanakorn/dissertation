@@ -1,12 +1,23 @@
-State of the art does not help.
+%State of the art does not help.
 
-In this chapter, we will discuss about leveraging semantic awareness for model
-checking, and introduce ``semantic-aware model checking'' (SAMC), a white-box
-model checking approach that takes semantic knowledge of how events (\eg,
-messages, crashes, and reboots) are processed by the target system and
-incorporates that information in reduction policies.  To show the intuition
-behind SAMC, we first give an example of  a simple leader election protocol.
-Then, we present SAMC architecture and our four reduction policies.
+As we discuss in Section \ref{sec-bg-dmck}, a recent popular approach to unearth
+DC bugs is adopting distributed system model cheker or dmck. However, due to the
+complexity of DC bugs that we discussin Chapter \ref{chp-taxdc} (\eg,
+interactions of multiple protocols, and various and multiple faults), the state
+of the art of dmcks still cannot work effectively \xxx{cite Modist, dbug,
+demeter, macemc}. We observe that the existing systematic reduction policies
+cannot find bugs quickly, and cannot scale with the inclusion of fault events.
+
+In this chapter, we discuss how to advance the state of the art by leveraging
+semantic awareness to assist model checking, and introduce ``Semantic-Aware
+Model Checking'' (SAMC), a white-box model checking approach that takes semantic
+knowledge of how events (\eg, messages, crashes, and reboots) are processed by
+the target system and incorporates that information in reduction policies. We
+first discuss background of dmck and the state of the art in Section \ref{dmck}
+
+%To show the intuition
+%behind SAMC, we first give an example of a simple leader election protocol.
+%Then, we present SAMC architecture and our four reduction policies.
 
 \section{Semantic Awareness}
 

@@ -33,14 +33,23 @@ MapReduce programs but only discussed five bugs \cite{Xiao+14-NonDetMR}.
 %
 Thorough studies have also been conducted for LC bugs \cite{study.dsn10,
 Lu+08-ConcurrencyBugStudy} with many follow-up work to date, yet {\em there is
-no comprehensive study on real-world distributed concurrency bugs}. We fill this
-void in this chapter by presenting our in-depth analysis of \numDcBugs\ DC bugs.
-The bugs came from four popular datacenter distributed systems: Cassandra
-\cite{CassandraWeb}, HBase \cite{HBaseWeb}, Hadoop MapReduce \cite{HadoopWeb},
-and ZooKeeper \cite{ZooKeeperWeb}.
+no comprehensive study on real-world distributed concurrency bugs}. 
+
+We fill this void in this chapter by presenting out in-depth analysis of
+real-world DC bugs in well-known cloud distributed systems, and introducing
+\taxdc, a comprehensive taxonomy of DC bugs that covers several axes. We briefly
+give an overview of \taxdc\ in Section \ref{sec-taxdc}, present our analysis in
+Section \ref{sec-trig}-\ref{sec-stat}, and discuss some lessons we learn from
+the study in Section \ref{sec-less}.
+
+\if 0
+We fill this void in this chapter by presenting our in-depth analysis of
+\numDcBugs\ DC bugs.  The bugs came from four popular cloud distributed
+systems: Cassandra \cite{CassandraWeb}, HBase \cite{HBaseWeb}, Hadoop MapReduce
+\cite{HadoopWeb}, and ZooKeeper \cite{ZooKeeperWeb}.
 %
 We introduce \taxdc, a comprehensive taxonomy of real-world DC bugs across
 several axes of analysis such as the triggering timing condition and input
 preconditions, error and failure symptoms, and fix strategies, as shown in
 detail in Table \ref{tab:tax}.
-
+\fi

@@ -1,5 +1,16 @@
 
-\section{TaxDC Contribution}
+\section{TaxDC}
+\label{sec-taxdc}
+
+In this formal study on DC bugs, we do in-depth analysis of \numDcBugs\ DC
+bugs.  The bugs came from four popular cloud distributed systems: Cassandra
+\cite{CassandraWeb}, HBase \cite{HBaseWeb}, Hadoop MapReduce \cite{HadoopWeb},
+and ZooKeeper \cite{ZooKeeperWeb}.
+%
+We introduce \taxdc, a comprehensive taxonomy of real-world DC bugs across
+several axes of analysis such as the triggering timing condition and input
+preconditions, error and failure symptoms, and fix strategies, as shown in
+detail in Table \ref{tab:tax}.
 
 As the main contribution, \tdc\ will be the first large-scale DC-bug benchmark.
 In the last six years, bug benchmarks for LC bugs have been released
@@ -11,7 +22,7 @@ Practitioners can also use \tdc\ to check whether their systems have similar
 bugs.  The DC bugs we studied are considerably general, representing bugs in
 popular types of distributed systems.
 
-As a side contribution, \tdc\ can help open up new research directions.  In the
+As a side contribution, \tdc\ can help open up new research directions. In the
 past, the lack of understanding of real-world DC bugs has hindered researchers
 to innovate new ways to combat DC bugs.  The state of the art focuses on three
 lines of research: monitoring and postmortem debugging \cite{Geels+07-Friday,
