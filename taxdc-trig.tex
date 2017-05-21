@@ -215,9 +215,9 @@ A reboots and A will repeat the entire job assignment correctly.
 \paragraph{Message-Fault Bugs.}
 Four DC bugs are caused by a combination of messages and faults. 
 For example, in Figure
-\ref{fig-zook}, a message (step 4) arrives in the middle of some
-atomic operation (step 3-6). This message atomicity violation leads
-to an error that further requires a fault timing (step 8) to become an
+\ref{fig-taxdc-zk1264}, a message (step 12) arrives in the middle of some
+atomic operation (step 3-14). This message atomicity violation leads
+to an error that further requires a fault timing (step 20) to become an
 externally visible failure.
 
 
@@ -252,24 +252,24 @@ understood in few simple steps.  In practice, many of the conditions
 happen ``deep'' in system execution.  In other words, the triggering
 path is caused by complex input preconditions (IP) such as faults, reboots,
 and multiple protocols.  Let's use the same example in Figure
-\ref{fig-zook}.
+\ref{fig-taxdc-zk1264}.
 %
-First, a fault and a reboot (step 1-2) and a client request (step 4)
+First, a fault and a reboot (step 1-2) and a client request (step 9)
 must happen to create a path to the message atomicity violation (step
-4 interfering with step 3-6).
+9 interfering with step 3-14).
 %
 Second, conflicting messages from two different protocols (ZAB and
-NodeJoin initiated in step 2 and 4) have to follow specific
+NodeJoin initiated in step 2 and 9) have to follow specific
 bug-triggering timing conditions.
 %
-Even after the atomicity violation (after step 6), the bug is not
+Even after the atomicity violation (after step 14), the bug is not
 guaranteed to lead to any error yet (\ie, a benign race).
 %
-Finally, the follower experiences an untimely fault (step 8), such
-that after it reboots (step 9), a global replica-inconsistency error
-will happen (step 11).
+Finally, the follower experiences an untimely fault (step 20), such
+that after it reboots (step 21), a global replica-inconsistency error
+will happen (step 23).
 %
-Put it in a reverse way, before step 8, the global state is $S$\sub{i}
+Put it in a reverse way, before step 20, the global state is $S$\sub{i}
 and $S$\sub{i}$+$crash$\rightarrow$error, and the only way for the
 system to reach $S$\sub{i} is from complex preconditions such as a
 fault, a reboot, and some foreground and background protocols.
@@ -313,9 +313,9 @@ such as faults
 
 
 
-\input{fig-bars}
+\input{fig-taxdc-bars}
 
-\input{fig-paxos} % --
+\input{fig-taxdc-paxos} % --
 
 \if 0
 \pctProtMany\ \xxx\ of the bugs must
@@ -363,8 +363,8 @@ triggering timing condition of a bug.  Figure \ref{bars}k
 (\BTSU) shows that only eight bugs require more than one untimely
 events.  Four of them are message-fault bugs, each 
 requiring one untimely message and one
-untimely fault to trigger (\eg, step 4 and 8 in 
-Figure \ref{fig-zook}).  Three are fault-reboot timing bugs,
+untimely fault to trigger (\eg, step 9 and 20 in 
+Figure \ref{fig-taxdc-zk1264}).  Three are fault-reboot timing bugs,
 each requiring one untimely fault and one untimely reboot.
 The last one is \ca{6023}, shown in Figure \ref{fig-paxos}, requiring
 three message-message order violations to happen.
