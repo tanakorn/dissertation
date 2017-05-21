@@ -1,9 +1,6 @@
 
 \begin{figure}
-\fbox{
-\begin{minipage}{\textwidth}
-\vspace{10pt}
-\begin{quote}
+\bugbox{
 {\bf \zk{1264}:}
 \enumerate{
 \item \fev{Follower F crashed} in the past,
@@ -30,9 +27,6 @@
 \item L synchronized data with F by sending update starting from Tx-\#17
 \item F loses the update for Tx-15 C did in step 9
 }
-\end{quote}
-\vspace{10pt}
-\end{minipage}
 }
 \mycaption{fig-taxdc-zk1264}{A DC bug in ZooKeeper}{This figure shows Figure
 \ref{fig-zk1264} again. It shows a DC bug in ZooKeeper that is caused from a mix
