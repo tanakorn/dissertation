@@ -29,9 +29,9 @@ process an incoming message (\mm) given the node's current local state
 (\ls)?  The answer lies in these four simple {\em message processing
 patterns} (discard, increment, constant, and modify):
 
-
-{\small
+\begin{minipage}{\textwidth}
 \begin{alltt}
+\vfive
      \underline{Discard:}           \underline{Increment:}  
      if (pd(m,ls))      if (pi(m,ls))
       (noop);             ls++;       
@@ -40,7 +40,8 @@ patterns} (discard, increment, constant, and modify):
      if (pc(m,ls))      if (pm(m,ls))
        ls = Const;        ls = modify(m,ls);
 \end{alltt}
-}
+\vfive
+\end{minipage}
 
 % LMI pattern .....
 In practice, \ls\ and \mm\ contain many fields.  For simplicity, we

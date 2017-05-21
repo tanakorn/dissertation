@@ -2,7 +2,6 @@
 
 \begin{figure}[t]
 
-{\small
 \begin{alltt}
 broadcast() { sendMsgToAll(role, leaderId); }
 quorumOkay() { return (follower > nodes / 2); }
@@ -22,7 +21,6 @@ if (role == F && C.role == L)
   leaderId = myId;
   broadcast();
 \end{alltt}
-}
 %\vminten 
 \mycaption[Crash Recovery in Leader Election]{code-crash}{Crash Recovery in Leader Election}{
   The figure shows a simplified example of crash recovery in a leader

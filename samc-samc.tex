@@ -11,13 +11,41 @@ in the code segment below, if an incoming vote is less than the node's current
 vote, it is simply discarded.  If it is larger, the node changes its vote and
 broadcasts the new vote.
 
+\begin{minipage}{\textwidth}
 \begin{alltt}
-if (msg.vote < myVote) \{
-  discard;
-\} else \{
-  myVote = msg.vote; broadcast(myVote);
-\}
+\vfive
+     if (msg.vote < myVote) \{
+       discard;
+     \} else \{
+       myVote = msg.vote; broadcast(myVote);
+     \}
 \end{alltt}
+\vfive
+\end{minipage}
+
+%\begin{table}[h!]
+%\begin{center}
+%\begin{tabular}{|p{3.5in}|}
+%\hline
+%\begin{spacing}{1.5}
+%\vminfifteen
+%\begin{alltt}
+%if (msg.vote < myVote) \{
+%  discard;
+%\} else \{
+%  myVote = msg.vote; broadcast(myVote);
+%\}
+%\end{alltt} 
+%\vminfifteen
+%\vminfifteen
+%\vminten
+%\end{spacing} \\
+%\hline
+%\end{tabular}
+%\end{center}
+%\end{table}
+
+%\vminfifteen
 
 Let's assume \nfour\ with \ts{vote=4} is receiving three concurrent messages
 with votes \ts{1}, \ts{2}, and \ts{3} from its peers.  Here, a dmck with a

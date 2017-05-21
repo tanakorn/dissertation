@@ -33,14 +33,16 @@ patterns (global vs. local impact) running on the surviving nodes
 (\eg, the leader node in Figure~\ref{fig-pol}c).
 
 
-{\small
+\begin{minipage}{\textwidth}
 \begin{alltt}
+\vfive
       \underline{Global impact:}       \underline{Local impact:}
       if (pg(X,ls))         if (pl(X,ls)) 
         modify(ls);           modify(ls);
         sendMsg();           
 \end{alltt}
-}
+\vfive
+\end{minipage}
 
 
 % CMI pattern
