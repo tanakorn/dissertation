@@ -324,7 +324,7 @@
 \newcommand{\freset}{\setcounter{Fcounter}{1}}
 
 \newcommand{\finding}[1]{
-\begin{spacing}{0.80}
+\begin{spacing}{1}
 \findingTable{#1}
 \end{spacing}
 }
@@ -332,22 +332,28 @@
 \newcommand{\findingTable}[1]{
 %\vminfive
 \begin{table}[h!]
-\begin{tabular}{|p{3.2in}|}
+\begin{center}
+\begin{tabular}{|p{5in}|}
 \hline
 \rowcolor{fgray}
 \findingBody{#1}\\
 \hline
 \end{tabular}
+\end{center}
 \end{table}
-%\vminfifteen
-\vminten
+\vminfifteen
+\vminfifteen
 }
 
-\newcommand{\findingBody}[1]{{\small
+\newcommand{\findingBody}[1]{
+\vfive
+\begin{spacing}{1.5}
 \textbf{Finding \#$\arabic{Fcounter}$:}
 \stepcounter{Fcounter}
 %\textit{#1}
-#1 }
+#1 
+\end{spacing}
+\vminfifteen
 }
 
 \setcounter{Fcounter}{1}
