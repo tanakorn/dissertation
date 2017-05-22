@@ -1,10 +1,35 @@
-In this and next chapter, we will focus on ``scalability bugs'', a new class of
-bugs that was born in an era of cloud computing.  \xxx{talk about scale bugs}
+In this and next chapter, we will focus on scalability aspect of cloud backend.
+As we mention in Section \ref{bg-sc}, the trend goes to horizontal scaling or
+scale-out systems, and this introduces a new class of bugs that does not exist
+in single-machine software or small-scale distributed systems, which we call
+these bugs ``scalability bugs''. 
+%
+%Becuase these bugs are new, there have been few efforts pay attention to them.
+There are a lot of efforts that try to improve scalability of different parts of
+distributed systems \cite{Boutin+14-Apollo, Ousterhout+13-Sparrow,
+Ganjam+15-C3Video, Glendenning+11-Scatter, Lloyd+11-COPS}, but we find little
+work focusing on testing scalability of the systems \cite{Gupta+08-DieCast,
+Wang+14-Exalt} so this is still an open problem.
 
-This chapter highlights an urgency in tackling scalability bugs by studying
-deeply in \totAll scalability bugs from different popular scalable distributed
-systems. Section \ref{sec-scb-mot} discusses motivation in tackling scalability bugs
-and Section \ref{mot-observe} gives some observations we gain from the study.
+The naive way to test system scalability is deploying systems on an actual large
+cluster, however, doing so is very expensive and not all developers have access
+to such luxurious resources (\eg, voluntary open-source developers). To
+introduce an economical testing approach, we need more insights about these
+bugs, yet we find no work performs study or analysis to understand them
+in-detail. Thus, like the way we tackle DC bugs, we start our research on
+combating scalability bugs by doing in-depth study on them first.
+%
+This chapter shows outcome of our study that will highlights an urgency in tackling
+scalability bugs. We study \totAll scalability bugs from different popular
+scalable distributed systems. Section \ref{sec-scb-mot} discusses motivation in
+tackling scalability bugs and Section \ref{mot-observe} gives some observations
+we gain from the study.
+%
+%This chapter highlights an urgency in tackling scalability bugs by studying
+%deeply in \totAll scalability bugs from different popular scalable distributed
+%systems. Section \ref{sec-scb-mot} discusses motivation in tackling scalability
+%bugs and Section \ref{mot-observe} gives some observations we gain from the
+%study.
 
 \section{Motivation}
 \label{sec-scb-mot}
