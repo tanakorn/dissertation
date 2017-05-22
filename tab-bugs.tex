@@ -1,0 +1,30 @@
+
+
+\begin{table}[t]
+\begin{center}
+\small
+\centering
+%---------------------------------
+\begin{tabular}{l|r|l|l} 
+{\bf Bug\#} & 
+{\bf Surface} & 
+{\bf Protocol} & {\bf Metric} \\
+\hline
+\caone \cite{CA-One} &$N$$\geq$256 & Bootstrap & \flaps \\
+\catwo \cite{CA-Two}   & $\geq$256 & Decommission & \flaps \\
+\catri \cite{CA-Tri}   & $\geq$64 & Add new nodes & \flaps \\
+\cafour \cite{CA-Four}  & $\geq$256 & Add new nodes & \flaps \\
+\riakone \cite{RIAK-One} & $\geq$128 & Boot+rebalance & $T_{Complete}$ \\
+\voldone \cite{VOLD-One} & $\geq$128 & Rebalance & $T_{Complete} $ \\
+\end{tabular}
+%---------------------------------
+\end{center}
+\vminten
+\mycaption{tab-bugs}{Reproduced bugs (\sec\ref{eval-bugs})}{``Surface'' 
+implies the number of nodes
+needed for the bug symptom to surface.
+``c'' stands for Cassandra, ``r'' for Riak, and ``v'' for
+Voldemort. 
+}
+\vminfive
+\end{table}

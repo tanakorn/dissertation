@@ -1,0 +1,47 @@
+
+
+% d) $T_{avghbperiod}$ = h(all previous $T_{hbsilence}$) \\
+
+
+
+\def \fgap {~~~~~~~~~~}
+\def \fgap {~~~~}
+
+
+\begin{figure}[t]
+
+\small
+\centering
+
+
+\begin{tabular}{|p{3in}|}
+\hline
+
+a) \flaps = \fff $($ \phi $>$ $8$ $)$ \\
+
+b) \phi = \fff $($ \gosAvg, \gosLast $)$ \\
+\fgap   \gosAvg = avg. of last 1000 \gosLast \\
+
+c) \gosLast = \fff $($ \hops, \gosProc $)$ \\
+\fgap \hops = $log(N)$ on average \\
+\fgap \gosProc = \supProc (if new state changes) \\
+
+d) \supProc = \fff $($ \ringTable, \newStates $)$ \\
+
+\fgap   \ringTable $\leq$ $N$$\times$$P$ and \newStates $\leq$ $N$ \\
+
+
+
+\hline
+\end{tabular}
+
+\vfive % orphan : we have extra space on page 10
+
+\mycaption{fig-form}{Cassandra internal metrics (\sec\ref{eval-accu})}{Above
+are the metrics we measured within the Cassandra bootstrap protocol
+for measuring \sck accuracy (Figure \ref{fig-accu}). 
+``f'' represents ``a function of'' (\ie, an arbitrary function).}
+
+
+\end{figure}
+

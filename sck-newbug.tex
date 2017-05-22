@@ -1,0 +1,51 @@
+
+
+
+\subsection{New Bugs}
+\label{eval-new}
+
+
+
+We also scale-checked the latest stable versions of Cassandra (v2.2.5),
+Riak (v2.1.3), and Voldemort (v1.10.21). 
+%
+In Cassandra, \sck\ shows that cluster-wide flapping resurfaces again but
+only observable in 512-node deployment (\eg, decommissioning only one node
+caused almost 100,000 flaps).  We submitted the bug few months back and it
+is still unresolved (the fix might require new design).
+%
+Meanwhile, the developers suggested us to add/remove node one at a time
+with 2-minute separation, which means scaling-out/down 100 nodes will take
+over 3 hours; instant elasticity is not achievable.
+%
+We then found out that Cassandra developers just recently started a new
+initiative and opened a new ``umbrella'' ticket (July 2016) for designing
+``Gossip 2.0'' \cite{Gossip20}, supposed to scale to
+% https://issues.apache.org/jira/browse/CASSANDRA-12345
+1000+ nodes; the conversation just begun \cite{Gossip20Mail}.
+% http://mail-archives.apache.org/mod_mbox/cassandra-dev/201609.mbox/%3CCAHjqPuJMkfZwp9DDX45PNBNhkoGXsPW4TFT6Zxv%2BTTz_Pg3Y%2Bg%40mail.gmail.com%3E
+% maybe create a short google url ?
+%
+% The bug affects bootstrap, scale-out, and decommission protocols 
+%
+%We just submitted this new bug to the developers.  We can reproduce it in
+%\sck and are currently debugging the root cause together with the
+%developers.  
+For Riak and Voldemort, we found that their latest-stable
+bootstrap/rebalance protocols do not exhibit any scalability bug, up to
+512 nodes.
+
+\hsg{if accepted, remove the story of 1000 nodes, Gossip 2.0,
+use it for HotOS/HotCloud}
+
+
+\if 0
+\hsg{maybe add the facts that developers suggest, 
+to spread out the boot-up time. 
+however, that has a challenge,
+we can use Sck to find out what is a good separation,
+without making the cluster not stable.}
+
+\hsg{TODO???? the only TODO list here.}
+\fi
+
