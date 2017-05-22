@@ -2,7 +2,7 @@ In the era of cloud computing, users (normal and organization) move their data
 and computation from local machines and internal datacenters to cloud services,
 thus the services are expected to be 24/7 dependable. Cloud services must be
 accessible anytime and anywhere and not lose or corrupt users data, and scale as
-user base continues to grow.  Unfortunately, gauranteeing cloud services'
+user base continues to grow.  Unfortunately, guaranteeing cloud services'
 dependability is challenging because these cloud services are backed by large
 sophisticated distributed systems such as scalable data stores, data-parallel
 frameworks, and cluster management systems. Such cloud-scale distributed systems
@@ -18,7 +18,7 @@ distributed concurrency bugs and scalability bugs. We focus on these two
 problems because they are novel issues that occur in cloud environment only and
 not many works addressing them.
 
-Distirbuted concurrency bug (DC bug) is one of unsolved reliability problem in
+Distributed concurrency bug (DC bug) is one of unsolved reliability problem in
 cloud systems. DC bugs are caused by non-deterministic order of distributed
 events such as message arrivals, machine crashes, and reboots. Cloud systems
 execute multiple complicated distributed protocols concurrently. The possible
@@ -38,16 +38,16 @@ that knowledge into state-space reduction policies.  We show that SAMC can find
 deep bugs one to two orders of magnitude faster compared to state-of-the-art
 techniques. 
 
-Second, we conduct formal study on DC bugs to gain foundation knowledge for
+Second, we conduct a formal study on DC bugs to gain foundation knowledge for
 future DC bug research. We study 104 DC bugs from various widely-deployed
 cloud-scale distributed systems in many characteristics along several axes of
 analysis such as the triggering timing condition and input preconditions, error
 and failure symptoms, and fix strategies. And we present the first complete
 taxonomy of DC bugs, \taxdc.
 
-And for second aspect of system dependability, we focus on scalability bugs.
+And for the second aspect of system dependability, we focus on scalability bugs.
 Scale surpasses the limit of a single machine in meeting users' increasing
-demands of compute and storage. On the negative side, scale creates new
+demands for computing and storage. On the negative side, scale creates new
 development and deployment issues. Developers must ensure that their algorithms
 and protocol designs to be scalable. However, until real deployment takes place,
 unexpected bugs in the actual implementations are unforeseen. This new era of
@@ -55,12 +55,13 @@ cloud-scale distributed systems has given birth to ``scalability bugs'', latent
 bugs that are scale-dependent, and only surface in large scale.
 
 To address scalability bugs, we conduct a study on scalability bugs to
-understand how they manifest and what their root causes are, and introduce \sck,
+understand how they manifest and what their root causes are and introduce \sck,
 a methodology that enables developers to {\em scale-check} distributed systems
-and find scalability bugs economically on one machine. \sck helps developers
+and find scalability bugs economically on one machine. \sck\ helps developers
 identify potential buggy code and allows developers to colocate a large number
-of nodes to test the potential buggy code without sacrifying accuracy. We remove
-a problem of hardware contentions (\ie\ CPU, memory, and thread) with four novel
-strategies, and we successfully integrate \sck to Cassandra, HDFS, Riak, and
-Voldemort. With \sck, we achieve a high colocation factor (500 nodes), and can
-reproduce ten scalability bugs and identify two new hidden bugs.
+of nodes to test the potential buggy code without sacrificing accuracy. We
+remove a problem of hardware contentions (\ie,\ CPU, memory, and thread) with
+four novel strategies, and we successfully integrate \sck\ to Cassandra, HDFS,
+Riak, and Voldemort. With \sck, we achieve a high colocation factor (500
+nodes), and can reproduce ten scalability bugs and identify two new hidden
+bugs.
