@@ -64,7 +64,7 @@ For example, $x$$=$512 implies the comparison of 512-node colocation in
 \sck versus a real deployment of 512 nodes.
 %
 Note that for \caone, we only need time profiling with offline sampling
-(\sec\ref{sc-pil-4}) and no pre-memoized data (\sec\ref{sc-pil-3}).  
+and no pre-memoized data.  
 %
 
 
@@ -77,7 +77,7 @@ does not appear until 256-node deployment,
 hence mini-cluster extrapolation techniques will not work (\sec\ref{mot-state}).
 %
 Figure \ref{fig-form}a defines that \flaps depends on 
-\phi \cite{Hayashibara+04-PhiFailureDetector}.  Every node A
+\phi \cite{Hayashibara+04-PhiFailureDetector}. Every node A
 maintains a \phi value for a peer node B (a total of $N$$\times$$(N$$-$$1)$
 variables to monitor).  If \phi$>$8 for B, A will declare B dead (a flap).
 
@@ -131,7 +131,7 @@ including the partition arrangement ($\leq$$N$$\times$$P$) and \newStates
 %scale-dependent.
 %
 Note that the \supProc in \sck comes from the sampling-based time
-profiling (\sec\ref{sc-pil-4}), which is relatively accurate as the figure
+profiling, which is relatively accurate as the figure
 shows.
 
 \input{fig-eval-accu}
