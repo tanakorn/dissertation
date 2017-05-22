@@ -1,0 +1,60 @@
+Talk about scale test.
+
+In the previous chapter, we discuss an urgency and motivation for testing
+scalability of cloud distributed systems. In this chapter, we discuss
+the-state-of-the-art techniques to test scalability and their limitations in
+Section \ref{sck}, and propose \sck, a methodology to reveal scalability bugs in
+distributed systems economically by using only a single machine in Section
+\ref{sck}. We also evaluate how effective and accurate \sck\ is compared to real
+large-scale testing in Section \ref{sck}.
+
+\section{State of the Art for Large-Scale Emulation}
+\label{mot-state}
+
+As we explain in Chapter \ref{chp-bg} and show in Chapter \ref{chp-scb}, we need
+to check actual implement of the systems at real large scale, not simulation nor
+small scale setup, and that makes emulation approach as a desire choice. In this
+section, we will explore state of the art for large-scale emulation.
+
+% --------------- emulation
+%Real-scale emulation checks real implementations in an emulated
+%environment.
+%
+DieCast \cite{Gupta+08-DieCast}, invented for network emulation, can colocate
+many processes/VMs on a single machine as if they run individually without
+contention.  The trick is adding ``time dilation factor'' (TDF) support
+\cite{Gupta+06-TimeDilation} into the VMM (\eg, Xen).
+%
+For example, TDF=5 implies that for every second of wall-clock time, each
+emulated VM on the VMM believes that time has advanced by only 200 ms.
+%
+The most significant drawback of DieCast is that high colocation factor (\eg,
+TDF$=$100) is likely not desirable, for two reasons: prolonged testing time
+(TDF$=$100 implies 100x longer run) and memory overcapacity (more in
+\sec\ref{sc-spc} and \sec\ref{sc-mem}).  DieCast was only evaluated with TDF=10.
+
+
+% co-location -- data compression -- exalt
+Exalt \cite{Wang+14-Exalt} targets I/O-intensive scalability bugs.  With a
+custom data compression, users' data is compressed to zero byte on disk (but the
+size is recorded) while metadata is not compressed.  With this, Exalt can
+co-locate 100 emulated HDFS datanodes on one machine.  In its evaluation, most
+of the bugs reproduced are in the HDFS namenode which runs alone on one machine.
+As the authors stated, their approach ``may not discover scalability problems
+that arise at the nodes that are being emulated [the datanodes]'' (\sec4.1 in
+\cite{Wang+14-Exalt}).  Thus, Exalt is not suitable for finding control-plane
+scalability bugs in P2P distributed systems. 
+
+
+% P2P systems \cite{sosp01-past}.
+
+In summary, we did not find a fast single-machine approach that can scale-check
+CPU-intensive protocols in cloud systems.
+%
+The scalability bugs could be caused by the scale-dependent processing time, not
+network or I/O bottlenecks.  As DieCast targets {\em network} emulation via time
+dilation and Exalt targets {\em storage} space emulation via compression. 
+
+%\sck uniquely targets {\em processing time} emulation, completing a missing
+%piece.
+
