@@ -56,7 +56,7 @@ complexity where $N$ is the number of nodes.  This combined with the
 gossiping and failure detection logic leads to a scalability bug that
 makes the cluster unstable (many live nodes are declared as dead, making
 some data not reachable by the users). We give full detail of the Cassandra bug
-in Section \ref{scb}.
+in Section \ref{mot-bug}.
 
 % example
 We perform an in-depth study of
@@ -82,7 +82,7 @@ difficult.
 Furthermore, protocol algorithms can be scalable in the design sketches,
 but not necessarily in the real deployments; there are specific
 implementation details whose implications at scale are hard to predict. We
-discuss more about our observations on scalability bugs in Section \ref{scb}.
+discuss more about our observations on scalability bugs in Section \ref{mot-observe}.
 
 
 
