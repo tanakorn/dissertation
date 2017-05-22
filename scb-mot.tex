@@ -1,0 +1,96 @@
+
+
+\section{Introduction}
+
+\hsg{Cesar, focus on program analysis.}
+
+\hsg{Korn, focus on the bugs}
+
+% Burrows06-Chubby, 
+% Murray+13-NaiadTimelyDataflow,
+
+\hsg{focus on the program analysis, making this automated.
+remove the things that are not automated, and run on more machines.}
+
+\hsg{add Tian Chen if funded}
+
+\hsg{add Shan Lu}
+
+% scale, scale ... 
+Is scale a friend or a foe \cite{Ousterhout+11-ScaleFriendEnemy}?
+% CACM, is scale friend or enemy, john ousterhout
+On the positive side, scale surpasses the limit of a single machine in
+meeting users' increasing demands of compute and storage, which led to
+many inventions of ``cloud-scale'' distributed systems
+\cite{Chang+06-BigTable, 
+DeanGhemawat04-MapReduce, 
+DeCandia+07-Dynamo,
+Ghemawat+03-GoogleFS, 
+Hindman+11-Mesos,
+Verma+15-Borg}.  The field has witnessed a
+phenomenal deployment scale of such systems;
+%
+Netflix runs tens of 500-node Cassandra clusters \cite{RunningNetflix13},
+% Running Netflix on Cassandra in the Cloud (youtube), Adriak Crockcroft
+% https://www.youtube.com/watch?v=97VBdgIgcCU
+Apple deploys a total of 100,000 Cassandra nodes \cite{WikiCassandra}, 
+% https://en.wikipedia.org/wiki/Apache_Cassandra
+and Yahoo! recently revealed the use of 40,000 Hadoop servers,
+with a 4500-node cluster as the largest one \cite{LargestHadoop}.
+% Http://www.techrepublic.com/article/why-the-worlds-largest-hadoop-installation-may-soon-become-the-norm/
+
+
+
+% dark side, foe
+On the negative side, scale creates new development and deployment issues.
+Developers must ensure that their algorithms and protocol designs
+to be scalable.
+However, until real deployment takes place, unexpected bugs 
+in the actual implementations are unforeseen.
+% more and more
+We believe this new era of cloud-scale distributed systems has given birth
+to a new type of bug: {\em scalability bugs}.  They are latent bugs that
+are scale-dependent; they only surface in large-scale deployments, but not
+in small/medium-scale ones.  Their presence jeopardizes systems
+reliability and availability at scale.
+
+
+% example
+We study several scalability bugs that have been reported in distributed
+P2P (no-master) key-value stores such as Cassandra
+\cite{Lakshman+09-Cassandra}, Couchbase \cite{CouchbaseWeb}, Riak
+\cite{RiakWeb}, and Voldemort \cite{VoldemortWeb}.  We focus ourselves on
+scalability bugs in the ``control planes'' such as the bootstrap,
+rebalance, and scale-out/down protocols (\sec\ref{mot-control}).  We make
+several important observations from this study (\sec\ref{mot-observe}).
+%
+For example, first, the bug symptoms surface only in large deployment
+scales (\eg, $N$$>$100 nodes).
+%
+Second, the protocol algorithms are scalable in design sketch, but not in
+practice; there are specific implementation choices whose impacts at scale
+are unpredictable.
+%
+Third, the developers had difficulties in reproducing and debugging the
+bugs; they took weeks or months to debug and fix.
+
+
+
+Our observations above accentuate the need for new approaches that can
+{\em scale-check distributed system implementations at real scales but in
+  a ``cheap'' way such as on one machine}.  Existing scale-check practices
+however do not meet this need (\sec\ref{mot-state}).  For example,
+scalability simulation only checks models, but not real implementations.
+Extrapolation (\eg, from ``mini clusters'') does not work if bug symptoms
+do not surface in small deployment.
+%
+Debugging at the same scale as customers' deployments (\eg, 500 nodes) is
+not economical; in our observation, open-source developers do not have
+instant and easy access to large test clusters.
+
+
+% ; renting 500 ``medium'' EC2 machines can easily
+% burn \$25 in one hour (not to mention the I/O cost).
+%
+% There are not many available solutions out there to address the need.
+% Some recent work (\eg, Exalt \cite{exalt}) 
