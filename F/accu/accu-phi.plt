@@ -1,0 +1,29 @@
+#!/usr/bin/env gnuplot
+set term pos eps color solid font ",35"
+
+set size 0.85,1
+
+#set xlabel "Cluster size (nodes)"
+set ytics 10
+set yrange [0:35]
+
+set key top left
+
+set boxwidth 0.5 absolute
+set bars 4.0
+set style fill empty
+
+set xrange[0:16]
+set autoscale y
+
+set xlabel "Cluster size (#nodes)\n"
+set output "eps/phi.eps"
+set title "(b) Max Phi for each node"
+#set ylabel "Phi"
+set xtics ("32" 1.5, "64" 4.5, "128" 7.5, "256" 10.5, "512" 13.5)
+plot "dat/phi-real.dat" u 1:4:3:7:6 t "Real" with candlesticks whiskerbars lc rgb "red" lw 4, \
+    "" u 1:5:5:5:5 with candlesticks lt -1 lc rgb "red" lw 4 notitle, \
+    'dat/phi-simu.dat' u 1:4:3:7:6 t "SCk+PIL" with candlesticks whiskerbars lc rgb "blue" lw 2, \
+    '' u 1:5:5:5:5 with candlesticks lt -1 lc rgb "blue" lw 2 notitle
+
+
