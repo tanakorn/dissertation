@@ -17,19 +17,20 @@ to such luxurious resources (\eg, voluntary open-source developers). To
 introduce an economical testing approach, we need more insights about these
 bugs, yet we find no work performs study or analysis to understand them
 in-detail. Thus, like the way we tackle DC bugs, we start our research on
-combating scalability bugs by doing in-depth study on them first.
+combating scalability bugs by performing a study on them first. We study
+\totAll scalability bugs from different popular scalable distributed systems. 
 %
-This chapter shows outcome of our study that will highlights an urgency in tackling
-scalability bugs. We study \totAll scalability bugs from different popular
-scalable distributed systems. Section \ref{sec-scb-mot} discusses motivation in
-tackling scalability bugs and Section \ref{mot-observe} gives some observations
-we gain from the study.
+This chapter shows our observations from the study that will highlights an
+urgency in tackling scalability bugs. Section \ref{sec-scb-mot} discusses
+motivation in tackling scalability bugs and show an example of real a
+scalability bug in Cassandra, and Section \ref{mot-observe} gives the
+observations we gain from the study.
 %
 %This chapter highlights an urgency in tackling scalability bugs by studying
 %deeply in \totAll scalability bugs from different popular scalable distributed
-%systems. Section \ref{sec-scb-mot} discusses motivation in tackling scalability
-%bugs and Section \ref{mot-observe} gives some observations we gain from the
-%study.
+%systems. Section \ref{sec-scb-mot} discusses motivation in tackling
+%scalability bugs and Section \ref{mot-observe} gives some observations we gain
+%from the study.
 
 \section{Motivation}
 \label{sec-scb-mot}
@@ -61,27 +62,25 @@ with a 4500-node cluster as the largest one \cite{LargestHadoop}.
 On the negative side, scale creates new development and deployment issues.
 Developers must ensure that their algorithms and protocol designs
 to be scalable.
-However, until real deployment takes place, unexpected bugs 
+However, until real deployment takes place, scalablity bugs 
 in the actual implementations are unforeseen.
 % more and more
-This new era of cloud-scale distributed systems has given birth
-to a new type of bug: {\em scalability bugs}.  They are latent bugs that
+These scalability bugs are latent bugs that
 are scale-dependent; they only surface in large-scale deployments, but not
-in small/medium-scale ones.  Their presence jeopardizes systems
+in small/medium-scale ones. Their presence jeopardizes systems
 reliability and availability at scale.
 
-As an example, let us consider a bug in Cassandra, a
-highly-scalable peer-to-peer key-value store.  If a customer initially
-deploys a cluster of 50 nodes and later scales it out with 50 additional
-nodes, the operation can be done smoothly.  However, if the customer
-deploys a 200-node cluster and then adds 200 more nodes, the protocol that
-rebalances the key-range partitions (which nodes should own which key
-ranges) becomes CPU intensive as the calculation has an $O(N^3)$
-complexity where $N$ is the number of nodes.  This combined with the
-gossiping and failure detection logic leads to a scalability bug that
-makes the cluster unstable (many live nodes are declared as dead, making
-some data not reachable by the users). We give full detail of the Cassandra bug
-in Section \ref{mot-bug}.
+As an example, let us consider a bug in Cassandra, a highly-scalable
+peer-to-peer key-value store.  If a user initially deploys a cluster of 50 nodes
+and later scales it out with 50 additional nodes, the operation can be done
+smoothly. However, if the user deploys a 200-node cluster and then adds 200
+more nodes, the protocol that rebalances the key-range partitions (which nodes
+should own which key ranges) becomes CPU intensive as the calculation has an
+$O(N^3)$ complexity where $N$ is the number of nodes.  This combined with the
+gossiping and failure detection logic leads to a scalability bug that makes the
+cluster unstable (many live nodes are declared as dead, making some data not
+reachable by the users). We give full detail of the Cassandra bug in Section
+\ref{mot-bug}.
 
 % example
 We perform an in-depth study of
@@ -235,7 +234,7 @@ lock early.
 % \ca{6127} -------------------------------------------------
 Later on (\ca{6127} \cite{CA-One}), a similar bug reappeared.  In the above
 cases, the problems appeared when the cluster grows/shrinks gradually.
-However, if customers bootstrap a large cluster (\eg, 500+ nodes) from
+However, if user bootstrap a large cluster (\eg, 500+ nodes) from
 scratch (\ie, all nodes do not know each other, with no established
 key ranges),
 %
