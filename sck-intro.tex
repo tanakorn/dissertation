@@ -3,9 +3,9 @@ Talk about scale test.
 In the previous chapter, we discuss an urgency and motivation for testing
 scalability of cloud distributed systems. In this chapter, we discuss
 the-state-of-the-art techniques to test scalability and their limitations in
-Section \ref{sck}, and propose \sck, a methodology to reveal scalability bugs in
+Section \ref{mot-state}, and propose \sck, a methodology to reveal scalability bugs in
 distributed systems economically by using only a single machine in Section
-\ref{sck}. We also evaluate how effective and accurate \sck\ is compared to real
+\ref{sec-sck}. We also evaluate how effective and accurate \sck\ is compared to real
 large-scale testing in Section \ref{sck}.
 
 \section{State of the Art for Large-Scale Emulation}
@@ -30,8 +30,8 @@ emulated VM on the VMM believes that time has advanced by only 200 ms.
 %
 The most significant drawback of DieCast is that high colocation factor (\eg,
 TDF$=$100) is likely not desirable, for two reasons: prolonged testing time
-(TDF$=$100 implies 100x longer run) and memory overcapacity (more in
-\sec\ref{sc-spc} and \sec\ref{sc-mem}).  DieCast was only evaluated with TDF=10.
+(TDF$=$100 implies 100x longer run) and memory overcapacity.  DieCast was only
+evaluated with TDF=10.
 
 
 % co-location -- data compression -- exalt

@@ -197,7 +197,7 @@
 	\newpage
 	\addcontentsline{toc}{chapter}{References}
 	\begin{singlespace}
-    \bibliography{B/defs,B/all,B/personal,B/confs,local.bib}
+    \bibliography{B/defs,B/all,B/personal,B/confs,local.bib,shan.bib}
 		%\bibliography{ft2,master,refs}
 		\bibliographystyle{plain}
 	\end{singlespace}

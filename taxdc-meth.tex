@@ -44,7 +44,7 @@ representing synchronization services.
 They are all fully complete systems containing many complex concurrent
 protocols.  Throughout the chapter, we will present short examples of DC
 bugs in these systems.  Some detailed examples are illustrated in Figure
-\ref{fig-zook}, \ref{fig-paxos} and \ref{fig-hbase}.
+\ref{fig-taxdc-zk1264}, \ref{fig-paxos} and \ref{fig-hbase}.
 
 The development projects of our target systems are all hosted under
 Apache Software Foundation wherein organized issue repositories (named
@@ -109,7 +109,7 @@ For every bug, we first ensure that the developers marked it as a real bug (not
 a false positive).  We also check that the bug description is clear. Finally, We
 then {\em re-enumerate} the full sequence of operations (the ``{\em steps}'') to
 a clearer and more concise description such as the ones in Figure
-\ref{fig-zook}. 
+\ref{fig-taxdc-zk1264}. 
 %
 Our study cannot and does not cover DC bugs not fixed by the developers.  Even
 for fixed bugs, we do not cover those that are not described clearly in the bug
