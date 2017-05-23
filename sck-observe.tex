@@ -205,39 +205,31 @@ important observations.
 
 \begin{itemize}
 % only appear in large scale .. 
-\item {\em Only appear at extreme scale:} \caone does not surface in 30-node
-deployment.  In 128-node cluster, the symptom appears mildly (tens of
-flaps).  From 200-500 nodes, flapping skyrockets from hundreds to 
-thousands of flaps.  Testing in small/medium scales is not sufficient,
-which is also true for other bugs we studied (\sec\ref{sec-eval}).
-
-
-
-
+\item {\em Only appear at extreme scale:} This Cassandra bug does not surface
+in 30-node deployment.  In 128-node cluster, the symptom appears mildly (tens
+of flaps). From 200-500 nodes, flapping skyrockets from hundreds to thousands
+of flaps. Testing in small/medium scales is not sufficient, which is also true
+for other bugs we studied.
 
 % theory is not enough
-\item {\em Scalable in design, but not in practice.}  Related to \caone,
-the accrual failure detector/gossiper
-\cite{Hayashibara+04-PhiFailureDetector} was interestingly adopted by
-Cassandra as it is scalable in design \cite{Lakshman+09-Cassandra}.
-However, the design proof does not account gossip processing time during
-bootstrap, which can be long.  To understand the bug, the developers tried
-to ``do the [simple] math'' \cite{CA-One} but failed.  In practice, the
-assumption that new gossips are propagated every second is not met (due to
-the backlog).  The actual implementations overload gossips with many other
-purposes (\eg, announcing boot/rebalance changes) beyond their original
-design sketch.
-
-
+\item {\em Scalable in design, but not in practice.}  Related to the Cassandra
+bug, the accrual failure detector/gossiper
+\cite{Hayashibara+04-PhiFailureDetector} was interestingly adopted by Cassandra
+as it is scalable in design \cite{Lakshman+09-Cassandra}.  However, the design
+proof does not account gossip processing time during bootstrap, which can be
+long.  To understand the bug, the developers tried to ``do the [simple] math''
+\cite{CA-One} but failed.  In practice, the assumption that new gossips are
+propagated every second is not met (due to the backlog).  The actual
+implementations overload gossips with many other purposes (\eg, announcing
+boot/rebalance changes) beyond their original design sketch.
 
 % deep
-\item {\em Implementation specific and hard to predict.}  The
-backlog-induced flapping in \caone was caused specifically by Cassandra's
-implementation choice: metadata checkpoint, multi-map cloning, and its
-single-threaded implementation.  State-update processing time is hard to
-predict (ranges from 0.001 to 4 seconds) as it depends on a 2-dimensional
-input: the receiving node's ring table size and the number of new
-state changes (\sec\ref{sec-eval}).
+\item {\em Implementation specific and hard to predict.}  The backlog-induced
+flapping in Cassandra was caused specifically by Cassandra's implementation
+choice: metadata checkpoint, multi-map cloning, and its single-threaded
+implementation.  State-update processing time is hard to predict (ranges from
+0.001 to 4 seconds) as it depends on a 2-dimensional input: the receiving node's
+ring table size and the number of new state changes (\sec\ref{sec-eval}).
 
 % a two-dimensional input; more in \sec\ref{sec-eval}).  
 
@@ -249,11 +241,10 @@ to synchronize their views of cluster metadata.  As the cluster grows, the
 cluster metadata size increases.  Thus, unpredictable processing time in
 individual nodes can create cascading impacts to the whole cluster.
 
-
 % 
 \item {\em Long and difficult large-scale debugging:} 
 %
-The bug report of \caone generated over 40 back-and-forth discussion
+Some bug reports like \caone generated over 40 back-and-forth discussion
 comments and took 2 months to fix.  It is apparent \cite{CA-One} that
 there were many hurdles of deploying and debugging the buggy protocol at
 real scale.  Important to note is that debugging is {\em not} a single
@@ -265,15 +256,11 @@ fix (27 on average).
 
 \item {\em Not all developers have large test budgets:}
 %
-Another factor of delayed fixes is the lack of budget for large
-test clusters.  Such luxury tends to be accessible to developers 
-in large companies, but not to 
-open-source developers.  When
-\caone was submitted by a customer who had hundreds of nodes, the
-Cassandra developers did not have an instant access to a test cluster of
-the same scale.
-
-
+Another factor of delayed fixes is the lack of budget for large test clusters.
+Such luxury tends to be accessible to developers in large companies, but not to
+open-source developers. When \caone was submitted by a customer who had hundreds
+of nodes, the Cassandra developers did not have an instant access to a test
+cluster of the same scale.
 
 % repeated 
 \item {\em Quick fixes and repeated bugs:} Bugs are often fixed with quick
@@ -287,16 +274,15 @@ another workload (\eg, scaling out from 128 to 256 nodes).
 In the latest Cassandra, the simple fix has been removed and the gossip
 protocol has been redesigned.
 %
-We also found that old fixes can become obsolete in 
-protocol re-designs, which then can give birth to new scalability bugs. 
+We also found that old fixes can become obsolete in protocol re-designs, which
+then can give birth to new scalability bugs. 
 %
-For example, the fix for \ca{3831} became obsolete as ``vnodes'' was
-introduced, which then gave rise to a new 
-vnode-related scalability bug
-(\ca{3881}).
+For example, the fix for \ca{3831} became obsolete as ``vnodes'' was introduced,
+which then gave rise to a new vnode-related scalability bug (\ca{3881}).
 %
 A scale-check could have ensured that new fixes remove old scalability bugs
-entirely and similar bugs do not re-surface in new designs.
+entirely and similar bugs do not re-surface in new designs.  
+
 \end{itemize}
 
 
