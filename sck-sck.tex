@@ -9,10 +9,8 @@ We believe new methods are needed to help developers check their
 systems/protocols implementation at real scale but without the hurdles of
 running large test clusters.  
 %
-In our work, we explore a new approach to find and replay scalability bugs
-in a ``cheap'' way such as on one machine, which we name {\em
-  single-machine scale check} (or just ``scale check'' short).
-
+In our work, we explore a new approach to find and replay scalability bugs in a
+``cheap'' way such as on one machine, which we name it ``\sck''.
 
 The research question to address is: how to colocate a large number of
 CPU-intensive nodes on one machine with limited resources and yet still
@@ -31,15 +29,12 @@ just 1 processor core for example, the protocol under test might finish in
 $N$$\times$$t$ seconds, hence the inaccuracy.
 %
 
-To address this, below we present the concept of processing
-illusion (PIL) and how to find PIL-safe functions and generate output of
-PIL-replaced functions.
+To address this, below we present the concept of processing illusion (PIL) and
+how to find PIL-safe functions and generate output of PIL-replaced functions.
 
 % Figure \ref{fig-arch} depicts the major stages of our scale-check process:
 % offensive function finder \textcircled{b}, memoizer \textcircled{d}, and
 % replayer \textcircled{f}.
-
-
 
 % Scalable debug time implies that the replay process can make the
 % scalability bugs surface in a similar time frame ($t$$+$$\epsilon$) as in
@@ -55,32 +50,27 @@ PIL-replaced functions.
 % We describe each stage below in conceptual order, along with their
 % technical challenges.
 
-
-
-
-
-\input{fig-arch}
+%\input{fig-arch}
 
 
 % --------------------------------------------
 \vnb\ {\bf Processing Illusion (PIL)}
 %
-To achieve accuracy, we must address the CPU contention delays
-($N$$\times$$t$) in basic colocation (Figure \ref{fig-ill}b).
+To achieve accuracy, we must address the CPU contention delays ($N$$\times$$t$)
+in basic colocation (Figure \ref{fig-ill}b).
 %
-We propose  emulating CPU-intensive processing with {\em
-  processing illusion} (PIL), which replaces an actual processing with
-\sleep.
+We propose  emulating CPU-intensive processing with {\em processing illusion}
+(PIL), which replaces an actual processing with \sleep.
 %
-With PIL, an expensive function will sleep and wake up in accurate time
-with the correct output.
+With PIL, an expensive function will sleep and wake up in accurate time with the
+correct output.
 % thus reducing contention delays and making
 %replays fast (Figure~\ref{fig-ill}c).
 %
-As illustrated in Figure \ref{fig-ill}c, if some computations can be
-emulated with \ts{sleep()} and the output data is automatically generated
-given the input data, then the resulting time is more accurate ($t$$+$$e$)
-to the one in real-scale testing.
+As illustrated in Figure \ref{fig-ill}c, if some computations can be emulated
+with \ts{sleep()} and the output data is automatically generated given the input
+data, then the resulting time is more accurate ($t$$+$$e$) to the one in
+real-scale testing.
 
 
 

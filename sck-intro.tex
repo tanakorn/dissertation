@@ -30,10 +30,10 @@ effective and accurate \sck\ is compared to real large-scale testing in Section
 \section{State of the Art of Large-Scale Emulation}
 \label{mot-state}
 
-As we explain in Chapter \ref{chp-bg} and show in Chapter \ref{chp-scb}, we need
-to check actual implement of the systems at real large scale, not simulation nor
-small scale setup, and that makes emulation approach as a desire choice. In this
-section, we will explore state of the art for large-scale emulation.
+%As we explain in Chapter \ref{chp-bg} and show in Chapter \ref{chp-scb}, we need
+%to check actual implement of the systems at real large scale, not simulation nor
+%small scale setup, and that makes emulation approach as a desire choice. In this
+%section, we will explore state of the art for large-scale emulation.
 
 % --------------- emulation
 %Real-scale emulation checks real implementations in an emulated
@@ -57,21 +57,21 @@ evaluated with TDF=10.
 Exalt \cite{Wang+14-Exalt} targets I/O-intensive scalability bugs.  With a
 custom data compression, users' data is compressed to zero byte on disk (but the
 size is recorded) while metadata is not compressed.  With this, Exalt can
-co-locate 100 emulated HDFS datanodes on one machine.  In its evaluation, most
+colocate 100 emulated HDFS datanodes on one machine.  In its evaluation, most
 of the bugs reproduced are in the HDFS namenode which runs alone on one machine.
 As the authors stated, their approach ``may not discover scalability problems
 that arise at the nodes that are being emulated [the datanodes]'' (\sec4.1 in
-\cite{Wang+14-Exalt}).  Thus, Exalt is not suitable for finding control-plane
-scalability bugs in P2P distributed systems. 
+\cite{Wang+14-Exalt}). Thus, Exalt is not suitable for finding scalability bugs
+in CPU-intensive distributed systems. 
 
 
 % P2P systems \cite{sosp01-past}.
 
-In summary, we did not find a fast single-machine approach that can scale-check
-CPU-intensive protocols in cloud systems.
+In summary, we did not find a fast and accurate single-machine approach that can
+scale-check CPU-intensive protocols in cloud systems.
 %
 The scalability bugs could be caused by the scale-dependent processing time, not
-network or I/O bottlenecks.  As DieCast targets {\em network} emulation via time
+network or I/O bottlenecks. As DieCast targets {\em network} emulation via time
 dilation and Exalt targets {\em storage} space emulation via compression. 
 
 %\sck uniquely targets {\em processing time} emulation, completing a missing
