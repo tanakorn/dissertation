@@ -77,10 +77,10 @@ safely.
 \item {\em Non-pertinent output:} Interestingly, sometimes there are expensive
 functions executed under the target protocol but the outputs are momentarily
 irrelevant (will only be used in the future by other protocols).  For example,
-the multi-map cloning and updates in the Cassandra bug are not necessary to be
-executed during bootstrapping (\sec\ref{mot-bug}) but will be used by the
-streaming and storage services; it is there for development simplicity (and
-does not cause problems in medium deployment scale).
+the multi-map cloning and updates in the sample Cassandra bug are not necessary
+to be executed during bootstrapping (\sec\ref{mot-bug}) but will be used by the
+streaming and storage services; it is there for development simplicity (and does
+not cause problems in medium deployment scale).
 % These functions can be easily replaced with \sleep.
 
 
@@ -99,11 +99,11 @@ final rebalanced metadata can be manufactured (\sec\ref{sc-pil-3}).
 
 % I/Os
 % {\em (2) Non-pertinent I/Os:} 
-As another example, if a function performs disk I/Os that are not
-pertinent to the correctness of the corresponding protocol, the function
-is sleep-safe.  For example, in \caone, the frequent ring-table checkpoint
-(\sec\ref{mot-bug}) is needed for fault tolerance but is irrelevant (never
-read) during bootstrapping.
+As another example, if a function performs disk I/Os that are not pertinent to
+the correctness of the corresponding protocol, the function is sleep-safe.  For
+example, in the sample Cassandra bug, the frequent ring-table checkpoint
+(\sec\ref{mot-bug}) is needed for fault tolerance but is irrelevant (never read)
+during bootstrapping.
 
 
 
@@ -125,14 +125,13 @@ and (2) they are within the cluster-wide control paths (\eg, gossiping,
 rebalancing).
 
 
-Depending on the modularity of the target system, manually finding such
-target functions can be challenging, primarily because scale-dependent
-nested loops can span across multiple functions.  For example, in \caone,
-an $O(n^3)$ loop spans 6 functions with 188 LOC in between each pair
-of loops.  For this reason, we create a simple program analysis
-\prx (described
-in \sec\ref{sec-impl}) to help developers find the specific
-sub-trees of functions that should be replaced with PIL.
+Depending on the modularity of the target system, manually finding such target
+functions can be challenging, primarily because scale-dependent nested loops can
+span across multiple functions.  For example, in the sample Cassandra bug, an
+$O(n^3)$ loop spans 6 functions with 188 LOC in between each pair of loops.  For
+this reason, we create a simple program analysis \prx (described in
+\sec\ref{sec-impl}) to help developers find the specific sub-trees of functions
+that should be replaced with PIL.
 
 
 % -----------------------------------
@@ -205,24 +204,26 @@ With order determinism, pre-memoization and \sck work as follow:
 %
 % {\bf (1)} We first run the whole cluster on a real deployment and interpose
 % sleep-safe functions.
-{\bf (1)} We run all nodes on one machine
+\begin{enumerate}
+\item We run all nodes on one machine
 without PIL (more details in \sec\ref{sc-summ}) and interpose
 sleep-safe functions.
 %
-{\bf (2)} When sleep-safe functions are executed, we record the inputs and
+\item When sleep-safe functions are executed, we record the inputs and
 corresponding outputs to a {\em memoization database} (SSD-backed files).
 %
-{\bf (3)} During this pre-memoization phase, 
+\item During this pre-memoization phase, 
 we {\em record message non-determinism} (\eg,
 gossip send-receive pairs and their orderings).
 %
-{\bf (4)} After pre-memoization completes, we can 
+\item After pre-memoization completes, we can 
 repeatedly run \sck wherein order
 determinism is enforced (\eg, no randomness), sleep-safe functions
 replaced with PIL, and their outputs retrieved from the memoization
 database.
 %
 %Note that steps 1-3 are the only steps that require real deployment.  
+\end{enumerate}
 We omit some details above but will summarize the steps again later along
 with other features (\sec\ref{sc-summ}).
 
@@ -267,7 +268,7 @@ time  profiling}, which is feasible for functions with non-pertinent outputs
 With offline time profiling, we simply profile the expensive function
 exclusively by itself with the possible input space.
 If faster profiling is needed, we can sample the input space.
-For example, in \caone,
+For example, in the sample Cassandra bug,
 the expensive function depends on a 2-dimensional input (\#commit states
 and current ring table size), each ranges from 1 to $N$.  
 With $N^2$ profiles, the profiling time can
@@ -281,7 +282,7 @@ In other words, is static prediction sufficient (\eg, extrapolation based
 on a \ts{for}-loop timing)?  In our case, static prediction is hard
 to achieve; nested loops can span across multiple functions with many
 \ts{if-else} conditions.  For example, state-update processing in
-\caone can range from 0.001 to 4 seconds depending on the
+the sample Cassandra bug can range from 0.001 to 4 seconds depending on the
 multi-dimensional input (\sec\ref{mot-observe}).  
 %
 % \hsg{why don't we prove this by saying, we did this with static prediction,
@@ -304,7 +305,7 @@ Second, is it obvious from the profiled time that a scalability bug will
 appear, hence obviating the need for \sck?  
 %
 As suggested earlier, every implementation is unique
-(\sec\ref{mot-observe}).  In \caone for example, {\em if} Cassandra
+(\sec\ref{mot-observe}).  In the sample Cassandra bug for example, {\em if} Cassandra
 processes gossips in a multi-threaded manner, long processing time would
 not lead to the scalability bug.
 %
