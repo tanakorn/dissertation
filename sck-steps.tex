@@ -1,0 +1,148 @@
+
+
+
+% ----------------------------------------
+\subsection{Putting It All Together}
+\label{sc-summ}
+
+
+
+
+
+\ni {\bf Integration steps:} We now summarize how our four \sck techniques
+can be integrated to a target system.  
+
+% All the steps below are performed
+% on one machine, except step \#3.
+
+{\bf (1)} We first reduce memory footprints with SPC (\sec\ref{sc-spc})
+and MFR (\sec\ref{sc-mem}) to avoid out-of-memory exceptions.  
+We then modify the target system with GEDA (\sec\ref{sc-geda}) to
+remove excessive thread context switching.  
+
+{\bf (2)} Next, before running \sck with PIL, we must find all
+PIL-replaceable functions (\sec\ref{sc-pil-1}, \sec\ref{sc-pil-2}) and
+interpose them to record the inputs, outputs, processing time, and
+non-deterministic events (\sec\ref{sc-pil-3}, \sec\ref{sc-pil-4}).
+
+%{\bf (3a)} After the preparation, we execute the pre-memoization step in a
+%real deployment.  For example, if a customer reports a problem in a
+%500-node deployment, the developers should record pre-memoization data and
+%profiling time from a 500-machine deployment.  Note that this step is only
+%executed one time.
+%
+%{\bf (3b)} However, if the target protocol has non-pertinent outputs, we
+%can perform time profiling with input sampling on one machine
+%(\sec\ref{sc-pil-4}).
+
+{\bf (3a)} After the preparation, if the target protocol exhibits
+non-pertinent outputs, we can simply perform offline time profiling without
+pre-memoization (\sec\ref{sc-pil-4}).
+
+{\bf (3b)} Otherwise, we execute the pre-memoization step
+(\sec\ref{sc-pil-3}).  For example,
+%if a scalability problem is reported in an $N$-node deployment, 
+if we want to scale-check an $N$-node deployment, 
+we record pre-memoized data and in-situ profiled time with
+colocation factor of $N$.  
+
+{\bf (4)} Finally, we begin scale-checking the target protocol with all
+the features enabled, including PIL.  This scale-check phase will use the
+recorded output and time profiles and run in deterministic order.
+
+Note that all these features are only enabled in \sck mode.  In online
+deployment, the system runs normally as if without any changes and
+modification overhead.
+
+
+\vni {\bf Debugging efficiency:} We now emphasize how \sck eases
+scale-checking and large-scale debugging efforts.  
+
+First, the only step that consumes time is the time
+profiling and pre-memoization phase (step 3).\footnote{Ranges
+1-34 hours for 100-500 nodes.}  This is because nodes
+compete for CPU resources (PIL is still disabled).  However, this is only
+a {\em one-time} overhead.
+%
+
+Second and most importantly, developers can {\em repeatedly re-run} the
+scale-check phase (step 4) as many times as needed (tens/hundreds of
+iterations) until the bug's root cause is found.  In this phase, the
+target protocol runs in a {\em similar} duration and behavior as if all
+the nodes run on independent machines.
+
+%
+Finally, developers can quickly apply and test new fixes.
+%
+Some fixes can be tested by only re-running the last phase; for example,
+fixes such as
+%
+changing the failure detector \phi threshold (for \caone),
+%
+caching slow methods (\catwo),
+%
+changing lock management (\cafour), and
+%
+enabling parallel processing (\voldone).
+%
+% In our evaluation, we have applied all the above fixes in \sck and
+% observed the patch results.
+%
+However, if the fixes involve a complete redesign (\eg, optimized gossip
+processing in \catri, decentralized to centralized rebalancing in
+\riakone), the integration and profiling/pre-memoization steps (2 and 3)
+must be repeated.
+
+
+
+
+
+
+
+
+
+\if 0
+
+For riak1, developers re-design the bootstrap process.  Previously, it was
+p2p process, that everyone helped gossiping the partition table.  But in
+the new version, the developers changed the process.  Now, we ask one node
+to be a centralized node calculating final partition table and gossip it
+to every node.
+
+For cass3, developers optimized the slow method, remove unnecessary
+computation.  So the execution time will be different.
+
+Here are the bugs that don't need new order determinism
+
+In cass1, developers did not change how message gets processed, but
+changed the failure detector to be more robust for significantly long
+message processing time.
+
+In cass2, there were 2 fixes, caching the result of slow method, and make
+slow method faster.  If the fix is only caching the result, we can apply
+it directly to suck phase.  But the second fix needs to run order
+determinism again.
+
+In cass4, previously, Cassandra acquires a lock and then processes, and it
+acquires the lock for long time, so it blocks other executions.  The fix
+is Cassandra will acquire the lock and then make a copy of necessary data
+structure then processes on the copy. The processing was not changed.
+
+I think in general fixes that can be tested without new order determinism are
+
+- configuration change
+
+- change the way we call problematic methods (e.g. releasing lock before
+processing, decrease the number of method call).
+
+
+\fi
+
+\if 0
+riak: 11690 -- 6800 seconds.
+cass1: 15 minutes -- 1.5 minutes.
+cass2: ??? never wait .. 
+cass3: 
+cass4: 
+\fi
+

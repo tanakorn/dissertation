@@ -1,0 +1,130 @@
+
+% ----------------------------------------
+\subsection{Single-Process Cluster (SPC)}
+\label{sc-spc}
+
+Many distributed systems today are implemented in managed languages (\eg,
+Java, Erlang) whose runtimes consume non-negligible memory overhead.
+Java and Erlang VMs for example use around 70 and 64 MB of memory 
+  per process respectively.  As we target 3-digit colocation factor, this
+memory overhead becomes an unnecessary limitation.
+%
+Furthermore, a managed-language VM can contain advanced services.  For
+example, Erlang VM contains a DNS service which sends heartbeat messages
+to other connected VMs.  As hundreds of Erlang VMs (one for each Riak
+node) run on one machine, the heartbeat messages cause a ``network''
+overflow that disconnects Erlang VMs.
+
+
+To address this, we create Single-Process Cluster (SPC) support
+wherein the whole cluster runs as threads in a single process.
+Surprisingly, our target systems do not have this simple support; there is
+no scalability check in the unit tests (mainly feature correctness
+tests).  Thus, we need to slightly re-design the code to support SPC (\eg,
+adding arrays of per-node global data structures, removing 
+static-synchronized
+functions that lock the whole cluster).
+%
+As all nodes run in one process, user-kernel switching to
+send messages becomes unnecessary.  Thus, we create a shim layer in our
+target systems to bypass OS network calls when they run in \sck mode.
+
+
+
+
+
+
+% ----------------------------------------
+\subsection{Global Event Driven Arch. (GEDA)}
+\label{sc-geda}
+
+
+
+With SPC, a node still runs multiple daemon threads (gossiper, failure
+detector, \etc).  With high colocation factor, there are more than one
+thousand threads that cause  severe context switching and long queueing
+delays.  Because of this overhead, we noticed that events become late
+(\eg, gossips are not sent every second) even though CPU 
+utilization has not reached 100\%.
+
+To address this, we leverage the staged event-driven architecture (SEDA)
+\cite{Welsh+01-Seda} common in distributed system implementations.  
+With SEDA, each
+service/stage in each node exclusively has an event queue and a handler
+thread.  In \sck mode, we convert SEDA to {\em global-event driven
+  architecture} (GEDA).  That is, for every stage, there is only {\em one}
+queue and one handler for the {\em whole} cluster.
+
+
+As an example, let's consider a periodic gossip service.  With 500-node
+colocation, there are 500 gossip threads in SPC, each sending a gossip
+every second.  With GEDA, we only have a few threads (matched with the
+number of available cores).  These global handler threads are shared
+among all the nodes for sending gossips.  Here, unless a high CPU
+utilization is reached (\eg, 90\%), GEDA guarantees no late event.  As
+another example, for gossip processing, there is only one global
+gossip-receiving queue shared among all nodes.
+%
+Overall, GEDA removes thread context switching and queuing delays that
+should have never existed in the first place and does so {\em without}
+changing the processing logic, as if the nodes run exclusively on
+independent machines.
+
+
+
+
+
+
+
+% ----------------------------------------
+\subsection{Memory Footprint Reduction (MFR)}
+\label{sc-mem}
+
+
+Finally, to achieve a high colocation factor, we must perform memory
+footprint reduction (MFR) to prevent out-of-memory exceptions that 
+originate from system-specific root causes.
+
+First, relevant services in the target protocol can
+``over-allocate'' memory.
+%
+For example, in Riak's bootstrap+rebalance protocol, each node
+creates $N$$\times$$P$ partition services although at the end only retain
+$P$ partitions and never use (remove) the other $(N$$-$$1)$$\times$$P$
+partitions (as reclaimed by other nodes).
+%
+Worse, each partition service is an Erlang process (1.3 MB of memory
+overhead); colocating 30 nodes ($N$$=$30 with default $P$$=$64) will
+directly consume 75 GB of memory (30$\times$30$\times$64$\times$1.3 MB)
+from the start.
+%
+In \sck, we must modify Riak to remove this unoptimized memory usage.
+
+Second, some libraries can cause high memory footprints.  For example,
+Voldemort nodes use Java NIO \cite{VoldemortNIO} 
+% ask Huan for Google NIO reference
+which is fast but contains buffers
+and connection metadata that take up memory space.  In \sck, we address
+this with network bypass from SPC (\sec\ref{sc-spc}).
+
+The lesson learned here is that modern distributed systems are implemented
+without scale-checkability in mind.  In our target systems, we must
+address the specific memory issues above; other systems can
+potentially face other root causes.  This system-specific memory
+optimization is crucial in \sck; as we colocate hundreds of nodes, a small
+memory footprint reduction per node will bring orders of magnitude
+reduction globally.
+
+
+\if 0
+%
+\hsg{gone?? Cassandra doesn't have}
+First, the ``\ts{main()}'' function of each node creates many services and
+global data structures (system metadata) that are never used by the target
+protocol.  For example, in Cassandra, \ts{Migration}, \ts{Storage}, and
+\ts{Compaction} services are memory intensive but not needed for
+scale-checking the bootstrap protocol, which only needs the \ts{Gossip}
+and \ts{FailDetector} services.  In \sck, services are lazily called (not
+created until used).
+\fi
+

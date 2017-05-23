@@ -1,0 +1,345 @@
+
+
+\subsection{Processing Illusion (PIL)}
+\label{sc-pil}
+
+While I/O and memory bottlenecks are often blamed for many scalability problems
+\cite{Ousterhout+15-MakingSense,Konstantin+10-HDFSScalability, Wang+14-Exalt},
+control-plane scalability bugs are typically caused by cascading impacts of
+CPU-intensive processing.
+%
+To emulate CPU-intensive processing, we introduce {\em processing illusion}
+(PIL), an approach that {\em replaces an actual processing with \sleep}.  For
+example, in the sample Cassandra bug, we can replace the expensive ring-table
+update with \ts{sleep(t)} where \ts{t} is an accurate timing of how long the
+update takes.
+
+
+The intuition behind PIL is similar to the intuition behind other
+emulation techniques.
+%
+For example, Exalt provides an illusion of storage space; their insight
+was ``how data is processed is  not affected by the content of the data
+being written, but only by its size'' \cite{Wang+14-Exalt}.
+%
+PIL provides an illusion of compute processing; our insight is that
+{\em ``the
+  key to computation is not the intermediate results, but rather the
+  execution time and eventual output''.}
+% {\em ``how
+%   compute matters is not because of the intermediate computation, but 
+% rather by its execution time and output.''}
+%
+
+PIL might sound outrageous in the first place, but it is feasible only if 
+the following concerns are addressed:
+%
+% replace compute with sleep
+%
+\sec\ref{sc-pil-1}: How can a function be safely replaced
+with \sleep \textit{without} changing the whole processing semantic?
+%
+\sec\ref{sc-pil-2}:
+How to find specific functions that should be replaced with \sleep?
+%
+\sec\ref{sc-pil-3}: How can we produce the output if the actual compute is
+skipped?
+%
+\sec\ref{sc-pil-4}: How can we predict the actual compute time (\ts{t})
+accurately?
+
+
+
+
+% -----------------------------------
+\subsubsection{Sleep-Safe Functions}
+\label{sc-pil-1}
+
+
+Our first challenge is to find functions (or processing blocks) that can
+be {\em safely} replaced with \sleep, but still unearth the scalability
+bugs, without changing the whole-cluster processing semantic.
+%
+We name such functions as {\em sleep-safe functions}.  
+%
+We identify four characteristics of sleep-safe functions.
+
+\begin{enumerate}
+% by memoization
+\item {\em Memoizable output:} A sleep-safe function must have a
+memoizable output.  That is, the function has a deterministic output based
+on the input of the function.  As the output can be manufactured using
+pre-memoization (\sec\ref{sc-pil-3}), the computation can be replaced
+safely.
+
+
+% ...
+\item {\em Non-pertinent output:} Interestingly, sometimes there are expensive
+functions executed under the target protocol but the outputs are momentarily
+irrelevant (will only be used in the future by other protocols).  For example,
+the multi-map cloning and updates in the Cassandra bug are not necessary to be
+executed during bootstrapping (\sec\ref{mot-bug}) but will be used by the
+streaming and storage services; it is there for development simplicity (and
+does not cause problems in medium deployment scale).
+% These functions can be easily replaced with \sleep.
+
+
+
+% skipped-safe, intermediate values not relevant
+\item {\em Non-pertinent intermediate data:} A long processing time can
+originate from complex computation (\eg, nested \ts{for} loops) where the
+intermediate data might be irrelevant to the scalability problem in the
+target protocol.  For example, in a Riak's rebalancing bug (\riakone),
+there is an expensive triple-nested loop which decides each rebalanced
+region to be sent to other nodes.  However, data transfer is not the
+bottleneck (generally the case in the control-plane scalability bugs we
+study).  Hence, the triple-nested loop can be replaced with \sleep as the
+final rebalanced metadata can be manufactured (\sec\ref{sc-pil-3}).
+\end{enumerate}
+
+% I/Os
+% {\em (2) Non-pertinent I/Os:} 
+As another example, if a function performs disk I/Os that are not
+pertinent to the correctness of the corresponding protocol, the function
+is sleep-safe.  For example, in \caone, the frequent ring-table checkpoint
+(\sec\ref{mot-bug}) is needed for fault tolerance but is irrelevant (never
+read) during bootstrapping.
+
+
+
+
+
+% -----------------------------------
+\subsubsection{Functions that should ``take the PIL''}
+\label{sc-pil-2}
+
+Not all sleep-safe functions should ``take the PIL''.  Many functions
+satisfy the characteristics above, but they are not the offending
+functions that lead to scalability problems.  Based on our bug study,
+functions that should use PIL have the following  characteristics:
+%
+(1) they contain nested loops dependent on the cluster
+size
+%
+and (2) they are within the cluster-wide control paths (\eg, gossiping,
+rebalancing).
+
+
+Depending on the modularity of the target system, manually finding such
+target functions can be challenging, primarily because scale-dependent
+nested loops can span across multiple functions.  For example, in \caone,
+an $O(n^3)$ loop spans 6 functions with 188 LOC in between each pair
+of loops.  For this reason, we create a simple program analysis
+\prx (described
+in \sec\ref{sec-impl}) to help developers find the specific
+sub-trees of functions that should be replaced with PIL.
+
+
+% -----------------------------------
+\subsubsection{Pre-Memoization with Order Determinism}
+\label{sc-pil-3}
+
+
+As sleep-safe functions no longer perform the actual computation, the next
+question to address is: how do we manufacture the output?  We find there
+are sleep-safe functions with non-pertinent outputs
+(\sec\ref{sc-pil-1}). For these functions, only time profiling is needed
+(\sec\ref{sc-pil-4}) but not output recording.  However, there are also
+sleep-safe functions with non-pertinent intermediate data but with outputs
+that are needed.
+%
+For this latter case, we need to manufacture the outputs such that the
+global behavior is not altered (\eg, cluster bootstrapping or rebalancing
+should terminate successfully).
+%
+Our solution is {\em pre-memoization}: given a sleep-safe
+function, we identify all the possible inputs, and for every input, run
+the function and pre-memoize the output.  
+% This is done prior to \sck; 
+When \sck runs, it will use the pre-memoized outputs.
+
+
+Unfortunately, pre-memoization in the context of large-scale,
+decentralized, non-deterministic distributed systems requires an {\em
+  ``infinite''} time and storage space.  The issue is that the state of
+each node (the input) depends on the {\em order} in which messages arrive
+(which can be random).
+%
+As an example, let's consider Riak's bootstrap+rebalance protocol where
+eventually all nodes own a similar number of partitions.  
+% The decentralized algorithm is quite complex \cite{algorithmOnline}, but
+% put simply, each node
+A node initially has an unbalanced partition table, receives another
+partition table from a peer node, then inputs it to a rebalance function,
+and finally sends the output to a {\em random} node via gossiping.  {\em
+  Every} node repeats the same process until the cluster is balanced.
+%
+In a Riak cluster
+with $N$$=$256 and 
+$P$\footnote{$P$: the number of key-partitions per node;  
+A key-partition is typically a random integer 
+within 2$^{64}$ keyrange.}$=$64, there are in total 2489 rebalance iterations
+with a set of specific inputs in {\em one} run.  
+{\em Another} run of the protocol will
+result in a {\em different} set of inputs due to gossip randomness.
+%, due to the gossip randomness.
+Our calculation shows that there are 
+$(N^{NP})^2$ 
+possible inputs.
+% ; with 550-KB
+% partition table, this pre-memoization requires \xxx Exabytes of space.
+
+
+
+
+To address this problem, we pre-memoize with {\em order determinism}.
+Thus, repeated runs of the same workload in \sck mode will use the {\em
+  same} global message ordering (akin to deterministic record and replay
+\cite{Geels+07-Friday}).
+% Gautam+09-ODR,   Geels+06-Liblog, Guo+08-R2, Soyeon+09-PRES
+%
+For example, across different runs, a Riak node now receives gossips from
+the same sequence of nodes.
+%
+With order determinism, pre-memoization and \sck work as follow: 
+%
+% {\bf (1)} We first run the whole cluster on a real deployment and interpose
+% sleep-safe functions.
+{\bf (1)} We run all nodes on one machine
+without PIL (more details in \sec\ref{sc-summ}) and interpose
+sleep-safe functions.
+%
+{\bf (2)} When sleep-safe functions are executed, we record the inputs and
+corresponding outputs to a {\em memoization database} (SSD-backed files).
+%
+{\bf (3)} During this pre-memoization phase, 
+we {\em record message non-determinism} (\eg,
+gossip send-receive pairs and their orderings).
+%
+{\bf (4)} After pre-memoization completes, we can 
+repeatedly run \sck wherein order
+determinism is enforced (\eg, no randomness), sleep-safe functions
+replaced with PIL, and their outputs retrieved from the memoization
+database.
+%
+%Note that steps 1-3 are the only steps that require real deployment.  
+We omit some details above but will summarize the steps again later along
+with other features (\sec\ref{sc-summ}).
+
+
+%
+With order determinism, the memoization database is kept small as we only
+record the possible inputs within {\em one} deterministic order.  In the
+256-node Riak's case above, the database only needs to store around 2500
+input-output pairs (the number of rebalance iterations observed) in 1.3 GB
+of memoized data (and 5.3 GB for the 512-node setup).
+% remove if no space
+We also note that while the idea of deterministic systems has been made
+popular recently,
+% \cite{Aviram+10-Determinator, Bergan+10-dOS}, 
+the concept of deterministic distributed systems is still not practical
+due to the excessive runtime overhead (\eg, 10x slower
+\cite{Hunt+13-DDOS}).  However, in the context of offline methodology such
+as \sck, order determinism can be exploited in a fitting manner.
+
+
+
+
+% -----------------------------------
+\subsubsection{Time Profiling}
+\label{sc-pil-4}
+
+
+
+As sleep-safe functions are replaced with \ts{sleep(t)}, we need to
+accurately predict the actual compute time (\ts{t}).  There are two
+different approaches we take, depending on the target protocols.
+%
+{\bf (1)} The first approach is to profile compute time in situ with
+the pre-memoization phase ({\em in-situ time profiling}).  
+That is, for each input observed during
+pre-memoization, we also record how long the processing takes.
+%
+{\bf (2)} Another approach is to profile compute time with an {\em offline
+time  profiling}, which is feasible for functions with non-pertinent outputs
+(\sec\ref{sc-pil-1}), which do not need pre-memoized outputs.  
+
+With offline time profiling, we simply profile the expensive function
+exclusively by itself with the possible input space.
+If faster profiling is needed, we can sample the input space.
+For example, in \caone,
+the expensive function depends on a 2-dimensional input (\#commit states
+and current ring table size), each ranges from 1 to $N$.  
+With $N^2$ profiles, the profiling time can
+take more than 
+one day without sampling when $N$ is large (\eg, 512 nodes).  When \sck
+runs, given an input, we normalize \ts{t} based on the sampled profile.
+
+% ......
+We now address two further questions.  First, is time profiling necessary?
+In other words, is static prediction sufficient (\eg, extrapolation based
+on a \ts{for}-loop timing)?  In our case, static prediction is hard
+to achieve; nested loops can span across multiple functions with many
+\ts{if-else} conditions.  For example, state-update processing in
+\caone can range from 0.001 to 4 seconds depending on the
+multi-dimensional input (\sec\ref{mot-observe}).  
+%
+% \hsg{why don't we prove this by saying, we did this with static prediction,
+% but we got inaccurate results. TODO??}
+
+% Hence, time profiling is needed for accuracy.
+
+% remove if no confirmation from Cesar \hsg{Cesar??} 
+
+% Furthermore, processing time depends on CPU speed and storage latency.
+% We observed a case of a customer deploying Riak in ``weak'' machines,
+% which surfaces a scalability bug that the developers did not expect
+% \cite{riak?}.  Thus, dynamic profiling time must be based on a similar
+% machine deployed by the customer who reported the bugs.
+
+
+
+% predict scalability bugs from profiling
+Second, is it obvious from the profiled time that a scalability bug will
+appear, hence obviating the need for \sck?  
+%
+As suggested earlier, every implementation is unique
+(\sec\ref{mot-observe}).  In \caone for example, {\em if} Cassandra
+processes gossips in a multi-threaded manner, long processing time would
+not lead to the scalability bug.
+%
+In fact, patches for scalability bugs do not always remove the expensive
+computation.
+%
+Scalability bugs are not merely about the expensive functions, but rather
+their potential cascading impacts, hence it is essential to run \sck 
+in addition to time profiling.
+% not extrapolation
+We want to emphasize that our profiling approach is not the same as
+extrapolation, which tends to stop profiling at a certain 
+scale (\eg, 100 nodes)
+and extrapolates the behavior for larger scales.  Our
+profiling and \sck phases run at real scales.
+% the same number of nodes.
+
+
+\vfive Overall, PIL significantly removes processing contention and
+reduces CPU utilization.  Interestingly, as we colocate more nodes, before
+we hit 100\% CPU utilization, we hit other major colocation bottlenecks
+such as memory exhaustion and process/thread context-switching delays.
+%
+For this reason, we re-architect our target systems to make them
+scale-checkable with the next three optimization techniques
+(\sec\ref{sc-spc}-\sec\ref{sc-mem}).
+
+
+
+\if 0
+\hsg{new:}
+Exalt \cite{exalt} provides a compression technique that is powerful for
+cases where storage capacity is the colocation bottleneck.
+The compression technique however increases CPU utilization
+and thus does not solve CPU-bottleneck colocation problem.
+For example, it admits that the CPU-intensive HBase region servers
+cannot benefit from Exalt colocation. 
+\fi
