@@ -1,33 +1,25 @@
 
-
 \subsection{Bugs Reproduced}
 \label{eval-bugs}
 
-
-
-Table \ref{tab-bugs} lists all the \numEval bugs\footnote{Given the limited
-time and number of students.}   we have reproduced (4
-Cassandra bugs).
-We chose these \numEval bugs
-(among the \numStudy bugs we studied) because the reports contain 
-more detailed
-descriptions about the bugs, the affected protocols, the affected code
-version numbers, configuration setups, and the patches.  Table
-\ref{tab-bugs} also shows the number of nodes needed for the bug symptoms
-to surface and the quantifiable metrics of the symptoms.
+Table \ref{tab-bugs} lists all the 4 Cassandra bugs we have reproduced. We
+chose these 4 bugs (among the \numStudy bugs we studied) because the reports
+contain more detailed descriptions about the bugs, the affected protocols, the
+affected code version numbers, configuration setups, and the patches. Table
+\ref{tab-bugs} also shows the number of nodes needed for the bug symptoms to
+surface and the quantifiable metrics of the symptoms.
 %
-Our first target system was Cassandra, hence the more bugs reproduced
-compared to Riak and Voldemort; the latter two were added for  stronger
-proof of concept.
+Our first target system was Cassandra, hence the more bugs reproduced compared
+to Riak and Voldemort.
 %
-Figure \ref{fig-bugs} shows the accuracy of \sck in reproducing the 6 bugs
-using the metrics shown in Table \ref{tab-bugs}.
+Figure \ref{fig-bugs} shows the accuracy of \sck in reproducing the 4 bugs using
+the metrics shown in Table \ref{tab-bugs}.
 %
 The first bug, \caone, has been described in \sec\ref{mot-bug} and
 \sec\ref{eval-accu}.
 %
-We now briefly discuss the other five bugs 
-(shown in Figure \ref{fig-bugs}) and then
+We now briefly discuss the other five bugs (shown in Figure \ref{fig-bugs}) and
+then
 %
 make several important remarks.
 
@@ -51,9 +43,6 @@ redesign of the pending keyrange calculation.
 %
 
 \input{tab-bugs}
-
-
-
 
 Figure \ref{fig-bugs}c: Interestingly, \cafour \cite{CA-Four} is 
 a bug in the {\em same}
