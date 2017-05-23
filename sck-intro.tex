@@ -1,5 +1,55 @@
 %Talk about scale test.
 
+In the previous two chapters, we discuss about distributed concurrency (DC) bugs
+that how we make sense of them and how we advance the state of the art of model
+checking to unearth them faster. In this chapter, we will focus on
+scalability aspect of cloud backend. As we mention in Section \ref{bg-sc}, the
+trend of cloud distributed systems goes to horizontal scaling or scale-out.
+On the positive side, scale surpasses the limit of a single machine in
+meeting users' increasing demands of computing and storage, which led to
+many inventions of ``cloud-scale'' distributed systems
+\cite{Chang+06-BigTable, 
+DeanGhemawat04-MapReduce, 
+DeCandia+07-Dynamo,
+Ghemawat+03-GoogleFS, 
+Hindman+11-Mesos,
+Verma+15-Borg}. The field has witnessed a
+phenomenal deployment scale of such systems;
+%
+Netflix runs tens of 500-node Cassandra clusters \cite{RunningNetflix13},
+% Running Netflix on Cassandra in the Cloud (youtube), Adriak Crockcroft
+% https://www.youtube.com/watch?v=97VBdgIgcCU
+Apple deploys a total of 100,000 Cassandra nodes \cite{WikiCassandra}, 
+% https://en.wikipedia.org/wiki/Apache_Cassandra
+and Yahoo! recently revealed the use of 40,000 Hadoop servers,
+with a 4500-node cluster as the largest one \cite{LargestHadoop}.
+% Http://www.techrepublic.com/article/why-the-worlds-largest-hadoop-installation-may-soon-become-the-norm/
+
+% dark side, foe
+On the negative side, scale creates new development and deployment issues.
+Developers must ensure that their algorithms and protocol designs to be
+scalable.  However, until real deployment takes place, scalablity bugs in the
+actual implementations are unforeseen.
+% more and more
+These scalability bugs are latent bugs that are scale-dependent; they only
+surface in large-scale deployments, but not in small/medium-scale ones. Their
+presence jeopardizes systems reliability and availability at scale.
+
+In this chapter, we show our observations from our initial study on scalability
+bugs that highlights an urgency in tackling scalability bugs and our pilot work
+to introduce a single-machine testing methodology to check scalability of the
+systems. Section \ref{sck} discusses about our initial study and shows our
+observations toward scalability bugs; Section \ref{sck} discusses abot the state
+of the art; Section \ref{sck}-\ref{sck} explains our pilot work on scalability
+bug checking, \sck and some evaluations.
+
+%There are a lot of efforts that try to improve scalability of different parts of
+%distributed systems \cite{Boutin+14-Apollo, Ousterhout+13-Sparrow,
+%Ganjam+15-C3Video, Glendenning+11-Scatter, Lloyd+11-COPS}, but we find little
+%work focusing on testing scalability of the systems \cite{Gupta+08-DieCast,
+%Wang+14-Exalt} so this is still an open problem.
+
+\if 0
 In the previous chapter, we discuss an urgency and motivation to check
 scalability of cloud distributed systems. From our observations in the previous
 chapter plus what we discuss in Chapter \ref{chp-bg}, the effective way for
@@ -77,3 +127,4 @@ dilation and Exalt targets {\em storage} space emulation via compression.
 %\sck uniquely targets {\em processing time} emulation, completing a missing
 %piece.
 
+\fi
