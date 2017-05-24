@@ -1,37 +1,56 @@
 \chapter{Conclusions and Future Work}
 \label{chp-con}
 
+In this dissertation, we aim to strengthen dependability of cloud-scale
+distributed systems by addressing two new types of bugs in cloud systems,
+distributed concurrency bugs (DC bugs) and scalability bugs. We have performed
+bug studied to gain insights about the nature of these bugs, and we have also
+advanced state of the art of system testing. This chapter concludes this
+dissertation work and discuss future work in combating DC bugs and scalability
+bugs.
+
+\section{Conclusion}
+
+\subsection{Distributed Concurrency Bugs}
+
+The first problem we focus in this dissertation is DC bugs. We have conducted
+in-depth study and created the largest and most comprehensive of DC bugs named
+\taxdc. We categorize DC bugs in three dimensions. The first dimension is
+triggering which is conditions that makes bugs happens. We studied timing
+conditions and found four main timing patterns: order violation, atomicity
+violation, fault timing, and reboot timing. We also studied input conditions
+that are ingredients for bugs to surface. We found that most DC bugs will
+surface only systems execute multiple protocols, and more than 50\% of bugs
+surface in recovery protocols (\ie, the bugs surface only when there are
+hardware failures).
+
+The second dimension that we studied is errors and failures. We studied the
+first errors that happen immediately after the bugs are triggered. We see half
+of the bugs have local errors that is we can see the errors by observing only
+triggering node, but half of them have global errors that require us to observe
+the whole systems to notice the errors. Moreover, we looked into failure
+symtomps induced by DC bugs and found that the bugs can lead to severe failures
+like system downtime, operation failures, data loss/corruption/inconsistencies,
+and performance degradation.
+
+Lastly, the third dimension that we studied is fixes that are how developers fix
+the DC bugs. We saw two main strategies to fix the bugs that are fixing the
+timing and fixing the handling. For timing fixes, developers can do it globally or
+locally (global synchronization or local synchronization). For handling fixes,
+developers change the logic of message handling or fault handling such that the
+systems still behave correctly.
+
+Other than the bug study, we have introduced semantic-aware model checking
+(SAMC) that is a white-box approach to model check the systems. SAMC prunes out
+some executions because it knows that those executions are redundant with
+previous executions it already tested by using semantic knowledge of target
+systems. We have introduced four novel semantic-aware reduction policies, and
+built \sampro and integrated it to three systems including Hadoop MapReduce,
+Cassandra and ZooKeeper. On average, SAMC can find bugs 49x faster than other
+states of the art.
+
+\subsection{Scalability Bugs}
+
+\section{Future Work}
 
 
-\if 0
-
-In this proposal, we aim to unearth hidden bugs in cloud-scale distributed
-systems that weaken reliability and scalability of the systems. For reliability
-bugs, we focus in distributed concurrency (DC) bugs. For scalability bugs, we
-focus in control-plane protocol bug, specifically in P2P storage systems.
-
-%We started our work by performing bug studies. Based on our initial work for
-%cloud bug study, we dissect DC bugs and study their critical characteristics.
-%Then we look at scalability bugs that are related 
-
-The key idea for unearthing DC bugs is advancing model checking techniques for
-dmcks to tackle state-space explosion. Because existing dmcks treat every target
-system as a complete \textit{black box}, and therefore perform unnecessary
-reorderings of distributed events that would lead to the same explored states
-(\ie, redundant executions).  To tackle the problem, we introduced
-Semantic-Aware Model Checking (SAMC), a novel white-box model checking approach
-that takes \textit{semantic knowledge} of how distributed events (specifically,
-messages, crashes, and reboots) are processed by the target system and
-incorporates that information in reduction policies. The policies are based on
-sound reduction techniques such as DPOR and symmetry.
-
-And for scalability bugs, we believe from the study that we need to scale check
-distributed system implementation at real scale, not via simulation nor
-extraploation. Our proposed solution is to colocate as many nodes as possible
-(\eg, hundreds) on one machine without sacrificing accuracy by {\em emulate}
-hardware resources such that the individual nodes behave as if they run on
-independent machines. We propose four emulation concepts to mitigate hardware
-contention problems. We are exploring these concepts to build scale check
-methodology for checking control-plane protocols in P2P key-value stores.
-
-\fi
