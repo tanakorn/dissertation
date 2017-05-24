@@ -1,0 +1,158 @@
+
+
+\section{Implementation and Integration}
+\label{sec-impl}
+
+
+
+%To make them scale-checkable on one machine, we added \locCass, \locRiak,
+%and \locVold LOC respectively.
+
+
+\input{tab-loc}
+
+
+
+We integrate our \sck methodology to three popular distributed key-value
+stores: Cassandra \cite{Lakshman+09-Cassandra}, Riak \cite{RiakWeb}, and
+Voldemort \cite{VoldemortWeb}.
+%
+The implementation of \sck involves two parts:
+%
+{\bf (a)} changes to make the target system ``\sck-able'' on one machine and
+%
+{\bf (b)} the \ts{sck} tool itself (specifically: \scass, \svold, and
+\sriak).\footnote{As an analogy, part (b) is similar to specific \ts{fsck}s
+  (\eg, \ts{fsck.ext3}, \ts{fsck.xfs}) while part (a) is
+  similar to how file system code is modified to make \ts{fsck}
+  fast \cite{Henson+06-Chunkfs, Ma+13-Ffsck}.}
+% LOC
+Part (a) involves
+the integration of SPC, MFR, and GEDA, as well as PIL interpositioning
+points.  Part (b) is the code for pre-memoization, time profiling, and
+other \ts{sck} setups.
+%
+Table \ref{tab-loc} quantifies the integration efforts.  
+%Overall, our modifications add 2-4\% of code that provide a new powerful
+%functionality.
+%
+
+In addition to the changes above, we also created a program analysis
+(named \prx) that helps developers  find expensive functions
+(\sec\ref{sc-pil-2}).
+%
+So far, we have built \prx for Java programs (\eg, Cassandra) with Eclipse
+ASTVisitor in \locParser LOC.
+% \cite{EclipseASTVisitor} 
+% google astvisitor yourself
+%
+In a nutshell, \prx works as follows: (1) scale-dependent data structures
+are annotated, (2) a dataflow analysis reports the Big $O$ complexity of
+function sub-trees such as triple-nested ($O(n^3)$) loops on
+scale-dependent data structures, (3) developers decide which sub-trees
+should be replaced with PIL, and (4) non-pertinent IOs or intermediate
+data are detected with no-read-after-write analysis within the control
+paths.  We omit further details for space.
+
+
+
+\vni {\bf Generality:} We show the generality of \sck with two major efforts.
+First, we picked three systems and scale-checked various control-path
+protocols within them, for a total of \numProt protocols:
+%
+\numProtCass Cassandra (bootstrap, scale-out, decommission),
+%
+\numProtRiak Riak (bootstrap+rebalance), and 
+%
+\numProtVold Voldemort (rebalancing) protocols.
+%
+A protocol can be built on top of other protocols (\eg, bootstrap on
+gossip and failure detection protocols).
+
+
+Second, we migrated \sck to a total of \numVers old and new releases:
+%
+\numVersCass Cassandra (v0.8.9, v1.1.10, v1.2.0, v1.2.9, v2.2.5),
+%
+\numVersRiak Riak (v0.14.2, v2.1.3), and
+%
+\numVersVold Voldemort (v0.90.1, v1.10.21).
+%
+This effort is also important to show how \sck can find old and new
+bugs. 
+
+
+
+\vni {\bf Simplicity:}
+%
+Table \ref{tab-loc} shows \sck\ requires thousands of LOC, which we
+believe is a justified cost for supporting scale-checkability.  We want to
+emphasize that this is a {\em one-time} cost; subsequent migrations are
+fast.  Our first complete integration to Cassandra (v1.2.9) took almost a
+year; we needed to learn from scratch about Cassandra and its scalability
+bugs and also design \sck.  However, after \sck techniques were solid,
+migration to other versions (Cassandra-v0.8.9, v1.1.10, v2.2.5) only took
+{\em 1~week} each.  Next, our first integration to Riak (v0.14.2) only
+took {\em 4~weeks} (although Riak was completely new to us).  A subsequent
+migration (Riak-v2.1.3) only took {\em 4~days}.  The efforts for
+Voldemort is also similar.
+%
+Overall, we expect \sck integration can be done more seamlessly with
+today's DevOps practice \cite{Limoncelli+11-Devops}, where developers are
+testers and testers are developers.
+
+
+
+
+
+
+
+\if 0
+All \sck techniques are straightforward to integrate.  Below are more
+specific integration items we did not discuss before.
+\hsg{list of all problems, existing systems are not designed
+with scale checkability in mind.}
+- Global lock
+- Small size thread pool
+- Bounded queue
+\fi
+
+\if 0
+\vni {\bf Pre-Memoization:} During the pre-memoization step (with Naive
+Packing), failure-detection or all timeout-related logic has to be
+converted to use logical time.  This is important to remove false
+positives; for example, a node might not hear any new gossip of another
+node after 10 seconds, but this is due to CPU contention (thread queueing
+delay) in Naive Packing.  This is a similar concern in DieCast \cite{x},
+hence the time-dilation support in their VMM.  In our case, we manually
+modify the application ... \hsg{how??}
+\fi
+
+
+
+
+
+
+
+
+
+\if 0
+{\bf Limitations:}
+\hsg{define the target protocols. the target protocol, 
+the target problem, to a methodology. many P2P systems have this problem.
+it cannot debug bugs that are not caused by cascading CPU problems.
+There are many scalability bugs.  Just like Exalt cannot be used for our
+bugs, ours cannot be used for their bugs.  At the end Sck methodology
+will grow more.  So far we are limited to one machine.
+The limit is the core of the one machine. To scale up we can have
+more cores (co-processors with large DRAM). 
+%
+Also why note 10 machines? why one machine?
+SCk can be extended to 10 machines, but then we need to implement
+batching, because in reality each node only receives XX messages per second,
+but with 50 nodes, it receives 50x messages per second.
+ONe must look into this effect.
+} 
+\fi
+
+
