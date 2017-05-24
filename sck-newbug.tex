@@ -18,11 +18,11 @@ Meanwhile, the developers suggested us to add/remove node one at a time
 with 2-minute separation, which means scaling-out/down 100 nodes will take
 over 3 hours; instant elasticity is not achievable.
 %
-We then found out that Cassandra developers just recently started a new
-initiative and opened a new ``umbrella'' ticket (July 2016) for designing
-``Gossip 2.0'' \cite{Gossip20}, supposed to scale to
+%We then found out that Cassandra developers just recently started a new
+%initiative and opened a new ``umbrella'' ticket (July 2016) for designing
+%``Gossip 2.0'' \cite{Gossip20}, supposed to scale to
 % https://issues.apache.org/jira/browse/CASSANDRA-12345
-1000+ nodes; the conversation just begun \cite{Gossip20Mail}.
+%1000+ nodes; the conversation just begun \cite{Gossip20Mail}.
 % http://mail-archives.apache.org/mod_mbox/cassandra-dev/201609.mbox/%3CCAHjqPuJMkfZwp9DDX45PNBNhkoGXsPW4TFT6Zxv%2BTTz_Pg3Y%2Bg%40mail.gmail.com%3E
 % maybe create a short google url ?
 %
@@ -34,7 +34,6 @@ initiative and opened a new ``umbrella'' ticket (July 2016) for designing
 For Riak and Voldemort, we found that their latest-stable
 bootstrap/rebalance protocols do not exhibit any scalability bug, up to
 512 nodes.
-
 
 \if 0
 \hsg{maybe add the facts that developers suggest, 
