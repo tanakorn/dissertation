@@ -1,1 +1,34 @@
 \section{Conclusion}
+
+In this chapter, we present semantic-aware model checking, a white-box principle
+that takes simple semantic information of the target system and incorporates
+that knowledge in state-space reduction policies by skipping redundant
+executions. We find that simple semantic knowledge can assist dmck greatly; the
+semantic are from \textit{event processing semantic} (\ie, how messages,
+crashes, and reboots are processed by the target system). To help testers
+extract such information from the target system, we provide \textit{generic
+event processing patterns}, patterns of how messages, crashes, and reboots are
+processed by distributed systems in general.
+
+We introduce four novel semantic-aware reduction policies: 
+\begin{enumerate}
+
+\item {\bf Local-Message Independence} (LMI) reduces re-orderings of intra-node
+messages. 
+
+\item {\bf Crash-Message Independence} (CMI) reduces re-orderings of crashes
+among outstanding messages.  
+
+\item {\bf Crash Recovery Symmetry} (CRS) skips crashes that lead to same
+recovery behaviors.
+
+\item {\bf Reboot Synchronization Symmetry} (RSS) skips reboots that lead to
+same synchronization actions.  
+
+\end{enumerate}
+Our reduction policies are {\em generic}; they are applicable to many
+distributed systems. SAMC users (\ie, testers) only need to feed the policies
+with short {\em protocol-specific rules} that describe event independence and
+symmetry specific to their target systems. And SAMC is purely systematic; it
+does not incorporate randomness or bug-specific knowledge.
+
