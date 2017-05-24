@@ -5,8 +5,8 @@
 
 While I/O and memory bottlenecks are often blamed for many scalability problems
 \cite{Ousterhout+15-MakingSense,Konstantin+10-HDFSScalability, Wang+14-Exalt},
-control-plane scalability bugs are typically caused by cascading impacts of
-CPU-intensive processing.
+scalability bugs also could be caused by cascading impacts of CPU-intensive
+processing as the example of Cassandra bugs.
 %
 To emulate CPU-intensive processing, we introduce {\em processing illusion}
 (PIL), an approach that {\em replaces an actual processing with \sleep}.  For
@@ -48,13 +48,38 @@ skipped?
 \sec\ref{sc-pil-4}: How can we predict the actual compute time (\ts{t})
 accurately?
 
+\subsubsection{PIL-Safe Functions}
+\label{sc-pil-1}
 
+Our first challenge is to ensure that functions (or code blocks) can be safely
+replaced with \sleep, but still retain the cluster-wide behavior and unearth the
+bug symptoms.  We name such functions as {\em PIL-safe functions}.
+%
+We identify two main characteristics of sleep-safe functions:
+% by memoization
+\begin{enumerate}
+\item Memoizable output: a PIL-safe function must have a memoizable
+(deterministic) output based on the input of the function.
+% ...
+\item Non-pertinent I/Os: if a function performs disk/network I/Os that are not
+pertinent to the correctness of the corresponding protocol, the function is
+PIL-safe.  For example, in the sample Cassandra bugs, there is a ring-table
+checkpoint (not shown) needed for fault tolerance but is irrelevant (never read)
+during bootstrapping.
+%
+\end{enumerate}
+%We extend \sfind to \sfindp, which includes a static analysis that finds code
+%blocks in scale-dependent loops that can be safely PIL-ed.
+Depending on the modularity of the target system, manually finding such target
+functions can be challenging, primarily because scale-dependent nested loops can
+span across multiple functions. Right now, we rely on developers to identify
+such that functions, and we leave automatic PIL-taking function extracting for
+future work (Chapter \ref{future}).
 
-
+\if 0
 % -----------------------------------
 \subsubsection{Sleep-Safe Functions}
 \label{sc-pil-1}
-
 
 Our first challenge is to find functions (or processing blocks) that can
 be {\em safely} replaced with \sleep, but still unearth the scalability
@@ -72,7 +97,6 @@ on the input of the function.  As the output can be manufactured using
 pre-memoization (\sec\ref{sc-pil-3}), the computation can be replaced
 safely.
 
-
 % ...
 \item {\em Non-pertinent output:} Interestingly, sometimes there are expensive
 functions executed under the target protocol but the outputs are momentarily
@@ -83,19 +107,15 @@ streaming and storage services; it is there for development simplicity (and does
 not cause problems in medium deployment scale).
 % These functions can be easily replaced with \sleep.
 
-
-
 % skipped-safe, intermediate values not relevant
 \item {\em Non-pertinent intermediate data:} A long processing time can
 originate from complex computation (\eg, nested \ts{for} loops) where the
-intermediate data might be irrelevant to the scalability problem in the
-target protocol.  For example, in a Riak's rebalancing bug (\riakone),
-there is an expensive triple-nested loop which decides each rebalanced
-region to be sent to other nodes.  However, data transfer is not the
-bottleneck (generally the case in the control-plane scalability bugs we
-study).  Hence, the triple-nested loop can be replaced with \sleep as the
-final rebalanced metadata can be manufactured (\sec\ref{sc-pil-3}).
-\end{enumerate}
+intermediate data might be irrelevant to the scalability problem in the target
+protocol.  For example, in a Riak's rebalancing bug (\riakone), there is an
+expensive triple-nested loop which decides each rebalanced region to be sent to
+other nodes.  However, data transfer is not the bottleneck. Hence, the
+triple-nested loop can be replaced with \sleep as the final rebalanced metadata
+can be manufactured (\sec\ref{sc-pil-3}).  \end{enumerate}
 
 % I/Os
 % {\em (2) Non-pertinent I/Os:} 
@@ -105,31 +125,26 @@ example, in the sample Cassandra bug, the frequent ring-table checkpoint
 (\sec\ref{mot-bug}) is needed for fault tolerance but is irrelevant (never read)
 during bootstrapping.
 
-
-
-
-
 % -----------------------------------
 \subsubsection{Functions that should ``take the PIL''}
 \label{sc-pil-2}
 
-Not all sleep-safe functions should ``take the PIL''.  Many functions
-satisfy the characteristics above, but they are not the offending
-functions that lead to scalability problems.  Based on our bug study,
-functions that should use PIL have the following  characteristics:
+Not all sleep-safe functions should ``take the PIL''.  Many functions satisfy
+the characteristics above, but they are not the offending functions that lead to
+scalability problems.  Based on our bug study, functions that should use PIL
+have the following  characteristics:
 %
-(1) they contain nested loops dependent on the cluster
-size
+(1) they contain nested loops dependent on the cluster size
 %
-and (2) they are within the cluster-wide control paths (\eg, gossiping,
-rebalancing).
-
+and (2) they are within the cluster-wide paths (\eg, gossiping, rebalancing).
 
 Depending on the modularity of the target system, manually finding such target
 functions can be challenging, primarily because scale-dependent nested loops can
 span across multiple functions. Right now, we rely on developers to identify
-such that functions, and we will discuss this in Chapter \ref{future} for
-automatic PIL-taking functions.
+such that functions, and we leave automatic PIL-taking function extracting for
+future work (Chapter \ref{future}).
+
+\fi
 
 \if 0
 For example, in the sample Cassandra bug, an
@@ -143,7 +158,6 @@ that should be replaced with PIL.
 % -----------------------------------
 \subsubsection{Pre-Memoization with Order Determinism}
 \label{sc-pil-3}
-
 
 As sleep-safe functions no longer perform the actual computation, the next
 question to address is: how do we manufacture the output?  We find there
