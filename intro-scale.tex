@@ -9,6 +9,7 @@ systems are designed to be scalable. However, until real deployment takes place,
 if developers do not have a large cluster to test their actual implementations,
 unexpected bugs are unforeseen. 
 
+\if 0
 The following is our contribution to tackle this novel type of bugs:
 
 \begin{enumerate}
@@ -23,31 +24,89 @@ research on scalability aspect of cloud-scale distributed systems.
 of systems in an economical way by colocate multiple nodes on one machine.
 
 \end{enumerate}
+\fi
 
-The next sections discuss some detail of these two works.
-
-\subsection{Scalablity Bug Study}
-
-For scalability bugs, the situation is worse. We are not aware of any study on
-scalability bugs at all, so in this dissertation, we start a study of
-scalability bugs to gain some foundational knowledge about them. We studied 41
-bugs in seven systems including Cassandra, Couchbase, Hadoop MapReduce, HBase,
-HDFS, Riak, and Voldemort.
-
-From the study, here is our observations regard to scalability bugs:
+To unearth latent scalability bugs, we need an effective and economic approach
+to test the systems prior to deployments, but in order to do that, we need to
+understand the nature of scalability bugs first. Unfortunately, we are not aware
+of any study on scalability bugs at all, so in this dissertation, we perform a
+study of scalability bugs to gain some foundational knowledge about them. We
+study 41 bugs in seven systems including Cassandra, Couchbase, Hadoop MapReduce,
+HBase, HDFS, Riak, and Voldemort. And here is our brief observations from the
+study:
 
 \begin{itemize}
-\item Scalability bugs only appear at extreme scale.
+\item Scalability bugs only appear at extreme scale (\eg, hundreds node).
 \item Systems can be scalable in design, but not in practice.
 \item Scalability bugs could be implementation specific and hard to predict.
 \item Scalability bugs are caused from cascading impacts of ``not independent'' nodes.
 \item It is long and difficult to debug large-scale.
-\item Not all developers have large test budgets.
+\item Not all developers have large cluster to test the systems, especially in
+open-source project.
 \end{itemize}
 
-\subsection{Scalability Checking Methodology}
+These observations accentuate the need for scale-checking distributed system
+{\em implementations} at {\em real scale}, not via simulation nor extrapolation.
+The challenge of large-scale emulation is resource contention problem that is
+nodes compete to consume resources (\eg, CPU, memory, and threds) and make test
+outcome inaccurate.
+%
+In this context, we start a pilot work, \sck, on large-scale emulation that
+allows developers to colocate hundreds nodes in one machines to test system
+scalability, yet still get accurate testing results. \sck contains four
+techniques to mitigate resource contention which we briefly describe below.
 
-\xxx{Fill this after write sck chapter}
+First, we introduce {\em processing illusion} (PIL), which replaces
+scale-dependent CPU-intensive computations with \sleep without changing the
+cluster behavior.  The insight behind PIL is that the key to computation is not
+the intermediate results, but rather the execution time and eventual output.  To
+make PIL feasible, we analyze the characteristics of functions that can take
+PIL.  We employ pre-memoization and order determinism to record the output data
+and execution time of PIL-replaceable functions.
+
+In addition to PIL, we introduce other colocation strategies
+that reduce unnecessary CPU and memory contentions, strategies such as
+%
+{\em single process cluster} (SPC), which runs the whole cluster
+in a single process,
+%
+{\em global even driven architecture} (GEDA), which replaces
+hundreds of threads in SPC with a few event-handler threads
+shared by all nodes,
+%
+and {\em memory footprint reduction} (MFR), which removes high
+system-specific memory footprints in our target systems.
+
+We created \sck tools for Cassandra \cite{Lakshman+09-Cassandra}, Riak
+\cite{RiakWeb}, and Voldemort \cite{VoldemortWeb}.
+%
+We scale-checked a total of \numProt protocols; \numProtCass Cassandra
+(bootstrap, scale-out, decommission), \numProtRiak Riak (bootstrap+rebalance),
+and \numProtVold Voldemort (rebalance) protocols.
+%
+To show the simplicity of developing \sck, we have migrated \sck to a total of
+\numVers old and new releases (\numVersCass Cassandra, \numVersRiak Riak, and
+\numVersVold Voldemort versions).
+%
+Across these versions, we have colocated 500 nodes and reproduced \numEval (old
+and new) scalability bugs (5 Cassandra, 1 Riak, and 1 Voldemort bugs).
+
+In summary, our contributions are:
+%
+\begin{enumerate} \item We present a method for scale-checking distributed
+systems and reproducing the scalability bugs within.
+%
+\item We uncover the reasons why existing distributed systems are not easily
+scale-checkable (\ie, the colocation bottlenecks).
+%
+\item We show the generality of \sck by applying the concept to three real-world
+cloud-scale distributed systems.
+%
+\end{enumerate}
+
+Overall, we believe that scalability bugs are new-generation bugs to combat in
+modern cloud-scale distributed systems and \sck is one of the pilot solutions in
+this new area of research.
 
 \if 0
 We see that most of the work \cite{Calotoiu+13-ApmScaleBug,
