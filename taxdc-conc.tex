@@ -2,88 +2,57 @@
 % -----------------------------------------------
 \section{Conclusion}
 
-Here is our summarized findings on the intricacies of DC bugs:
+In this chapter, we have shown our in-depth study result on DC bugs and
+introduce \taxdc, the largest and most comprehensive taxonomy of DC bugs. 
+\taxdc categorizes DC bugs in three major aspects including triggering, error
+and failure, and fix. This chapter show some complexity of DC bugs such as:
 
 \begin{itemize}
 % surface
-\item Throughout the development of our target systems, new DC bugs
-continue to surface.  Although these systems are popular, there is a
-lack of effective testing, verification, and analysis tools to detect
-DC bugs prior to deployment.
+\item We see a lack of effective testing, verification, and analysis tools to
+detect DC bugs during development process.
 
 % protocols
-\item Real-world DC bugs are hard to find because many of them linger
-in complex concurrent executions of {\em multiple} protocols.
-Complete systems contain many background and operational
-protocols beyond user-facing foreground protocols.  Their concurrent
-interactions can be deadly.
+\item Many DC bugs hide in complex concurrent executions of {\em multiple}
+protocols and not only user-facing foreground protocols, but also background and
+operational.
 
 % faults
-\item \pctFaultYes\ of DC bugs surface in the presence of hardware
-faults such as machine crashes (and reboots), network delay and
-partition (timeouts), and disk errors.  As faults happen, recovery
-protocols create more non-deterministic events concurrent with ongoing
-operations.
+\item Majority of DC bugs surface in the presence of hardware faults such as
+machine crashes (and reboots), network delay and partition (timeouts), and disk
+errors.  
 
 % silent
-\item \pctErrImp\ of DC bugs lead to silent failures and hence are hard
-to debug in production and reproduce offline.
+\item Half of DC bugs lead to silent failures and hence are hard to debug in
+production and reproduce offline.
 
 \end{itemize}
 
 % ---------------------------------------------
 
-Nevertheless, through a careful and detailed study of each bug,
-our results also bring fresh and positive insights:
-
-
+However, our results also bring fresh and positive insights:
 
 \begin{itemize}
 % trigger-shan
-\item More than 60\% of DC bugs are triggered by a {\em single} untimely
-message delivery that commits order violation or atomicity violation,
-with regard to other messages or computation.  This finding motivates
-DC bug detection to focus on timing-specification inference and
-violation detection; it provides simple program-invariant and
-failure-predictor templates for DC bug detection, failure diagnosis,
-and run-time prevention.
+\item From the triggering patterns, we see opportunities to build DC bug
+detection to focus on timing-specification inference and violation detection.
 
 % err-shan
-\item \pctErrExp\ of DC bugs lead to {\em explicit} local or global
-errors.  This finding motivates inferring timing specifications based
-on local correctness specifications, in the form of error checking
-already provided by developers.
+\item Half of DC bugs lead to {\em explicit} local or global errors which allow
+inferring timing specifications based on local correctness specifications, in
+the form of error checking already provided by developers.
 
 %fix-shan
-\item Most DC bugs are fixed through a small set of strategies.
-\pctFixTime\ are fixed by prohibiting the triggering timing and
-another \pctFixHandEasy\ by simply delaying or ignoring the untimely
-message, or accepting it without introducing new handling logic.
-This finding implies unique research opportunities for automated
-in-production fixing for DC bugs.
-
+\item Most DC bugs are fixed through a small set of strategies and some are
+simple which implies research opportunities for automated in-production fixing
+for DC bugs.
 
 % highlights
-\item Many other observations are made that enable us to analyze the
-gap between state-of-the-art tools and real-world DC bugs as well as
-between research in LC and DC bugs.
+%\item Many other observations are made that enable us to analyze the gap between
+%state-of-the-art tools and real-world DC bugs as well as between research in LC
+%and DC bugs.
 
 \end{itemize}
 
-
-
-\if 0
-\vfive In the following sections, we first present our methodology
-(\sec\ref{sec-met}) and then our DC taxonomy
-(\sec\ref{sec-trig}-\sec\ref{sec-stat}).
-% based on triggering
-% conditions (\sec\ref{sec-trig}), errors and failures
-% (\sec\ref{sec-err}), fixes (\sec\ref{sec-fix}), root causes
-% (\sec\ref{sec-root}) and other statistics (\sec\ref{sec-stat}).  
-Note that these sections only present the taxonomy, illustrations,
-examples, and statistics.  Later, Section \sec\ref{sec-less} discusses
-the lessons learned wherein we will connect our findings with the
-implications to existing tools and opportunities for new research in
-combating DC bugs.  We do not have an exclusive section for related
-work as we discuss them throughout the paper.
-\fi
+We believe that our observations in this chapter will be a foundation to help us
+advance the state of the art to combat DC bugs.
