@@ -8,15 +8,15 @@ can be integrated to a target system.
 % All the steps below are performed
 % on one machine, except step \#3.
 
-{\bf (1)} We first reduce memory footprints with SPC (\sec\ref{sc-spc})
-and MFR (\sec\ref{sc-mem}) to avoid out-of-memory exceptions.  
-We then modify the target system with GEDA (\sec\ref{sc-geda}) to
-remove excessive thread context switching.  
+{\bf (1)} We first reduce memory footprints with SPC (\sec\ref{sc-spc}) and MFR
+(\sec\ref{sc-mem}) to avoid out-of-memory exceptions.  We then modify the
+target system with GEDA (\sec\ref{sc-geda}) to remove excessive thread context
+switching.  
 
-{\bf (2)} Next, before running \sck with PIL, we must find all
-PIL-replaceable functions (\sec\ref{sc-pil-1}, \sec\ref{sc-pil-2}) and
-interpose them to record the inputs, outputs, processing time, and
-non-deterministic events (\sec\ref{sc-pil-3}, \sec\ref{sc-pil-4}).
+{\bf (2)} Next, before running \sck with PIL, we must find all PIL-safe
+functions (\sec\ref{sc-pil-1} and interpose them to record the inputs, outputs,
+processing time, and non-deterministic events (\sec\ref{sc-pil-3},
+\sec\ref{sc-pil-4}).
 
 %{\bf (3a)} After the preparation, we execute the pre-memoization step in a
 %real deployment.  For example, if a customer reports a problem in a
@@ -85,57 +85,4 @@ However, if the fixes involve a complete redesign (\eg, optimized gossip
 processing in \catri, decentralized to centralized rebalancing in
 \riakone), the integration and profiling/pre-memoization steps (2 and 3)
 must be repeated.
-
-
-
-
-
-
-
-
-
-\if 0
-
-For riak1, developers re-design the bootstrap process.  Previously, it was
-p2p process, that everyone helped gossiping the partition table.  But in
-the new version, the developers changed the process.  Now, we ask one node
-to be a centralized node calculating final partition table and gossip it
-to every node.
-
-For cass3, developers optimized the slow method, remove unnecessary
-computation.  So the execution time will be different.
-
-Here are the bugs that don't need new order determinism
-
-In cass1, developers did not change how message gets processed, but
-changed the failure detector to be more robust for significantly long
-message processing time.
-
-In cass2, there were 2 fixes, caching the result of slow method, and make
-slow method faster.  If the fix is only caching the result, we can apply
-it directly to suck phase.  But the second fix needs to run order
-determinism again.
-
-In cass4, previously, Cassandra acquires a lock and then processes, and it
-acquires the lock for long time, so it blocks other executions.  The fix
-is Cassandra will acquire the lock and then make a copy of necessary data
-structure then processes on the copy. The processing was not changed.
-
-I think in general fixes that can be tested without new order determinism are
-
-- configuration change
-
-- change the way we call problematic methods (e.g. releasing lock before
-processing, decrease the number of method call).
-
-
-\fi
-
-\if 0
-riak: 11690 -- 6800 seconds.
-cass1: 15 minutes -- 1.5 minutes.
-cass2: ??? never wait .. 
-cass3: 
-cass4: 
-\fi
 
