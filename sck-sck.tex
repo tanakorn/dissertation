@@ -4,6 +4,16 @@ We now present the four \sck techniques to achieve high colocation factor in
 one machine (Section \ref{sc-pil}-\ref{sc-mem}) and summarize how to use these
 techniques to scale check the systems (Section \ref{sc-summ}).
 
+The enabler of our methods is the fact that \sck is an offline check, which
+provides us the liberty to re-architect distributed systems to be
+scale-checkable offline, but without introducing performance overhead online.
+%
+When $N$ is large, every small optimization in \sck will lead to a multitude of
+benefits.
+%
+When the four techniques are combined, \sck can achieve a colocation factor of
+around 500 nodes with high result fidelity.
+
 \input{sck-pil}
 \input{sck-colo}
 \input{sck-steps}
