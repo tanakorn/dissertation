@@ -1,0 +1,29 @@
+\section{Conclusion}
+
+In this chapter, we have presented our observations on scalability bugs that
+highlight a need of an attention to combat them. Scalability bugs are latent
+bugs that are scale-dependent that only manifest in large scale. We have also
+presented our pilot work \sck, a methodology to enable developers to colocate
+hundreds of nodes on one machine to emulate large-scale deployments; this helps
+developers save cost of testing and speed up testing process. We have introduced
+four techniques in this chapter:
+
+\begin{enumerate}
+
+\item {\bf Processing Illusion} (PIL) helps reduce CPU contention so
+CPU-intensive nodes can be more colocated on one machine.
+
+\item {\bf Single Process Cluster} (SPC) helps reduce memory consumption and
+context switching.
+
+\item {\bf Global Event Driven Architecture} (GEDA) helps reduce the number of
+threads we need to run the systems.
+
+\item {\bf Memory Footprint Reduction} (MFR) helps reduce memory consumption
+further.
+
+\end{enumerate}
+
+\sck is a pilot work, it still needs a lot of manual efforts from developers to
+do scale check, but we hope that this work can grab attention from system
+community on combating scalability bugs.
