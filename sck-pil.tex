@@ -127,11 +127,17 @@ rebalancing).
 
 Depending on the modularity of the target system, manually finding such target
 functions can be challenging, primarily because scale-dependent nested loops can
-span across multiple functions.  For example, in the sample Cassandra bug, an
+span across multiple functions. Right now, we rely on developers to identify
+such that functions, and we will discuss this in Chapter \ref{future} for
+automatic PIL-taking functions.
+
+\if 0
+For example, in the sample Cassandra bug, an
 $O(n^3)$ loop spans 6 functions with 188 LOC in between each pair of loops.  For
 this reason, we create a simple program analysis \prx (described in
 \sec\ref{sec-impl}) to help developers find the specific sub-trees of functions
 that should be replaced with PIL.
+\fi
 
 
 % -----------------------------------
@@ -250,20 +256,20 @@ as \sck, order determinism can be exploited in a fitting manner.
 \subsubsection{Time Profiling}
 \label{sc-pil-4}
 
-
-
 As sleep-safe functions are replaced with \ts{sleep(t)}, we need to
 accurately predict the actual compute time (\ts{t}).  There are two
 different approaches we take, depending on the target protocols.
 %
-{\bf (1)} The first approach is to profile compute time in situ with
+\begin{enumerate}
+\item The first approach is to profile compute time in situ with
 the pre-memoization phase ({\em in-situ time profiling}).  
 That is, for each input observed during
 pre-memoization, we also record how long the processing takes.
 %
-{\bf (2)} Another approach is to profile compute time with an {\em offline
+\item Another approach is to profile compute time with an {\em offline
 time  profiling}, which is feasible for functions with non-pertinent outputs
 (\sec\ref{sc-pil-1}), which do not need pre-memoized outputs.  
+\end{enumerate}
 
 With offline time profiling, we simply profile the expensive function
 exclusively by itself with the possible input space.
