@@ -20,16 +20,19 @@ concept.
 Figure \ref{fig-bugs} shows the accuracy of \sck in reproducing the 6 bugs
 using the metrics shown in Table \ref{tab-bugs}.
 %
-The first bug, \caone, has been described in \sec\ref{mot-bug} and
-\sec\ref{eval-accu}.
+%The first bug, \caone, has been described in \sec\ref{mot-bug} and
+%\sec\ref{eval-accu}.
 %
-We now briefly discuss the other five bugs (shown in Figure \ref{fig-bugs}) and
-then
+%We now briefly discuss the other five bugs (shown in Figure \ref{fig-bugs}) and
+%then
 %
-make several important remarks.
+%make several important remarks.
+All Cassandra bugs have been described in Section \ref{mot-bug} so we now
+briefly discuss the other two bugs in Voldemort and Riak.
 
 \input{fig-eval-bugs}
 
+\if 0
 Figure \ref{fig-bugs}a: In \catwo \cite{CA-Two}, 
 when a node D is decommissioned from a
 large cluster, all other nodes must own D's key-partitions.
@@ -48,10 +51,6 @@ to existing 32+ nodes). The bug was fixed with a complete
 redesign of the pending keyrange calculation.
 %
 
-
-
-
-
 Figure \ref{fig-bugs}c: Interestingly, \cafour \cite{CA-Four} is 
 a bug in the {\em same}
 protocol as in the previous bug.  We wondered why the previous fix does
@@ -65,7 +64,7 @@ lock management.
 The figure also shows that, for this workload, offline time profiling
 is not fully accurate as the bug is order sensitive at large scale.
 We are now testing it with order determinism. 
-
+\fi
 
 Figure \ref{fig-bugs}d: In \voldone \cite{VOLD-One}, 
 Voldemort's rebalancing was not
@@ -89,8 +88,6 @@ order determinism; \sec\ref{sc-pil-3}-\ref{sc-pil-4}).  Figure
 \ref{fig-bugs}f (similar to Figure \ref{fig-accu}d) compares the execution
 time of the rebalance function invocations in \sck and real deployments.
 The figure shows that \sck's PIL exhibits a high accuracy.
-
-\input{fig-eval-bugs}
 
 We make several remarks from this experience.
 %
