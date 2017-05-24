@@ -8,22 +8,21 @@
 %\cite{Wang+14-Exalt} and DieCast's \cite{Gupta+08-DieCast} in various
 %dimensions:
 %
-\begin{enumerate}
-\item {\bf Colocation factor:} DieCast is primarily evaluated with 10
+{\bf (a)} {\bf Colocation factor:} DieCast is primarily evaluated with 10
 nodes/machine.  Exalt runs up to 100 nodes per 16-core machine
 % (limited by CPU bottlenecks).  
 \sck can achieve up to \maxCF colocation factor.
 However, in our view, Exalt and \sck \textit{complement each other} as
 they target different types of bugs (data- vs. compute-intensive).
 %
-\item {\bf \#Target systems:} Exalt is integrated to two master-slave
+{\bf (b)} {\bf \#Target systems:} Exalt is integrated to two master-slave
 systems (HBase and HDFS), DieCast to 3 systems (BitTorrent, RUBis, and
 ISaaC), and \sck to three P2P key-value stores.
 %
-\item {\bf \#Target protocols:} Exalt and DieCast test write protocols and
+{\bf (c)}~{\bf \#Target protocols:} Exalt and DieCast test write protocols and
 \sck tests \numProt control-path protocols.
 %
-\item {\bf \#Bugs:} DieCast did not reproduce any bugs; it mainly
+{\bf (d)} {\bf \#Bugs:} DieCast did not reproduce any bugs; it mainly
 evaluates throughput/latency accuracy.
 %
 Exalt discussed 6 bugs in total (5 out of 6 are bugs in the Namenode, the
@@ -31,9 +30,8 @@ non-emulated node; \sec\ref{mot-state}).
 %
 \sck reproduced 6 bugs in emulated P2P nodes.
 %
-\item {\bf Types of bugs:} While most work focus on data-plane bugs
+{\bf (e)} {\bf Types of bugs:} While most work focus on data-plane bugs
 (\sec\ref{mot-control}, \sec\ref{mot-state}), \sck focuses on
 control-plane protocols which are mainly about cluster stability (no
 flapping, eventually balanced, \etc).
 
-\end{enumerate}

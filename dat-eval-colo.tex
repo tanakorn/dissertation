@@ -1,0 +1,54 @@
+
+\begin{tikzpicture}[font=\sffamily\footnotesize]
+\begin{axis}[
+xbar stacked,
+y=5mm,
+width=3.1in,
+xmin=0, xmax=512,
+bar width=3mm,
+symbolic y coords={VOLD, RIAK, CASS2, CASS1},
+ytick=data,
+yticklabels={{(d) Voldemort, (c) Riak, (b) Cass-2, (a) Cass-1}},
+every axis y label/.style={at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel},
+axis y line*=left,
+enlarge y limits={0.25},
+legend style={at={(0.5,1.3)},anchor=north,legend columns=-1},
+xmajorgrids=true,
+xlabel=\#Nodes
+]
+\addplot [fill=white] plot coordinates {(80,VOLD) (16,RIAK) (48,CASS2) (48,CASS1)}; %mpc
+\addplot [pattern=north east lines, pattern color=red] plot coordinates {(0,VOLD) (0,RIAK) (12,CASS2) (0,CASS1)}; %+pil
+\addplot [pattern=north west lines, pattern color=blue] plot coordinates {(140,VOLD) (0,RIAK) (4,CASS2) (72,CASS1)}; %+spc
+\addplot [pattern=grid, pattern color=green] plot coordinates {(0,VOLD) (0,RIAK) (448,CASS2) (16,CASS1)}; %+geda
+\addplot [pattern=crosshatch, pattern color=black] plot coordinates {(292,VOLD) (48,RIAK) (0,CASS2) (0,CASS1)}; %+lma
+\addplot [pattern=north east lines, pattern color=red] plot coordinates {(0,VOLD) (192,RIAK) (0,CASS2) (376,CASS1)}; %+pil
+\addplot [pattern=north west lines, pattern color=blue] plot coordinates {(0,VOLD) (256,RIAK) (0,CASS2) (0,CASS1)}; %+spc
+%\legend{Naive Pack,+PIL,+SPC,+GEDA,+MFR}
+\end{axis}
+\end{tikzpicture}
+
+\if
+Cassandra1
+MPC: 48
+SPC: 120 (+72)
+SPC + GEDA: 136 (+16)
+SPC + GEDA + PIL: 512 (+376)
+
+Cassandra2
+MPC: 48
+PIL: 60 (+12)
+PIL + SPC: 64 (+4)
+PIL + SPC + GEDA: 512 (+448)
+All: 512
+
+Riak1
+MPC: 16
+LMA: 64 (+40)
+LMA + PIL: 256 (+192)
+SPC + LMA + PIL: 512 (+256)
+
+Voldemort1
+MPC: 80
+SPC: 220 (+140)
+MFR: 512 (+292)
+\fi

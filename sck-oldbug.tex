@@ -1,25 +1,33 @@
 
+
 \subsection{Bugs Reproduced}
 \label{eval-bugs}
 
-Table \ref{tab-bugs} lists all the 4 Cassandra bugs we have reproduced. We
-chose these 4 bugs (among the \numStudy bugs we studied) because the reports
-contain more detailed descriptions about the bugs, the affected protocols, the
-affected code version numbers, configuration setups, and the patches. Table
-\ref{tab-bugs} also shows the number of nodes needed for the bug symptoms to
-surface and the quantifiable metrics of the symptoms.
+
+
+Table \ref{tab-bugs} lists all the \numEval bugs\footnote{Given the limited
+time and number of students.}   we have reproduced (4
+Cassandra, 1 Riak, and 1 Voldemort bugs).
+We chose these \numEval bugs
+(among the \numStudy bugs we studied) because the reports contain 
+more detailed
+descriptions about the bugs, the affected protocols, the affected code
+version numbers, configuration setups, and the patches.  Table
+\ref{tab-bugs} also shows the number of nodes needed for the bug symptoms
+to surface and the quantifiable metrics of the symptoms.
 %
-Our first target system was Cassandra, hence the more bugs reproduced compared
-to Riak and Voldemort.
+Our first target system was Cassandra, hence the more bugs reproduced
+compared to Riak and Voldemort; the latter two were added for  stronger
+proof of concept.
 %
-Figure \ref{fig-bugs} shows the accuracy of \sck in reproducing the 4 bugs using
-the metrics shown in Table \ref{tab-bugs}.
+Figure \ref{fig-bugs} shows the accuracy of \sck in reproducing the 6 bugs
+using the metrics shown in Table \ref{tab-bugs}.
 %
 The first bug, \caone, has been described in \sec\ref{mot-bug} and
 \sec\ref{eval-accu}.
 %
-We now briefly discuss the other five bugs (shown in Figure \ref{fig-bugs}) and
-then
+We now briefly discuss the other five bugs 
+(shown in Figure \ref{fig-bugs}) and then
 %
 make several important remarks.
 
@@ -44,6 +52,9 @@ redesign of the pending keyrange calculation.
 
 \input{tab-bugs}
 
+
+
+
 Figure \ref{fig-bugs}c: Interestingly, \cafour \cite{CA-Four} is 
 a bug in the {\em same}
 protocol as in the previous bug.  We wondered why the previous fix does
@@ -59,17 +70,14 @@ is not fully accurate as the bug is order sensitive at large scale.
 We are now testing it with order determinism. 
 
 
-\if 0
 Figure \ref{fig-bugs}d: In \voldone \cite{VOLD-One}, 
 Voldemort's rebalancing was not
 optimized for large clusters; it led to more stealer-donor partition
 transitions as the cluster size grows (128+ nodes).  To fix this, the
 developers completely changed the stealer-donor partition 
 transition algorithm.
-\fi
 
 
-\if 0
 Figure \ref{fig-bugs}e: In \riakone \cite{RIAK-One}, Riak bootstrapping
 employed a complex 3-stage rebalancing algorithm (claim-target,
 claim-hole, full-rebalance) that each node runs to eventually converge and
@@ -84,7 +92,6 @@ order determinism; \sec\ref{sc-pil-3}-\ref{sc-pil-4}).  Figure
 \ref{fig-bugs}f (similar to Figure \ref{fig-accu}d) compares the execution
 time of the rebalance function invocations in \sck and real deployments.
 The figure shows that \sck's PIL exhibits a high accuracy.
-\fi
 
 
 \input{fig-eval-bugs}

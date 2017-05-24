@@ -1,0 +1,124 @@
+
+
+
+
+
+\subsection{Accuracy}
+\label{eval-accu}
+
+\def \fff        {$f$}
+\def \flaps      {\textit{\#flaps}\xspace}
+\def \gosLast    {$T_{lastGossip}$\xspace}
+\def \gosAvg     {$T_{avgGossip}$\xspace}
+\def \gosProc    {$T_{gossipExec}$\xspace}
+\def \supProc    {$T_{stateUpdate}$\xspace}
+\def \hops       {\textit{\#hops}\xspace}
+
+\def \ringTable  {$Size_{ringTable}$\xspace}
+\def \newStates  {$Size_{newStates}$\xspace}
+\def \cpuSpeed   {$CPU$\xspace}
+
+
+Next, we provide a detailed accuracy evaluation of \sck.  Due to space
+constraints, this section only focuses on one bug (\caone \cite{CA-One}) 
+while the next
+section briefly discuss other bugs we reproduced.
+
+
+
+
+% metrics
+Figure \ref{fig-form}a-d presents the  internal metrics within
+Cassandra failure detection protocol that we measured for {\em every pair}
+of nodes.  That is, the algorithm runs on every node A for every peer B.
+%
+Figure \ref{fig-accu}a-d compare in detail the accuracy of \sck compared
+to real deployments.
+%
+For example, $x$$=$512 implies the comparison of 512-node colocation in
+\sck versus a real deployment of 512 nodes.
+%
+Note that for \caone, we only need time profiling with offline sampling
+(\sec\ref{sc-pil-4}) and no pre-memoized data (\sec\ref{sc-pil-3}).  
+%
+We use pre-memoization to reproduce Riak \riakone (next section).
+
+
+% ------------------------ a
+Figure \ref{fig-accu}a shows the total number of flaps (alive-to-dead
+transitions) observed in the whole cluster during bootstrapping.  
+As shown, \sck closely mimics
+real deployment scenarios.  Most importantly here, a significant \flaps
+does not appear until 256-node deployment, 
+hence mini-cluster extrapolation techniques will not work (\sec\ref{mot-state}).
+%
+Figure \ref{fig-form}a defines that \flaps depends on 
+\phi \cite{Hayashibara+04-PhiFailureDetector}.  Every node A
+maintains a \phi value for a peer node B (a total of $N$$\times$$(N$$-$$1)$
+variables to monitor).  If \phi$>$8 for B, A will declare B dead (a flap).
+
+% ------------------------ b
+Figure \ref{fig-accu}b shows the maximum \phi values observed for every
+peer node.  For example, for the 512-node setup, the whisker plots show the
+distribution of the maximum \phi values observed for each of the 512
+nodes.  As shown, the larger the cluster, more \phi values exceeds the
+threshold value of 8, hence the flapping.
+%
+Figure \ref{fig-form}b points that \phi depends on the average
+inter-arrival time of when new gossips about B arrives at A (\gosAvg) and the
+time since A heard the last gossip about B (\gosLast); the ``last gossip''
+is the last version number received (\sec\ref{mot-bug}).  The point is that
+\gosLast should not be much higher than \gosAvg.
+
+
+\input{fig-form}
+
+
+
+% ------------------------ c
+Figure \ref{fig-accu}c shows the whisker plots of gossip inter-arrival
+times (\gosLast) that we collected for every A-B pair.  For example, for the
+512-node setup, the whisker plots represent the distribution of 
+around 41 million 
+gossip inter-arrival times; this large number is because a message
+contains gossips of many peer nodes.  The figure shows that in larger
+clusters, new gossips do not arrive as fast as in smaller clusters,
+especially at high percentiles.
+%
+Figure \ref{fig-form}c shows that \gosLast depends on how far B's new
+gossips propagate through other nodes to A (\hops) and the gossip
+processing time in each hop (\gosProc).  The \hops is stable
+at $log(N)$ on average in \sck and real deployment (not shown).  The
+latter (\gosProc) is essentially state-update processing time (\supProc)
+whenever there are state changes, which is the culprit.
+
+% ------------------------ d
+Figure \ref{fig-accu}d ({\em in log scale}) shows the whisker plots of
+state-update processing time (\supProc); in the 512-node setup, we
+measured around 25,000 state-update invocations.  The figure shows that at high
+percentiles, \supProc is scale-dependent.  As explained in 
+Figure \ref{fig-form}d (and Section \ref{mot-bug}), \supProc complicatedly
+depends on a scale-dependent 2-dimensional input (\ringTable and
+\newStates); a node's \ringTable depends on how many nodes it knows,
+including the partition arrangement ($\leq$$N$$\times$$P$) and \newStates
+($\leq$$N$) increases as cluster size increases.
+%
+%The bug was not expected because the median of \supProc is not
+%scale-dependent.
+%
+Note that the \supProc in \sck comes from the sampling-based time
+profiling (\sec\ref{sc-pil-4}), which is relatively accurate as the figure
+shows.
+
+\input{fig-eval-accu}
+
+
+We conclude that \sck mimics similar behaviors as in real deployments and
+is accurate for reproducing scalability bugs.
+%
+As an additional note, we have applied the bug patch in both \sck and real
+deployment modes;  Figure \ref{fig-accu}a shows \flaps is always zero in
+both modes.
+
+
+

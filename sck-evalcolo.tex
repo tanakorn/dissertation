@@ -1,0 +1,119 @@
+
+
+\subsection{Colocation Factor}
+\label{eval-colo}
+
+\input{fig-eval-colo}
+
+
+We first show the maximum colocation factor \sck can achieve as each
+feature is added {\em one at a time} on top of the other.  To recap, the
+features are: processing illusion (PIL; \sec\ref{sc-pil}),
+single-process cluster (SPC; \sec\ref{sc-spc}), global event driven
+architecture (GEDA; \sec\ref{sc-geda}), and memory footprint reduction
+(MFR; \sec\ref{sc-mem}).  The results are based on a 16-core Nome 
+machine \cite{NomeNodes}.
+
+
+% define maximum colocation factor
+\vni {\bf Maximum colocation factor (MaxCF):} A maximum colocation factor
+is reached when the target system's behavior in \sck mode starts to
+deviate from the real deployment behavior.
+%
+Deviation happens when one or more of the following bottlenecks are
+reached:
+%
+(1) high average CPU utilization ($>$90\%),
+%
+(2) memory exhaustion (nodes receive out-of-memory exceptions and crash), and
+%
+(3) high event ``lateness''; 
+queuing delays from thread context switching can make events late to be 
+processed,
+although CPU utilization is not high.
+%
+We instrument our target systems to measure {\em event lateness} of
+relevant events (\eg, gossip sending, gossip processing, and failure
+detection events).  For example, if gossips should be sent every 1 second,
+but they are sent every 1.5 second on average, then the lateness is 50\%.
+%
+We use 10\% as the maximum acceptable event lateness.
+%
+Note that the residual limiting bottlenecks above come from the main logic
+of the target protocols, which cannot be removed with general methods.
+
+
+% figures
+\vni {\bf Results and observations:} Figure \ref{fig-colo} shows {\em
+  different sequences of integration} to our three target systems and the
+resulting maximum colocation factors.  We discuss four important findings
+from this figure.
+
+% ..
+First, when multiple techniques are combined, they collectively achieve a
+high colocation factor (up to 512 nodes for the three
+systems respectively).
+%
+For example, in Figure \ref{fig-colo}a, with just adding SPC+GEDA to
+Cassandra, MaxCF only reaches 136.  But with SPC+GEDA+PIL, MaxCF
+significantly jumps to 512.
+%
+When we increase the colocation factor (+100 nodes) beyond the maximum, we
+hit the residual bottlenecks mentioned before; at this point, we do not test MaxCF
+with small increments (\eg, +1 node) as pre-memoization 
+and profiling (step 3 in
+\sec\ref{sc-summ}) takes time.
+%
+The bug in Voldemort's rebalancing protocol (\voldone) involve sequential
+operations (no parallel CPU-intensive computations), hence GEDA and PIL
+are not necessary.  
+%We will add GEDA and PIL to test Voldemort's latest
+%stable code which involves parallel rebalancing.
+
+
+
+% independent
+Second, distributed systems of the same type (\eg, P2P key-value stores)
+are implemented in uniquely different ways.  Thus, integrations to
+different systems face different sequences of bottleneck.  To show this,
+we tried different {\em integration sequences}.  For example, for
+reproducing \caone in Cassandra (Figure \ref{fig-colo}a), our integration
+sequence is: +SPC, +GEDA, and +PIL (as we continuously hit CPU
+contention).
+%
+For \riakone (Figure \ref{fig-colo}c), we began with MFR
+as we hit a memory bottleneck first in Riak (the excessive Erlang processes;
+\sec\ref{sc-mem}).
+%
+For \voldone (Figure \ref{fig-colo}d), we began with SPC to reduce Java VM
+memory overhead in Voldemort.
+
+
+Third, not all features get the chance to show their benefits as the
+fundamental bottlenecks are reached.  For example, for Cassandra \caone
+(Figures \ref{fig-colo}a-b), MFR is unnecessary as we will hit CPU
+contention in $>$512 nodes.  For Riak \riakone (Figure \ref{fig-colo}c),
+GEDA is not needed as we will hit a memory bottleneck in $>$512 nodes, and
+similarly for Voldemort \voldone (Figure \ref{fig-colo}d).
+
+% showing its full potential
+Fourth, an \sck technique can hit a different bottleneck before showing
+its full potential.  For example, for Cassandra, we tried two different
+integration sequences (Figure \ref{fig-colo}a-b).  With 
+Naive Packing\footnote{All nodes run as processes on
+one machine without modification.}, we
+initially hit a MaxCF of 48 nodes due to CPU contention.  At this point,
+there are two choices: add SPC+GEDA (to reduce process/thread context
+switching) or PIL (to reduce expensive processing).  In Figure
+\ref{fig-colo}b, we tried +PIL first and we found that it does not help
+much as process/thread queueing delays are still the bottleneck.
+Similarly, in Figure \ref{fig-colo}a, SPC+GEDA also can only reach a
+certain maximum.  This again highlights that it is the {\em combination} 
+of the
+techniques that make \sck powerful.
+
+
+So far, \sck is limited by the single machine's resources.  To increase
+colocation factor, a higher-end machine can be used.  \sck\ can also be
+extended to run on multiple machines (a future work).
+
