@@ -17,9 +17,8 @@ set title "(a) #Flaps (x1000)"
 #set ylabel "#Flaps (x1000)"
 set key top left
 plot \
-    "dat/flap-test.dat"       u 1:($2/1000) with lp t "SCk"  lw 8 pt 4 ps 2 lc rgb "green", \
     "dat/flap-real.dat"      u 1:($2/1000) with lp t "Real" lw 8 pt 6 ps 2 lc rgb "red", \
-    "dat/flap-simu.dat"       u 1:($2/1000) with lp t "SCk+PIL"  lw 8 pt 8 ps 2 lc rgb "blue", \
+    "dat/flap-simu.dat"       u 1:($2/1000) with lp t "SCk"  lw 8 pt 8 ps 2 lc rgb "blue", \
     "dat/flap-fixed-real.dat" u 1:($2/1000) with lp t "Real +Fix" lw 7 dt 2 pt 6 ps 2 lc rgb "red", \
-    "dat/flap-fixed-simu.dat" u 1:($2/1000) with lp t "SCk+PIL +Fix"  lw 3 dt 2 pt 8 ps 2 lc rgb "blue", \
+    "dat/flap-fixed-simu.dat" u 1:($2/1000) with lp t "SCk +Fix"  lw 3 dt 2 pt 8 ps 2 lc rgb "blue", \
 
