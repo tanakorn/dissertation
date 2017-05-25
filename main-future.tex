@@ -51,6 +51,27 @@ states of the art.
 
 \subsection{Scalability Bugs}
 
+The second problem we focus in this dissertation is scalability bugs.
+Scalability bugs are bugs that specific to cloud systems and not much attention
+paid on them. We observed that scalability bugs are scale dependent and only
+surface at extreme scale (\eg, hundreds of nodes). We found that although the
+systems are designed to be scalable, but actual implementations can introduces
+the bugs. We also saw that not all developers can afford large clusters to check
+scalability of their code, and make bugs linger until the systems are deployed
+on large scale.
+
+Our observations highlight the need for scale checking that check the
+implementation of the systems. Hence, we have introduced \sck, a scale-checking
+methodology to allow developers colocate hundreds nodes on a single machine to
+check their systems. We introduced four techniques to mitigate resource
+contentions issue (\ie, CPU, memory, and threads) regarding to colocating
+severals nodes in one machine. We adopted \sck to three systems including
+Cassandra, Riak, and Voldemort, and were able to reproduce six old scalability
+bugs with high accuracy.
+
 \section{Future Work}
 
+\subsection{Automated Semantic Extracting for SAMC}
+
+\subsection{Full Automatic Scalability Checking Tool}
 
