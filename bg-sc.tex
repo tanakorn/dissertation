@@ -73,36 +73,11 @@ to 50-node deployment). Some works try to resolve this resource contention issue
 \cite{Gupta+08-DieCast, Wang+14-Exalt}. We will discuss them in related work
 (Section \ref{xxx}).
 
-\if 0
-DieCast \cite{Gupta+08-DieCast}, invented for network emulation, can colocate
-many processes/VMs on a single machine as if they run individually without
-contention.  The trick is adding ``time dilation factor'' (TDF) support
-\cite{Gupta+06-TimeDilation} into the VMM (\eg, Xen).  For example, TDF=5
-implies that for every second of wall-clock time, each emulated VM on the VMM
-believes that time has advanced by only 200 ms.  The most significant drawback
-of DieCast is that high colocation factor (\eg, TDF$=$100) is likely not
-desirable, for two reasons: prolonged testing time (TDF$=$100 implies 100x
-longer run) and memory overcapacity.  Many distributed systems today are
-implemented in managed languages (\eg, Java, Erlang) whose runtimes consume
-non-negligible memory overhead. Java and Erlang VMs for example use around 70
-and 64 MB of memory per process respectively.  DieCast was only evaluated with
-TDF=10.
+\subsection{Scalability Benchmarking}
 
-Exalt \cite{Wang+14-Exalt} targets I/O-intensive scalability bugs.  With a
-custom data compression, users' data is compressed to zero byte on disk (but the
-size is recorded) while metadata is not compressed.  With this, Exalt can
-co-locate 100 emulated HDFS datanodes on one machine.  In its evaluation, most
-of the bugs reproduced are in the HDFS namenode which runs alone on one machine.
-As the authors stated, their approach ``may not discover scalability problems
-that arise at the nodes that are being emulated [the datanodes]'' (\sec4.1 in
-\cite{Wang+14-Exalt}).  Thus, Exalt is not suitable for finding control-plane
-scalability bugs in P2P distributed systems.
-
-In summary, we did not find a fast single-machine approach that can scale-check
-control-plane protocols in P2P systems.  The scalability bugs here are
-typically caused by the scale-dependent processing time, not network or I/O
-bottlenecks.  As DieCast targets {\em network} emulation via time dilation and
-Exalt targets {\em storage} space emulation via compression, our work uniquely
-targets {\em processing time} emulation, completing a missing piece.
-\fi
-
+Scalability benchmarking (\eg, YCSB~\cite{Cooper+10-YCSB}) is a standard method
+to check throughput/latency scalability.  The results are useful for
+advertising system capabilities, and thus acquiring a large number of machines
+is justifiable.  Debugging code however is a different matter; for every
+scalability bug, developers need to debug the code in tens/hundreds of
+iterations.  A single-machine debugging approach is valuable.
