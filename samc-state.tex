@@ -7,38 +7,33 @@
 
 
 % dpor /  modist
-\modist~\cite{Yang+09-Modist} is arguably one of the most powerful
-dmcks that comes with systematic reduction policies.  \modist\ has been
-integrated to real systems due to its exploration
-scalability.  At the heart of \modist\ is {\em dynamic partial order
-  reduction (DPOR)}~\cite{Flanagan+05-Dpor} which exploits the {\em
-  independence} of events to reduce the state explosion.  Independent
-events mean that it does not matter in what order the system execute
-the events, as their different orderings are considered equivalent.
+\modist~\cite{Yang+09-Modist} is arguably one of the most powerful dmcks that
+comes with systematic reduction policies.  \modist\ has been integrated to real
+systems due to its exploration scalability.  At the heart of \modist\ is {\em
+dynamic partial order reduction (DPOR)}~\cite{Flanagan+05-Dpor} which exploits
+the {\em independence} of events to reduce the state explosion.  Independent
+events mean that it does not matter in what order the system execute the
+events, as their different orderings are considered equivalent.
 
 To illustrate how \modist\ adopts DPOR, let's use the example in
-Figure~\ref{fig-dmck}, which shows four concurrent 
-outstanding messages \ts{abcd}
-(\ma\ and \mb\ for \none, \mc\ and \md\ for \ntwo).  A brute-force
-approach will try all possible combinations (\ts{abcd}, \ts{abdc},
-\ts{acbd}, \ts{acdb}, \ts{cabd}, and so on), for a total of 4!
-executions.
+Figure~\ref{fig-samc-dmck}, which shows four concurrent outstanding messages
+\ts{abcd} (\ma\ and \mb\ for \none, \mc\ and \md\ for \ntwo).  A brute-force
+approach will try all possible combinations (\ts{abcd}, \ts{abdc}, \ts{acbd},
+\ts{acdb}, \ts{cabd}, and so on), for a total of 4!  executions.
 % dpor
-Fortunately, the notion of event independence can be mapped to
-distributed system properties.  For example, \modist\ specifies this
-reduction policy: a message to be processed by a given node is
-independent of other concurrent messages destined to other nodes
-(based on vector clocks).  Applying this policy to the example in
-Figure~\ref{fig-dmck} implies that \ma\ and \mb\ are
-dependent\footnote[1]{In model checking, ``dependent'' events mean
-  that they must be re-ordered.  ``Dependent'' does not mean
-  ``causally dependent''.}  but they are independent of \mc\ and
-\md\ (and vice versa).  Since only dependent events need to be
-reordered, this reduction policy leads to only 4 executions
-(\ma\mb-\mc\md, \ma\mb-\md\mc, \mb\ma-\mc\md, \mb\ma-\md\mc), giving a
-6x speed-up (4!/4).
+Fortunately, the notion of event independence can be mapped to distributed
+system properties.  For example, \modist\ specifies this reduction policy: a
+message to be processed by a given node is independent of other concurrent
+messages destined to other nodes (based on vector clocks).  Applying this
+policy to the example in Figure~\ref{fig-samc-dmck} implies that \ma\ and \mb\ are
+dependent\footnote[1]{In model checking, ``dependent'' events mean that they
+must be re-ordered.  ``Dependent'' does not mean ``causally dependent''.}  but
+they are independent of \mc\ and \md\ (and vice versa).  Since only dependent
+events need to be reordered, this reduction policy leads to only 4 executions
+(\ma\mb-\mc\md, \ma\mb-\md\mc, \mb\ma-\mc\md, \mb\ma-\md\mc), giving a 6x
+speed-up (4!/4).
 
-\input{fig-dmck} % -- pics
+\input{fig-samc-dmck} % -- pics
 
 Although \modist's speed-up is significant, we find that one
 scalability limitation of its DPOR application is within its {\em
