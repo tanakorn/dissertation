@@ -57,7 +57,6 @@ and unearthing hard-to-find bugs. However, the more events included, the more
 scalability issues will arise due to state-space explosion.
 
 \input{fig-dmck}
-
 The last ten years have seen a rise of software model checker that checks
 distributed systems directly at the implementation level.  Figure~\ref{fig-dmck}
 illustrates a dmck integration to a target distributed system, a simple
@@ -70,89 +69,35 @@ A main dmck mechanism is the permutation of events; the goal is to push the
 target system into all possible ordering scenarios.  For example, the dmck can
 enforce \ts{abcd} ordering in one execution, \ts{bcad} in another, and so on.
 
-\if 0 
+\subsection{Symbolic Execution}
+% symbolic execution ...
+Symbolic execution is another powerful formal method to verify systems
+correctness.  Symbolic execution also faces an explosion problem, specifically
+the path explosion problem.  A huge body of work has successfully addressed the
+problem and made symbolic execution scale to large (non-distributed) software
+systems \cite{Bucur+11-ParallelSymEx, Cadar+08-KLEE, Chipounov+11-S2e,
+Cui+13-RuleDirectedSymExec, Zamfir+10-Synthesis}.  Symbolic execution and model
+checking can formally be combined into a more powerful
+method \cite{Burch+92-SymbolicMC}, however this concept has not permeated the
+world of distributed systems; it is challenging to track symbolic values across
+distributed nodes.
 
-\subsection{State-of-the-Art DMCKs}
+\subsection{Fault Injector}
+% fault injector
+Reliability bugs are often caused by incorrect handling of
+failures \cite{Gunawi+11-FateDestini, Gunawi+08-EIO}.  Fault-injection testing
+however is challenging due to the large number of possible failures to inject.
+This challenge led to the development of efficient fault-injection testing
+frameworks.  For example, AFEX \cite{Banabic+12-Blackbox} and
+LFI \cite{Marinescu+10-ExtensibleLFI} automatically prioritize ``high-impact
+targets'' (\eg, unchecked system calls).  These novel frameworks target
+non-distributed systems and thus the techniques are different than ours.
 
-\modist~\cite{Yang+09-Modist} is arguably one of the most powerful
-dmcks that comes with systematic reduction policies.  \modist\ has been
-integrated to real systems due to its exploration
-scalability.  At the heart of \modist\ is {\em dynamic partial order
-  reduction (DPOR)}~\cite{Flanagan+05-Dpor} which exploits the {\em
-  independence} of events to reduce the state explosion.  Independent
-events mean that it does not matter in what order the system execute
-the events, as their different orderings are considered equivalent.
+% distributed systems
+Similarly, recent work highlights the importance of testing faults in cloud
+systems (\eg, \fate \cite{Gunawi+11-FateDestini}, \setsudo
+\cite{Joshi+13-SetsudoTesting}, \prefail \cite{Joshi+11-PreFail}, and OpenStack
+fault-injector \cite{Ju+13-FaultResOpenStack}). However, these frameworks are
+not a dmck; they cannot re-order concurrent messages and failures and therefore
+cannot catch distributed concurrency bugs systematically.
 
-To illustrate how \modist\ adopts DPOR, let's use the example in
-Figure~\ref{fig-dmck}, which shows four concurrent 
-outstanding messages \ts{abcd}
-(\ma\ and \mb\ for \none, \mc\ and \md\ for \ntwo).  A brute-force
-approach will try all possible combinations (\ts{abcd}, \ts{abdc},
-\ts{acbd}, \ts{acdb}, \ts{cabd}, and so on), for a total of 4!
-executions.
-% dpor
-Fortunately, the notion of event independence can be mapped to
-distributed system properties.  For example, \modist\ specifies this
-reduction policy: a message to be processed by a given node is
-independent of other concurrent messages destined to other nodes
-(based on vector clocks).  Applying this policy to the example in
-Figure~\ref{fig-dmck} implies that \ma\ and \mb\ are
-dependent\footnote[1]{In model checking, ``dependent'' events mean
-  that they must be re-ordered.  ``Dependent'' does not mean
-  ``causally dependent''.}  but they are independent of \mc\ and
-\md\ (and vice versa).  Since only dependent events need to be
-reordered, this reduction policy leads to only 4 executions
-(\ma\mb-\mc\md, \ma\mb-\md\mc, \mb\ma-\mc\md, \mb\ma-\md\mc), giving a
-6x speed-up (4!/4).
-
-Although \modist's speed-up is significant, we find that one 
-scalability limitation of its DPOR application is within its {\em
-  black-box} approach; it only exploits general properties of
-distributed systems to define message independence.  It does not
-exploit any semantic information from the target system to define more
-independent events.  
-
-% demeter
-Dynamic interface reduction (DIR)~\cite{Guo+11-Demeter} is the next
-advancement to \modist.  This work suggests that a complete dmck must
-re-order not only messages (global events) but also thread
-interleavings (local events).  The reduction intuition behind DIR is
-that different thread interleavings often lead to the same global
-events (\eg, a node sends the same messages regardless of how threads are
-interleaved in that node).  DIR records local exploration and replays
-future incoming messages without the need for global exploration.
-In our work, SAMC focuses only on global exploration (message and fault
-re-orderings).  We believe DIR is orthogonal to SAMC, similar to the
-way DIR is orthogonal to \modist.
-
-% besides (quick take)
-\modist\ and DIR are examples of dmcks that employ advanced systematic
-reduction policies.  LMC~\cite{Guerraoui+11-McNoNetwork} is similar to
-DIR; it also decouples local and global exploration.
-dBug~\cite{Simsa+10-Dbug} applies DPOR similarly to \modist.  There are
-other dmcks such as \macemc~\cite{Killian+07-LifeDeathMaceMC} and
-CrystalBall~\cite{Yabandeh+09-CrystalBall} that use basic exploration
-methods such as depth first (DFS), weight-based,
-and random searches.
-
-% symmetry
-Other than the aforementioned methods, {\em symmetry} is another
-foundational reduction policy~\cite{Emerson+97-PorAndSym,
-  Prasad+00-SymBasedMc}.  Symmetry-based methods exploit the
-architectural symmetry present in the target system.  For example, in
-a ring of nodes, one can rotate the ring without affecting
-the behavior of the system.  Symmetry is powerful, but
-we find no existing dmcks that adopt symmetry.
-
-% multiple failures
-Besides dmcks, there exists sophisticated testing frameworks for
-distributed systems (\eg, \fate~\cite{Gunawi+11-FateDestini},
-\prefail~\cite{Joshi+11-PreFail},
-\setsudo~\cite{Joshi+13-SetsudoTesting}, OpenStack
-fault-injector~\cite{Ju+13-FaultResOpenStack}). This set of work
-emphasizes the importance of multiple faults, but their major
-limitation is that they are not a dmck.  That is, they cannot
-systematically control and permute non-deterministic choices such as
-message and fault reorderings.
-
-\fi
