@@ -37,25 +37,6 @@ Table \ref{tab-loc} quantifies the integration efforts.
 %functionality.
 %
 
-In addition to the changes above, we also created a program analysis
-(named \prx) that helps developers  find expensive functions
-(\sec\ref{sc-pil-2}).
-%
-So far, we have built \prx for Java programs (\eg, Cassandra) with Eclipse
-ASTVisitor in \locParser LOC.
-% \cite{EclipseASTVisitor} 
-% google astvisitor yourself
-%
-In a nutshell, \prx works as follows: (1) scale-dependent data structures
-are annotated, (2) a dataflow analysis reports the Big $O$ complexity of
-function sub-trees such as triple-nested ($O(n^3)$) loops on
-scale-dependent data structures, (3) developers decide which sub-trees
-should be replaced with PIL, and (4) non-pertinent IOs or intermediate
-data are detected with no-read-after-write analysis within the control
-paths.  We omit further details for space.
-
-
-
 \vni {\bf Generality:} We show the generality of \sck with two major efforts.
 First, we picked three systems and scale-checked various control-path
 protocols within them, for a total of \numProt protocols:
