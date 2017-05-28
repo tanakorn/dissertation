@@ -51,7 +51,7 @@ The challenge of large-scale emulation is resource contention problem that is
 nodes compete to consume resources (\eg, CPU, memory, and threds) and make test
 outcome inaccurate.
 %
-In this context, we start a pilot work, \sck, on large-scale emulation that
+In this context, we start a pilot work, \sck, a large-scale emulation that
 allows developers to colocate hundreds nodes in one machines to test system
 scalability, yet still get accurate testing results. \sck contains four
 techniques to mitigate resource contention which we briefly describe below.
@@ -80,15 +80,15 @@ system-specific memory footprints in our target systems.
 We created \sck tools for Cassandra \cite{Lakshman+09-Cassandra}, Riak
 \cite{RiakWeb}, and Voldemort \cite{VoldemortWeb}.
 %
-We scale-checked a total of \numProt protocols; \numProtCass Cassandra
-(bootstrap, scale-out, decommission), \numProtRiak Riak (bootstrap+rebalance),
-and \numProtVold Voldemort (rebalance) protocols.
+We scale-checked a total of \numProt\ protocols; \numProtCass\ Cassandra
+(bootstrap, scale-out, decommission), \numProtRiak\ Riak (bootstrap+rebalance),
+and \numProtVold\ Voldemort (rebalance) protocols.
 %
 To show the simplicity of developing \sck, we have migrated \sck to a total of
-\numVers old and new releases (\numVersCass Cassandra, \numVersRiak Riak, and
-\numVersVold Voldemort versions).
+\numVers\ old and new releases (\numVersCass\ Cassandra, \numVersRiak\ Riak, and
+\numVersVold\ Voldemort versions).
 %
-Across these versions, we have colocated 500 nodes and reproduced \numEval (old
+Across these versions, we have colocated 500 nodes and reproduced \numEval\ (old
 and new) scalability bugs (5 Cassandra, 1 Riak, and 1 Voldemort bugs).
 
 In summary, our contributions are:

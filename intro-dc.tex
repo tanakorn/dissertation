@@ -16,14 +16,14 @@ Here is our contributions to combat DC bugs in systematic and comprehensive mann
 
 \begin{enumerate}
 
-\item Bug study and taxonomy for DC bugs (\taxdc): we perform an in-depth study
-of more than 100 real-world DC bugs and built a first complet taxonomy for DC
-bugs. This study will give insight to guide many future research work on DC
+\item Bug study and taxonomy for DC bugs (\taxdc): We perform an in-depth study
+of more than 100 real-world DC bugs and built a first complete taxonomy of DC
+bugs. This study can give insight to guide many future research work on DC
 bugs.
 
-\item Semantic-aware model checking (SAMC): we advance the state of the art of
+\item Semantic-aware model checking (SAMC): We advance the state of the art of
 model checking for distributed systems by adopting white-box approach to tackle
-state-space explosion, the current limitation of model checking.
+state-space explosion which is the current limitation of model checking.
 
 \end{enumerate}
 
@@ -70,9 +70,7 @@ sabotage the triggering conditions at run time.
 Other than the trigger, we also look into errors and failures. From the
 triggering conditions, we then scrutinize the first error that happens
 immediately after. First errors are the pivotal point that bridges the
-triggering and error-propagation process. We categorize first errors into {\em
-local} errors and {\em global} errors, based on whether they can be observed
-from the triggering node alone. 
+triggering and error-propagation process. 
 %
 And after the first errors, we track down to system failures that are noticeable
 to users such as downtimes, lost/corrupted/inconsistent data, failed operations,
@@ -81,11 +79,7 @@ get closer to disclosing bug triggering and root causes and help bug detection
 get closer to accurately predict failures.
 
 Lastly, we study how developers fix DC bugs to understand their fix strategies.
-We want to see how different DC bug fixes compared to local concurrency bugs. In
-general, we find that DC bugs can be fixed by either disabling the triggering
-timing or changing the system's handling to that timing ({\em fix timing} vs.
-{\em fix handling}). The former prevents concurrency with extra synchronization
-and the latter allows concurrency by handling untimely events properly.
+We want to see how different DC bug fixes compared to local concurrency bugs.
 Understanding the fix strategies will help research on runtime failure
 prevention and automatic bug fixing.
 
@@ -99,25 +93,25 @@ detections, failure diagnosis, and failure prevention and fixing.
 \subsection{Semantic-Aware Model Checking}
 
 One powerful method for discovering hidden DC bugs is the use of an
-\textit{implementation-level distributed system model checker} (\textbf{dmck}).
-A dmck can discover buggy interleavings that lead to DC bugs by reordering every
+\textit{implementation-level distributed system model checker} (dmck).  A dmck
+can discover buggy interleavings that lead to DC bugs by reordering every
 possibility of nondeterministic distributed events. The last ten years have seen
-a rise of dmcks such as MaceMC, \modist, or Demeter. One big challenge faced by a
-dmck is the state-space explosion problem (\ie, there are too many distributed
+a rise of dmcks such as MaceMC, \modist, or Demeter. One big challenge faced by
+a dmck is the state-space explosion problem (\ie, there are too many distributed
 events to re-order). To address this, existing dmcks adopt a random walk or
 basic reduction techniques such as dynamic partial order reduction (DPOR).
 Despite these early successes, existing approaches cannot unearth many
-real-world DC bugs, so we advance state of the art of dmck to combat DC bugs.
+real-world DC bugs, so we advance state of the art of dmck in this dissertation.
 
 We start by addressing two limitations of existing dmcks. First, existing dmcks
 treat every target system as a complete \textit{black box}, and perform
 unnecessary reorderings of distributed events that would lead to the same states
 (\ie, redundant executions). Second, they do not incorporate complex multiple
 fault events (\eg, crashes, reboots, \etc) into their exploration strategies, as
-such inclusion would exacerbate the state-space explosion problem.
+such inclusion would exacerbate the state-space-explosion problem.
 
-To address these limitations, we introduce Semantic-Aware Model Checking
-(\textbf{SAMC}), a novel white-box model checking approach that takes
+To address these limitations, we introduce \textit{Semantic-Aware Model
+Checking} (SAMC), a novel white-box model checking approach that takes
 \textit{semantic knowledge} of how distributed events (specifically, messages,
 crashes, and reboots) are processed by the target system and incorporates that
 to create reduction policies. The policies are based on sound reduction
