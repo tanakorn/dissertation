@@ -41,7 +41,7 @@ triggering timing (\sec\ref{trig-time})?  This is the job of
 distributed system model checkers (dmck), which are gaining popularity
 recently \cite{Guo+11-Demeter, 
 Killian+07-LifeDeathMaceMC,
-  Leesatapornwongsa+14-Samc, Simsa+10-Dbug,
+  Simsa+10-Dbug,
   Yang+09-Modist}.  Dmck works by intercepting distributed events and
 permuting their ordering.  The more events included, the more
 scalability issues will arise due to state-space explosion.
@@ -53,9 +53,7 @@ triggering timing (Finding {\bf \#1}).  MaceMC
 disconnections.  MoDist \cite{Guo+11-Demeter} exercises timeouts and
 Demeter \cite{Guo+11-Demeter} intercepts messages and local
 computation but they do not explore different timing of multiple
-crashes and reboots.  SAMC \cite{Leesatapornwongsa+14-Samc} exercises
-multiple faults but does not support timeout and thread controls.
-Also, none of the above include storage faults
+crashes and reboots. Also, none of the above include storage faults
 or timing issues \cite{Hao+16-TailAtStore}.
 %
 Therefore, continued research on scalable exploration algorithms is
@@ -73,9 +71,8 @@ LC model checkers \cite{madanpldi07}.
 
 Now, assuming the necessary events are controlled, the next question
 is: do we have the specification to judge the manifestation of a bug?  
-This is a plague for many tools.  For example,
-Demeter does not find new bugs \cite{Guo+11-Demeter} and SAMC
-\cite{Leesatapornwongsa+14-Samc} finds two new bugs.
+This is a plague for many tools. For example,
+Demeter does not find new bugs \cite{Guo+11-Demeter}.
 Conversations with the authors suggest that their target systems do
 not deploy detailed specifications, and thus some bugs are left
 uncaught.  Deploying generic ``textbook'' specifications (\eg, ``only

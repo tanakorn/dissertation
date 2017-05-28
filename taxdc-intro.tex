@@ -4,19 +4,19 @@
 Concurrency bugs are one notorious type of software bugs that happen in
 concurrency systems. These timing-related bugs manifest non-deterministically,
 and hence are extremely difficult to detect, diagnose, and fix. A huge body of
-work exists in this space that focuses on ``local'' concurrency (LC) bugs in
-single-machine multi-threaded software, caused by incorrect interleaving of
+work exists in this space that focuses on ``local'' concurrency bugs (LC bugs)
+in single-machine multi-threaded software, caused by incorrect interleaving of
 memory accesses. And for cloud-scale distributed systems, the reliability is
-also severely threatened by non-deterministic concurrency bugs as well, which we
-refer as {\em distributed concurrency (DC) bugs}. Distributed systems execute
-many complicated distributed protocols on hundreds/thousands of machines with no
-common clocks, and must face a variety of random hardware failures
-\cite{Do+13-Limplock, Gunawi+14-Cbs}. This combination makes distributed
-systems prone to DC bugs caused by non-deterministic timing of distributed
-events such as message arrivals, node crashes, reboots, and timeouts. These DC
-bugs cannot be directly tackled by LC bug techniques, and they cause fatal
-implications such as operation failures, downtimes, data loss and
-inconsistencies.
+also severely threatened by non-deterministic concurrency bugs as well, which
+we refer as {\em distributed concurrency bugs} (DC bugs). Distributed systems
+execute many complicated distributed protocols on hundreds/thousands of
+machines with no common clocks, and must face a variety of random hardware
+failures \cite{Do+13-Limplock, Gunawi+14-Cbs}. This combination makes
+distributed systems prone to DC bugs caused by non-deterministic timing of
+distributed events such as message arrivals, node crashes, reboots, and
+timeouts. These DC bugs cannot be directly tackled by LC bug techniques, and
+they cause fatal implications such as operation failures, downtimes, data loss
+and inconsistencies.
 
 Fighting DC bugs is challenging, particularly given the preliminary
 understanding of real-world DC bugs.  To make progress, a comprehensive bug
@@ -35,12 +35,12 @@ Thorough studies have also been conducted for LC bugs \cite{study.dsn10,
 Lu+08-ConcurrencyBugStudy} with many follow-up work to date, yet {\em there is
 no comprehensive study on real-world distributed concurrency bugs}. 
 
-We fill this void in this chapter by presenting out in-depth analysis of
+In this chapter, we fill the void by presenting our in-depth analysis of
 real-world DC bugs in well-known cloud distributed systems, and introducing
-\taxdc, a comprehensive taxonomy of DC bugs that covers several axes. We briefly
-give an overview of \taxdc\ in Section \ref{sec-taxdc}, present our analysis in
-Section \ref{sec-trig}-\ref{sec-stat}, and discuss some lessons we learn from
-the study in Section \ref{sec-less}.
+\taxdc, the largest comprehensive taxonomy of DC bugs that covers several axes.
+We briefly give an overview of \taxdc\ in Section \ref{sec-taxdc}, present our
+analysis in Section \ref{sec-trig}-\ref{sec-stat}, and discuss some lessons we
+learn from the study in Section \ref{sec-less}.
 
 \if 0
 We fill this void in this chapter by presenting our in-depth analysis of

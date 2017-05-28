@@ -7,23 +7,19 @@
 
 
 % -------------------------------------------------
-\vfifteen
 \subsection{Basic Definitions}
 \label{met-def}
 
-A {\em distributed concurrency (DC) bug} is a 
-concurrency bug in distributed
-systems caused by distributed events that can occur in
-non-deterministic order.  An {\em event} can be a message arrival/sending, 
-local computation, fault, and reboot.
+A {\em distributed concurrency bug} (DC bug) is a concurrency bug in distributed
+systems caused by distributed events that can occur in non-deterministic order.
+An {\em event} can be a message arrival/sending, local computation, fault, and
+reboot.
 %
-A {\em local concurrency (LC) bug} is a 
-concurrency bug that happens locally
+A {\em local concurrency bug} (LC bug) is a concurrency bug that happens locally
 within a node due to thread interleaving.
 %
-In our model, a {\em distributed system} is a collection of
-shared-nothing nodes.  Each node can run multiple protocols in
-multiple threads.
+In our model, a {\em distributed system} is a collection of shared-nothing
+nodes.  Each node can run multiple protocols in multiple threads.
 %
 
 
@@ -120,7 +116,7 @@ Readers should be cautioned not to generalize the statistics we report as each
 distributed system has unique purpose, design and implementation.
 %
 For example, we observe 2:1 overall ratio between order and atomicity violations
-\sec\ref{trig-time}, however the individual ratios are different across the four
+(\sec\ref{trig-time}), however the individual ratios are different across the four
 systems (\eg\ 1:2 in ZooKeeper and 6:1 in MapReduce).  
 %
 Like all empirical studies, our findings have to be interpreted with our
@@ -145,7 +141,7 @@ concurrency problems.  They will have sample bugs to begin with, advance their
 work, and do not have to repeat our multi-people-year effort.
 
 
-\vfive % for good spacing
+%\vfive % for good spacing
 
 % -----------------------------------------
 \subsection{Detailed Terminologies}
