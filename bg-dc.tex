@@ -7,34 +7,35 @@
 
 A well-known concurrency that developers most familiar with is from thread
 execution interleaving in multi-threaded software or what we call in this
-dissertation ``local concurrency''. Multi-threaded software has become common in
-the age of multi-core processor, however, building multi-threaded software is
-hard. Developers need to handle all possible interleaving of multiple threads
-that are accessing to same data properly, otherwise concurrency bugs will
-happen. These bugs are timing-related and non-deterministic, and they are
-extremely difficult to test and debug.
+dissertation ``\textit{local concurrency}''. Multi-threaded software has become
+common in the age of multi-core processor, however, building multi-threaded
+software is hard. Developers need to handle all possible interleaving of
+multiple threads that are accessing to same data properly, otherwise
+concurrency bugs will happen. These bugs are timing-related and
+non-deterministic, and they are extremely difficult to test and debug.
 
 For distributed systems, other than local concurrency, the systems are also
-subject to ``distributed concurrency'' that is caused from interleaving of
-computations in multiple nodes. Nodes in distributed systems do not have shared
-memory and they access data in other nodes via network communication, so
-basically, distributed concurrency comes from concurrent message arrivals and
-internal computations in running nodes.
+subject to ``\textit{distributed concurrency}'' that is caused from
+interleaving of computations in multiple nodes. Nodes in distributed systems do
+not have shared memory and they access data in other nodes via network
+communication, so concurrency in distributed systems can also come from
+concurrent message arrivals and internal computations in running nodes.
 
 Other than timing of message arrivals and local computations, concurrent bugs
 in distributed systems are caused from timing of failures as well. Cloud
-software is often deploy on commodity hardware for horizontal scaling purpose
+systems are built on top of commodity hardware for horizontal scaling purpose
 (Section \ref{bg-sc-type}). This commodity hardware is unreliable, and hardware
 failures are not an option \cite{Abadi09-Cloud, Gunawi+11-FaaS-TR,
 Hamilton07-Deploying}. Cloud distributed systems need to response to these
 failures, they need to detect and recover from the failures and makes sure that
 users's data will not be lost or corrupted. Gauranteeing this correctness is
-proven to be hard \cite{Do+14-Phd, Gunawi+11-FateDestini}, cloud-scale distributed
-systems need to handle failures that can happen at any time and at any state of
-the systems. Some ordering of message arrivals could make systems into state
-that developers never anticipate and is prone to error when failure happens.
+proven to be hard \cite{Do+14-Phd, Gunawi+11-FateDestini}, cloud-scale
+distributed systems need to handle failures that can happen at any time and at
+any state of the systems. Some ordering of message arrivals could make systems
+into state that developers never anticipate and is prone to error when failure
+happens.
 
-Consider hardware failures, concurrency bugs in cloud-scale distributed systems
+Considering hardware failures, concurrency bugs in cloud distributed systems
 is not only about interleaving of message arrivals and local computations, but
 also timing of hardware failures as well. Figure \ref{fig-zk1264} shows an
 example of a concurrency bug that happens because of untimely ordering of

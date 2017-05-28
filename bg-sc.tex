@@ -32,7 +32,7 @@ is limited by existing hardware manufacturing, and the upgrade cost is
 expensive.
 
 Because of the upgradability and price issues, nowadays, the trend goes to
-horizontal scaling. Many cloud service companies adopt this approache (\eg,
+horizontal scaling. Many cloud service companies adopt this approach (\eg,
 Google, Facebook, Amazon, \etc). The cost of horizontal scaling is much more
 cheaper than the vertical scaling and there is not limitation for hardware to
 scale out infinitely (the limitations are posed by software stack)
@@ -45,7 +45,7 @@ As we discussed in \ref{bg-sc-type}, horizontal scaling or scale-out is a trend
 now because it does not expose hardware limitation. The limitation is in
 software stack so developers need to invent scalable algorithms and protocols,
 however, before real deployment, if they do not have a large cluster to test
-their implementations, there could be ``scalability bugs'' hide there.
+their implementations, there could be ``\textit{scalability bugs}'' hide there.
 
 We now discuss popular approaches (simulation, extrapolation, and emulation) for
 unearthing scalability bugs that avoid acquiring a number of machines, because
@@ -54,7 +54,7 @@ testing on such deployments is costly.
 First, simulation approaches test system/application models in different scales
 \cite{Calotoiu+13-ApmScaleBug, Laguna+15-DebugAtScale}, However, a model can
 look scalable but the actual implementation can contain unforeseen bugs. Later
-in Section \ref{mot-bug}, we will show our observations from \textit{real world}
+in Section \ref{mot-bug}, we will show our observations from \textit{real-world}
 scability bugs that simulation cannot detect them.
 
 Second, extrapolation monitors system behaviors in ``mini clusters'' and
@@ -78,6 +78,9 @@ to 50-node deployment). Some works try to resolve this resource contention issue
 Scalability benchmarking (\eg, YCSB~\cite{Cooper+10-YCSB}) is a standard method
 to check throughput/latency scalability.  The results are useful for
 advertising system capabilities, and thus acquiring a large number of machines
-is justifiable.  Debugging code however is a different matter; for every
-scalability bug, developers need to debug the code in tens/hundreds of
-iterations.  A single-machine debugging approach is valuable.
+is justifiable. But this is different from testing and debugging code to check
+system scalability.
+
+%however is a different matter; for every
+%scalability bug, developers need to debug the code in tens/hundreds of
+%iterations.  A single-machine debugging approach is valuable.
