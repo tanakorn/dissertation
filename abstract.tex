@@ -1,7 +1,7 @@
 In the era of cloud computing, users (normal and organization) move their data
 and computation from local machines and internal datacenters to cloud services,
 thus the services are expected to be 24/7 dependable. Cloud services must be
-accessible anytime and anywhere and not lose or corrupt users data, and scale as
+accessible anytime and anywhere, not lose or corrupt users data, and scale as
 user base continues to grow.  Unfortunately, guaranteeing cloud services'
 dependability is challenging because these cloud services are backed by large
 sophisticated distributed systems such as scalable data stores, data-parallel
@@ -26,24 +26,24 @@ interleavings of the distributed events are beyond developer's anticipations and
 some interleavings might not be handled properly that can lead to catastrophic
 failures.
 %
-To combat DC bugs, we make two contributions. First, we advance state of the
-art of distributed system model checking by introducing ``{\em semantic-aware
-model checking'' (SAMC)}. Distributed system model checkers (dmck) are used to
-test system reliability of real systems. Existing dmcks however rarely exercise
-multiple faults due to the state-space explosion problem, and thus do not
-address present reliability challenges of cloud systems in dealing with complex
-faults. SAMC pushes the boundary of dmcks by introducing a white-box principle
-that takes simple semantic information of the target system and incorporates
-that knowledge into state-space reduction policies.  We show that SAMC can find
-deep bugs one to two orders of magnitude faster compared to state-of-the-art
-techniques. 
+To combat DC bugs, we make two contributions. First, we conduct a formal study
+on DC bugs to gain foundation knowledge for DC-bug combating research. We study
+104 DC bugs from various widely-deployed cloud-scale distributed systems in
+many characteristics along several axes of analysis such as the triggering
+timing condition and input preconditions, error and failure symptoms, and fix
+strategies. We present the first complete taxonomy of DC bugs, \taxdc, along
+with many findings on DC bugs that can guide future research.
 
-Second, we conduct a formal study on DC bugs to gain foundation knowledge for
-future DC bug research. We study 104 DC bugs from various widely-deployed
-cloud-scale distributed systems in many characteristics along several axes of
-analysis such as the triggering timing condition and input preconditions, error
-and failure symptoms, and fix strategies. And we present the first complete
-taxonomy of DC bugs, \taxdc.
+Second, we advance state of the art of distributed system model checking by
+introducing ``{\em semantic-aware model checking}'' (SAMC). Distributed system
+model checkers (dmck) are used to test system reliability of real systems.
+Existing dmcks however rarely exercise multiple faults due to the state-space
+explosion problem, and thus do not address present reliability challenges of
+cloud systems in dealing with complex faults. SAMC pushes the boundary of dmcks
+by introducing a white-box principle that takes simple semantic information of
+the target system and incorporates that knowledge into state-space reduction
+policies.  We show that SAMC can find deep bugs one to two orders of magnitude
+faster compared to state-of-the-art techniques. 
 
 And for the second aspect of system dependability, we focus on scalability bugs.
 Scale surpasses the limit of a single machine in meeting users' increasing
@@ -55,13 +55,12 @@ cloud-scale distributed systems has given birth to ``scalability bugs'', latent
 bugs that are scale-dependent, and only surface in large scale.
 
 To address scalability bugs, we conduct a study on scalability bugs to
-understand how they manifest and what their root causes are and introduce \sck,
+understand how they manifest and what their root causes are, and introduce \sck,
 a methodology that enables developers to {\em scale-check} distributed systems
 and find scalability bugs economically on one machine. \sck\ helps developers
 identify potential buggy code and allows developers to colocate a large number
 of nodes to test the potential buggy code without sacrificing accuracy. We
 remove a problem of hardware contentions (\ie,\ CPU, memory, and thread) with
-four novel strategies, and we successfully integrate \sck\ to Cassandra, HDFS,
-Riak, and Voldemort. With \sck, we achieve a high colocation factor (500
-nodes), and can reproduce ten scalability bugs and identify two new hidden
-bugs.
+four novel strategies, and we successfully integrate \sck\ to Cassandra, Riak,
+and Voldemort. With \sck, we achieve a high colocation factor (500 nodes), and
+can reproduce six scalability bugs and identify two new hidden bugs.
