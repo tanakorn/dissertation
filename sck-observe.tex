@@ -131,7 +131,7 @@ $O(MN^3log^3(N))$  % Tanakorn
 %
 complexity; $M$~is the list of key-range changes in the gossip message.  This
 in turn leaves many gossips not propagated on time, creating flapping symptoms
-that only appear at scale (at 200+ nodes; \sec\ref{sec-eval}). The developers
+that only appear at scale (at 200+ nodes). The developers
 then optimized the code to
 %
 % $O(nlog(n))$  % OLD
@@ -200,8 +200,7 @@ This manual mining was arduous because there is no searchable jargon for
 \subsection{Observations}
 \label{mot-observe}
 
-From the bug in previous section and all the bugs we studied, we make several
-important observations.
+From all the bugs we studied, we make several important observations.
 %  regarding control-plane scalability bugs and distributed system designs.
 
 \begin{itemize}
@@ -230,7 +229,7 @@ flapping in Cassandra was caused specifically by Cassandra's implementation
 choice: metadata checkpoint, multi-map cloning, and its single-threaded
 implementation.  State-update processing time is hard to predict (ranges from
 0.001 to 4 seconds) as it depends on a 2-dimensional input: the receiving node's
-ring table size and the number of new state changes (\sec\ref{sec-eval}).
+ring table size and the number of new state changes.
 
 % a two-dimensional input; more in \sec\ref{sec-eval}).  
 
