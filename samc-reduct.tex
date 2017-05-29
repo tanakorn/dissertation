@@ -30,12 +30,12 @@ the number of message events is higher than crash and reboot events
 (as also depicted in Table~\ref{tab-oldbugs}).}
 
 We now discuss our reduction ratio with that of DIR~\cite{Guo+11-Demeter}.
-As discussed earlier (\sec\ref{mot-state}), DIR records local exploration
+As discussed earlier (\sec\ref{mot-samc-state}), DIR records local exploration
 (thread interleavings) and replays future incoming messages whenever
 possible, reducing the work of global exploration.  If the target system
 does not have lots of thread interleavings, DIR's reduction ratio is
 estimated to be between 10$^{1}$ to 10$^{3}$ (\sec5
-of~\cite{Guo+11-Demeter}).  As we described earlier (\sec\ref{mot-state}),
+of~\cite{Guo+11-Demeter}).  As we described earlier (\sec\ref{mot-samc-state}),
 DIR is orthogonal to SAMC.  Thus, the reduction ratios of SAMC and DIR are
 complementary; when both methods are combined, there is a potential for a
 higher reduction ratio.  The DIR authors also hinted that domain knowledge

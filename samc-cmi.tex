@@ -65,11 +65,11 @@ Based on the two crash impact patterns, we apply CMI in the following ways.
 %
 Given a local state \ls\ at node \nn, a peer failure \xx, and outstanding
 messages (\mone...\mn) from \nn\ to other surviving peers, CMI performs:
+\begin{enumerate}
+\item If \pl\ is true, then \xx\ and \mone...\mn\ are independent.
 %
-(1) If \pl\ is true, then \xx\ and \mone...\mn\ are independent.
-%
-(2) If \pg\ is true, then \xx\ and \mone...\mn\ are dependent.
-%
+\item If \pg\ is true, then \xx\ and \mone...\mn\ are dependent.
+\end{enumerate}
 In Figure~\ref{fig-pol}c for example, if \pl\ is true in node \ts{L},
 then \xx\ does not impact outstanding messages to \fone\ and \ftwo,
 and thus \xx\ is independent to \ts{abcd}; exercising

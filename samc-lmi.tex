@@ -17,7 +17,7 @@ processing semantic (embedded in the \ts{if} statement), LMI is able
 to define that \ma\ and \mb\ are dependent, \mc\ and \md\ are
 dependent, but the two groups are independent, which then leads to
 only 4 re-orderings.  This reduction illustration is similar to the
-one in Section~\ref{mot-state}, but this time LMI enables DPOR
+one in Section~\ref{mot-samc-state}, but this time LMI enables DPOR
 application on local messages.
 
 
@@ -52,7 +52,7 @@ return true if \ts{m<s}.  The first pattern is a {\em discard} pattern
 where the message is simply discarded if \pd\ is true.  This pattern
 is prevalent in distributed systems with votes/versions; old
 votes/versions tend to be discarded (\eg, our example
-in \sec\ref{sam-ex}).  The {\em increment} pattern performs an
+in \sec\ref{sec-samc-semantic}).  The {\em increment} pattern performs an
 increment-by-one update if \pi\ is true, which is also quite common in
 many protocols (\eg, counting commit acknowledgements).  The {\em
 constant} pattern changes the local state to a constant whenever \pc\
@@ -63,24 +63,26 @@ whenever \pm\ is true.
 % LMI policy
 Based on these patterns, we can  apply LMI in the following
 ways.
-%
-(1) \mx\ is independent of \my\ if \pd\ is true on any of \mx\ and \my.
+\begin{enumerate}
+\item \mx\ is independent of \my\ if \pd\ is true on any of \mx\ and \my.
 That is, if \mx\ (or \my) will be discarded, 
 then it does not need to be re-ordered 
 with other messages.
 %
-(2) \mx\ is independent of \my\ if \pi\ (or \pc) is true on both \mx\ and \my.
+\item \mx\ is independent of \my\ if \pi\ (or \pc) is true on both \mx\ and \my.
 That is, the re-orderings do not matter because the local state is
 monotonically increasing by one (or changed to the same constant).
 %
-(3) \mx\ and \my\ are dependent if \pm\ is true on \mx\ and 
+\item \mx\ and \my\ are dependent if \pm\ is true on \mx\ and 
 \pd\ is not true on \my.  
 That is, since both messages modify the local state in unique ways, then the
 re-orderings can be ``interesting'' and hence should be exercised.
 %
+\end{enumerate}
 All these rules are continuously evaluated before every event is
 enabled.  If multiple cases are true, dependency has higher precedence
 than independency.
+
 
 
 
@@ -95,7 +97,7 @@ message processing patterns from a target protocol and write {\em
 protocol-specific rules} (\ie, filling in the content of the four LMI
 predicate functions (\pd, \pi, \pc, and \pm) specific to the target
 protocol).  As an example, for our simple leader election protocol
-(\sec\ref{sam-ex}), \pd\ can be as simple as:
+(\sec\ref{sec-samc-semantic}), \pd\ can be as simple as:
 return \ts{m.vote} \ts{<}
 \ts{ls.myVote}.
 

@@ -1,7 +1,8 @@
 \section{SAMC}
 \label{sam-samc}
 
-\subsection{Semantic Awareness}
+\subsection{Semantic-Awareness Example}
+\label{sec-samc-semantic}
 
 In a simple leader election protocol, every node broadcasts its vote to reach a
 quorum and elect a leader.  Each node begins by voting for itself (\eg, \ntwo\
@@ -53,7 +54,7 @@ black-box DPOR approach must perform 6 (3!) orderings (\ts{123}, \ts{132}, and
 so on).  This is because a black-box DPOR does {\em not} know the {\em message
 processing semantic} (\ie, how messages will be processed by the receiving
 node).  Thus, a black-box DPOR must treat all of them as dependent
-(\sec\ref{mot-state}); they must be re-ordered for soundness.  However, by
+(\sec\ref{mot-samc-state}); they must be re-ordered for soundness.  However, by
 knowing the processing logic above, a dmck can soundly conclude that all
 orderings will lead to the same state; all messages will be discarded by \nfour\
 and its local state will not change.  Thus, a semantic-aware dmck can reduce the
