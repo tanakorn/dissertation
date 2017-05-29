@@ -53,13 +53,13 @@ bugs 49x faster than other states of the art.
 \subsection{Scalability Bugs}
 
 The second problem we focus in this dissertation is scalability bugs.
-Scalability bugs are bugs that specific to cloud systems and not much attention
-paid on them. We observed that scalability bugs are scale dependent and only
-surface at extreme scale (\eg, hundreds of nodes). We found that although the
-systems are designed to be scalable, but actual implementations can introduces
-the bugs. We also saw that not all developers can afford large clusters to check
-scalability of their code, and make bugs linger until the systems are deployed
-on large scale.
+Scalability bugs are bugs that specific to cloud systems and we found there is
+not much attention paid on them. We observed that scalability bugs are scale
+dependent and only surface at extreme scale (\eg, hundreds of nodes). We noticed
+that although the systems are designed to be scalable, but actual
+implementations can introduces the bugs. We also saw that not all developers can
+afford large clusters to check scalability of their code, and make bugs linger
+until the systems are deployed on large scale.
 
 Our observations highlight the need for scale checking that check the
 implementation of the systems. Hence, we have introduced \sck, a scale-checking
@@ -84,38 +84,40 @@ not imply systems are bug-free; some bugs might be accidentally missed by wrong
 policies. Currently, there is no way to verify that the semantics used for
 pruning out executions is correct.
 
-To address these limitations, we propose ``automated semantic extracting tool''
-(ASE), a tool that automatically extracts useful semantic knowledge to build
-reduction policies. To achieve this goal, we will create an advanced source code
-analysis tool that adopts symbolic execution. Symbolic execution generates
-constraints at condition statements that define predicate values leading to true
-and false conditions. The collection of condition constraints leading to a
-specific path in the code is called a path constraint. Others have used symbolic
-execution to target system problems \cite{Bucur+14-SymbolicExecution}, but ASE
-is different. For instance, we want to build path constraints that lead to state
-updates but whose states stay the same regardless of the reordering (\eg,
-discard, increment, and constant patterns) or path constraints that lead to
-state-update independence. Each path constraint can be a function of the local
-state of each node and the messages the node receives. Generating such a path
-constraint will require a symbolic execution tool with additional new supports.
+To address these limitations, we propose ``\textit{automated semantic extracting
+tool}'' (ASE), a tool that automatically extracts useful semantic knowledge to
+build reduction policies. To achieve this goal, we will create an advanced
+source code analysis tool that adopts symbolic execution. Symbolic execution
+generates constraints at condition statements that define predicate values
+leading to true and false conditions. The collection of condition constraints
+leading to a specific path in the code is called a path constraint. Others have
+used symbolic execution to target system problems
+\cite{Bucur+14-SymbolicExecution}, but ASE is different. For instance, we want
+to build path constraints that lead to state updates but whose states stay the
+same regardless of the reordering (\eg, discard, increment, and constant
+patterns) or path constraints that lead to state-update independence. Each path
+constraint can be a function of the local state of each node and the messages
+the node receives. Generating such a path constraint will require a symbolic
+execution tool with additional new supports.
 
 Another benefit of ASE is it allows complex processing patterns to be leveraged
 in reduction. So far, we have introduced only simple patterns (\eg, discard,
 increment, and constant patterns), because these patterns are easy to be
 manually extracted with small chance of human errors. But if ASE is built, it
 allows us to introduce more sophisitcated patterns and policies without many
-burdens on developers. We believe that ASE is a key factor to make SAMC approach
-adopted widely.
+burdens on developers. We believe that ASE is a key factor to make SAMC adopted
+widely.
 
 \subsection{Automatic Scalability Checking Tool}
 
-\sck that we have introduced is a methodology to assist developers to scale
-check the systems, however, it requires a great amount of efforts to do it. 
-Developers needs to modify their codebase to adopt PIL, SPC, GEDA, and MFR as we
-have shown in Table \ref{tab-loc}. \sck also requires high-level of code
-understanding from developers to point out PIL-safe functions. We consider this
-as a great cost that hinders \sck to be adopted, so in this section we present
-the plausibility to make the whole process become automatic.
+\sck that we have introduced is a methodology to assist developers to
+scale-check the systems, however, it requires a great amount of efforts to
+integrate to development processes.  Developers needs to modify their codebase
+to adopt PIL, SPC, GEDA, and MFR as we have shown in Table \ref{tab-loc}. \sck
+also requires high-level of code understanding from developers to point out
+PIL-safe functions. We consider this as a great cost that hinders \sck to be
+adopted, so in this section we present the plausibility to make the whole
+process become automatic.
 
 \input{fig-arch}
 
