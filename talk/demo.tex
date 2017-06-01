@@ -1,0 +1,78 @@
+\section{Demo}
+
+Start with demo.
+
+\subsection{SampleSys}
+
+For the demo, I built a program called SampleSys, it does leader election among
+all nodes. The decision is based on node id. It finds which node has the biggest
+id. The cluster should agree on only one leader.
+
+And here is the logic of SampleSys.
+
+\begin{itemize}
+
+\item When a node starts up, it broadcasts its support that is itself, because
+it knows only itself at startup.
+
+\item When a node receives a message, if the receiving id is less than its
+support, it does nothing.
+
+\item But if the receiving id is bigger, it changes its support to that id and
+broadcast its support again.
+
+\item If the node sees that the majority agree for one node, it stops election
+and promote that node to be a leader.
+
+\end{itemize}
+
+I injected a bug to SampleSys so some message orderings will end up with two
+leaders, and you will see later that SAMC can catch this bug.
+
+\subsection{Demo}
+To show the demo, I'll run two algorithms, the first is brute force which are
+very slow and inefficient. 
+
+And the second is local-message independence algorithm that is much more
+faster. I'll not go into detail of the algorithm, but it is white-box testing
+that prunes some orderings by looking at the message content and system state.
+
+I have prepared the environment for running these two algorithms. This script
+sets up classpath and starts SAMC.
+
+Okay, I will run them now, start with brute force. When it works, the output is
+written into many files, two files for each execution. 
+
+The first file is the order of messages it has done, and the second is the
+result of this execution. Because this is brute force, the model checker will
+try every permutation. You can see that it swaps the last two messages in these
+two executions. I'll stop brute force here because it will take to hundreds
+executions to finish.
+
+And next, I'll run local-message independence. Here, it shows that with this
+message ordering, SampleSys produces two leaders. Now I can see that my code has
+a bug
+
+\subsection{Replay}
+
+So what else I have to do after this. Surely, I have to debug it. SAMC comes
+with replay function that helps us debugging. 
+
+To do replay, I change SAMC to work in replay mode and point to buggy execution
+that was reported. Then SAMC will force the system to work in that order again
+to re-produce the bug.
+
+With this feature, developers can easily reproduce bugs and fix them.
+
+\subsection{Result}
+
+So now you can see, SAMC can re-order all messages and report the result.
+
+Most importantly, the power of SAMC is that semantic-aware exploration support.
+That we don't see other model checkers support this. This allows us to do fast
+model checking.
+
+In this demo, SAMC with LMI can catch a bug in SampleSys within 3 executions.
+
+Finally, it also comes with replay function that helps us debugging more easily.
+

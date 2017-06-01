@@ -1,0 +1,43 @@
+\section{CMI}
+
+\subsection{Crash-Message Independence}
+
+Okay, so far I haven't talked about crash yet, so let look at how recovery
+semantic helps us to reduce crash re-orderings.
+
+\subsection{Crash-Message Independence}
+
+Look at distributed write protocol in this leader- follower architecture.
+
+What happen if we crash the follower and there are outstanding messages ABCD to
+the other followers?
+
+well, a naive model checker must reorder the crash event and the messages.
+
+But, if we use the recovery semantic knowledge, we know that the leader just
+decrease follower count, but does not create new messages to the other nodes.
+
+this is what we call as local impact
+
+So we can write a rule like this that tells if the crash is on follower and we
+have enough nodes, the crash is INDEPENDENT to the outstanding messages ABCD and
+hence no need to reorder.
+
+\subsection{Crash-Message Independence}
+
+BUT, say we inject a crash on the leader, then this crash event will create new
+messages, so this is a GLOBAL impact. so this crash MUST be reordered with other
+messages, and this is a rule.
+
+in summary, CMI uses recovery semantic to tell us ahead of time:
+
+\begin{enumerate}
+\item if crash leads to local impact crash is independent, so no re-ordering
+\item if crash leads to global impact crash is dependent, must reorder
+\end{enumerate}
+
+\section{CRS and RSS}
+
+The other policies are crash recovery symmetry and reboot synchronization
+symmetry. Their detail is in the paper.
+

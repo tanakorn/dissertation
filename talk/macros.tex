@@ -1,0 +1,149 @@
+
+\newcommand{\beforesec}{\vspace{-.4cm}}
+\newcommand{\aftersec}{\vspace{-.3cm}}
+
+\newcommand{\beforesect}{\vspace{-.1cm}}
+\newcommand{\aftersect}{\vspace{-.3cm}}
+
+\newcommand{\beforesub}{\vspace{-.3cm}}
+\newcommand{\aftersub}{\vspace{-.25cm}}
+
+\newcommand{\beforesubsub}{\vspace{-.2cm}}
+\newcommand{\aftersubsub}{\vspace{-.2cm}}
+
+% \newcommand{\zsectiont}[1]{\beforesect\section{#1}\aftersect}
+%  \newcommand{\zsection}[1]{\beforesec\section{#1}\aftersec}
+%  \newcommand{\zsubsection}[1]{\beforesub\subsection{#1}\aftersub}
+%  \newcommand{\zsubsubsection}[1]{\beforesubsub\subsubsection{#1}\aftersubsub}
+
+ \newcommand{\zsection}[1]{\section{#1}}
+ \newcommand{\zsubsection}[1]{\subsection{#1}}
+ \newcommand{\zsubsubsection}[1]{\subsubsection{#1}}
+
+\newcommand{\smush}{0.25in}
+\newcommand{\beforecaption}{\vspace{0cm}}
+\newcommand{\aftercaption}{\vspace{0cm}}
+\newcommand{\figWidthOne}{3.05in} 
+\newcommand{\figWidthHalf}{5.85in} 
+\newcommand{\figWidthTwo}{3.05in} 
+\newcommand{\figWidthThree}{2.2in} 
+\newcommand{\figWidthFour}{1.7in} 
+\newcommand{\figHeight}{2.0in}
+\newcommand{\captionText}[2]{\textbf{#1} \textit{\small{#2}}}
+
+%\newcommand{\beforecaption}{\begin{spacing}{0.80}}
+%\newcommand{\aftercaption}{\end{spacing}\vspace{-.3cm}}
+\newcommand{\mycaption}[3]{\beforecaption\caption{\label{#1}{\bf #2} \em #3}\aftercaption}
+
+\newcommand{\ts}[1]{{\tt{\small#1}}}
+
+
+%\newcommand{\zbullet}{\hspace{-0.1cm}$\bullet$}
+\newcommand{\zbullet}{$\bullet$}
+
+\newcommand{\msub}[1]{\vspace{10pt}\noindent{\bf #1}}
+
+% general
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\etal}{\textit{et al.}}
+
+% axes
+\newcommand{\xaxis}{x-axis}
+\newcommand{\yaxis}{y-axis}
+
+% units
+\newcommand{\KB}{~KB}
+\newcommand{\MB}{~MB}
+\newcommand{\GB}{~GB}
+\newcommand{\MBs}{~MB/s}
+\newcommand{\mus}{$\mu s$}
+
+\newcommand{\unix}{{\sc Unix}}
+
+\newcommand{\metadata}{meta-data}
+
+% mdlfs -- or should it be HotOS-FS or Garage ?
+\newcommand{\infokernel}{\mbox{infokernel}}
+\newcommand{\Infokernel}{\mbox{Infokernel}}
+\newcommand{\infokernels}{\mbox{infokernels}}
+\newcommand{\infolinux}{\mbox{infoLinux}}
+\newcommand{\Infolinux}{\mbox{InfoLinux}}
+
+\newcommand{\libinfo}{{\tt libinfo}}
+\newcommand{\infolib}{{\tt libinfo}}
+\newcommand{\infolibrary}{{\tt infolibrary}}
+
+
+\newcommand{\slashinfo}{{\tt /info}}
+\newcommand{\fs}{{\tt fs}}
+\newcommand{\mm}{{\tt mm}}
+\newcommand{\net}{{\tt net}}
+\newcommand{\sched}{{\tt sched}}
+
+\newcommand{\stat}{{\tt stat()}}
+\newcommand{\sysread}{{\tt read()}}
+\newcommand{\syswrite}{{\tt write()}}
+
+
+\newcommand{\infoplace}{{\sc infoPlace}}
+\newcommand{\Infoplace}{{\sc InfoPlace}}
+ \newcommand{\place}{{\sc place}}
+ \newcommand{\Place}{{\sc Place}}
+
+\newcommand{\fsop}{{\tt fs/ext2/alloc/dir/op}}
+\newcommand{\getfsregion}{{\tt fs/ext2/alloc/dir/regionList}}
+\newcommand{\getfsregionFFS}{{\tt fs/ffs/alloc/dir/regionList}}
+\newcommand{\getfsregionData}{{\tt fs/simple/alloc/dir/regionList}}
+\newcommand{\getfsregionTemp}{{\tt fs/temporal/alloc/dir/regionList}}
+\newcommand{\getfsregionA}{{\tt regionList}}
+
+\newcommand{\getblocks}{{\tt fs/ext2/alloc/fileBlocks}}
+\newcommand{\getblocksA}{{\tt fileBlocks}}
+\newcommand{\getdiskq}{{\tt fs/sched/requestList}}
+\newcommand{\getdiskqA}{{\tt requestList}}
+\newcommand{\waitdiskq}{{\tt fs/sched/NotifyDiskQueue()}}
+
+
+\newcommand{\infofree}{{\sc infoFreeSched}}
+\newcommand{\infoidle}{{\sc infoIdleSched}}
+\newcommand{\infosched}{{\sc infoSched}}
+
+\newcommand{\inforeplace}{{\sc infoReplace}}
+\newcommand{\movetoinactive}{{\tt moveFromInactive()}}
+\newcommand{\getpagequeues}{{\tt mm/replace/pageList}}
+\newcommand{\checkvictim}{{\tt mm/replace/victimList}}
+\newcommand{\checkvictimA}{{\tt victimList}}
+\newcommand{\getpagequeuesA}{{\tt pageList}}
+
+
+\newcommand{\infotcp}{{\sc infoVegas}}
+\newcommand{\Infotcp}{{\sc InfoVegas}}
+\newcommand{\minRTT}{{\em minRTT}}
+\newcommand{\baseRTT}{{\em baseRTT}}
+\newcommand{\cwnd}{{\em cwnd}}
+\newcommand{\vcwnd}{{\em vcwnd}}
+\newcommand{\diff}{{\em diff}}
+\newcommand{\sndunack}{{\em snd.una}}
+\newcommand{\sndnxt}{{\em snd.nxt}}
+
+\newcommand{\getmsgq}{{\tt net/tcp/msgList}}
+\newcommand{\getmsgqA}{{\tt msgList}}
+\newcommand{\getcwnd}{{\tt net/tcp/CWND}}
+\newcommand{\bufmsgq}{{\tt net/tcp/msgList}}
+\newcommand{\waitmsgq}{{\tt netNotifyMsgSegs()}}
+\newcommand{\timertt}{{\tt time\_round\_trip()}}
+
+
+
+
+\newcommand{\bquote}{\vspace{-0.25cm} \begin{quote}}
+\newcommand{\equote}{\end{quote}\vspace{-0.2cm} }
+
+
+\newcommand{\storage}{\mbox{SIN}}
+\newcommand{\STORAGE}{\mbox{Storage Idle Never}}
+
+\newcommand{\XXX}[1]{{\small {\bf (XXX: #1)}}}
+
+

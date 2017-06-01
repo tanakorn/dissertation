@@ -1,0 +1,51 @@
+
+\section{SAMC}
+
+\subsection{Outline}
+
+Hopefully, you get the intuition, and now let me show you the architecture of
+SAMC
+
+\subsection{SAMC Architecture}
+
+Like other model checker.
+
+SAMC intercepts all outstanding messages, suspend them, and decides the order in
+which they will be released.
+
+To reduce unnecessary re-orderings, SAMC is built on foundational techniques,
+such dynamic partial order reduction (or DPOR) and symmetry.
+
+On top of this, we build generic reduction policies such as local message
+independence, .
+
+But semantic awareness is about protocol-specific, so testers need to write
+protocol-specific rules on top of the generic policies.
+
+Now, let me describe the middle layer here.
+
+\section{LMI}
+
+\subsection{Local-Message Independence}
+
+Lets begin with LMI.
+
+It’s about detecting independence among local mes- sages in each individual
+node, as I’ve explained ear- lier.
+
+\subsection{Local-Message Independence}
+
+As you have seen, discard pattern is one thing that help us.
+
+We also find other generic patterns such as increment and constant update.
+an example of increment pattern is a master that counts ack messages from
+slaves.
+
+You can see here, re-ordering ack messages don’t make us see a new state.
+
+this pattern is common in quorum writes such as in zookeeper and cassandra.
+
+so here we can write increment predicates that skip re-ordering of ack messages.
+
+And there is also constant pattern that talk about in the paper.
+

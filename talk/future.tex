@@ -1,0 +1,98 @@
+
+\section{Future}
+
+\XXX{4 mins}
+
+Well, that's all for my previous work. Now, I'll talk about my future work.
+
+\subsection{Future Direction}
+
+Here is my future direction
+
+Toward DC bugs, TaxDC shows model checker needs to capture more events.
+
+But to do that more challenges lie ahead, which I'll show.
+
+For scalability bugs, they can happen in many axes, I just address one axe of
+them. Many issues haven't been touched yet. I'll show you what are waiting for
+us.
+
+\subsection{DMCK}
+
+Right now, SAMC doesn't address local computation timing, And also failure
+model SAMC uses is only node fail-stop and reboot.
+
+My first next step is advancing SAMC to capture local computation and expand
+failure model.
+
+The challenge here is this creates more events to re-order, and exacerbates
+state space explostion.
+
+So I will create more generic reduction policies to mitigate state space
+explosion.
+
+%In combating DC bugs, SAMC, a semantic aware model checker, leverage a domain
+%specific knowledge to tackle state space explosion. 
+%
+%Right now, the generic patterns I exploit to build protocol-specific reduction
+%policies are very simple. But this just scratches the surface of the power of
+%semantic awareness. There are much more patterns and more reduction priciples
+%waiting us to explore.
+%
+%So the next step on unearthing DC bugs is finding more patterns and creating
+%more generic reduction policies, which will accelerate checking time.
+
+%\subsection{AMC}
+
+However, if you consider the current patterns I have here, they are very easy
+to extract from the codebase.
+
+Right now, we will have more reduction.
+
+More reduction will find bugs faster, but that means extracting semantic
+knowledge will be more complicated and harder.
+
+This creates more burden on developers, and also introduce a chance of human
+error.
+
+And the error could leave bugs undetected..
+
+My second step here will get rid of the burden of writing protocol-specific
+policies by adopting program analysis to auto generate the policies.
+
+%This will reduce the burden from developers and also the error.
+
+\subsection{Scalability bugs}
+
+Then let's look at scalability bugs. This class of bugs is new generation bugs
+to combat in cloud-scale distributed systems.  And not much attention paid on
+them. 
+
+My vision here is to raise awareness on combating them.
+
+On September this year, Cassandra developers started a new initiative to build
+``Gossip 2.0'', by aiming at 1000 node cluster.
+
+If they don't have a good way to test scalability, latent scalability bugs will
+linger there. We might see a call for gossip 3.0 in a next few years.
+
+%\subsection{4 axes}
+
+As I said SCk is one of pilot works. It addresses only one axe of scalability,
+which is scale of cluster.
+
+From our cloud bug study, there are also
+
+Scale of data
+
+Scale of workload
+
+And scale of failure
+
+%SCk covers some part of scale of cluster. 
+
+Previous work like Exalt covers some of scale of data. 
+
+Many challenges lie ahead. In my future work, I'll adopt other techniques such
+program analysis, to combat unsolved problems.
+

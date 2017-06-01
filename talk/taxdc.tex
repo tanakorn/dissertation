@@ -1,0 +1,416 @@
+\section{TaxDC Intro}
+
+\XXX{1 min}
+
+Although SAMC is faster, but if found only 2 new bugs.
+
+So what I'm missing here.
+
+To answer this question, we need more insight about DC bugs, and that leads to
+TaxDC project.
+
+\subsection{Concurrency Bug Taxonomy}
+
+Bug studies can significantly guide dependability research. 
+
+If we search for local concurrency bugs or LC bugs, which are bugs in
+multithreading software. There is a paper studying about them. This paper has
+been cited hundreds times and is a top 10 most cited ASPLOS paper.
+
+What about DC bugs, the search also returns us the same paper, WHICH IS
+SO WRONG. Their characteristics are not the same, which I have already shown to
+you.
+
+So I started DC bug study, TaxDC. 
+
+And it's been cited one time already.
+
+\section{TaxDC}
+
+\XXX{1 min}
+
+\subsection{TaxDC: Data Set}
+
+TaxDC is a study on 104 bugs in 4 popular varied distributed systems, including
+Cassandra, Hadoop MapReduce, HBase, and ZooKeeper.
+
+They are bugs reported between 2011-2014.
+
+We study the description, source code, and submitted patches.
+
+\subsection{Contribution}
+
+Here is our contribution, a full complete taxonomy of DC bugs. 
+
+\subsection{Bug Example}
+
+I want to say that creating this taxonomy is painful. 
+
+% show screen capture from Jira
+This is a real bug report.
+
+Understanding what going on here is hard. Building taxonomy from the
+reports is harder. 
+
+But after a deep study, I can generate reproduce steps like this. And can define
+new detailed characteristics of the bugs like this. 
+
+%\begin{enumerate}
+%\item Follower F crashes, reboots, and joins the cluster
+%\item Leader L sync snapshot with F
+%\item Client requests new update, F applies this only in memory 
+%\item Sync finishes
+%\item Client requests other update, F writes this to disk correctly
+%\item F crashes, reboots, and joins the cluster again.
+%\item This time L sends only diff after update in step 5.
+%\item F loses update in step 3.
+%\end{enumerate}
+%
+%Okay, can you follow me? Even I can't follow myself. Because this bug is hard.
+%
+%\subsection{Detailed Characteristics}
+
+%But after we run the systems, study protocols, read the source code and patches
+%we can define new detailed characteristics of the bugs which lead to this full
+%taxonomy. 
+
+\subsection{Build TaxDC}
+
+Which lead to this full taxonomy.  And I'll discuss some of them here.
+
+\section{Trigger}
+
+\XXX{8 mins}
+
+Start with trigger. Trigger is conditions that make bugs happen.
+
+\subsection{Timing}
+
+Here, we will look at timing condition.
+
+Timing condition is an untimely moment that makes bug happens. Understanding
+timing helps design detection tools.
+
+\subsection{Order Violation: Msg-Msg}
+
+From our study, DC bugs are triggered by message timing or fault timing.
+
+Look at message timing first. 
+
+In a distributed operation, it involves many events. First we think to hit a
+bug, it's about the ordering of many events. Like 10 events must be in an exact
+order.
+
+But that's not true, let look at this pattern that we call order violation. 
+
+This pattern only involves 2 events, X and Y. X must happen before Y, but X can
+happen after Y.
+
+This takes 44\% of the bugs.
+
+Here is order violation that is from a case of simple message-message race.
+
+This line is a timeline of a node.
+
+Here, job-submit arrives at the node, and then job-kill. The node kill job
+correctly.
+
+But if submit delays, and kill arrive before submit, the node get confused what
+to kill and crashes.
+
+%The thick arrows here represent untimely messages.
+The race here is from 2 message arrivals.
+
+\subsection{Order Violation: Msg-Msg}
+
+This looks simple but actually in our study, message-message race can come in
+different complex forms. 
+
+Here what I've just shown you receive-receive race. 
+
+And this is receive-send race. Here, A receive new key, then A forwards new key
+to B correctly.
+
+But if new key comes late, A will send B old key, which is expired.
+
+%And this is send-send race. Here, A kills job on B. So B doesn't commit output
+%to A.
+%
+%But if B commits output concurrently with kill, it will get confused what to
+%kill.
+
+And this is send-send race.
+
+Again, you can see message-message race has many complex forms.
+
+\subsection{Order Violation: Msg-Comp}
+
+Well, interestingly, order violation is not just message-message race, we could
+also have message-compute race. 
+
+Which you can see here.
+
+Here the node does computation, then a message comes. It's fine.
+
+BUT, if a message comes before computation, the computation will have bug.
+
+You can see that this is a race between message and compute.
+
+Okay, to recap, order violation is about 2 events X and Y. Y must happen after
+X, but then Y happens before X.
+
+\subsection{Atomicity Violation}
+
+The next message timing is atomicity violation, which takes 20\%. 
+
+Here look at this example.
+
+Here A and B are doing atomic operation. If a message comes after the operation,
+it's good. Or if it comes before, it's also good.
+
+But if the message comes in the middle of operation, it will make bug happens.
+
+And here is what I call atomicity violation, a message comes in the middle of
+atomic operation.
+
+\subsection{Fault Timing}
+
+Okay, those're message timing bugs, but we also have fault timing, which take
+21\%.
+
+Because fault is expected in distributed systems. And it happens at very very
+specific timing, we'll get a problem.
+
+There is no fault timing in LC bugs, this is only in DC bugs.
+
+This is an example.
+
+A and B are doing transaction. No problem if A crashes after it finished.
+
+Or if A crashes before this, C will come to takes care this with no problem.
+
+But if A crashes, during transaction, C can't take care this correctly because
+protocol gets confused.
+
+To summarize, this bug requires the fault at specific timing.
+
+\subsection{Reboot Timing}
+
+And we also have reboot timing bugs too, but I'll skip it here.
+
+%Okay, after node crashes, it can reboot back. And we also have reboot timing
+%bugs which are similar to fault timing. So I'll skip it.
+
+%These bugs are 11\%.
+
+%Here, A crashes. B detects the crash and does failover. A reboots back. And this
+%is correct.
+
+%But if A reboot before B does failover and bug happens.
+
+\subsection{Summary}
+
+So, in summary, DC bugs have different forms of timing violations.
+
+Here, DC bugs are complex, but we can abstract all of them with only these
+timing patterns.
+
+Understanding this helps us building pattern-based bug detection tools for DC
+bugs.
+
+\subsection{Input Condition}
+
+Now let me tell you about input condition.
+
+Input condition is input to exercise buggy code
+
+%\subsection{Input Condition}
+%
+%Come back to this bug again. This bug shows that DC bugs are NOT just about
+%message re-ordering, but also about fault and reboot.
+%
+%And not just 1 fault, 1 reboot, we need multiple. Like this bug, we need 2
+%crashes and 2 reboots to hit it.
+
+\subsection{Input Condition}
+
+The first question we ask for the input is that ``HOW MANY bugs require fault
+injection in order to reveal them?''
+
+%We see here 37\% does not require faults. But 63\% require some fault injections
+%to manifest.
+
+Here it shows that 63\% require some fault injections to manifest.
+
+Then ``what kinds of faults should we inject and how many times?''
+
+First we see that 12\% of the bugs require timeout.
+
+Second, we see that 35\% require 1 crash, 12\% require multiple crashes.
+
+So again, our message here is, real-world DC bugs are NOT just about message
+re-ordering, but we need fault injections to reveal them.
+
+%\subsection{Reboot}
+
+%And again we collect how many reboots too.
+%As same as fault, we need reboot to reveal the bugs too. 20\% for 1 reboot and
+%7\% for multiple reboots.
+
+\subsection{Workload}
+
+%Okay, I've told you that to get to the bugs, we need message ordering, and
+%sometime faults and reboots. 
+
+%Is that it?
+
+%NO, we also need the workload to excercise buggy code.
+Well, the next input condtion is workload to excercise buggy code.
+
+%So how many workload to hit the bugs?
+
+Let's look at this Cassandra Paxos bug. Don't worry the detail, but what happens
+is that M happens after N, O happens after P, and Q happens after R.
+
+Interesting thing here is it requires THREE concurrent user request to manifest.
+Different requests are illustrated by different colors. Just TWO is not enough. 
+
+So here we collect how many operations to reach the bugs, and 20\% says only 1,
+and 80\% is more than 1.
+
+% Find out which bug has 9 protocols.
+
+This shows us that we need to test the systems with many complex scenarios.
+
+
+\section{Fixes}
+
+\XXX{1.30 mins}
+
+Now let me talk about the fixes.
+
+Understanding this will help us identify opportunities for runtime prevention
+and patch generation.
+
+\subsection{Fixes}
+
+Okay, first, when I first started this study, I thought that fixes for DC bugs
+must be very complex. 
+
+Yes, some fix add new states and transitions, some add global synchronization
+which are similar to fix LC bug by adding lock.
+
+But I see many bugs have simple fixes.
+
+For example, we still have untimely message, but we DELAYS processing until this
+black message come. 
+
+%You can see this fix is simply done in one node.
+
+Sometime, fixes just IGNORE untimely messages, and sometime it's safe to do
+that.
+
+Other simple fixes is RETRY, which sender sends a message again. 
+
+Or we can change handler method of untimely message from function F to to
+existing function G.
+
+%Okay, here are all simple fixes.
+
+Okay, a good news here is 40\% of bugs can be fixed with very easy fixes like
+this, which no new computation logic is introduced.
+
+And, this means we have opportunity to do automatic runtime prevention. 
+
+%Let me recap again. This is different from fixing LC bugs which we usually add
+%lock to synchronize. But for DC bugs, sometime we could do this simple fixes
+%like delay, ignore, retry, and accept.
+
+\section{Finding}
+
+\XXX{2.30 mins}
+
+%Okay, I've talked about triggers, errors and fixes. The rest is in the paper
+
+\subsection{So what?}
+
+Okay, TaxDC is bug study. And for all bug studies, people will ask, ``SO
+WHAT?''
+
+From the study we can see opportunities and challenges when we review these
+literature in combating DC bugs.
+
+%So let me compare the literature and the reality.
+
+%By the way, I'm not saying the literature is bad. But I hope our findings can
+%motivate us to progress further.
+
+\subsection{DMCK}
+
+So let's start with distributed systems model checker. 
+
+You can see that we have many distributed events, messages, faults, reboot, and
+computation.
+
+SAMC and other existing works just re-order some events.
+
+But reality says we need to re-order ALL of these events to catch DC bugs.
+
+So, ``let's find out how to re-order all events without exploding state
+space!''
+
+\subsection{Verification}
+
+Today, we have much advancement in formal verification of distributed systems.
+But so far we only verify FOREGROUND protocols such as read and write. 
+
+%Because writing proof is hard. The proof itself can take up to thousands lines. 
+
+But reality says 52\% caused by BACKGROUND protocols, and 29\% are from
+INTERACTIONS of foreground and background.
+
+And 80\% of DC bugs require the interactions from multiple protocols.
+
+So ``Let's find out how to better verify more protocol interactions!''
+
+\subsection{DC bug detection}
+
+For bug detection, we have plentiful tools on LC bugs that look for buggy code
+patterns.
+
+%What about DC bugs? 
+
+TaxDC shows that all DC bugs can be covered by these patterns.
+
+%And 53\% of bugs have explicit errors 
+
+%We can leverage this fact to detect them.
+
+So, ``Let's leverage these timing patterns and explicit error to do DC bug
+detection''
+
+%\subsection{Systems specification}
+%For bug revealing, we must be able to check error.
+%
+%But 47\% of the bugs has silent errors, and 54\% require global checking.
+%
+%So ``how can we improve methodolgies in writing and checking correctness specs
+%in deployment?''
+
+\subsection{Runtime prevention}
+
+For runtime failure prevention. We have successful tools that inject delays at
+runtime to prevent LC bugs.
+
+And reality shows that 40\% of DC bugs have SIMPLE fixes. 
+
+So ``Let's build runtime prevention techniques that leverage this simplicity?''
+
+\subsection{Conclusion}
+
+So in conclusion, the knowledge we get from TaxDC can guide many dependability
+research, not only model checking.
+
+I publish TaxDC database online so researchers who are interested can download
+from this link.
+

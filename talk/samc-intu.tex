@@ -1,0 +1,161 @@
+\section{Intuition}
+
+\subsection{Outline}
+
+Here's my outline. I will tell you the story behind our intuition, then I'll
+present SAMC in detail and evaluate.
+
+\subsection{Dependency}
+
+Okay, so the main goal here is to reduce unnecessary re-orderings.
+
+We can safely do so using the notion of dependency and independency, from the
+classical model checking literature. Let me show you how this works.
+
+Here, we have a node with two concurrent messages A and B. And let say the node
+starts in state S
+
+Now lets say that if the node processes A first then B, then the state change S
+to S'
+
+But if the node processes B first then A, then the state changes to S"
+
+If this is the case, then we call A and B are dependent, because they lead to
+different states, and hence they must be re-ordered.
+
+BUT, if different orderings lead to the same state, like this, that AB and BA
+lead to the same state, then A and B are independent, and executing one of the
+ordering is enough, giving us 2x speed-up.
+
+\subsection{Black Box vs. SAMC}
+
+To recap, to reduce unnecessary reorderings, we need to ask: Which events are
+indepedent? which orderings of events lead to the same state?
+
+But, on the left here, if we treat a node as a black box, we do not know which
+re-orderings lead to the same state, because we do not know how these messages
+will affect the local state, so we must treat all messages as dependent!
+
+So as an implication, the model checker needs to re-order everything, giving us
+4!, 24 re-orderings.
+
+BUT, on the right, with a white-box approach like SAMC, we can use message
+processing semantic to perhaps declare that only a subset of messages are
+dependent.
+
+And this means that the messages will be independent with the others outside the
+subset. We can skip the re-orderings of independent messages.
+
+And If we do so, like here, we only need to do 4 exe- cutions! Giving us 6x
+speed-up.
+
+\subsection{Reduction Speedup}
+
+And if 6X speedup doesn't impress you, I want to point out something.
+
+This simple example of 4 messages is just the first round, after that more
+messages are coming, so the 6x speed-up in the first phase potentially gives
+multiple speed-up if we consider the overall savings.
+
+\subsection{How to Declare Event Independency?}
+
+Okay so again, to remove unnecessary re-orderings, we need to find independent
+events.
+
+And I told you that we can use white-box knowledge such as message processing
+semantic, let me show you how this works.
+
+\subsection{MESSAGE PROCESSING SEMANTIC in Simplified Leader Election Protocol}
+
+Let me use a simplified leader election protocol as an example.
+
+When a leader election takes place, every node has its own belief which node
+should be a leader. Here I just show one node.
+
+This node receives votes from the peers.
+
+Now, heres the message processing semantic, that is, how messages will be
+processed by the node, as de- picted in this box.
+
+And we can see here the semantic says that: If an incoming vote less or equal
+To the current belief, then the vote will be discarded. But if the vote is
+larger, the belief changes to the vote.
+
+Heres more illustrations:
+
+If the belief is 3, and it receives 1, the belief stays the same, that is the
+state does not change.
+
+If it receives 2, the same thing.
+
+But if it receives 4, the belief changes to 4. Very simple.
+
+\subsection{Removing re-orderings via MESSAGE PROCESSING SEMANTIC}
+
+So how does message processing semantic helps us here?
+
+Well lets imagine the belief is 4, and the node is receiving votes 1, 2, 3.
+
+But lets go back to the black-box approach.
+
+As I mentioned before, then we need to re-order everything.
+
+but if we know the message processing semantic ahead of time, we can PREDICT
+that all the re- orderings are unnecessary, because IN EVERY STEP, YOU CAN SEE
+THAT the node does not change the state.
+
+\subsection{Formalizing the Intuition}
+
+Now, let me formalize our techniques here with concrete steps.
+
+First, given a message processing semantic, we ASK: is there a generic pattern
+here???
+
+The answer is yes, this is what we call as a discard pattern.
+
+A discard pattern suggests that messages will be ignored and the state will
+not change. Discard pattern is generic because many distributed protocols do
+have this pattern.
+
+Second, given a pattern, we create a predicate for that pattern.
+
+A predicate takes two inputs: the message content and the local state.
+
+In this case, we create a predicate that represents the discard path.
+
+So SIMPLY we just take the if-predicate from the code (vote < belief) and put it
+as the content of the discard predicate.
+
+Third, we check the predicate result of every outstanding message.
+
+For example here, SAMC is intercepting 3 outstanding messages and need to decide
+what to order.
+
+So SAMC just needs to check for each message whether the discard predicate is
+true.
+
+For example, the table here shows that all the votes will be discarded, given
+the current local state.
+
+And again, SAMC can know about this because SAMC uses the discard pattern from
+the leader election protocol.
+
+\subsection{Formalizing the Intuition}
+
+Finally, we check the RELATION of every PAIR of outstanding messages by checking
+their predicate values.
+
+If both are true, that means they are INDEPENDENT, and hence we do not need to
+reorder them.
+
+For example here, SAMC knows that both 1 and 2 will be discarded, so 21 ordering
+is unnecessary.
+
+So hopefully you see the point here, that AHEAD OF TIME, SAMC knows how messages
+will be processed, and use that knowledge, in this case the discard pattern, to
+skim the unnecessary orderings.
+
+But this is just one simple pattern with one simple example.
+
+In the next section I will show the generalization of our solution here.
+

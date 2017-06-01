@@ -1,0 +1,352 @@
+
+\section{Distributed Concurrency Bugs}
+\XXX{2 mins}
+
+\subsection{Outline}
+
+I'll start with distributed concurrency bugs and some background.
+
+\subsection{Distributed Concurrency Bugs}
+
+Distributed concurrency bugs or I will call them just DC bugs for short. DC bugs
+are bugs that caused by non-deterministic timing.
+
+It's non-deterministic timing of concurrent events involving more than one node.
+
+Events could be messages or local computation. Or they could be machine crashes
+or reboots, which are the norms in cloud hardware.
+
+And these untimely events can be complex and lead to really hard-to-catch DC
+bugs, that some developers complain they are ``very deep''.
+
+\subsection{Distributed Concurrency Bugs}
+
+So how deep the bugs could be?
+
+Let me give you a real story from ZooKeeper. ZooKeeper is a very popular
+synchronization service, which every node is supposed to maintain the same data.
+
+\begin{itemize}
+\item Start with 3 nodes, A, B, C. B becomes a leader.
+\item Then B crashes, and C becomes a new leader.
+\item Then a user updates a new data with value x, C commits it.
+\item C broadcasts update to A but A crashes before committing.
+\item And C crashes.
+\item Then A and B reboot. A become leader.
+\item And user updates data again, to be y.
+\item When C comes back online, the user notice permanent inconsistency replica.
+\end{itemize}
+
+Okay, maybe no one can follow this so let step back to see a big picture what's
+going on here.
+
+\subsection{Deep Bugs}
+
+\begin{itemize}
+\item First, the system generates lots of messages that can arrive out of order
+\item Second, the system faces multiple crashes
+\item And third, after crashes, some nodes reboot
+\end{itemize}
+
+Note that these three things can happen in any order [pause] AND only some
+specific order can lead us to deep bugs.
+
+\section{DMCK}
+\XXX{2 mins}
+
+\subsection{How do we catch deep DC bugs?}
+
+So the big question is how do we catch deep bugs in distributed systems?
+
+\subsection{How to catch deep bugs?}
+
+One approach is to use distributed system model checker. What does model checker
+do? Basically, given all distributed events, model checker will re-order them
+and find which one that lead to bugs.
+
+\subsection{What's wrong with existing model checker}
+
+In the past nine years, we have seen a rise of distributed system model checker
+such as Modist, MaceMC, and Demeter. 
+
+BUT there are many challenges. First, there are too many events to re-order.
+And this will lead to state space explosion problem. 
+
+Second, as I showed before, to get to deep bugs, we MUST exercise multiple
+crashes and reboots, which generates more messages!
+
+So, the number of events to re-order is large, for exmple, here we have more
+than 100 events in reality. Do we have time to permute these 100 events? Surely
+not. I find no model checker incorporate multiple crashes and reboots, and we
+cannot find deep bugs.
+
+\subsection{How to catch deep bugs really fast}
+
+So the real question is how to catch deep bugs really fast.
+
+\subsection{Outline}
+
+That comes to my first work, SAMC.
+
+I'll explain why existing model checkers are so slow and how I improve it.
+
+\subsection{Black-box Model Checker}
+
+The model checkers are slow because they treat the system as a black box. 
+
+What do I mean by that?
+
+Let see this example, when we have a node with 4 concurrent messages, a model
+checker must permute all possible ordering as you can see here.
+
+So you can see the number of permutation is large.
+
+\section{SAMC}
+\XXX{6/6.5 mins}
+
+\subsection{Semantic Knowledge}
+
+So how can we tackle state space explosion?
+
+What I'm going to say is that if we open the black box and use some semantic
+knowledge, we reduce the number of re-orderings.
+
+And that's why I built semantic-aware model checker or SAMC.
+
+\subsection{Dependency}
+
+Okay, so the main goal here is to reduce unnecessary re-orderings.
+
+We can safely do so using the notion of dependency and independency, from the
+model checking literature. Let me show you how this works.
+
+Here, we have a node with two concurrent messages A and B. And the node starts
+in state S
+
+Now lets say that if the node processes A before B, the state changes to S'
+
+But if the node processes A after B, the state changes to S"
+
+In this case, we call A and B are dependent, because they lead to different
+states, and they must be re-ordered.
+
+BUT, if different orderings lead to the same state, like this, that AB and BA
+both lead to state S', then A and B are independent, and executing one of the
+orderings is enough, giving us 2x speed-up.
+
+\subsection{Black Box vs SAMC}
+
+%So to reduce unnecessary reorderings, we need to ask: Which events are
+%indepedent and executing them lead to the same state?
+
+On the left, if we treat a node as a black box, we do not know which
+re-orderings lead to the same state, because we do not know how these messages
+will affect the local state. 
+
+We need to treat all messages as dependent! And the model checker needs to
+re-order everything, giving us 4!, or 24 re-orderings.
+
+BUT, on the right, with a white-box approach like SAMC, we can use message
+processing semantic to perhaps declare that only a subset of messages are
+dependent.
+
+We can skip the re-orderings of independent messages. And we only need to do 4
+executions! Giving us 6x speed-up.
+
+%\subsection{How to Declare Event Independency?}
+%
+%Okay so again, to remove unnecessary re-orderings, we need to find independent
+%events.
+%
+%And I told you that we can use white-box knowledge such as message processing
+%semantic, let me show you how this works.
+
+\subsection{MESSAGE PROCESSING SEMANTIC in Simplified Leader Election Protocol}
+
+So how can we find independent events? 
+
+Message processing semantic will help us here.
+
+Consider this example of simplified leader election protocol.
+
+When a leader election takes place, every node has its own ballot which the node
+wants to choose as a leader. 
+
+This node's receiving votes from the peers.
+
+Now, heres is semantic of how messages will be processed by the node.
+
+We can see here the semantic says that: 
+
+If an incoming vote less or equal to the current ballot, then the vote will be
+discarded. 
+
+But if the vote is larger, the ballot is changed to the vote.
+
+Heres more illustrations:
+
+If the ballot is 3, and it receives 1 or 2, the ballot stays the same, that is the
+state does not change.
+
+But if it receives 4, the ballot changes to 4. Very simple.
+
+\subsection{Removing re-orderings via MESSAGE PROCESSING SEMANTIC}
+
+So how does message processing semantic helps us here?
+
+Well lets imagine the ballot is 4, and the node is receiving votes 1, 2, 3.
+
+If we know the message processing semantic ahead of time, instead of reordering
+every possibility like this, we can PREDICT that these reorderings are
+unnecessary, because IN EVERY STEP, YOU CAN SEE THAT the node does not change
+the state.
+
+\subsection{Formalizing the Intuition}
+
+Now, let me formalize our techniques here with concrete steps.
+
+First, given a message processing semantic, we ASK: is there a generic pattern
+here?
+
+The answer is yes, this is a pattern that we call as a discard pattern.
+
+A discard pattern suggests that messages will be ignored and the state will
+not change. Many distributed protocols do have this pattern.
+
+Second, given a pattern, we create a predicate for that pattern.
+
+A predicate takes two inputs: the message content and the local state.
+
+In this case, we create a predicate that represents the discard path.
+
+So SIMPLY we just take the if-predicate from the code and use it as discard
+predicate.
+
+Third, we check the predicate result of a pair of messages that we are
+re-ordering. If both of them are true, they are INDEPENDENT, and hence we don't
+need to reorder them.
+
+And again, AHEAD OF TIME, SAMC knows how messages will be processed, and use
+that knowledge, to skip the unnecessary orderings.
+
+\subsection{Other patterns}
+
+Discard pattern is one thing that help us.
+
+I also find other generic patterns such as increment pattern.
+
+You can see here, when the node is counting ack messages, re-ordering them don't
+make us see a new state.
+
+This pattern is common in replication protocol in zookeeper and cassandra.
+
+So here we can write increment predicates that skip re-ordering of ack messages.
+
+And there is also constant pattern.
+
+\section{SAMC with crashes}
+\XXX{2 mins}
+
+\subsection{SAMC with Crashes}
+
+As I've mentioned, to hit deep bugs, we need to excercise crash and reboot.
+
+So consider the case that we are injecting a crash labeled with X here?
+
+With a black box approach, we have to re-order the crash with other outstanding
+messages. So more ordering must be done!
+
+BUT, I'll show you that if we use the recovery semantic, we can remove the
+orderings that are unnecessary.
+
+\subsection{Crash-Message Independence}
+
+Look at replication protocol in this leader-follower architecture.
+
+What happen if we crash the follower and there are outstanding messages ABCD to
+the other followers?
+
+well, a naive model checker must reorder the crash event and the messages.
+
+But, if we use the recovery semantic knowledge, we know that the leader just
+decrease follower count, but does not create new messages to the other nodes.
+
+this is what we call as local impact
+
+So we can write a rule like this that tells if the crash is on follower and we
+have enough nodes, the crash is INDEPENDENT to the outstanding messages ABCD and
+hence no need to reorder.
+
+\subsection{Crash-Message Independence}
+
+BUT, say we inject a crash on the leader, then this crash event will create new
+messages, so this is a GLOBAL impact. so this crash MUST be reordered with other
+messages, and this is a rule.
+
+in summary, we can use recovery semantic to tell us ahead of time:
+
+\begin{enumerate}
+\item if crash leads to local impact crash is independent, so no re-ordering
+\item if crash leads to global impact crash is dependent, must reorder
+\end{enumerate}
+
+\section{Summary}
+\XXX{2 mins}
+
+\subsection{SAMC Architecture}
+
+Now, I'll show how SAMC architecture looks like.
+
+Like other model checker.
+
+SAMC intercepts all outstanding messages, and decides the order in which they
+will be executed.
+
+Inside SAMC, there are generic reduction policies such as 2 policies that I have
+shown, local message independence and crash message independence. And I also
+have other two policies for crash and reboot reduction.
+
+On top of this, SAMC needs testers to write protocol-specific rules.
+
+\subsection{Protocol-Specific Rules}
+
+This is an example of protocol-specific rules from ZooKeeper leader election.
+
+On average, it takes 35 lines of code for each protocols.
+
+\subsection{Catching Old Bugs}
+
+I used SAMC to re-produce 12 old bugs in 3 systems, zookeeper, hadoop, and
+cassandra.
+
+I compare it with other state-of-the-art techniques, black-box dynamic partial
+order reduction that uses the notion of dependency but no domain-specific
+knowledge, random reordering, and random dynamic partial order reduction that is
+a combination of both of them.
+
+Then I measure how many executions each techniques has to run until it hit the
+bugs.
+
+5000+ means I have run 5000 executions but still not catch the bugs, and that
+was around 2 days.
+
+The speedup I gain is from 2x to 340x, and it is 49x on average.
+
+\subsection{Unearthing new bugs}
+
+I used SAMC and found 2 new bugs in ZooKeeper and MapReduce.
+
+\subsection{Summary}
+
+% in the slide "deep distributed concurrency (DC) bugs"
+To summarize, deep DC bugs do happen to the systems.
+
+Distributed system model checker is used to catch DC bugs, but state-space
+explosion happens.
+
+And I prove here that with SIMPLE semantic knowledge, we can detect unnecessary
+re-ordering, which we can skip, and will gain 2 - 340x speedup.
+
+%I believe that in the future we can use the principal of semantic awareness to
+%build more efficient reduction policies.
+

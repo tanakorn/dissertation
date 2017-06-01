@@ -1,0 +1,89 @@
+
+
+\section{Introduction}
+\XXX{4 mins}
+
+Hi I'm Tanakorn Leesatapornwongsa. Thank you for having me today. I'm going to
+talk about unearthing concurrency and scalability bugs in cloud-scale
+distributed systems.
+
+\subsection{Cloud-Scale Distributed Systems}
+
+First, let I explain what I mean when I'm saying cloud-scale distributed
+systems.
+
+I am refering to systems that are foundation for large cloud services. The
+examples of these systems are MapReduce, which is a distributed computing
+framework, HDFS, a distributed file system, and Cassandra, a scalable database.
+
+\subsection{Cloud Dependability}
+
+These systems are wildly used in many companies. For example, Facebook has a
+1000-node cluster of MapReduce. Or Apple runs 100,000 nodes of Cassandra.
+
+If there are problems in the systems, the cloud services on top of them will be
+affected. As we often see headlines about the service disruption.
+
+% put yahoo mail outage (dec 2013), amazon ebs (apr 2011) (this outage from data
+% race).
+% http://twitterstatus.tumblr.com/post/99180872/tracking-down-data-inconsistencies
+% Whoops - Facebook loses 1 billion photos
+
+\subsection{What Bugs Live in The Cloud?}
+
+These show building cloud-scale distributed systems is hard.
+
+But why?
+
+To answer this question, my colleagues and I studied bug reports for 6 popular
+cloud systems as I show here. We looked into 21,000 bugs reported from 2011 to
+2014, and filtered 3600 vital bugs to study in detail.
+
+\subsection{What Bugs Live in The Cloud?}
+
+From the study, we can see bugs in distributed systems are much more complex
+than in single machine software.
+
+% distributed concurrency bugs
+For example, concurrency bugs in distributed systems is not only multithreading
+issues, we also see concurrency bugs that come from unexpected timing of network
+communication.
+
+As simple as message X should arrive before Y, but X can arrive after Y.
+
+And we also found new classes of bugs that are specific to distributed systems. 
+
+Such as scalability bugs, which are bugs that don't manifest when we deploy
+systems on a small cluster, but will manifest when we deploy at a large cluster.
+
+% in slide this is a "other bugs" bullet point
+Other cloud-specific bugs we see are topology and quality of service bugs.
+
+We see that existing techniques for combating bugs in single machine software
+are not sufficient.
+
+There are many opening problems waiting for systems community to tackle. 
+
+\subsection{Research Contributions}
+
+And here in my research, I'm focusing on unearthing distributed concurrency and
+scalability bugs.
+
+These are my research contributions.
+
+SAMC and TaxDC are efforts to tackle distributed concurrency bugs. 
+
+And SCk is an effort to tackle scalability bugs.
+
+I also had a chance to join projects related to other aspects of cloud software
+such as fault tolerance and performance.
+
+\subsection{Outline}
+
+Here is the outline of my talk. I'll start with my effort to combat distributed
+concurrency bugs.
+
+Next, I'll talk about constructing scalability bug checking methodology.
+
+And lastly, I'll talk about my future works and conclusion.
+

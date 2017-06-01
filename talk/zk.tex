@@ -1,0 +1,54 @@
+\section{ZooKeeper Integration}
+
+And that is about the demo program. Next, I will show you the result of
+integration to Apache ZooKeeper.
+
+\subsection{ZooKeeper}
+
+In the real complex system, the non-determinism that could introduce bugs is not
+only network re-ordering, but also disk I/O, or even machine crash. 
+
+Most importantly, bugs always appear because the mix of these non-determinism.
+Especially, they often occur in complex recovery scenarios.
+
+In current version of SAMC, not only event re-ordering, it also injects
+crashes and restarts nodes back to emulate failure and recovery scenario.
+
+I model checked five versions of ZooKeeper, and can re-produce seven old bugs.
+Some requires multiple crashes and multiple reboots to manifest.
+
+Most importantly, SAMC can find a new bug on the latest version of ZooKeeper.
+
+\subsection{ZooKeeper table}
+
+This table shows the number of execution paths that each algorithm executed to
+catch the bugs. I stopped at 5000 executions or around 2 days. Semantic-aware
+uses domain-specific knowledge to prune out some executions so it can reach the
+bugs very fast.
+
+\section{Conclusion}
+
+And that's all about SAMC. Here comes to the conclusion.
+
+\subsection{SAMC}
+
+The power of SAMC is semantic-aware that allows us to do fast  model checking.
+
+We employ AOP to interpose interposition layer.
+
+The server comes with basic algorithms and extendable advanced one.
+
+We have successfully integrated SAMC to ZooKeeper to catch old and new bugs.
+
+\subsection{Future}
+
+And here is my future works.
+
+SAMC now cannot deal with timeout-related bugs, so in the future, we plan to
+make SAMC be able to inject timeout event.
+
+Then we will make SAMC to be able catch performance bugs.
+
+And the last thing is building step-by-step debugging replay function so
+developers will work much more easier.
+

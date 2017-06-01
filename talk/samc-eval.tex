@@ -1,0 +1,75 @@
+
+\section{Evaluation}
+
+\subsection{Result}
+
+We have built SAMC from scratch, and it took around 10,000 lines of code for all
+mechanism.
+
+We integrated to 7 protocols on 3 cloud systems, ZooKeeper, Cassandra,
+MapReduce, including 10 version, new and old.
+
+\subsection{Protocol-Specific Rules}
+
+This is an example of protocol-specific rules from ZooKeeper leader election.
+
+On average, it takes 35 lines of code for each protocols.
+
+\subsection{Catching Old Bugs}
+
+We can re-produce 12 old bugs that were reported by running SAMC with old
+version of cloud systems.
+
+We compare it with other state-of-the-art techniques, black-box DPOR that is
+DPOR without domain-specific knowledge, random that is randomly re-ordering the
+events, and random DPOR that is DPOR that start with random ordering.
+
+Then we measure how many executions each model checker has to run until it reach
+bugs.
+
+By execution, I mean the ordering of events since the beginning up to
+termination point or seeing some bugs.
+
+This is SAMC.
+
+This is black-box DPOR. This is random.
+
+This is random DPOR.
+
+5000+ means we have run 5000 executions but still not catch the bugs, and that
+was around 2 days.
+
+And here we compute speed-up.
+
+Compare to black box, SAMC can do more than 94 times faster
+
+And about 300 times faster compare to random and random DPOR.
+
+\subsection{Reduction Ratio}
+
+We also calculated reduction ratio compare to black- box DPOR on ZooKeeper
+leader election protocol.
+
+We also did fine-grained evaluation for each reduction policy too.
+
+By trying different crashes and reboot, the result is shown in this table.
+
+The reduction ratio increases when the number of crash and reboot increases. And
+that means SAMC can find deep bugs faster than other techniques.
+
+\subsection{Conclusion}
+
+Today, we have cloud systems that quite complex, and deep bugs do happen to the
+systems.
+
+One approach to catch deep bugs is distributed system model checker, however,
+the model checker treats the system as a black box and lead to state space
+explosion
+
+We are showing here that if we open the black box, make understanding of the
+semantic, we can detect unnecessary ordering that lead to the same state, we
+remove that and get one to two order of magnitude speedup
+
+I believe that in the future we can use the principal of semantic awareness to
+build more efficient reduction policies.
+

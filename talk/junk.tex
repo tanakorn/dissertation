@@ -1,0 +1,148 @@
+
+\if
+Let move to distributed systems model checker. The nondeterminisms in
+distributed systems are not only thread scheduling, but also network packet
+re-ordering. The nondeterminism of the network could make the order of the
+messages the program receives not as the way that developers expect. For
+example, you can see in this figure, ...
+\fi
+
+\if 0
+But most importantly, distributed systems have to deal with machines crash.
+Most systems are designed to be fault tolerant in some ways. To test fault
+tolerance we need to inject fault to the system at every possible states that
+system could be. And model checker can also help us here too. We can use it
+re-ordering network messages and injecting crash to our system.
+\fi
+
+There are also other nondeterminism more than packet re-ordering and machine
+crash, but basically, distributed systems model checker tries to excercise these
+nondeterminism to find corner cases that developers miss.
+
+First, look at this simple resource management system. 
+
+\begin{itemize}
+
+\item In this system, it starts with client A asking resource manager for a
+computing node.
+
+\item The resource manager decides that computing node ID 1 should serve this
+job so it sends allocation message to computing node number 1 
+
+\item After it sent allocation message, it grants permission to client A to work
+on node 1
+
+\item And then client A sends its job to node 1 and node 1 executes this job
+
+\item Done
+
+\end{itemize}
+
+But what if the non-determinism of network delay the message and the order
+becomes like this,
+
+\begin{itemize}
+
+\item The allocation message gets delayed, node 1 does hasn't received it yet.
+
+\item But the manager does not check that, and it immediately grants permission
+to client.
+
+\item Then client sends the job to node 1. And this still arrives earlier than
+allocation message.
+
+\item What if node 1 just ignores the job from client A because it doesn't know
+the client.
+
+\item At the end, user will not know what wrong with his job, why it disappears
+
+\end{itemize}
+
+\subsection{Cloud}
+
+Okay, before I start my talk, I want to show you a dialogue between dad and son
+that I saw on the internet to you.
+
+Son: Dad, what is the picture on the save button?
+
+Dad: It is floppy disk.
+
+Son: What is floppy disk?
+
+Dad: It is the thing that come before thumb drive?
+
+Son: What is thumb drives?
+
+Then the dad is surprised and asks the son back.
+
+Dad: So how you move files to different laptop?
+
+Son: I just save them on Dropbox and they exist everywhere.
+
+\subsection{Cloud Services}
+
+But not just personal users, cloud services also change how organizations work.
+Some organizations do not maintain their own datacenters anymore. They choose
+to
+rent virtual computers from cloud platform to host their servers.
+
+This change demands 24/7 dependability from the cloud. They must be accessible
+anytime, anywhere, and not lose users' data.
+
+\subsection{Why is it hard?}
+
+So why is it hard to make the systems dependable?
+
+First, behind these cloud services, it is multiple complex distributed systems
+that work together, such as computing framework like MapReduce, distributed file
+systems like HDFS, or scalable databases like Cassandra.
+
+Second, these systems are deployed on top of commodity hardware. This commodity
+hardware can fail anytime so failure is the norm, however handle hardware
+failures is not trivial, especially in a case of muliple simultaneous failures.
+
+Third, nodes in the systems communicate via network connection. Multiple nodes
+send messages concurrently. This concurrency could lead to unexpected timings,
+as simple as message X should arrive before Y, but X can arrive after Y.
+
+Lastly, cloud infrastructure have some unique requirements that single-machine
+software don't have. For example, they need to be scalable. When users
+overutilize the current resources, we must be able to add more hardware to
+support increasing users.
+
+\subsection{Dependable Cloud Infrastructure}
+
+So to achieve dependable cloud services, we need dependable cloud
+infrastructure. So the question here is ``are existing cloud infrastructure
+dependable?''
+
+And these screen capture here can show you how dependable they are.
+
+\subsection{Research Roadmap}
+
+You can see that although, cloud-scale distributed systems has become more
+mature, they still have a lot of critical bugs hidden in them. 
+
+This leads to my research question, ``how can we unearth concurrency and
+scalability bugs in cloud-scale distributed systems?''.
+
+And here is my research roadmap.
+
+First, understanding. Before starting combating bugs, we need comprehensive
+insight about them. We need to know how the bugs manifest, what are the root
+causes
+
+\subsection{}
+
+\if 0
+
+\subsection{Cloud infrastructure}
+
+So why is it hard to make the systems dependable? Before I answer this question,
+let's look what are behind the cloud services. 
+
+Behind these services, it is multiple complex distributed systems that work
+together, such as computing framework like MapReduce, distributed file systems
+like HDFS, or scalable databases like Cassandra.
+
+\fi

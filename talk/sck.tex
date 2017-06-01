@@ -1,0 +1,295 @@
+\section{Scale Check}
+
+\XXX{2 mins}
+
+\subsection{Outline}
+
+The next problem I'm going to talk about is scalability bugs. 
+
+I'll start with some background.
+
+\subsection{Scalability Bugs}
+
+Scalability bugs are a new class of bugs that we see in cloud-scale distributed
+systems only. 
+
+They are latent bugs that are scale dependent. 
+
+They occur when we deploy systems on a large cluster typically larger than 100
+machines.
+
+\subsection{Question}
+
+And a hard question people are asking about them is ``HOW TO CATCH SCALABILITY
+BUGS?''.
+
+A straightforward way is deploying the systems on real large cluster. Obviously,
+this is an ideal solution, but not all developers can afford this, especially,
+in opensource project. It is quite expensive.
+
+So the other approach is cluster emulation. We run multiple nodes in one
+physical machine, and see the result. However, this approach cannot achieve
+really large scale, because of resource contention.
+
+There is a previous work, Exalt, adresses on I/O and storage resource by
+compression, and it can only find bugs in data-plane protocols.
+
+\subsection{Control-plane bugs}
+
+But scalability bugs also exist in control-plane protocol too.
+
+And control plane bugs are not about I/O, they are CPU intensive. For example,
+adding new nodes in Cassandra cluster need to re-calculate new partition table
+which is O($n^3$) complexity.
+
+\section{Bug Example}
+
+\XXX{4 mins}
+
+\subsection{CA-6127}
+
+Before going further, let me show you a bug in Cassandra failure detection along
+with some background.
+
+\subsection{Gossip broadcast}
+
+First, Cassandra is a P2P scalable database. Each node takes care different
+partitions.
+
+Every node knows a complete partition table.
+
+So for the whole cluster to maintain the same view of the table. It uses gossip
+protocol.
+
+Node maintains heartbeat version for failure detection.
+
+Gossip works like this.
+
+Every second, a node let call node A, will pick node B randomly, then they
+exchange current partition table and heartbeat version. They merge their tables
+together and record heartbeat versions like this.
+
+And both increase their version.
+
+%After B receives a gossip from A, B merges partition table from A with its own
+%partition table, and records A's heartbeat.
+
+Then later, B randomly picks C, B will send its partition table, and heartbeat
+of A and B to C. And C will do the same thing.
+
+Eventually, the whole cluster will have the same view of partition table, and
+always see new heartbeat of everyone.
+
+\subsection{Failure detection}
+
+And to do failure detection, Cassandra uses heartbeat it receive like this.
+
+Let say that C receives a heartbeat of A at time 0.
+
+Every second, C will check liveness of A. C will look how long since it
+received the latest heartbeat of A, which at t1, it is a second ago. And this
+is smaller than the threshold. 
+
+And same for time 2.
+
+Then time 3, C receives a gossip contains new heartbeat of A, so C knows A is
+still alive.
+
+But if C doesn't see a new heartbeat for a long time, it will declare A as dead.
+
+Note that C possibly gets a heartbeat of A from A itself or other node that
+knows A.
+
+For the threshold, developers adopt accrual failure detection which will adjust
+the threshold regard to cluster size. This protocol should have been scalable.
+
+\subsection{Bug}
+
+But accrual failure detection in Cassandra fails to count for gossip processing
+time. Merging partition tables could take up to 4 seconds in hundreds node
+cluster.
+
+And this can makes B delay gossipping a new heartbeat of A to C. And the
+threshold can't adjust quick enough for this big delay. So C consider A as
+dead.
+
+The user reported that in a large cluster, he sees thousands of false detection
+when bootstrapping.
+
+And although developers made a patch for this, but the patch can't eradicate the
+bug completely. This same bug is repeatedly reported again and again.
+
+So take away point from this example.
+
+This class of bugs only happens at extreme scale.
+
+System could be scalable in design, but not in practice.
+
+Fixing scalability bugs is hard and is a repetitive process.
+
+\section{SCk}
+
+\XXX{6.30 mins}
+
+\subsection{SCk}
+
+Because testing scalability bugs is hard and expensive, and there is no work
+address control-plane protocol which is CPU-intensive computation, I started the
+pilot work on this.
+
+The main challenge here is, how can we colocate hundreds of CPU-intensive nodes
+on one machine YET ACHIEVE ACCURATE PROCESSING BEHAVIOR.
+
+So I introduce techniques to address the challenge.
+
+And, also introducing SCk, a methodology for checking debugging scalability
+bugs.
+
+I successfully apply SCk to 3 scalable database, Cassandra, Riak, and Voldemort.
+I can colocate 500 nodes in one physical machine.
+
+SCk can test old scalability bugs in these 3 systems. And also can unearth a new
+bug in Cassandra.
+
+\subsection{PIL}
+
+I will show the techniques I use to mitigate resource contention.
+
+The first one is process illusion or PIL. 
+
+%The intuition behind PIL is ``the key to computation is not the intermedidate
+%results, but rather the execution time and final output''
+
+As I mentioned this is CPU-intensive bug. 
+
+So before we begin, we need to identify a CPU-intensive function in the
+protocol.
+
+We can do so by using program analysis to point out the function, let say f.
+
+Let say if we know the execution time and output of f beforehand.
+
+So we can simply replace f computing with sleep(). 
+
+Then we can run more nodes in one machine for testing, most of the time the
+nodes are idle and no more CPU contention, YET get the same execution behavior.
+
+But the problem is shifted to how do we know execution time and output of f in
+advance?
+
+\subsection{Pre-memoization with order determinism}
+
+The trivial answer is we pre-memoize by executing f with every possible input,
+and record the execution time and output.
+
+Unfortunately, in the context of cloud scale, the input size is nearly infinite.
+
+So to do pre-memoization, I apply the concept of deterministic record and
+replay here, which I call order determinism.
+
+Let me show you how order determinism works.
+
+First, we run all nodes in one machine but still with real f. And we record
+every message generated in the system. Then when message processing is executing
+f, we record execution time and output, and also the input of f too.
+
+When it finishes, we can run the system again but this time we enforce the
+system to generate the same messages, which mean we have already seen all input
+of f already, so we can do PIL now.
+
+I think every one will ask, ``hey if we can run all nodes in one machine, why do
+I need PIL?''
+
+The answer is if you run hundreds nodes in one machine, the workload that should
+finish in one hour, will finish in hundreds hours due to CPU contention.
+
+Testing and debugging is repetitive process, we don't want to spend that long
+each time we test the system.
+
+But with SCk, this is one time overhead.
+
+Okay, to summarize, PIL is to replace cpu-intensive function with sleep and
+pre-memoizing exeuction time and output of the function.
+
+\subsection{SPC}
+
+So far I've talked like CPU is the only bottleneck, but actually memory is a
+problem too.
+
+So I want to present single process cluster or SPC. In SPC, I'm saying that
+instead of running a node as individual process, when we are testing, we can run
+a node as a thread in a single process.
+
+This technique is twofolded. First, if the systems are written in managed
+language like Java, it can reduce memory overhead from the JVM.
+
+Memory overhead for hundreds JVM could be tens GB.
+
+Merging every node to be one process can mitigate this overhead.
+
+The other benefit of SPC is instead of having separate threads for each node, we
+can have a thread pool shared for the whole cluster.
+
+This will reduce the number of threads and overhead of context switching.
+
+\subsection{Putting it all together}
+
+Those are basic ideas to mitigate resource contention. Now, I'll show you SCk
+methodology to test Cassandra failure detection.
+
+First identify CPU-intensive function which here is partition table merging.
+
+Next run Cassandra with SPC for pre-memoization for order determinism.
+
+Then we can run full SCk, PIL + SPC with order determinism.
+
+If we see significant false detection, we will fix failure detection logic. And
+then run SCk again.
+
+We can keep running SCk to test the new failure detection until the bug is
+gone.
+
+\section{Evaluation}
+
+\XXX{1.30 min}
+
+Then come to evaluation part.
+
+\subsection{Accuracy}
+
+Here I want to know how accurate the SCk is.
+
+I run old versions of target systems, which I know the bug exists. I run them
+on real cluster and run SCk in one machine.
+
+To measure accuracy, I measure all parameters affecting bug symtomps. 
+
+For failure detection bug in Cassandra, the parameters are the number of false
+detection, the period between 2 heartbeats that the node has received, and
+table merging time.
+
+You can see from the graph, the number we got are similar to the real run.
+
+I try this with 6 old bugs, and the result from SCk can indicate bug symtomp as
+I run in the real cluster.
+
+I also find a failure detection bug in Cassandra, but this time it occur at 500
+nodes.
+
+\subsection{Summary}
+
+Well, let me wrap up here.
+
+Scalability bugs are a new class of bugs that happen in cloud-scale distributed
+systems only.
+
+We see no systems has scalability test.
+
+And I want to emphasize here, SCk is a methodology, not a tool. I need to modify
+the target systems to be scale-checkable.
+
+SCk is one of the pilot solution for affordable scale checking.
+
+But more challenges lie ahead. We need more attention for scalability aspect of
+distributed systems.
+

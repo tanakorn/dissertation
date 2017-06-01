@@ -1,0 +1,42 @@
+\section{Integration}
+
+Next, I'll show how to employ SAMC.
+
+\subsection{Interposition layer}
+
+To employ SAMC, we adopt aspect-oriented programming to insert interposition
+layer. This makes the interposition layer code not clutter with software code.
+SampleSys code contains no model checking code at all.
+
+And here is the aspect for SampleSys, I intercept message at sending method.
+
+To notify the server, we encapsulate message information as key-value pairs. The
+neccessary key is message id, which I use the hash value of the message.
+
+And to do white-box testing, I attach other information along with the
+notification to the model checking server. 
+
+Interposition layer communicates with the server via RPC.
+
+%That is for interposition layer.
+
+\subsection{SAMC server}
+
+And for the server side, SAMC comes with basic ready-to-use algorithms like
+brute-force or random.
+
+But it also comes with extendable dynamic partial order reduction which is the
+foundation of local-message independence, so we can extend it to work with
+Sample by implementing isDependent method.
+
+\subsection{Workload driver}
+That's about writing exploration algorithm, the other things we need to do is
+telling SAMC how to start and stop the system to do model check. And how to
+determine the result after each execution.
+
+User can do this by extending abstract classes that SAMC provides. 
+
+For SampleSys, I make SAMC start three SampleSys processes when it starts
+execution. And after each execution, SAMC checks whether every node agree on
+one leader.
+
