@@ -12,12 +12,12 @@ Compared to the ``countless'' of efforts in combating ``local'' concurrency bugs
 in multi-threaded software, DC bugs have not received the same amount of
 attention within the research community.
 
-Here is our contributions to combat DC bugs in systematic and comprehensive manners:
+Here are our contributions in combating DC bugs in systematic and comprehensive manners:
 
 \begin{enumerate}
 
 \item Bug study and taxonomy for DC bugs (\taxdc): We perform an in-depth study
-of more than 100 real-world DC bugs and built a first complete taxonomy of DC
+of more than 100 real-world DC bugs and build a first complete taxonomy of DC
 bugs. This study can give insight to guide many future research work on DC
 bugs.
 
@@ -29,7 +29,7 @@ state-space explosion which is the current limitation of model checking.
 
 The brief detail of these two works are discussed below.
 
-\subsection{DC Bug Study \& Taxonomy}
+\subsection{Distributed Concurrency Bug Study \& Taxonomy}
 
 Bug and failure studies can significantly guide many aspects of dependability
 research. Many researchers have recently employed formal studies on bugs and
@@ -93,7 +93,7 @@ detections, failure diagnosis, and failure prevention and fixing.
 \subsection{Semantic-Aware Model Checking}
 
 One powerful method for discovering hidden DC bugs is the use of an
-\textit{implementation-level distributed system model checker} (dmck).  A dmck
+\textit{implementation-level (software) distributed system model checker} (dmck).  A dmck
 can discover buggy interleavings that lead to DC bugs by reordering every
 possibility of nondeterministic distributed events. The last ten years have seen
 a rise of dmcks such as MaceMC, \modist, or Demeter. One big challenge faced by

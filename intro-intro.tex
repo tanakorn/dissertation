@@ -23,8 +23,8 @@ impact of more than \$70 million \cite{Essers12-70Million}. Others predict
 worse: for every hour it is not up and running, a cloud service can take a hit
 between \$1 to 5 million \cite{Linthicum13-InfoworldCostOutages}.
 
-Unfortunately, proving cloud services' dependability is challenging. Behind the
-cloud computing, it is backed by large sophisticated distributed software stack
+Unfortunately, proving cloud services' dependability is challenging. Behind 
+cloud computing is backed by large sophisticated distributed software stack
 \cite{Burrows06-Chubby, Chang+06-BigTable, Chapin+95-Hive, Corbett+12-Spanner,
 DeanGhemawat04-MapReduce, DeCandia+07-Dynamo, Ghemawat+03-GoogleFS,
 Hunt+10-ZooKeeperPaper, Lakshman+09-Cassandra, Melnik+10-DremelInteractive,
@@ -38,8 +38,8 @@ Data races are known to be a core problem in any concurrent software systems.
 Unlike non-distributed software, cloud distributed systems are subject to not
 only local concurrency bugs, which basically come from thread interleaving, but
 also distributed concurrency bugs, which come from inter-node message
-interleaving.  Moreover, cloud hardware is built from commodity hardware that
-failures can happen at anytime and can be very complex. The timing of these
+interleaving.  Moreover, cloud hardware is built from commodity hardware such
+that failures can happen at anytime and can be very complex. The timing of these
 hardware failures plus message interleaving makes it hard to handle the
 concurrency correctly.
 
@@ -56,7 +56,7 @@ intricate bugs continue to happen and create dependability problems.
 Guaranteeing dependability has proven to be challenging in these systems
 \cite{Gunawi+11-FateDestini, Guo+11-Demeter, Wang+14-Exalt, Yang+09-Modist}.
 This raises a vital question: ``{\em how can we make cloud-scale distributed
-systems reaching ideal dependability?}'' We try to answer this question by
+systems more dependable?}'' We try to answer this question by
 focusing on the problems of distributed concurrency bugs and scalability bugs.
 These two are critical problems because they are novel issues that occur in
 cloud environment only and not many works addressing them.  The following
