@@ -1,0 +1,58 @@
+\subsection{Scalability Bugs}
+
+%\cbs\ \cite{Gunawi+14-Cbs}, a bug study for cloud-scale distributed systems,
+%categorizes scalability bugs into four classes
+
+\sck\ is an initial effort to combat scalability bugs. It focuses on
+scale-dependent CPU/processing time. However, there are other scaling problems
+that lead to I/O and memory contentions \cite{ Gunawi+14-Cbs,
+Ousterhout+15-MakingSense, Konstantin+10-HDFSScalability}, usually caused by the
+scale of load \cite{Bodik+10-WorkloadSpikes, Guo+13-CureIsWorse} or data size
+\cite{Nguyen+16-Yak}.
+% Armbrust+11-Piql, 
+\sck cannot reproduce such issues on one machine as we do not address memory and
+IO emulation.
+%
+Moreover, we find that some bugs are caused by scale of failures
+\cite{Gunawi+14-Cbs} (\eg, a great number of machines fails at the same time)
+and these bugs are hard to catch during testing process because failures in
+cloud-scale distributed systems can be very complex.
+%
+We believe there are many open problems to solve in this new research area. We
+will discuss some possible research directions here.
+
+\subsubsection{Program Analysis}
+
+Another approach to scale check systems on just one machine is program analysis.
+There is a previous work adopting static analysis to check if software is
+scalable on multicore processors \cite{Clements+13-Commuter}. However,
+cloud-scale distributed systems are different from multicore software, and the
+analysis for multicore software is not applicable for cloud systems. In this
+dissertation, we show that scalability bugs in cloud distributed systems are
+caused from scale-dependent CPU/processing time. Building a program analysis
+that covers all paths and understands the cascading impacts without false
+positives is challenging.  Not all scale-dependent loops imply buggy code.  For
+example, in Cassandra gossip protocol, if Cassandra processes gossips in a
+multi-threaded manner, the long processing time might not cascade to failures.
+
+However, building program analysis to point out potential buggy functions is
+still useful. It can reduce manual efforts in order to identify PIL-safe and
+offending functions which makes \sck\ more automatic.
+
+\subsubsection{In-Production Checking}
+
+If scale checking on one machine is hard and checking on real scale is
+expensive, \textit{can we piggyback scale checking on production cluster?} The
+idea of this in-production checking is we already have ready-to-check
+environment (\ie, large scale setup and big data stored in clusters), we should
+be able to test critical scenarios such as machine decommissions, a surge of
+requests, and datacenter failures. Scalability bugs in these critical scenarios
+are unlikely to be covered in offline testing, but are possible to be detected
+in production systems, however, in-production checking remains a
+``controversial'' idea, mainly because of the soundness of the checking process.
+No service provider would like to report to their clients ``an in-production
+checking that we scheduled has caused an outage/data loss/performance
+disruption.'' The risk is too high. An initial idea of in-production
+checking is proposed \cite{Leesatapornwongsa+14-Drill} and discussed, but there
+is still no formal research on this topic.
+
