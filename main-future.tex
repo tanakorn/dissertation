@@ -70,6 +70,7 @@ severals nodes in one machine. We adopted \sck to three systems including
 Cassandra, Riak, and Voldemort, and were able to reproduce six old scalability
 bugs with high accuracy.
 
+\if 0
 \section{Future Work}
 
 \subsection{Automated Semantic Extracting for SAMC}
@@ -156,3 +157,16 @@ developers need to do is step a) (\ie, annotating scale-dependent data
 structures) which we believe this task is not burdensome, and the rest will be
 handled by the program analysis tool (step b) and code transformation tool (step
 c and d).
+\fi
+
+\section{Future Work}
+\label{sec-less}
+
+We now discuss our research impact and future research revenues in combating DC
+bugs and scalability bugs. Regarding DC-bug combating, although many high-level
+directions can be adopted from work on LC bugs, there are many interesting
+challenges and opportunities unique to DC bugs. For scalability bugs, our pilot
+work just targets a subset of scalability bugs, there are many classes of
+scalability bugs that we have not touched yet.
+
+\input{future-dc}

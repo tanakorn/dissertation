@@ -1,0 +1,394 @@
+\subsection{Distributed Concurrency Bugs}
+% ===========================================================
+\subsubsection{Fault Paths and Multi-Protocol Interactions}
+\label{less-fault}
+
+Individual protocols tend to be robust in general.  Only 18 DC bugs
+occur in {\em individual} protocols {\em without} any input 
+fault condition; only
+8 of them are in foreground protocols.  On the other hand, a large
+majority of DC bugs happen due to concurrent executions of multiple
+protocols and/or different fault timings (Finding {\bf \#2}).
+%
+This has a tremendous implication to input testing: {\em all types of
+  verification, testing, and analysis approaches must consider fault
+  injections and multiple protocols as input conditions.}
+%
+Although recent work has paid attention to this
+\cite{Gunawi+11-FateDestini, Joshi+11-PreFail, 
+Yuan+14-SimpleTesting}, we emphasize
+that all forms of faults (\sec\ref{met-pres}) must be exercised.
+
+
+% ======================================================
+\subsubsection{Distributed Systems Model Checkers}
+\label{less-dmck}
+
+Assuming the necessary input conditions are exercised, the next
+question is: can we test different event re-orderings to hit the
+triggering timing (\sec\ref{trig-time})?  This is the job of
+distributed system model checkers (dmck), which are gaining popularity
+recently \cite{Guo+11-Demeter, 
+Killian+07-LifeDeathMaceMC,
+  Simsa+10-Dbug,
+  Yang+09-Modist}.  Dmck works by intercepting distributed events and
+permuting their ordering.  The more events included, the more
+scalability issues will arise due to state-space explosion.
+%
+To date, {\em no dmck completely controls the timings of
+  \underline{all} necessary events} that might contribute to the
+triggering timing (Finding {\bf \#1}).  MaceMC
+\cite{Killian+07-LifeDeathMaceMC} only reorders messages and network
+disconnections.  MoDist \cite{Guo+11-Demeter} exercises timeouts and
+Demeter \cite{Guo+11-Demeter} intercepts messages and local
+computation but they do not explore different timing of multiple
+crashes and reboots. Also, none of the above include storage faults
+or timing issues \cite{Hao+16-TailAtStore}.
+%
+Therefore, continued research on scalable exploration algorithms is
+needed, specifically 
+% to reduce the state-space explosion 
+when {\em all} the necessary events need to be controlled.
+This could be helped by DC bugs' triggering scope characteristics
+(Finding {\bf \#3}), just like that in
+LC model checkers \cite{madanpldi07}.
+
+
+% ======================================================
+\subsubsection{Domain-Specific Specifications}
+\label{less-spec}
+
+Now, assuming the necessary events are controlled, the next question
+is: do we have the specification to judge the manifestation of a bug?  
+This is a plague for many tools. For example,
+Demeter does not find new bugs \cite{Guo+11-Demeter}.
+Conversations with the authors suggest that their target systems do
+not deploy detailed specifications, and thus some bugs are left
+uncaught.  Deploying generic ``textbook'' specifications (\eg, ``only
+one leader exists'') does not help as they could lead to false
+positives (\eg, ZooKeeper allows two leaders at a single point in
+time).  Many research papers on specifications only deploy few of them
+\cite{Gunawi+11-FateDestini, Liu+08-D3S, Reynolds+06-Pip}.
+Developers also
+bemoan the hard-to-debug fail-silent problems \mr{3634} and
+prefer to see easier-to-debug fail-stop bugs.  
+%
+
+On the positive side, \pctErrExp\ of DC bugs lead to
+explicit first errors (Finding {\bf \#4}), implying that sanity checks
+already in software can be harnessed as 
+specifications
+(more in \sec\ref{less-det}). On the other side, compared to
+single-machine systems, distributed systems are much more capable
+of masking errors. Therefore, these error
+specifications have to be used with caution to avoid false 
+positives. Furthermore, 
+\pctErrImp\ of DC bugs lead to silent first errors (Finding {\bf \#4}).
+Many of them proceed to ``silent failures'', such as data loss,
+node hangs, etc. Even if they become explicit
+errors later, these explicit errors could be far away from the 
+initial triggering conditions (\eg, Figure \ref{fig-paxos}).
+In short, {\em no matter how sophisticated the tools are, they are
+  ineffective without accurate specifications}.
+%
+This motivates the creation or inference of local specifications
+that can show early errors or symptoms of DC bugs.
+
+
+% ======================================================
+\subsubsection{Bug Detection Tools}
+\label{less-det}
+
+%We emphasize that the state of the art solutions for dc bugs fall into
+%three camps: testing and model checking \cite{x}, verifiable
+%distributed system frameworks \cite{x}, postmortem monitoring and
+%debugging \cite{x}.  
+
+We now discuss bug detection tools, which are
+unfortunately rare for DC bugs, although very popular for
+LC bugs
+%
+\cite{pacer,
+  flanagan09fasttrack, 
+  satish.pldi14, 
+  avio.asplos06, 
+  madanpldi07,
+  savage97eraser}.
+%
+Bug detection tools look for bugs that match specific patterns.  They
+cannot provide bug-free proof, but can be efficient in discovering
+bugs when guided by the right patterns.
+Our study provides guidance and patterns that can be exploited by
+future DC bug detection.
+
+\paragraph{Generic detection framework.}
+
+Finding {\bf \#1} implies that
+detecting DC bugs, particularly message-timing DC bugs, should focus
+on two key tasks: (1) obtaining timing specifications, including order
+and atomicity specifications among messages and computation; and (2)
+detecting violations to these specifications through dynamic or static
+analysis.
+
+\paragraph{Invariant-guided detection.}
+
+Likely program invariants can be learned from program
+behaviors, and used as specifications in bug detection
+\cite{engler01bugs, daikon00, avio.asplos06}.
+The key challenge is to design
+simple and suitable 
+invariant templates.  For example, ``function $F_1$ should
+always follow $F_2$'' is a useful template for API-related semantic
+bugs \cite{engler01bugs};
+%``variable $v$ should only be accessed by instruction $i_1$ and $i_2$''
+%is good for memory bugs 
+%\cite{accmon}; 
+``the atomicity of accesses $a_1$ and $a_2$ should never be violated''
+is effective for LC bugs \cite{avio.asplos06}.
+%
+%
+Finding {\bf \#1} about triggering timing and Finding
+\#{\bf 4} about error patterns provide empirical evidence that these
+templates can be effective for DC bugs: ``message $bc$ should
+arrive at $C$ before message $ac$ ($ca$) arrives (leaves)''; 
+``message $ab$
+should never arrive in the middle of event $e$ on node $B$''; and
+``message $ab$ should always be replied''.
+
+\paragraph{Misconception-guided bug detection.}
+
+Knowing programmers' misconceptions can help bug detectors
+focus on specifications likely to be violated.  LC bug
+researchers have leveraged misconceptions such as {\it ``two near-by
+  reads of the same variable should return the same value''}
+\cite{avio.asplos06} and {\it ``a condition checked to be true should
+  remain true when used''} \cite{ifcon.hpca14}.
+%
+%
+Finding {\bf \#6} reveals that common misconceptions, such
+as {\it ``a single hop is faster than double hops''}, 
+{\it ``local computation is faster than remote computation''}, 
+{\it ``atomic blocks cannot be broken''}
+can help DC bug detection.
+
+
+\paragraph{Error-guided bug detection.} 
+
+Finding {\bf \#4} shows that many DC bugs lead to explicit
+local/global errors, which implies that timing specifications for many
+DC bugs can be inferred backward based on explicit errors.  For
+example, program analysis may reveal that a state-machine exception
+$e$ will arise whenever $C$ receives message $ac$ before $bc$, which
+provides a timing specification ($ac$ arrives before $bc$)
+whose violation leads to a {\it local error}; or, the analysis may
+reveal that exception $e$ arises whenever node $B$ receives a message
+$cb$ from node $C$ and $C$ only sends $cb$ when $ac$ arrives at
+$C$ before $bc$, which provides a timing specification whose
+violation leads to a {\it wrong-message global error}; and so on.  
+
+
+
+\paragraph{Software testing.}
+
+Testing takes a quarter of all software development resources,
+and is crucial in exposing bugs before code
+release.  Although many testing techniques have been proposed for LC
+bugs \cite{madan.asplos10,
+ctrigger.asplos09, racefuzzer}, there have been few for
+DC bugs \cite{jcute}.
+%
+%
+Finding {\bf \#2} implies that test input design has to consider
+faults, concurrent protocols, and background protocols. Finding \#{\bf
+  3} implies that {\it pairwise testing}, which targets every pair of
+message ordering, every pair of protocol interaction, and so on, will
+work much more effectively than {\it all combination testing}, which
+exercises all possible total orders and interactions of all
+messages and all protocols.
+%
+For example, a large number of DC bugs (Figure \ref{bars}d-f) can be 
+found with inputs of at most two protocols, crashes and reboots.
+
+
+%\vten % good spacing
+
+% ======================================================
+\subsubsection{Failure Diagnosis}
+\label{less-diagnose}
+
+
+Given failure symptoms, distributed systems developers have to reason 
+about many nodes to figure out the triggering and root cause of 
+a failure.
+Our study provides guidance to this challenging process of
+failure diagnosis.
+
+\paragraph{Slicing/dependence analysis.} 
+
+Identifying which instructions can affect the outcome of an
+instruction $i$ is a widely used debugging technique for deterministic
+sequential bugs.  However, it cannot scale to the whole distributed
+systems, and hence is rarely used.
+%
+%
+Finding {\bf \#3} indicates that most DC bugs have deterministic error
+propagation; Finding {\bf \#4} shows that many DC bugs have their
+errors propagate through missing or
+wrong messages.  Therefore, per-node dependence analysis that can
+quickly identify whether the generation of a local error depends on
+any incoming messages would help DC bug failure diagnosis to get
+closer and closer to where the triggering events happen.
+
+
+
+
+\paragraph{Error logging.}  
+
+Error logging is crucial in failure diagnosis. If the
+first error of a DC bug is an explicit local error, the error log can
+help developers quickly identify the triggering node and focus their
+diagnosis on one node.
+%
+%
+Finding {\bf \#4} unfortunately shows that only \pctErrLocExp\ of DC bugs
+lead to explicit local errors. This finding motivates future
+tool to help make more DC bugs lead to explicit local errors.
+
+
+\paragraph{Statistical debugging.}
+
+Comparing success-run traces with failure-run traces can help identify
+failure predictors for semantic bugs \cite{liblit03} 
+and concurrency bugs \cite{cci.oopsla10}
+in single-machine software.  The key
+design question is what type of program properties should be
+compared between failure and success runs. For example, branch
+outcomes are compared for diagnosing semantic bugs but not for LC bugs.
+%
+%
+Finding {\bf \#1} and \#{\bf 3} about triggering timing conditions
+provide guidance for applying this approach for DC bugs. We can
+collect all message sending/arrival time at runtime, and then find
+rare event orderings that lead to failures by contrasting them with
+common ``healthy'' orderings (\eg, Figure \ref{pat}b happens 99.99\%
+of the time while Figure \ref{pat}a happens 0.01\% of the time).
+%
+%
+Of course, there are challenges. Finding \#{\bf 2} and \#{\bf 3}
+show that many DC bugs come from the interactions of
+many protocols. Thus, it is not sufficient to only log a chain of messages
+originated from the same request, a common practice in request logging
+\cite{Chow+14-Mysterymachine}.  Furthermore, some DC bugs are triggered by
+message-computation ordering. Therefore, logging messages alone is
+not sufficient.
+
+\paragraph{Record and Replay.}
+
+Debugging LC concurrency bugs with record and deterministic replay is
+a popular approach \cite{quickrec.isca13,
+  doubleplay.asplos11}.  However, such an approach has not permeated
+practices in distributed systems debugging.  A ZooKeeper developer
+pointed us to a fresh DC bug that causes a whole-cluster outage but
+has not been fixed for months because the deployment logs do not
+record enough information to replay the bug (\zk{2172}).  There has
+been 9 back-and-forth log changes and attachments with 72 discussion
+comments between the bug submitter and the developers.  More studies
+are needed to understand the gap between record-replay challenges in
+practice and the current state of the art \cite{Geels+06-Liblog,
+  Liu+07-WiDS}.
+
+% ======================================================
+\subsubsection{Failure Prevention and Fixing}
+\label{less-runtime}
+
+
+\paragraph{Runtime Prevention.}
+
+The manifestation of 
+concurrency bugs can sometimes be prevented by
+injecting delays at runtime.  This technique has been successfully
+deployed to prevent LC bugs based on their timing
+conditions \cite{DeadlockImmunity, avisio,conair.asplos13}.
+%
+%
+Finding {\bf \#1} shows that many DC bugs are triggered by untimely
+messages and hence can potentially be prevented this way.  For
+example, none of the bugs shown in Figure \ref{pat}a--h would happen
+if we delay a message arrival/sending or local computation.  Of
+course, different from LC bugs, some of these delays have to rely on a
+network interposition layer; similar with LC bugs, some
+delays may lead to hangs, and hence cannot be adopted.
+
+
+
+\paragraph{Bug Fixing.}
+
+Recent work automatically fixes LC bugs by inserting lock/unlock or
+signal/wait to prohibit buggy timing \cite{cfix.osdi12,
+  grail.fse14, wang.osdi08}.
+%
+%
+Finding {\bf \#5} shows that the same philosophy is promising for
+\pctFixTime\ of studied DC bugs. Our study 
+shows that this approach has to be tweaked to focus on using global
+messages (\eg, ACKs) or local operation re-ordering, instead of lock
+or signal, to fix DC bugs.  Finding {\bf \#5} indicates that
+\pctFixHandEasy\ of those DC bugs are fixed by shifting message handlers,
+ignoring messages, and canceling computation, without adding new
+computation logic.  This presents a unique opportunity for developing
+new and more aggressive fixing techniques.
+
+% ===========================================================
+\subsection{Distributed Transactions}
+\label{less-tx}
+
+\input{fig-taxdc-hbase}
+
+In the middle of our study, we ask ourselves: if DC bugs can be
+theoretically solved by distributed transactions, why doesn't such
+technique eliminate DC bugs in practice?  Our answers are:
+%
+first, the {\em actual implementations of theoretically-proven
+  distributed transactions are not always correct}
+(as also alluded in other work \cite{Burrows06-Chubby, Ongaro+14-Raft}).
+For example, new
+DC bugs continue to surface in complex distributed transactions such
+as ZooKeeper's ZAB and Cassandra's Paxos as they are continuously
+modified.
+%
+Second, {\em distributed transactions are only a subset of a full
+  complete system}.  A prime example is the use of ZooKeeper in HBase
+for coordinating and sharing states between HBase masters and region
+servers.  Although ZooKeeper provides linearization of updates, HBase
+must handle its concurrent operations to ZooKeeper,
+for example, step 6 and 7 in Figure \ref{fig-hbase};
+there are many other similar examples.%\spa.
+%
+Put simply, there are many protocols that do not use distributed
+transactions, instead they use domain-specific finite state machines,
+which should be tested more heavily.
+
+Another approach to eliminate non-deterministic bugs in distributed
+protocols is by building deterministic distributed systems.  However, the
+technique is still in its infancy, at least in terms of the impact to
+performance (\eg, an order of magnitude of overhead \cite{Hunt+13-DDOS}).
+
+
+% ======================================================
+\subsection{Verifiable Frameworks}
+\label{less-others}
+
+Recently there is a growing work on new programming language frameworks
+for building verifiable distributed systems \cite{Desai+13-PLang,
+Hawblitzel+15-IronFleet, Wilcox+15-Verdi}, but they typically focus on the
+main protocols  and not the full system including
+the background protocols.  One major challenge is that 
+just for the basic read and write protocols,
+the length of the
+proofs can reach thousands of lines of code, potentially
+larger than the protocol implementation.
+Unfortunately, our study shows that the complex
+interaction between foreground and background protocols can lead to DC
+bugs.  Therefore, for complete real-world systems, verification of the
+entire set of the protocols is needed.
+
