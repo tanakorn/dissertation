@@ -1,5 +1,5 @@
-In the era of cloud computing, users (normal and organization) move their data
-and computation from local machines and internal datacenters to cloud services,
+In the era of cloud computing, users move their data
+and computation from local machines to cloud,
 thus the services are expected to be 24/7 dependable. Cloud services must be
 accessible anytime and anywhere, not lose or corrupt users data, and scale as
 user base continues to grow.  Unfortunately, guaranteeing cloud services'
@@ -8,17 +8,17 @@ sophisticated distributed systems such as scalable data stores, data-parallel
 frameworks, and cluster management systems. Such cloud-scale distributed systems
 remain difficult to get right because they need to address data races among
 nodes, complex failures in commodity hardware, tremendous user requests, and
-much more. Addressing these cloud-specific challenges makes the systems getting
+much more. Addressing these cloud-specific challenges makes the systems
 more complex and new intricate bugs continue to create dependability problems.
 
 This dissertation tries to answer a vital question of cloud dependability:
-``{\em how can we make cloud-scale distributed systems reaching ideal
-dependability?}'' We try to answer this question by focusing on the problems of
-distributed concurrency bugs and scalability bugs. We focus on these two
-problems because they are novel issues that occur in cloud environment only and
-not many works addressing them.
+``{\em how can we make cloud-scale distributed systems more dependable?}'' We
+try to answer this question by focusing on the problems of distributed
+concurrency bugs and scalability bugs. We focus on these two problems because
+they are novel issues that occur in cloud-scale environment only and not many
+works addressing them.
 
-Distributed concurrency bug (DC bug) is one of unsolved reliability problem in
+Distributed concurrency bug (DC bug) is one unsolved reliability problem in
 cloud systems. DC bugs are caused by non-deterministic order of distributed
 events such as message arrivals, machine crashes, and reboots. Cloud systems
 execute multiple complicated distributed protocols concurrently. The possible
@@ -30,7 +30,7 @@ To combat DC bugs, we make two contributions. First, we conduct a formal study
 on DC bugs to gain foundation knowledge for DC-bug combating research. We study
 104 DC bugs from various widely-deployed cloud-scale distributed systems in
 many characteristics along several axes of analysis such as the triggering
-timing condition and input preconditions, error and failure symptoms, and fix
+timing condition, input preconditions, error and failure symptoms, and fix
 strategies. We present the first complete taxonomy of DC bugs, \taxdc, along
 with many findings on DC bugs that can guide future research.
 
