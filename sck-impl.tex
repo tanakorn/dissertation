@@ -103,7 +103,7 @@ with scale checkability in mind.}
 Packing), failure-detection or all timeout-related logic has to be
 converted to use logical time.  This is important to remove false
 positives; for example, a node might not hear any new gossip of another
-node after 10 seconds, but this is due to CPU contention (thread queueing
+node after 10 seconds, but this is due to CPU contention (thread queuing
 delay) in Naive Packing.  This is a similar concern in DieCast \cite{x},
 hence the time-dilation support in their VMM.  In our case, we manually
 modify the application ... \hsg{how??}
@@ -132,7 +132,7 @@ Also why note 10 machines? why one machine?
 SCk can be extended to 10 machines, but then we need to implement
 batching, because in reality each node only receives XX messages per second,
 but with 50 nodes, it receives 50x messages per second.
-ONe must look into this effect.
+One must look into this effect.
 } 
 \fi
 

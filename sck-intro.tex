@@ -27,7 +27,7 @@ with a 4500-node cluster as the largest one \cite{LargestHadoop}.
 % dark side, foe
 On the negative side, scale creates new development and deployment issues.
 Developers must ensure that their algorithms and protocol designs to be
-scalable.  However, until real deployment takes place, scalablity bugs in the
+scalable.  However, until real deployment takes place, scalability bugs in the
 actual implementations are unforeseen.
 % more and more
 These scalability bugs are latent bugs that are scale-dependent; they only
@@ -38,7 +38,7 @@ In this chapter, we show our observations from our initial study on scalability
 bugs that highlights an urgency in tackling scalability bugs and our pilot work
 to introduce a single-machine testing methodology to check scalability of the
 systems. Section \ref{sec-sck-observe} discusses about our initial study and shows our
-observations toward scalability bugs; Section \ref{mot-state} discusses abot the state
+observations toward scalability bugs; Section \ref{mot-state} discusses about the state
 of the art; Section \ref{sec-sck-sck}-\ref{sec-sck-eval} explains our pilot work on scalability
 bug checking named \sck
 \footnote{
@@ -59,7 +59,7 @@ scalability checking is to check actual implement of the systems at real large
 scale, not simulation nor small scale setup, and that makes emulation approach
 as a desire choice. The limitation of emulation is resource contention which
 does not allow developers to test \textit{really large} scale. Some works
-address this limitaion, for example, Exalt \cite{exalt} addresses IO and storage
+address this limitation, for example, Exalt \cite{exalt} addresses IO and storage
 contention so developers can test I/O- and space-intensive protocols like
 read/write protocols in HDFS.
 
@@ -68,7 +68,7 @@ are unexpected serializations of $O(N)$ operations.} of the scalability bugs
 that we studied involve complex scale-dependent CPU computations in data and
 control paths, which are not addressed in existing literature. Thus, in this
 chapter, we introduce \sck\, a methodology that allows developers to colocate
-severals nodes in a single machine and test CPU-intensive protocols
+several nodes in a single machine and test CPU-intensive protocols
 
 %In this section, we will explore state of the art of large-scale emulation.
 

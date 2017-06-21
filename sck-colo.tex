@@ -42,7 +42,7 @@ target systems to bypass OS network calls when they run in \sck mode.
 
 With SPC, a node still runs multiple daemon threads (gossiper, failure
 detector, \etc).  With high colocation factor, there are more than one
-thousand threads that cause  severe context switching and long queueing
+thousand threads that cause  severe context switching and long queuing
 delays.  Because of this overhead, we noticed that events become late
 (\eg, gossips are not sent every second) even though CPU 
 utilization has not reached 100\%.

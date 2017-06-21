@@ -29,7 +29,7 @@ first errors that happen immediately after the bugs are triggered. We see half
 of the bugs have local errors that is we can see the errors by observing only
 triggering node, but half of them have global errors that require us to observe
 the whole systems to notice the errors. Moreover, we looked into failure
-symtomps induced by DC bugs and found that the bugs can lead to severe failures
+symptom induced by DC bugs and found that the bugs can lead to severe failures
 like system downtime, operation failures, data loss/corruption/inconsistencies,
 and performance degradation.
 
@@ -66,7 +66,7 @@ implementation of the systems. Hence, we have introduced \sck, a scale-checking
 methodology to allow developers colocate hundreds nodes on a single machine to
 check their systems. We introduced four techniques to mitigate resource
 contentions issue (\ie, CPU, memory, and threads) regarding to colocating
-severals nodes in one machine. We adopted \sck to three systems including
+several nodes in one machine. We adopted \sck to three systems including
 Cassandra, Riak, and Voldemort, and were able to reproduce six old scalability
 bugs with high accuracy.
 
@@ -105,7 +105,7 @@ Another benefit of ASE is it allows complex processing patterns to be leveraged
 in reduction. So far, we have introduced only simple patterns (\eg, discard,
 increment, and constant patterns), because these patterns are easy to be
 manually extracted with small chance of human errors. But if ASE is built, it
-allows us to introduce more sophisitcated patterns and policies without many
+allows us to introduce more sophisticated patterns and policies without many
 burdens on developers. We believe that ASE is a key factor to make SAMC adopted
 widely.
 

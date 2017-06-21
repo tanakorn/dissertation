@@ -106,7 +106,7 @@ initially hit a MaxCF of 48 nodes due to CPU contention.  At this point,
 there are two choices: add SPC+GEDA (to reduce process/thread context
 switching) or PIL (to reduce expensive processing).  In Figure
 \ref{fig-colo}b, we tried +PIL first and we found that it does not help
-much as process/thread queueing delays are still the bottleneck.
+much as process/thread queuing delays are still the bottleneck.
 Similarly, in Figure \ref{fig-colo}a, SPC+GEDA also can only reach a
 certain maximum.  This again highlights that it is the {\em combination} 
 of the
