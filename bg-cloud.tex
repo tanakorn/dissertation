@@ -45,12 +45,14 @@ workload increase, we do not upgrade hardware specification, but add more
 machines to the systems. Thus, cloud-scale distributed systems are distributed
 systems that are designed to be scalable to handle tremendous users' requests.
 Moreover, the cluster is built from commodity machines which hardware failures
-are not optional and can be very complex (\eg multiple machine failures, disk
-failures, and network partitions), so cloud systems must be able to handle
-these complex failures \cite{Abadi09-Cloud, Gunawi+11-FaaS-TR,
-Hamilton07-Deploying}.  We will discuss some types of cloud-scale distributed
-systems below as these systems are systems that we work on in this
-dissertation.
+are not optional and can be very complex; machines in the cluster can stop
+working at any time; switches and routers can fail, and make network partitions;
+disks can be corrupted but still serve I/O requests; hardware can be
+``\textit{limping}'' which functions in degraded mode \cite{Do+13-Limplock,
+Suminto+15-Spv}. Cloud systems must be able to handle these complex failures
+\cite{Abadi09-Cloud, Gunawi+11-FaaS-TR, Hamilton07-Deploying}. We will discuss
+some types of cloud-scale distributed systems below as these systems are systems
+that we work on in this dissertation.
 
 \begin{itemize}
 
