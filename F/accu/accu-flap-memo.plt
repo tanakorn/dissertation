@@ -1,5 +1,5 @@
 #!/usr/bin/env gnuplot
-set term pos eps color solid font ",27"
+set term pos eps color solid font 27 "NimbusSanL-Regu" fontfile "/usr/local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb"
 
 set size 0.7,0.7
 

@@ -1,4 +1,4 @@
-set term pos eps size 7 in, 9.25 in
+set term pos eps size 7 in, 9.25 in "NimbusSanL-Regu" fontfile "/usr/local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb"
 set style data histogram
 set style histogram rowstacked
 set style fill solid border lt -1
