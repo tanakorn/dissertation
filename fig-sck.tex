@@ -1,0 +1,29 @@
+
+
+\def \fgw {1.05in}
+
+
+\begin{figure*}[t]
+
+\centerline{
+%\includegraphics[height=\fgw]{F/empty.eps}
+\includegraphics[height=\fgw]{F/ill/sck2.eps}
+}
+
+\mycaption{fig-sck}{The complete flow of automation in \sck}{The
+left-most figure illustrates testing in real-deployment, where testing
+time is fast ($T$) but requires $N$ machines.
+%
+Stages (a) to (d) reflect the automated \sck process as described
+in Section \ref{sc-summ}.
+%
+\stestm in stage (c) runs on one machine but will take some time
+($>$$T$).
+%
+\stestp in stage (d) still runs on one machine but only consumes
+a similar time as in deployment testing ($T$$+$$e$) and can be replayed
+numerous times. }
+
+
+\end{figure*}
+

@@ -1,0 +1,33 @@
+
+
+\subsection{Pre-Memoization and Replay Time}
+\label{eval-mem}
+
+
+
+The ``$T_m$'' and ``$T_{pil}$'' columns in Table \ref{tab-bugs} quantifies
+the duration of the pre-memoization (\stestm) and PIL-based replay (\stestp)
+stages when $N$$\geq$$256$.
+%
+For example, for CPU-intensive bugs such as \caone, the pre-memoization
+time takes 2 hours while the PIL-based replay is only 15 minutes (similar
+to the real deployment test); for \riakone, it is 6 vs. 2 hours.
+%
+Pre-memoization does not necessarily take $N$$\times$ longer time because
+one node only consumes 2 cores (while the machine has 16 cores) and also
+not every node is busy all the time.
+%
+For bugs that are caused by both processing and IO time, $T_m$ is similar
+to $T_{pil}$ (\eg, in \catwo).
+%
+To summarize, with fast PIL-infused replays, developers can have 
+sufficient time budget to debug the buggy protocol numerous times as needed to
+discover the root cause.
+%
+Regarding the pre-memoization database file, the largest one created was
+3 GB with 50000 input-output pairs.
+
+
+% \input{fig-eval-mem}
+
+

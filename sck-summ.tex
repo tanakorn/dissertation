@@ -1,0 +1,69 @@
+
+
+
+
+
+\subsection{Putting It All Together}
+\label{sc-summ}
+
+We now summarize how all the \sck components described before
+work together.
+
+
+Pre-memoization and PIL complete the {\bf four
+stages of \sck}, as illustrated in Figure \ref{fig-sck}a-d:
+%
+\textbf{\textcircled{a}} \sfind searches for scale-dependent loops
+(\sec\ref{sc-find}) which helps developers create test workloads.
+%
+\textbf{\textcircled{b}}
+%
+For test workloads that show CPU busyness in all nodes, \sfindp finds
+PIL-safe functions and automatically inserts our pre-memoization library
+calls (\sec\ref{sc-pil}).
+%
+Next, \stest now works in two parts.
+%
+\textbf{\textcircled{c}} \stestm (without PIL) will run the test one time
+to pre-memoize PIL-safe functions and store the tuples to a 
+SSD-backed database file.
+%
+\textbf{\textcircled{d}} \stestp (with PIL) will then run by first having
+\sfindp automatically remove the pre-memoization library calls, replace
+the expensive PIL-safe function with \ts{sleep(t)}, and insert our code
+that constructs the memoized output data.
+%
+\sck also records message ordering during \stestm and replays the same
+order in \stestp (not shown).
+
+
+\vni {\bf Benefits:} We now describe how \sck can ease real-scale
+debugging efforts.
+%
+First, the only step that consumes  more time is the no-PIL
+pre-memoization phase (Figure \ref{fig-sck}c), up to 6x longer time
+than the real deployment testing (\sec\ref{eval-mem}).  
+However, this is only a one-time overhead.
+%This is again because nodes compete for CPU.  
+%
+Most importantly, developers can repeatedly re-run \stestp (Figure
+\ref{fig-sck}d) as many times as needed (tens of iterations) until the
+bug's negative impacts are understood.  In \stestp, the protocol under
+test runs in a similar duration as if all the nodes run on independent
+machines.
+
+
+Second, some fixes can be applied and tried by only re-running the last
+step; for example, fixes such as
+%
+changing the failure detector \phi threshold (for \caone),
+%
+caching slow methods (\catwo),
+%
+changing lock management (\cafour), and
+%
+enabling parallel processing (\voldone).
+%
+However, if the fixes involve a complete redesign (\eg, optimized gossip
+processing in \catri, decentralized to centralized rebalancing in
+\riakone), \stestm must be repeated.

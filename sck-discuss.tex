@@ -1,0 +1,108 @@
+
+
+\section{Discussions}
+\label{sec-discuss}
+
+We now discuss the limitations and other aspects of \sck.
+
+
+% ------------------------------------
+{\em What are the limitations of \sck?}
+%
+Our work focuses on scale-dependent CPU/processing time
+(\sec\ref{sec-mot}a).
+%
+However, there are other scaling problems that lead to I/O and memory
+contentions \cite{ Gunawi+14-Cbs, Ousterhout+15-MakingSense,
+  Konstantin+10-HDFSScalability}, usually caused by the scale of load
+\cite{Bodik+10-WorkloadSpikes, Guo+13-CureIsWorse} or data size
+\cite{Nguyen+16-Yak}.
+% Armbrust+11-Piql, 
+\sck cannot reproduce such issues on one machine as we do not address
+memory and IO emulation.
+%
+We are only aware of one work \cite{Wang+14-Exalt} that scale-tests
+implementation code with Big-Data workloads (more in
+\sec\ref{sec-rel}).
+%
+We believe there are many open problems to solve in this new research
+area.
+
+
+% -----------------------------------
+{\em Can \sck reach $>$1000-node colocation factor?}  So far, \sck is
+limited by the single machine's resources.  To increase colocation factor,
+a higher-end machine can be used.   Another approach is to 
+extend \sck\ to run on multiple machines.
+However, this means that we need to enable back the networking library,
+which originally already caused a colocation 
+bottleneck (\sec\ref{sc-mfr}).  Techniques such as automated
+batching might help.  We leave this challenge for future work.
+
+
+
+% ------------------------------------
+{\em Is \sfind sufficient (without \stest) to reveal scalability bugs?}
+Building a program analysis that covers all paths and understands the
+cascading impacts without false positives is challenging.  Not all
+scale-dependent loops imply buggy code.  For example, in \caone, if
+Cassandra processes gossips in a multi-threaded manner, the long
+processing time might not cascade to failures.
+
+
+% ------------------------------------
+{\em Can \stestp run without \stestm?}
+%
+Ideally, the fast \stestp (replay with PIL) should run without the long
+\stestm (pre-memoization phase), possible only if we can construct all
+input-output pairs.  However, in the context of large-scale,
+non-deterministic systems, constructing all possible pairs requires an
+{\em ``infinite''} time and storage space, because node states (the input)
+typically depend on the {\em order} in which messages arrive (which tends
+to be random).
+%
+Let us consider Riak's rebalance protocol, where each node gossips
+randomly its partition table, until a globally balanced state is reached.
+With $N$$=$256 and $P$$=$64 (\#key-partitions$/$node), we counted 2489
+rebalance iterations with a set of specific input-output pairs in one
+complete run.  In another run, a different set of input-output pairs is
+produced due to gossip randomness.  Our calculation suggests $(N^{NP})^2$
+(``infinite'') possible pairs.
+%
+In contrast, \stestm only needs to store around 2500 input-output pairs
+(1.3 GB of memoized data).
+
+
+% ------------------------------------
+{\em Can function-level performance profiling hints of scalability bugs?}
+%
+It is possible, but in our experience, using average performance numbers
+do not help.  Figure~\ref{fig-accu}d shows that gossip/update processing
+time can wildly range from 0.001 to 4 seconds.  The wide range is due
+the many \ts{if-else} conditions that depend on the current state.
+
+
+% ------------------------------------
+{\em What do developers think of \sck?}  We have ongoing communications
+with Cassandra and HDFS developers, who initially prefer an approach
+without source code modification, as expected.  We tried
+(\sec\ref{sc-test}) but again, current distributed systems, OS, and
+language runtime do not support a naive-packing approach.  This is another
+open research problem to address.
+%
+Nevertheless and most importantly, the developers agree that debugging
+bugs in large-scale deployments is onerous and not economical and having a
+testing framework such as \sck would be very valuable.
+%
+Currently, a Hadoop/HDFS PMC\footnote{PMC: Project Management Committee} member
+and committer is collaborating with us to find more scalability bugs in HDFS.
+
+%  (by covering more scale-dependent data structures).
+
+
+% ------------------------------------
+{\em Can \sck run on multiple machines?}  The concept of distributed \sck
+can potentially increase the testing scale (and might also raise new
+challenges), as we already discussed above.
+
+

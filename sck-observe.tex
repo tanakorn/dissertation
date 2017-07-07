@@ -2,11 +2,11 @@
 \label{sec-sck-observe}
 
 % example
+Scalability bugs in distributed systems is not a well understood problem.
 To begin our work on combating scalability bugs, we start by conducting a study
-to see their nature and how critical they are.
+to understand their nature and emphasize how critical they are.
 %
-We perform a study of
-\totAll scalability bugs reported from the deployments
+We perform a study of \totAll scalability bugs reported from the deployments
 of popular large-scale systems such as
 Hadoop,
 HBase,
@@ -198,97 +198,155 @@ This manual mining was arduous because there is no searchable jargon for
 %
 
 \subsection{Observations}
-\label{mot-observe}
+From all the scalability bugs we studied, we make several important observations.
 
-From all the bugs we studied, we make several important observations.
-%  regarding control-plane scalability bugs and distributed system designs.
+\begin{enumerate}
 
-\begin{itemize}
-% only appear in large scale .. 
-\item {\em Only appear at extreme scale:} This Cassandra bug does not surface
-in 30-node deployment.  In 128-node cluster, the symptom appears mildly (tens
-of flaps). From 200-500 nodes, flapping skyrockets from hundreds to thousands
-of flaps. Testing in small/medium scales is not sufficient, which is also true
-for other bugs we studied.
-
-% theory is not enough
-\item {\em Scalable in design, but not in practice.}  Related to the Cassandra
-bug, the accrual failure detector/gossiper
-\cite{Hayashibara+04-PhiFailureDetector} was interestingly adopted by Cassandra
-as it is scalable in design \cite{Lakshman+09-Cassandra}.  However, the design
-proof does not account gossip processing time during bootstrap, which can be
-long.  To understand the bug, the developers tried to ``do the [simple] math''
-\cite{CA-One} but failed.  In practice, the assumption that new gossips are
-propagated every second is not met (due to the backlog).  The actual
-implementations overload gossips with many other purposes (\eg, announcing
-boot/rebalance changes) beyond their original design sketch.
-
-% deep
-\item {\em Implementation specific and hard to predict.}  The backlog-induced
-flapping in Cassandra was caused specifically by Cassandra's implementation
-choice: metadata checkpoint, multi-map cloning, and its single-threaded
-implementation.  State-update processing time is hard to predict (ranges from
-0.001 to 4 seconds) as it depends on a 2-dimensional input: the receiving node's
-ring table size and the number of new state changes.
-
-% a two-dimensional input; more in \sec\ref{sec-eval}).  
-
-% not independent
-\item {\em Cascading impacts of ``not-so-independent'' nodes.}  In 
-cluster-wide control protocols, distributed nodes are  not
-necessarily independent; nodes must communicate with each other
-to synchronize their views of cluster metadata.  As the cluster grows, the
-cluster metadata size increases.  Thus, unpredictable processing time in
-individual nodes can create cascading impacts to the whole cluster.
-
-% 
-\item {\em Long and difficult large-scale debugging:} 
+\item {\bf What is our focus of scalability bugs?}  
 %
-Some bug reports like \caone generated over 40 back-and-forth discussion
-comments and took 2 months to fix.  It is apparent \cite{CA-One} that
-there were many hurdles of deploying and debugging the buggy protocol at
-real scale.  Important to note is that debugging is {\em not} a single
-iteration; developers must {\em repeatedly} instrument the system (add
-more logs) and re-run the system at scale to find and fix the bug, which
-is not trivial.  The scalability bugs we studied took 6 to 157 days to
-fix (27 on average).
+We manually determine bug repositories of many popular systems and 
+categorize scalability bugs into three sub-classes that relate to
+CPU/ processing-time (\totAll bugs), load (50), and data size (35),
+respectively.
+%
+We decided to first focus on CPU/processing-time related ones due to the 
+``hidden'' nature of the bugs and the fact that almost all of them can 
+only surface at scale.
+%
+Many load or data size related bugs on the other hand can be reproduced in
+smaller scale (\eg, load on $d$ dead nodes will add $d$/$(N$$-$$d)$ load
+to every live node) and can be addressed with accurate modeling
+\cite{Guo+13-CureIsWorse}.
+%
+From here on, ``scalability bugs'' implies CPU/processing time related
+bugs.
+
+\item {\bf Do they exist in many scalable systems?}  We have collected a
+total of \totAll\ bugs~in~many scalable distributed systems
+(\totCass~in~Cassandra, \totCouch~in~Couchbase, \totHadoop in Hadoop,
+\totHBase~in~HBase, \totHDFS~in~HDFS, \totRiak~in~Riak, and
+\totVold~in~Voldemort),
+%
+reported between 2010 to 2016, with 23 of the bugs appeared in the last 4
+years.
+%
+This is an arduous process due to the lack of searchable jargons for
+``scalability bugs''; we might have missed some other bugs.
+
+\item {\bf What are the root causes?}
+%
+We study the buggy code, patches, and developers' discussions and find
+that the majority (38) of the bugs are caused by {\em scale-dependent
+loops}, which iterate scale-dependent data structures (\eg, list of
+nodes); the rest is about logic bugs (single-function testing suffices).
+We break them down to three categories below:
+%
+(1) Nested CPU-intensive loops (12 bugs);
+Section \ref{mot-bug} shows an example.
+%
+(2) Disk IO loops (20 bugs);  the pattern in similar to
+Section \ref{mot-bug} but the nested-loop content is disk IOs.
+%
+(3) Locking-related loops (8 bugs); they can be in the form of locks
+inside scale-dependent loops or vice versa.  Two bugs have multiple
+categories.
+%
+% 18 + 6 (originally)
+% 2 is the combination of the last two.
+%
+These patterns suggest that scalability bugs can be found with program
+analysis.
 
 
-\item {\em Not all developers have large test budgets:}
-%
-Another factor of delayed fixes is the lack of budget for large test clusters.
-Such luxury tends to be accessible to developers in large companies, but not to
-open-source developers. When \caone was submitted by a customer who had hundreds
-of nodes, the Cassandra developers did not have an instant access to a test
-cluster of the same scale.
 
-% repeated 
-\item {\em Quick fixes and repeated bugs:} Bugs are often fixed with quick
-patches (development pressures), but the new fix might not eradicate the
-problem completely \cite{Yin+11-FixesBecomeBugs}.
+% ---------------------------------------
+% tag: ??
+\item {\bf Where are they located?}  The bugs are within the user-facing
+read/write calls (8 bugs) and operational protocols (33 bugs) such as
 %
-For example, for \caone, the patch simply disables failure detection during
-bootstrap.  As the protocol was not redesigned, the bug still appeared in
-another workload (\eg, scaling out from 128 to 256 nodes).
-%
-In the latest Cassandra, the simple fix has been removed and the gossip
-protocol has been redesigned.
-%
-We also found that old fixes can become obsolete in protocol re-designs, which
-then can give birth to new scalability bugs. 
-%
-For example, the fix for \ca{3831} became obsolete as ``vnodes'' was introduced,
-which then gave rise to a new vnode-related scalability bug (\ca{3881}).
-%
-A scale-check could have ensured that new fixes remove old scalability bugs
-entirely and similar bugs do not re-surface in new designs.  
+block report,
+bootstrap,
+consistency repair,
+decommission,
+de-replication,
+distributed fsck,
+heartbeat,
+job recovery,
+log cleaning,
+rebalance, and
+region assignment
+protocols.
 
-\end{itemize}
+\item {\bf When do they happen?}  User-facing protocols (\eg, read/write)
+run ``all the time'' in deployment, hence continuously tested.
+%
+Operational protocols however are not frequently exercised.  Thus, in a
+stable-looking cluster, scalability bugs can linger silently until the
+buggy operational protocols are triggered (similar to buggy error handling
+\cite{Yuan+14-SimpleTesting}).
+%
+For the bugs in user-facing calls, we find that 4 of them trigger the bugs
+in unique workloads such as large deletions or writes after decommission.
+%
+The bug reporters (customers) claimed that they observed the bug symptoms
+in their large deployments (100-1900 nodes).
+%
+Our finding here suggests that scalability correctness is not merely about
+the user-facing paths.  Distributed systems are full of operational paths
+that must be scale-tested as well.
 
 
-\if 0
-Our observations above accentuate the need for scale-checking distributed
-system {\em implementations} at {\em real scale}, not via simulation nor
-extrapolation.  In this context, we now discuss the state of the art.
-\fi
+% ---------------------------------------
+% tag: imp-??
+\item {\bf How do scalability bugs impact users?}
+%
+As the cluster size grows, the symptoms of scale-dependent loops will
+appear: CPU utilization spikes, higher operation latencies due to IO
+serialization, or unavailable locks for a long period of time.
+Although many of the bugs are in the operational protocols, they
+cause {\em cascading}, user-visible impacts.
+%
+For example, as nodes are incorrectly declared dead (\eg, in Section
+\ref{mot-bug}), some data are unreachable.
+%
+In HDFS, scale-dependent operational activities in the master node cause
+the global lock to be less available, hence longer time to
+process user's read/write requests.
+
+\item {\bf Why were the bugs not found before?}  Our subjective answers are:
+%
+first, the workloads and the necessary scales to cover the buggy protocols
+are not captured in the unit test; creating a scalable unit test is not
+straightforward (\sec\ref{sc-test}).
+%
+Second, protocols might be scalable in design, but not in practice.
+Related to the Cassandra bug (Section \ref{mot-bug}), the failure
+detector/gossiper \cite{Hayashibara+04-PhiFailureDetector} was adopted
+as it is scalable in design \cite{Lakshman+09-Cassandra}.  However,
+the design does not account the gossip processing time during
+bootstrap/cluster-changes, which can be long, and the subsequent
+backlogs.  To fix the bug, the developers tried to ``do the [simple]
+math'' \cite{CA-One} but failed.  Specific implementation choices such
+as overloading gossips with many other purposes (\eg, announcing
+boot/rebalance changes) deviate from the original design sketch.
+
+
+
+% -------------------------------------------
+\item {\bf Are scalability bugs easy to debug and fix?}
+%
+The scalability bugs we studied took around 1 month to fix on average
+with tens of back-and-forth discussions.
+% 6 to 157 days to fix 
+One factor of delayed fixes is the lack of budget for large test clusters
+(admitted by the developers; \sec\ref{sec-discuss}).  Such luxury tends to
+be accessible in large companies, but not to open-source developers.
+% When \caone was submitted by a customer who had hundreds of nodes, the
+% Cassandra developers did not have an instant access to a test cluster of
+% the same scale.
+Another factor is that debugging is not a single iteration; developers
+must repeatedly instrument the system (add more logs) and re-run the
+system at scale to find and fix the bug, which is not trivial.
+
+\end{enumerate}
 

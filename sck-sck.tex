@@ -1,6 +1,7 @@
 \section{\sck}
 \label{sec-sck-sck}
 
+\if 0
 We (along with my colleague, Cesar A. Stuardo) now present the four \sck
 techniques to achieve high colocation factor in one machine (Section
 \ref{sc-pil}-\ref{sc-mem}) and summarize how to use these techniques to scale
@@ -19,3 +20,75 @@ around 500 nodes with high result fidelity.
 \input{sck-pil}
 \input{sck-colo}
 \input{sck-steps}
+\fi
+
+We now present \sck, a ``scale-check'' approach that helps
+developers find and reproduce real-scale scalability bugs on one machine.
+%
+From our bug study, we find that the major root cause of scalability bugs
+is {\em scale-dependent loops} (\eg, a \oonnn loop that iterates through
+scale-dependent data structures such as lists of node descriptors).
+%
+Thus, the goal of \sck is to find and test such loops and reveal their
+potential bug symptoms accurately.
+%
+To achieve this, \sck address the three challenges below.
+
+
+%  sfind
+First, {\em how to find ``hidden'' scale-dependent loops?}  Such loops can 
+span across multiple functions and iterate a variety data structures; in
+Cassandra, \oonnn loops span 1000+ LOC across 3 classes and 10 functions
+and iterate three different scale-dependent data structures.
+%
+To address this, we build \sfind, a static analysis tool that shows code
+paths to potential scalability bugs.  With the output of \sfind,
+developers can setup the necessary workload (\eg, bootstrap,
+add/decommission nodes) that will exercise the potentially buggy paths.
+
+% stest
+Second, {\em how to create a one-machine scalable test framework?}  One 
+important finding we made is that current distributed systems are not 
+built with single-machine scale-checkability in mind.  Naively packing
+nodes on one machine quickly hits a colocation limitation
+($<$100 nodes).  Thus, we build \stest, a scalable testing approach that
+contains a series of colocation techniques such as running nodes as a
+single process and removing unnecessary memory allocations.  Furthermore,
+to reduce context-switching delays of hundreds/thousands of threads
+in \stest, we restructure the target systems into a global event driven
+architecture (GEDA), a derivative of SEDA \cite{Welsh+01-Seda}, where
+stages, queues, and worker threads are shared by the whole cluster.
+
+% stest-mem
+Finally, {\em how to produce accurate results (bug symptoms)?}  One major
+challenge of \sck is how to colocate hundreds of CPU-intensive nodes on
+one machine, but still achieve high accuracy (\ie, observe a similar
+behavior as in the real-scale deployment).
+%
+We introduce {\em processing illusion} (PIL), an emulation technique that
+replaces scale-dependent CPU-intensive computations with \sleep, without
+changing the cluster behavior.  The insight behind PIL is that the key to
+computation is not the intermediate results, but rather the execution time
+and eventual output.  \sck automatically finds PIL-replaceable functions,
+inserts pre-memoization code that records the input-output-time pairs in
+the first test run, replaces them with \sleep, and replays the code
+deterministically in subsequent replay runs.
+
+
+% ------------
+To show the generality of \sck, we have integrated \sck to
+Cassandra \cite{Lakshman+09-Cassandra}, HDFS \cite{HDFSWeb},
+Riak \cite{RiakWeb}, and Voldemort \cite{VoldemortWeb},
+across a total of  \numVersTotal old and new releases.
+%
+We scale-checked a total of \numProt protocols (bootstrap, rebalance,
+add/decommission nodes, \etc), reproduced \numEval old
+and found 2 new scalability bugs.
+%
+\sck can achieve a colocation
+factor of around 500 nodes on a 16-core machine with high result accuracy.
+
+\input{sck-finder}
+\input{sck-test}
+\input{sck-pil}
+\input{sck-summ}

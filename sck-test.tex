@@ -1,0 +1,163 @@
+
+
+\subsection{\stest}
+\label{sc-test}
+
+
+% if no space, change subsection into just 
+
+The next challenge to address is: can we test hundreds of nodes on one
+machine?  To achieve a scalable testing framework with a high colocation
+factor (\eg, 500 nodes), we have to make a series of collocation
+engineering efforts.  Below we describe and name them (with abbreviations)
+for ease of reference in the evaluation.
+
+% ----------------------------------------
+\subsubsection{Naive Packing (NP)}
+\label{sc-np}
+
+The easiest setup to test scale-dependent loops is to (naively) pack all
+the nodes as processes on a single machine.  However, with 32 GB DRAM, we
+can only reach  a colocation factor of 50 (far from the desired target),
+which is caused by two reasons.
+
+First, many distributed systems today are implemented in managed languages
+(\eg, Java, Erlang) whose runtimes consumes non-negligible memory overhead.
+Java and Erlang VMs for example use around 70 and 64 MB of memory per
+process respectively.  A high colocation factor is not attainable.
+%
+We also tried running nodes as Linux KVM VMs and using KSM (kernel
+samepage merging) tool.  Interestingly, the tool does not find many
+duplicate pages even though the VMs/processes are similar.  We leave further
+investigation for future work.
+
+Second, a managed-language VM is backed by advanced services.  For
+example, Erlang VMM contains a DNS service that sends heartbeat messages
+among connected VMs.  As hundreds of Erlang VMs (one for each Riak node)
+run on one Erlang VMM, the heartbeat messages cause a ``network'' overflow
+that undesirably disconnects Erlang VMs.
+
+
+% ----------------------------------------
+\subsubsection{Single-Process Cluster (SPC)}
+\label{sc-spc}
+
+To address the bottlenecks above, we run all nodes as threads in a single
+process.  Surprisingly, some parts of our target systems are not easy to
+run in this ``single-process cluster'' mode.  Thus, we need to slightly
+re-design our target systems (\eg, putting global variables modularly into
+classes, adding arrays of global node descriptors, removing
+static-synchronized functions that lock the whole cluster).
+
+
+
+% ----------------------------------------
+\subsubsection{Memory Footprint Reduction (MFR)}
+\label{sc-mfr}
+
+While SPC reduces the memory footprints of the language runtime, in some
+target systems, we are still hit with out-of-memory exceptions, coming
+from system-specific high memory usage, as in the examples below.
+
+First, some protocols can ``over-allocate'' memory unnecessarily.
+%
+For instance, in Riak's rebalance protocol, each node creates
+$N$$\times$$P$ partition services although at the end only retain $P$
+partitions and remove the other $(N$$-$$1)$$\times$$P$ services (as
+rebalanced to other nodes).
+%
+Each partition service is an Erlang process (1.3 MB of memory overhead);
+colocating 30 nodes ($N$$=$30 with the default $P$$=$64) will directly
+consume 75 GB of memory (30$\times$30$\times$64$\times$1.3 MB) from the
+start.
+%
+We must manually modify Riak to remove this unoptimized memory usage.
+
+
+Second, some libraries can cause high memory footprints.  For example,
+Voldemort nodes use Java NIO \cite{VoldemortNIO} which is fast but
+contains buffers and connection metadata that take up memory space.
+%
+To address this, we leverage the fact that in SPC, all nodes run in one
+process, hence user-kernel/library switching to send messages becomes
+unnecessary.  Thus, we create a shim layer in our target systems to bypass
+OS/library network calls when they run in \stest mode.
+
+
+
+
+% First, the ``\ts{main()}'' function of each node creates many services
+% and global data structures (system metadata) that are never used by the
+% target protocol.  For example, in Cassandra, \ts{Migration},
+% \ts{Storage}, and \ts{Compaction} services are memory intensive but not
+% needed for scale-checking the bootstrap protocol, which only needs the
+% \ts{Gossip} and \ts{FailDetector} services.  In \sck, services are
+% lazily called (not created until used).
+
+
+% ----------------------------------------
+\subsubsection{Global Event Driven Arch. (GEDA)}
+\label{sc-geda}
+
+% if have space, show GEDA architecture
+
+After applying SPC and MFR, we faced another challenge.  As each node
+still runs multiple daemon threads (gossiper, failure detector, \etc), a
+high colocation factor will spawn more than one thousand threads, which
+causes two problems.  First, the OS/runtime limits the number of native
+threads per-process (which can be modified), but second, the problem
+causes severe context switching and queuing delays; we noticed that
+events become late (\eg, gossips are not sent every second).
+
+
+To address this, we leverage the staged event-driven architecture (SEDA)
+\cite{Welsh+01-Seda} common in distributed system implementations.  With
+SEDA, each service/stage in each node exclusively has an event queue and a
+handler thread.  In \stest mode, we convert SEDA to {\em global-event
+  driven architecture} (GEDA).  That is, for every stage, there is only
+{\em one} queue and one/few handlers for the {\em whole} cluster.
+
+As an example, let's consider a periodic gossip service.  With 500-node
+colocation, there are 500 threads in SPC, each sending a gossip every
+second.  With GEDA, we only deploy a few threads (matched with the number
+of available cores).  These global handler threads are shared among all
+the nodes for sending gossips.  As another example, for gossip processing,
+there is only one global gossip-receiving queue shared among all nodes.
+%
+Overall, GEDA removes some delays that should have never existed in the
+first place, as if the nodes run exclusively on independent machines.
+GEDA does not change the logic of the target systems.
+
+
+% Riak
+We interestingly found that in Erlang-based Riak, SPC is sufficient (no
+thread context-switching delays).
+This is because Erlang is an event-driven language.
+%
+Upon program start-up, Erlang (implicitly) starts a
+scheduler process per core.
+%
+When ``Erlang processes'' (threads) run, their
+events are automatically scheduled; 
+for example, when an Erlang process $X$ sends a message to $Y$,
+the message is automatically put to a runtime queue and scheduled.
+%
+Thus, Erlang processes behave like event handlers, while the
+scheduler processes are synonymous to GEDA threads.
+%
+An event-driven programming framework can ease \sck, but
+still SPC and MFR are needed.
+
+
+% -------------------------------------------------
+\subsubsection{Lessons Learned}
+
+
+From this experience, we make a conclusion that existing distributed
+systems are not built with (single-machine) scale-checkability in mind.
+There were no direct utilities to be used for solving a variety of
+colocation bottlenecks above.  Our colocation techniques above
+collectively create a viable solution to make distributed systems
+single-machine scale-checkable.  
+
+

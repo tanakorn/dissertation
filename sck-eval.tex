@@ -1,41 +1,48 @@
 
 
 \section{Evaluation}
-\label{sec-sck-eval}
+\label{sec-eval}
 
 
-We now evaluate our \sck integration to Cassandra, Riak,
-and Voldemort.  Our evaluation answers the following questions.
+
+
+
+
+We now present the evaluation of the four \sck integrations, which answers
+the following questions.
 %
-\sec\ref{eval-colo}: What is the maximum colocation factor achieved?
+\sec\ref{eval-colo}:~What is the maximum colocation factor achieved?
 %
-\sec\ref{eval-accu}: How accurate is \sck compared to real deployments?
+\sec\ref{eval-accu}:~How accurate is \sck compared to real deployments?
 %
-\sec\ref{eval-bugs}: Can \sck find old scalability bugs?
+\sec\ref{eval-bugs}:~Can \sck find old scalability bugs?
 %
-\sec\ref{eval-new}: Can \sck reveal new bugs?
+\sec\ref{eval-mem}:~Is PIL-infused replay efficient?
+%
+\sec\ref{eval-new}:~Can \sck find new bugs?
 %
 % \sec\ref{eval-mem}: How long is the output and time memoization overhead?
 %
 %\sec\ref{eval-other}: Does our evaluation compare well with other work?
-
-
-We use the Nome cluster; each machine has 16-core AMD Opteron(tm) 8454
-processors with 32-GB DRAM \cite{NomeNodes}.
+%
+%
+% Emulab d430 machine (two
+% 2.4GHz 8-core E5-2630 Haswell with 64GB DRAM and 1TB SATA disk).
+%
 % link to Nome spec on website, ask Korn
 %
 To measure \sck accuracy (\sec\ref{eval-accu}), we compare it with real
-deployments of 32, 64, 128, 256, and 512 nodes, deployed on at most 128 Nome
-machines.  
+deployments of 32, 64, 128, 256, and 512 nodes, deployed on at most 128
+machines, each has 16-core AMD Opteron(tm) 8454 processors with 32-GB DRAM
+\cite{ProbeWeb}.
 %
-\footnote{Our target protocols only make at most 2 busy cores per
-node, which justifies why we run 8 nodes per one 16-core machine for the real
-deployment. }
+Our target protocols only make at most 2 busy cores per node, which
+justifies why we run 8 nodes per one 16-core machine for the real
+deployment.
 %
 
-\input{sck-evalcolo}
+\input{sck-colo}
 \input{sck-accu}
-\input{sck-oldbug}
-\input{sck-newbug}
-%\input{sck-compare}
-
+\input{sck-bugs}
+\input{sck-mem}
+\input{sck-new}
