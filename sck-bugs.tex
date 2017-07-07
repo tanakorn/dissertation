@@ -144,18 +144,6 @@ datanodes send block reports too frequently and when $N$$>$512 nodes, the
 namenode spends more time in this background process as opposed to serving
 users.
 
-%the
-%namenode must process a block report for 0.14sec for every 2 seconds;
-%thus, 7\% of the time the namenode cannot serve users.
-
-
-% see OLD-FIles/eval-bugs for complete HDFS 
-
-
-
-
-\vfive
-
 We make several remarks from this experience.
 %
 First, \sck can help developers prevent recurring bugs; the series of
@@ -166,8 +154,7 @@ words, code evolution can re-introduce similar bugs in the same protocols.
 Second, reproducing scalability bugs is relatively straightforward once we
 achieved a high colocation factor.  Unlike non-deterministic bugs which
 require complex timing reordering to reproduce \cite{Guo+11-Demeter,
-  Leesatapornwongsa+14-Samc},
-% \cite{Leesatapornwongsa+16-TaxDC},
+Leesatapornwongsa+14-Samc},
 symptoms of scalability bugs are ``deterministically scale-dependent.''
 %
 %
@@ -175,13 +162,4 @@ Third, different systems of the same type (\eg, key-value store) implement
 similar protocols.  The  generality of \sck methods in scale-checking
 all different protocols above can be useful to many other distributed systems.
 %
-
-
-% \hsg{we have reproduced X out of 40 bugs that we studied (due to time
-%   limitation).  however, we believe that all other patterns are detectable
-%  too}
-
-
-% https://mail.google.com/mail/u/0/#inbox/1544ecd936258917
-
 

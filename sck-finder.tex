@@ -17,8 +17,9 @@ discuss the three main steps in \sfind.
 % $O(n^3)$ loop spans 6 functions with 188 LOC in between each pair of loops.
 
 
+\begin{enumerate}
 % ------------------------
-\vni {\bf (1) Annotating scale-dependent data structures:} To use \sfind,
+\item \vni {\bf Annotating scale-dependent data structures:} To use \sfind,
 developers first lightly annotate scale-dependent data structures (whose
 size increase as the cluster size grows).
 %
@@ -35,7 +36,7 @@ structures).
 
 
 % ------------------------
-\vni {\bf (2) Finding scale-dependent loops:}
+\item \vni {\bf Finding scale-dependent loops:}
 %
 With the annotations, \sfind can then automatically find scale-dependent
 loops with the following steps:
@@ -76,7 +77,7 @@ frequency) and by background periodic threads.
 % abstract classes, \xxx
 
 % ------------------------
-\vni {\bf (3) Reporting and triaging:}
+\item \vni {\bf Reporting and triaging:}
 %
 Before producing a report, \sfind performs a simple triaging.  For
 example, if a function $g$ has a lower complexity than $f$ and $g$ is
@@ -103,7 +104,7 @@ We put our work in the context of DevOps culture
 \cite{Limoncelli+11-Devops} where developers are testers and testers are
 developers, which simplify testing efforts.
 
-
+\end{enumerate}
 
 \if 0
 With this triaging, we reduce the

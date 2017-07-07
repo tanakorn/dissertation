@@ -25,8 +25,8 @@ However, for CPU-intensive loops in P2P systems such as Cassandra, where
 {\em all} nodes are busy, the bug symptoms reported by \stest are not
 accurate.
 %
-For example, in \caone (Figures~\ref{fig-mot} and~\ref{fig-code}), in
-256-node real deployment, we observe 1948 flappings (the bug symptom),
+For example, in \caone (Section \ref{mot-bug} and Figure \ref{fig-code}), 
+in 256-node real deployment, we observe 1948 flappings (the bug symptom),
 however, in \stest, we observe 21575 flappings.
 %
 Similarly in 256-node Riak (\riakone), in a real deployment, the
@@ -48,7 +48,7 @@ is an accurate timing of how long the processing takes.
 The intuition behind PIL is similar to the intuition behind other
 emulation techniques.
 %
-For example, Exalt \cite{Wang+14-Exalt} (more in \sec\ref{sec-rel})
+For example, Exalt \cite{Wang+14-Exalt} (\sec\ref{mot-state})
 provides an illusion of storage space; their insight was ``how data is
 processed is not affected by the content of the data being written, but
 only by its size.''
